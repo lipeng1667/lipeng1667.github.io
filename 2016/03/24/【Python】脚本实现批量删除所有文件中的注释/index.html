@@ -33,7 +33,7 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
   <body>
@@ -49,7 +49,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -63,7 +63,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -86,7 +86,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-24T14:53:13.000Z" itemprop="datePublished"> 發表於 2016-03-24</time>
+    <time datetime="2016-03-24T14:53:13.000Z" itemprop="datePublished"> Published 2016-03-24</time>
   </p>
   
   <p class="page-count">
@@ -98,9 +98,9 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u89E3_u9898_u601D_u8DEF"><span class="toc-number">1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u6E90_u4EE3_u7801"><span class="toc-number">2.</span> <span class="toc-text">源代码</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#解题思路"><span class="toc-number">1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源代码"><span class="toc-number">2.</span> <span class="toc-text">源代码</span></a></li></ol>
 		
 		</div>
 		
@@ -108,13 +108,13 @@
 <a id="more"></a>
 <p>我就是膜拜一下这个前辈，然后就顺便想研究下如果全部删除注释，该怎么借助脚本实现。作为码农，一定不能勤奋了，原本可能花2个小时手动删除就能完事的任务一定要花一整天去研究怎么来写这个脚本达到批量删除的目的。</p>
 <p>这段代码就是这样来的。。。</p>
-<h1 id="u89E3_u9898_u601D_u8DEF"><a href="#u89E3_u9898_u601D_u8DEF" class="headerlink" title="解题思路"></a>解题思路</h1><p>一般来说，我们使用到最多的添加注释的方法无非就两个：</p>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>一般来说，我们使用到最多的添加注释的方法无非就两个：</p>
 <ul>
 <li>/<em> 我是注释 </em>/</li>
 <li>// 我也是注释</li>
 </ul>
 <p>那我们的思路也很简单暴力，就是从原文件中一个字符一个字符地读取，正常的情况就再把字符一个一个地输出到另一个文件中；然后碰到 <code>/*</code> 之后，所有的字符不再输出，直到遇到后面的 <code>*/</code> 符号。<br>同理处理<code>//</code> 符号。</p>
-<h1 id="u6E90_u4EE3_u7801"><a href="#u6E90_u4EE3_u7801" class="headerlink" title="源代码"></a>源代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 删除程序中的/**/和//所包含的注释内容</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根目录，在你的脚本中，记得更改这个目录</span></span><br><span class="line">top_dir = <span class="string">"/Users/Desktop/test"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 标识状态</span></span><br><span class="line">S_INIT              = <span class="number">0</span></span><br><span class="line">S_SLASH             = <span class="number">1</span></span><br><span class="line">S_BLOCK_COMMENT     = <span class="number">2</span></span><br><span class="line">S_BLOCK_COMMENT_DOT = <span class="number">3</span></span><br><span class="line">S_LINE_COMMENT      = <span class="number">4</span></span><br><span class="line">S_STR               = <span class="number">5</span></span><br><span class="line">S_STR_ESCAPE        = <span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理文件夹</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trim_dir</span><span class="params">(path)</span>:</span></span><br><span class="line">    print(<span class="string">"dir:"</span> + path)</span><br><span class="line">    <span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(path):</span><br><span class="line">        print(<span class="string">"***"</span>)</span><br><span class="line">        print(files)</span><br><span class="line">        <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">            trim_file(os.path.join(root,name))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trim_file</span><span class="params">(path)</span>:</span></span><br><span class="line">    print(<span class="string">"file:"</span> + path)</span><br><span class="line">    <span class="keyword">if</span> re.match(<span class="string">r".*?\.(java|c|h|m)$"</span>,path):</span><br><span class="line">        print(<span class="string">"process!"</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"ignore"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    bak_file = path + <span class="string">".bak"</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        os.rename(path,bak_file)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">"bak exception --&gt;"</span> + bak_file)</span><br><span class="line"></span><br><span class="line">    fp_src = open(bak_file)</span><br><span class="line">    fp_dst = open(path,<span class="string">'w'</span>)</span><br><span class="line">    cnt = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fp_src.readlines():</span><br><span class="line">        print(<span class="string">"--&gt; 当前是第%d行"</span> %cnt)</span><br><span class="line">        print(line)</span><br><span class="line">        cnt += <span class="number">1</span></span><br><span class="line">        state = S_INIT</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> cnt &lt; <span class="number">7</span>:</span><br><span class="line">            fp_dst.write(line)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> line:</span><br><span class="line">            <span class="comment"># State INIT</span></span><br><span class="line">            <span class="keyword">if</span> state == S_INIT:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'/'</span>:</span><br><span class="line">                    state = S_SLASH</span><br><span class="line">                <span class="keyword">elif</span> c == <span class="string">'"'</span>:</span><br><span class="line">                    state = S_STR</span><br><span class="line">                    fp_dst.write(c)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    fp_dst.write(c)</span><br><span class="line">            <span class="comment"># State slash:</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_SLASH:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'*'</span>:</span><br><span class="line">                    state = S_BLOCK_COMMENT</span><br><span class="line">                <span class="keyword">elif</span> c == <span class="string">'/'</span>:</span><br><span class="line">                    state = S_LINE_COMMENT</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    fp_dst.write(<span class="string">'/'</span>)</span><br><span class="line">                    fp_dst.write(c)</span><br><span class="line">                    state = S_INIT</span><br><span class="line">            <span class="comment"># State Block_comment start /</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_BLOCK_COMMENT:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'*'</span>:</span><br><span class="line">                    state = S_BLOCK_COMMENT_DOT</span><br><span class="line">            <span class="comment"># State Blcok_comment state *</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_BLOCK_COMMENT_DOT:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'/'</span>:</span><br><span class="line">                    state = S_INIT</span><br><span class="line">                <span class="keyword">elif</span> c == <span class="string">'*'</span>:</span><br><span class="line">                    state = S_BLOCK_COMMENT_DOT <span class="comment">#再次碰到*还得持续DOT状态，不然会出错</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    state = S_BLOCK_COMMENT</span><br><span class="line"></span><br><span class="line">            <span class="comment"># state line comment</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_LINE_COMMENT:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'\n'</span>:</span><br><span class="line">                    state = S_INIT</span><br><span class="line">                    fp_dst.write(c)</span><br><span class="line">            <span class="comment"># state str</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_STR:</span><br><span class="line">                <span class="keyword">if</span> c ==<span class="string">'\\'</span>:</span><br><span class="line">                    state = S_STR_ESCAPE</span><br><span class="line">                <span class="keyword">elif</span> c == <span class="string">'"'</span>:</span><br><span class="line">                    state = S_INIT</span><br><span class="line">                fp_dst.write(c)</span><br><span class="line">            <span class="comment"># state str_escape</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_STR_ESCAPE:</span><br><span class="line">                state = S_STR</span><br><span class="line">                fp_dst.write(c)</span><br><span class="line">        </span><br><span class="line">    fp_src.close()</span><br><span class="line">    os.remove(bak_file)</span><br><span class="line">    fp_dst.close()</span><br><span class="line"></span><br><span class="line">trim_dir(top_dir)</span><br></pre></td></tr></table></figure>
+<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 删除程序中的/**/和//所包含的注释内容</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根目录，在你的脚本中，记得更改这个目录</span></span><br><span class="line">top_dir = <span class="string">"/Users/Desktop/test"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 标识状态</span></span><br><span class="line">S_INIT              = <span class="number">0</span></span><br><span class="line">S_SLASH             = <span class="number">1</span></span><br><span class="line">S_BLOCK_COMMENT     = <span class="number">2</span></span><br><span class="line">S_BLOCK_COMMENT_DOT = <span class="number">3</span></span><br><span class="line">S_LINE_COMMENT      = <span class="number">4</span></span><br><span class="line">S_STR               = <span class="number">5</span></span><br><span class="line">S_STR_ESCAPE        = <span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理文件夹</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trim_dir</span><span class="params">(path)</span>:</span></span><br><span class="line">    print(<span class="string">"dir:"</span> + path)</span><br><span class="line">    <span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(path):</span><br><span class="line">        print(<span class="string">"***"</span>)</span><br><span class="line">        print(files)</span><br><span class="line">        <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">            trim_file(os.path.join(root,name))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trim_file</span><span class="params">(path)</span>:</span></span><br><span class="line">    print(<span class="string">"file:"</span> + path)</span><br><span class="line">    <span class="keyword">if</span> re.match(<span class="string">r".*?\.(java|c|h|m)$"</span>,path):</span><br><span class="line">        print(<span class="string">"process!"</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"ignore"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    bak_file = path + <span class="string">".bak"</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        os.rename(path,bak_file)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">"bak exception --&gt;"</span> + bak_file)</span><br><span class="line"></span><br><span class="line">    fp_src = open(bak_file)</span><br><span class="line">    fp_dst = open(path,<span class="string">'w'</span>)</span><br><span class="line">    cnt = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fp_src.readlines():</span><br><span class="line">        print(<span class="string">"--&gt; 当前是第%d行"</span> %cnt)</span><br><span class="line">        print(line)</span><br><span class="line">        cnt += <span class="number">1</span></span><br><span class="line">        state = S_INIT</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> cnt &lt; <span class="number">7</span>:</span><br><span class="line">            fp_dst.write(line)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> line:</span><br><span class="line">            <span class="comment"># State INIT</span></span><br><span class="line">            <span class="keyword">if</span> state == S_INIT:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'/'</span>:</span><br><span class="line">                    state = S_SLASH</span><br><span class="line">                <span class="keyword">elif</span> c == <span class="string">'"'</span>:</span><br><span class="line">                    state = S_STR</span><br><span class="line">                    fp_dst.write(c)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    fp_dst.write(c)</span><br><span class="line">            <span class="comment"># State slash:</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_SLASH:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'*'</span>:</span><br><span class="line">                    state = S_BLOCK_COMMENT</span><br><span class="line">                <span class="keyword">elif</span> c == <span class="string">'/'</span>:</span><br><span class="line">                    state = S_LINE_COMMENT</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    fp_dst.write(<span class="string">'/'</span>)</span><br><span class="line">                    fp_dst.write(c)</span><br><span class="line">                    state = S_INIT</span><br><span class="line">            <span class="comment"># State Block_comment start /</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_BLOCK_COMMENT:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'*'</span>:</span><br><span class="line">                    state = S_BLOCK_COMMENT_DOT</span><br><span class="line">            <span class="comment"># State Blcok_comment state *</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_BLOCK_COMMENT_DOT:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'/'</span>:</span><br><span class="line">                    state = S_INIT</span><br><span class="line">                <span class="keyword">elif</span> c == <span class="string">'*'</span>:</span><br><span class="line">                    state = S_BLOCK_COMMENT_DOT <span class="comment">#再次碰到*还得持续DOT状态，不然会出错</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    state = S_BLOCK_COMMENT</span><br><span class="line"></span><br><span class="line">            <span class="comment"># state line comment</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_LINE_COMMENT:</span><br><span class="line">                <span class="keyword">if</span> c == <span class="string">'\n'</span>:</span><br><span class="line">                    state = S_INIT</span><br><span class="line">                    fp_dst.write(c)</span><br><span class="line">            <span class="comment"># state str</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_STR:</span><br><span class="line">                <span class="keyword">if</span> c ==<span class="string">'\\'</span>:</span><br><span class="line">                    state = S_STR_ESCAPE</span><br><span class="line">                <span class="keyword">elif</span> c == <span class="string">'"'</span>:</span><br><span class="line">                    state = S_INIT</span><br><span class="line">                fp_dst.write(c)</span><br><span class="line">            <span class="comment"># state str_escape</span></span><br><span class="line">            <span class="keyword">elif</span> state == S_STR_ESCAPE:</span><br><span class="line">                state = S_STR</span><br><span class="line">                fp_dst.write(c)</span><br><span class="line">        </span><br><span class="line">    fp_src.close()</span><br><span class="line">    os.remove(bak_file)</span><br><span class="line">    fp_dst.close()</span><br><span class="line"></span><br><span class="line">trim_dir(top_dir)</span><br></pre></td></tr></table></figure>
 <p>有了之前的解题思路，再加上代码中少量的注释，其实我们已经能够比较清晰地了解程序的处理逻辑了，只不过我们借助了标志位，来决定是否复制原文件中的字符。<br>没什么技术难度。就是记得要更改下你要修改的文件夹的目录。</p>
 <p>还有一点：<br>这段代码似乎有点小bug，就是如果碰到不规则的段落注释符<strong>可能</strong>会出问题。</p>
 <font color="red">一定要备份一下你的原文件！</font><br><font color="red">一定要备份一下你的原文件！</font><br><font color="red">一定要备份一下你的原文件！</font>
@@ -183,22 +183,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u89E3_u9898_u601D_u8DEF"><span class="toc-number">1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u6E90_u4EE3_u7801"><span class="toc-number">2.</span> <span class="toc-text">源代码</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#解题思路"><span class="toc-number">1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源代码"><span class="toc-number">2.</span> <span class="toc-text">源代码</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -223,7 +223,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -239,43 +239,7 @@
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
 			
 		
 			
@@ -287,7 +251,43 @@
 			
 		
 			
+				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -588,7 +588,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

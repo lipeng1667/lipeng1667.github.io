@@ -26,6 +26,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Blog】Hexo搭建个人Blog全过程记录">
 <meta name="twitter:description" content="自动使用Hexo搭建Blog之后，觉得写Blog更加有动力了。之前的配置弄完就弄好了，这次新的Mac到手后，重新整理了下搭建Hexo的步骤，所有用到的东西都记录下，一是防自己忘记，二是给其他想用Hexo搭建博客的童鞋们指点个道路。">
+<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160401:1.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -38,7 +39,7 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
   <body>
@@ -54,7 +55,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -68,7 +69,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -91,7 +92,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-31T13:11:39.000Z" itemprop="datePublished"> 發表於 2016-03-31</time>
+    <time datetime="2016-03-31T13:11:39.000Z" itemprop="datePublished"> Published 2016-03-31</time>
   </p>
   
   <p class="page-count">
@@ -103,40 +104,40 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5Brew"><span class="toc-number">1.</span> <span class="toc-text">安装Brew</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5wget"><span class="toc-number">2.</span> <span class="toc-text">安装wget</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5nvm"><span class="toc-number">3.</span> <span class="toc-text">安装nvm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5hexo"><span class="toc-number">4.</span> <span class="toc-text">安装hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5Node-js_28Option_29"><span class="toc-number">5.</span> <span class="toc-text">安装Node.js(Option)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u7528Hexo_u642D_u5EFAblog"><span class="toc-number">6.</span> <span class="toc-text">用Hexo搭建blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u65B0_u5EFA_u76EE_u5F55"><span class="toc-number">6.1.</span> <span class="toc-text">新建目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6E05_u9664_u53EF_u89C1_u6587_u4EF6_uFF0C_u62F7_u5165_u5907_u4EFD"><span class="toc-number">6.2.</span> <span class="toc-text">清除可见文件，拷入备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5C1D_u8BD5_u8FD0_u884C"><span class="toc-number">6.3.</span> <span class="toc-text">尝试运行</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Brew"><span class="toc-number">1.</span> <span class="toc-text">安装Brew</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装wget"><span class="toc-number">2.</span> <span class="toc-text">安装wget</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装nvm"><span class="toc-number">3.</span> <span class="toc-text">安装nvm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装hexo"><span class="toc-number">4.</span> <span class="toc-text">安装hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Node-js-Option"><span class="toc-number">5.</span> <span class="toc-text">安装Node.js(Option)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用Hexo搭建blog"><span class="toc-number">6.</span> <span class="toc-text">用Hexo搭建blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#新建目录"><span class="toc-number">6.1.</span> <span class="toc-text">新建目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#清除可见文件，拷入备份"><span class="toc-number">6.2.</span> <span class="toc-text">清除可见文件，拷入备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尝试运行"><span class="toc-number">6.3.</span> <span class="toc-text">尝试运行</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<p>自动使用Hexo搭建Blog之后，觉得写Blog更加有动力了。之前的配置弄完就弄好了，这次新的Mac到手后，重新整理了下搭建Hexo的步骤，所有用到的东西都记录下，一是防自己忘记，二是给其他想用Hexo搭建博客的童鞋们指点个道路。</p>
 <a id="more"></a>
-<h1 id="u5B89_u88C5Brew"><a href="#u5B89_u88C5Brew" class="headerlink" title="安装Brew"></a>安装Brew</h1><p>Brew（又叫Homebrew）是一个很有用的工具，<a href="http://brew.sh/" target="_blank" rel="external">官网</a>中有这么一句话：<br><code>Homebrew installs the stuff you need that Apple didn’t.</code><br>安装的方法也很简单，官网上面在最明显的地方标识了如何安装Homebrew：<br>打开终端，输入下面的代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby <span class="operator">-e</span> <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
+<h1 id="安装Brew"><a href="#安装Brew" class="headerlink" title="安装Brew"></a>安装Brew</h1><p>Brew（又叫Homebrew）是一个很有用的工具，<a href="http://brew.sh/" target="_blank" rel="external">官网</a>中有这么一句话：<br><code>Homebrew installs the stuff you need that Apple didn’t.</code><br>安装的方法也很简单，官网上面在最明显的地方标识了如何安装Homebrew：<br>打开终端，输入下面的代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby <span class="_">-e</span> <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
 <p>安装的过程如下，中间可能让你输入root的密码，完成后就安装好了。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160401:1.png" alt="1"></p>
-<h1 id="u5B89_u88C5wget"><a href="#u5B89_u88C5wget" class="headerlink" title="安装wget"></a>安装wget</h1><p>其实我们安装Brew的目的也是为了安装wget。<br>Mac自带了curl，但是wget显然比自带的功能要强大。如果我们成功安装了Brew，那么wget的安装方法也非常简单，因为在brew的官网上面就赫然在列wget的安装语句：</p>
+<h1 id="安装wget"><a href="#安装wget" class="headerlink" title="安装wget"></a>安装wget</h1><p>其实我们安装Brew的目的也是为了安装wget。<br>Mac自带了curl，但是wget显然比自带的功能要强大。如果我们成功安装了Brew，那么wget的安装方法也非常简单，因为在brew的官网上面就赫然在列wget的安装语句：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install wget</span><br></pre></td></tr></table></figure>
 <p>安装过程如下，稍等片刻就安装完成了。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160401:2.png" alt="2"></p>
-<h1 id="u5B89_u88C5nvm"><a href="#u5B89_u88C5nvm" class="headerlink" title="安装nvm"></a>安装nvm</h1><p>nvm作为node的版本控制，也是借助wget来安装。<br>因为hexo是依赖于Node.js的，所以我们要先把Node.js安装好。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh</span><br><span class="line">nvm install <span class="number">0.10</span></span><br></pre></td></tr></table></figure>
+<h1 id="安装nvm"><a href="#安装nvm" class="headerlink" title="安装nvm"></a>安装nvm</h1><p>nvm作为node的版本控制，也是借助wget来安装。<br>因为hexo是依赖于Node.js的，所以我们要先把Node.js安装好。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh</span><br><span class="line">nvm install 0.10</span><br></pre></td></tr></table></figure>
 <p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160401:3.png" alt="3"></p>
-<h1 id="u5B89_u88C5hexo"><a href="#u5B89_u88C5hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><p>在root用户下尝试下面的命令：</p>
+<h1 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><p>在root用户下尝试下面的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
 <p>因为如果不在root用户下会报错误：</p>
 <p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160401:4.png" alt="4"></p>
 <p>如果你的程序成功的完成了完成了安装，那么就ok了。我的是因为之前node安装过程中出了些小问题，最后实在没办法，只好求助官网，从官网上下载直接安装node。</p>
 <font color="red">下载hexo的过程可能会比较慢，猜测是因为GFW的原因，耐心等待一下</font>
 
-<h1 id="u5B89_u88C5Node-js_28Option_29"><a href="#u5B89_u88C5Node-js_28Option_29" class="headerlink" title="安装Node.js(Option)"></a>安装Node.js(Option)</h1><p><strong>如果通过nvm成功安装了node就不用再进行此步骤的操作了</strong></p>
+<h1 id="安装Node-js-Option"><a href="#安装Node-js-Option" class="headerlink" title="安装Node.js(Option)"></a>安装Node.js(Option)</h1><p><strong>如果通过nvm成功安装了node就不用再进行此步骤的操作了</strong></p>
 <p>从官网 (<a href="https://nodejs.org/en/)[https://nodejs.org/en/" target="_blank" rel="external">https://nodejs.org/en/)[https://nodejs.org/en/</a>] 上面直接下载就好了，然后一路next下去。 </p>
 <p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160404/5.png" alt="5"><br>我是安装的4.4.2版本。</p>
-<h1 id="u7528Hexo_u642D_u5EFAblog"><a href="#u7528Hexo_u642D_u5EFAblog" class="headerlink" title="用Hexo搭建blog"></a>用Hexo搭建blog</h1><font color="red"> 请注意：如果你以前从未用Hexo搭建过Blog，请移步 <a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">http://www.jianshu.com/p/05289a4bc8b2</a> , 那个教程里面有比较详细的过程，只不过那个教程里面没有讲如何安装Hexo的过程。</font>
+<h1 id="用Hexo搭建blog"><a href="#用Hexo搭建blog" class="headerlink" title="用Hexo搭建blog"></a>用Hexo搭建blog</h1><font color="red"> 请注意：如果你以前从未用Hexo搭建过Blog，请移步 <a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">http://www.jianshu.com/p/05289a4bc8b2</a> , 那个教程里面有比较详细的过程，只不过那个教程里面没有讲如何安装Hexo的过程。</font>
 
 <p>因为我之前是有一直在写Blog的，也做了备份（再次强调，备份很重要，一些可能你认为没有什么用的备份说不定哪天就会帮上你的大忙），所以剩下的步骤就比较简单了。</p>
-<h2 id="u65B0_u5EFA_u76EE_u5F55"><a href="#u65B0_u5EFA_u76EE_u5F55" class="headerlink" title="新建目录"></a>新建目录</h2><p>命令行中运行：</p>
+<h2 id="新建目录"><a href="#新建目录" class="headerlink" title="新建目录"></a>新建目录</h2><p>命令行中运行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;目录名称&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="u6E05_u9664_u53EF_u89C1_u6587_u4EF6_uFF0C_u62F7_u5165_u5907_u4EFD"><a href="#u6E05_u9664_u53EF_u89C1_u6587_u4EF6_uFF0C_u62F7_u5165_u5907_u4EFD" class="headerlink" title="清除可见文件，拷入备份"></a>清除可见文件，拷入备份</h2><p>CD到刚建好的目录下面，然后把那些文件都删除了，因为hexo初始的那些例如theme等东西我们如果以前写过，全部都是有改动的，所以就删除了，然后把我们自己的备份文件拷贝进来。</p>
-<h2 id="u5C1D_u8BD5_u8FD0_u884C"><a href="#u5C1D_u8BD5_u8FD0_u884C" class="headerlink" title="尝试运行"></a>尝试运行</h2><p>命令行中运行：</p>
+<h2 id="清除可见文件，拷入备份"><a href="#清除可见文件，拷入备份" class="headerlink" title="清除可见文件，拷入备份"></a>清除可见文件，拷入备份</h2><p>CD到刚建好的目录下面，然后把那些文件都删除了，因为hexo初始的那些例如theme等东西我们如果以前写过，全部都是有改动的，所以就删除了，然后把我们自己的备份文件拷贝进来。</p>
+<h2 id="尝试运行"><a href="#尝试运行" class="headerlink" title="尝试运行"></a>尝试运行</h2><p>命令行中运行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s -g</span><br></pre></td></tr></table></figure>
 <p>发现很完美地恢复了之前的所有blog内容!</p>
 <p>整个过程让我想起了宋丹丹和赵本山的小品：第一步把冰箱门打开，第二步把大象放进去，第三步把冰箱门关上。。。。</p>
@@ -195,22 +196,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5Brew"><span class="toc-number">1.</span> <span class="toc-text">安装Brew</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5wget"><span class="toc-number">2.</span> <span class="toc-text">安装wget</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5nvm"><span class="toc-number">3.</span> <span class="toc-text">安装nvm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5hexo"><span class="toc-number">4.</span> <span class="toc-text">安装hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5B89_u88C5Node-js_28Option_29"><span class="toc-number">5.</span> <span class="toc-text">安装Node.js(Option)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u7528Hexo_u642D_u5EFAblog"><span class="toc-number">6.</span> <span class="toc-text">用Hexo搭建blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u65B0_u5EFA_u76EE_u5F55"><span class="toc-number">6.1.</span> <span class="toc-text">新建目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6E05_u9664_u53EF_u89C1_u6587_u4EF6_uFF0C_u62F7_u5165_u5907_u4EFD"><span class="toc-number">6.2.</span> <span class="toc-text">清除可见文件，拷入备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5C1D_u8BD5_u8FD0_u884C"><span class="toc-number">6.3.</span> <span class="toc-text">尝试运行</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Brew"><span class="toc-number">1.</span> <span class="toc-text">安装Brew</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装wget"><span class="toc-number">2.</span> <span class="toc-text">安装wget</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装nvm"><span class="toc-number">3.</span> <span class="toc-text">安装nvm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装hexo"><span class="toc-number">4.</span> <span class="toc-text">安装hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Node-js-Option"><span class="toc-number">5.</span> <span class="toc-text">安装Node.js(Option)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用Hexo搭建blog"><span class="toc-number">6.</span> <span class="toc-text">用Hexo搭建blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#新建目录"><span class="toc-number">6.1.</span> <span class="toc-text">新建目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#清除可见文件，拷入备份"><span class="toc-number">6.2.</span> <span class="toc-text">清除可见文件，拷入备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尝试运行"><span class="toc-number">6.3.</span> <span class="toc-text">尝试运行</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -235,7 +236,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -251,43 +252,7 @@
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
 			
 		
 			
@@ -299,7 +264,43 @@
 			
 		
 			
+				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -600,7 +601,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

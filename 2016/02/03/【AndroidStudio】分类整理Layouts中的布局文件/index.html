@@ -25,6 +25,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【AndroidStudio】分类整理Layouts中的布局文件">
 <meta name="twitter:description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
+<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -37,7 +38,7 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
   <body>
@@ -53,7 +54,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -67,7 +68,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -90,7 +91,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T07:55:14.000Z" itemprop="datePublished"> 發表於 2016-02-03</time>
+    <time datetime="2016-02-03T07:55:14.000Z" itemprop="datePublished"> Published 2016-02-03</time>
   </p>
   
   <p class="page-count">
@@ -102,7 +103,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			
 		
@@ -131,7 +132,7 @@
 <li>重复第5到第7步，把所有的布局文件分类存放好。</li>
 <li>打开<strong>build.gradle</strong>文件（注意这里会有两个build.grade文件，我们要改变的是工程里面的那个），然后添加进去下面的代码：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;  &#10;        main &#123;  &#10;            res.srcDirs =  &#10;                    [  &#10;                            &#39;src/main/res/layouts/mainpage&#39;,  &#10;                            &#39;src/main/res/layouts/investment&#39;,  &#10;                            &#39;src/main/res/layouts/productlist&#39;,  &#10;                            &#39;src/main/res/layouts/myaccount&#39;,  &#10;                            &#39;src/main/res/layouts/setting&#39;,  &#10;                            &#39;src/main/res/layouts&#39;,  &#10;                            &#39;src/main/res&#39;  &#10;                    ]  &#10;        &#125;  &#10;    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;  </span><br><span class="line">        main &#123;  </span><br><span class="line">            res.srcDirs =  </span><br><span class="line">                    [  </span><br><span class="line">                            &apos;src/main/res/layouts/mainpage&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/investment&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/productlist&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/myaccount&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/setting&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts&apos;,  </span><br><span class="line">                            &apos;src/main/res&apos;  </span><br><span class="line">                    ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>添加后的build.gradle文件类似这个样子<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/5.png-imagewatermark" alt=""></p>
 <p><font color="red">需要特别注意的是</font>：代码中一定要把 <code>src/main/res/layouts</code>  和 <code>src/main/res</code> 两行代码写在最后面！！！</p>
 <p>最后重启一下AS应该就ok了~</p>
@@ -198,22 +199,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
  
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -238,7 +239,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -254,43 +255,7 @@
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
 			
 		
 			
@@ -302,7 +267,43 @@
 			
 		
 			
+				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -603,7 +604,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

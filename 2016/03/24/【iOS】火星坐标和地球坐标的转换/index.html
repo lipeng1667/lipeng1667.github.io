@@ -36,7 +36,7 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
   <body>
@@ -52,7 +52,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -66,7 +66,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -89,7 +89,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-24T14:17:10.000Z" itemprop="datePublished"> 發表於 2016-03-24</time>
+    <time datetime="2016-03-24T14:17:10.000Z" itemprop="datePublished"> Published 2016-03-24</time>
   </p>
   
   <p class="page-count">
@@ -101,22 +101,22 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u706B_u661F_u5750_u6807"><span class="toc-number">1.</span> <span class="toc-text">火星坐标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5730_u7403_u5750_u6807__u2013_26gt_3B__u706B_u661F_u5750_u6807"><span class="toc-number">2.</span> <span class="toc-text">地球坐标 –> 火星坐标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GetMarsCoor-h"><span class="toc-number">2.1.</span> <span class="toc-text">GetMarsCoor.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GetMarsCoor-m"><span class="toc-number">2.2.</span> <span class="toc-text">GetMarsCoor.m</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#火星坐标"><span class="toc-number">1.</span> <span class="toc-text">火星坐标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#地球坐标-–-gt-火星坐标"><span class="toc-number">2.</span> <span class="toc-text">地球坐标 –> 火星坐标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GetMarsCoor-h"><span class="toc-number">2.1.</span> <span class="toc-text">GetMarsCoor.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GetMarsCoor-m"><span class="toc-number">2.2.</span> <span class="toc-text">GetMarsCoor.m</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<p>不知道大家有没有遇到过这样的情况，在APP上开启定位，会发现自己所在的位置和地图上会有一定的偏差，前2年的时候这个问题特别严重，记得快的打车（那会儿还没有和滴滴合并）的坐标也会出现这种问题。我之所以记录这个是发现不少记录运动轨迹的应用（例如乐心），包括一大票水土不服的国外优秀运动APP不少还有这个问题。</p>
 <p>为什么会出现这样的情况呢？</p>
 <a id="more"></a>
-<h1 id="u706B_u661F_u5750_u6807"><a href="#u706B_u661F_u5750_u6807" class="headerlink" title="火星坐标"></a>火星坐标</h1><p>我们先来认识一个只有在我大天朝才会出现的词：<strong>火星坐标</strong><br>什么叫做火星坐标？就是 不是地球上的真实坐标就对了。 废话。。。原因是我大天朝上面的所有东西都是国家机密！嘘，不要问我为什么知道。所以，我们的地图要经过偏移处理，你在经过我天朝测绘局处理的地图上看到的建筑物，和它实际所在的位置，其实是有出入的。<br>也不知道这群人搞出这么自欺欺人的东西目的何在，Google Earth上面看的清清楚楚的，不太明白有什么用处。。。反正就是给码农添堵就是了。</p>
+<h1 id="火星坐标"><a href="#火星坐标" class="headerlink" title="火星坐标"></a>火星坐标</h1><p>我们先来认识一个只有在我大天朝才会出现的词：<strong>火星坐标</strong><br>什么叫做火星坐标？就是 不是地球上的真实坐标就对了。 废话。。。原因是我大天朝上面的所有东西都是国家机密！嘘，不要问我为什么知道。所以，我们的地图要经过偏移处理，你在经过我天朝测绘局处理的地图上看到的建筑物，和它实际所在的位置，其实是有出入的。<br>也不知道这群人搞出这么自欺欺人的东西目的何在，Google Earth上面看的清清楚楚的，不太明白有什么用处。。。反正就是给码农添堵就是了。</p>
 <p>与之对应的，当然就是<strong>地球坐标</strong>了，就是除了在天朝之外的地球上，大家都统一使用的一套经纬度坐标。</p>
 <p>举个栗子：<br>假如你开发了一个APP程序，那你获取当前设备的GPS信息，那获取到的这个坐标就是<strong>地球坐标</strong>，好了，如果你把这个坐标设置在经过我大天朝认可的移动设备地图上后，就会出现偏差。因为在经过偏移后的地图上面，只有把你获取到的坐标经过处理，换算成<strong>火星坐标</strong>，才能在地图上显示正确的位置。</p>
 <p>那说到这里，我们都很明白了，如果自己开发一款程序需要自己获取经纬度坐标，然后在地图上打点，就需要经过 <code>地球坐标---&gt; 火星坐标</code> 之间的转换，然后在地图上把，火星坐标打上去，才让用户觉得你的这个坐标是正确的。</p>
-<h1 id="u5730_u7403_u5750_u6807__u2013_26gt_3B__u706B_u661F_u5750_u6807"><a href="#u5730_u7403_u5750_u6807__u2013_26gt_3B__u706B_u661F_u5750_u6807" class="headerlink" title="地球坐标 –&gt; 火星坐标"></a>地球坐标 –&gt; 火星坐标</h1><p>直接上代码：</p>
-<h2 id="GetMarsCoor-h"><a href="#GetMarsCoor-h" class="headerlink" title="GetMarsCoor.h"></a>GetMarsCoor.h</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  GetMarsCoor.h</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by KaKa on 15/3/9.</span></span><br><span class="line"><span class="comment">//  Copyright (c) 2015年 KAKA. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  将地球坐标转换成火星坐标</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;MapKit/MapKit.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GetMarsCoor</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (CLLocation *)transformToMars:(CLLocation *)location;</span><br><span class="line">+ (<span class="built_in">BOOL</span>)outOfChina:(CLLocation *)location;</span><br><span class="line">+ (<span class="keyword">double</span>)transformLatWithX:(<span class="keyword">double</span>)x y:(<span class="keyword">double</span>)y;</span><br><span class="line">+ (<span class="keyword">double</span>)transformLonWithX:(<span class="keyword">double</span>)x y:(<span class="keyword">double</span>)y;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<h2 id="GetMarsCoor-m"><a href="#GetMarsCoor-m" class="headerlink" title="GetMarsCoor.m"></a>GetMarsCoor.m</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  GetMarsCoor.m</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by KaKa on 15/3/9.</span></span><br><span class="line"><span class="comment">//  Copyright (c) 2015年 KAKA. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import <span class="title">"GetMarsCoor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GetMarsCoor</span></span></span><br><span class="line"></span><br><span class="line">+ (CLLocation *)transformToMars:(CLLocation *)location &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">double</span> a = <span class="number">6378245.0</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">double</span> ee = <span class="number">0.00669342162296594323</span>;</span><br><span class="line">    <span class="comment">// 判断是否在中国大陆之外</span></span><br><span class="line">    <span class="keyword">if</span> ([[<span class="keyword">self</span> class] outOfChina:location]) &#123;</span><br><span class="line">        <span class="keyword">return</span> location;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> dLat = [[<span class="keyword">self</span> class] transformLatWithX:location<span class="variable">.coordinate</span><span class="variable">.longitude</span> - <span class="number">105.0</span> y:location<span class="variable">.coordinate</span><span class="variable">.latitude</span> - <span class="number">35.0</span>];</span><br><span class="line">    <span class="keyword">double</span> dLon = [[<span class="keyword">self</span> class] transformLonWithX:location<span class="variable">.coordinate</span><span class="variable">.longitude</span> - <span class="number">105.0</span> y:location<span class="variable">.coordinate</span><span class="variable">.latitude</span> - <span class="number">35.0</span>];</span><br><span class="line">    <span class="keyword">double</span> radLat = location<span class="variable">.coordinate</span><span class="variable">.latitude</span> / <span class="number">180.0</span> * M_PI;</span><br><span class="line">    <span class="keyword">double</span> magic = sin(radLat);</span><br><span class="line">    magic = <span class="number">1</span> - ee * magic * magic;</span><br><span class="line">    <span class="keyword">double</span> sqrtMagic = sqrt(magic);</span><br><span class="line">    dLat = (dLat * <span class="number">180.0</span>) / ((a * (<span class="number">1</span> - ee)) / (magic * sqrtMagic) * M_PI);</span><br><span class="line">    dLon = (dLon * <span class="number">180.0</span>) / (a / sqrtMagic * cos(radLat) * M_PI);</span><br><span class="line">    <span class="keyword">return</span> [[CLLocation alloc] initWithLatitude:location<span class="variable">.coordinate</span><span class="variable">.latitude</span> + dLat longitude:location<span class="variable">.coordinate</span><span class="variable">.longitude</span> + dLon];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">BOOL</span>)outOfChina:(CLLocation *)location &#123;</span><br><span class="line">    <span class="keyword">if</span> (location<span class="variable">.coordinate</span><span class="variable">.longitude</span> &lt; <span class="number">72.004</span> || location<span class="variable">.coordinate</span><span class="variable">.longitude</span> &gt; <span class="number">137.8347</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (location<span class="variable">.coordinate</span><span class="variable">.latitude</span> &lt; <span class="number">0.8293</span> || location<span class="variable">.coordinate</span><span class="variable">.latitude</span> &gt; <span class="number">55.8271</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">double</span>)transformLatWithX:(<span class="keyword">double</span>)x y:(<span class="keyword">double</span>)y &#123;</span><br><span class="line">    <span class="keyword">double</span> ret = -<span class="number">100.0</span> + <span class="number">2.0</span> * x + <span class="number">3.0</span> * y + <span class="number">0.2</span> * y * y + <span class="number">0.1</span> * x * y + <span class="number">0.2</span> * sqrt(abs(x));</span><br><span class="line">    ret += (<span class="number">20.0</span> * sin(<span class="number">6.0</span> * x * M_PI) + <span class="number">20.0</span> * sin(<span class="number">2.0</span> * x * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">20.0</span> * sin(y * M_PI) + <span class="number">40.0</span> * sin(y / <span class="number">3.0</span> * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">160.0</span> * sin(y / <span class="number">12.0</span> * M_PI) + <span class="number">320</span> * sin(y * M_PI / <span class="number">30.0</span>)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">double</span>)transformLonWithX:(<span class="keyword">double</span>)x y:(<span class="keyword">double</span>)y &#123;</span><br><span class="line">    <span class="keyword">double</span> ret = <span class="number">300.0</span> + x + <span class="number">2.0</span> * y + <span class="number">0.1</span> * x * x + <span class="number">0.1</span> * x * y + <span class="number">0.1</span> * sqrt(abs(x));</span><br><span class="line">    ret += (<span class="number">20.0</span> * sin(<span class="number">6.0</span> * x * M_PI) + <span class="number">20.0</span> * sin(<span class="number">2.0</span> * x * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">20.0</span> * sin(x * M_PI) + <span class="number">40.0</span> * sin(x / <span class="number">3.0</span> * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">150.0</span> * sin(x / <span class="number">12.0</span> * M_PI) + <span class="number">300.0</span> * sin(x / <span class="number">30.0</span> * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h1 id="地球坐标-–-gt-火星坐标"><a href="#地球坐标-–-gt-火星坐标" class="headerlink" title="地球坐标 –&gt; 火星坐标"></a>地球坐标 –&gt; 火星坐标</h1><p>直接上代码：</p>
+<h2 id="GetMarsCoor-h"><a href="#GetMarsCoor-h" class="headerlink" title="GetMarsCoor.h"></a>GetMarsCoor.h</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  GetMarsCoor.h</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by KaKa on 15/3/9.</span></span><br><span class="line"><span class="comment">//  Copyright (c) 2015年 KAKA. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  将地球坐标转换成火星坐标</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;MapKit/MapKit.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">GetMarsCoor</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (CLLocation *)transformToMars:(CLLocation *)location;</span><br><span class="line">+ (<span class="built_in">BOOL</span>)outOfChina:(CLLocation *)location;</span><br><span class="line">+ (<span class="keyword">double</span>)transformLatWithX:(<span class="keyword">double</span>)x y:(<span class="keyword">double</span>)y;</span><br><span class="line">+ (<span class="keyword">double</span>)transformLonWithX:(<span class="keyword">double</span>)x y:(<span class="keyword">double</span>)y;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h2 id="GetMarsCoor-m"><a href="#GetMarsCoor-m" class="headerlink" title="GetMarsCoor.m"></a>GetMarsCoor.m</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  GetMarsCoor.m</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by KaKa on 15/3/9.</span></span><br><span class="line"><span class="comment">//  Copyright (c) 2015年 KAKA. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">"GetMarsCoor.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">GetMarsCoor</span></span></span><br><span class="line"></span><br><span class="line">+ (CLLocation *)transformToMars:(CLLocation *)location &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">double</span> a = <span class="number">6378245.0</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">double</span> ee = <span class="number">0.00669342162296594323</span>;</span><br><span class="line">    <span class="comment">// 判断是否在中国大陆之外</span></span><br><span class="line">    <span class="keyword">if</span> ([[<span class="keyword">self</span> class] outOfChina:location]) &#123;</span><br><span class="line">        <span class="keyword">return</span> location;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> dLat = [[<span class="keyword">self</span> class] transformLatWithX:location.coordinate.longitude - <span class="number">105.0</span> y:location.coordinate.latitude - <span class="number">35.0</span>];</span><br><span class="line">    <span class="keyword">double</span> dLon = [[<span class="keyword">self</span> class] transformLonWithX:location.coordinate.longitude - <span class="number">105.0</span> y:location.coordinate.latitude - <span class="number">35.0</span>];</span><br><span class="line">    <span class="keyword">double</span> radLat = location.coordinate.latitude / <span class="number">180.0</span> * M_PI;</span><br><span class="line">    <span class="keyword">double</span> magic = sin(radLat);</span><br><span class="line">    magic = <span class="number">1</span> - ee * magic * magic;</span><br><span class="line">    <span class="keyword">double</span> sqrtMagic = sqrt(magic);</span><br><span class="line">    dLat = (dLat * <span class="number">180.0</span>) / ((a * (<span class="number">1</span> - ee)) / (magic * sqrtMagic) * M_PI);</span><br><span class="line">    dLon = (dLon * <span class="number">180.0</span>) / (a / sqrtMagic * cos(radLat) * M_PI);</span><br><span class="line">    <span class="keyword">return</span> [[CLLocation alloc] initWithLatitude:location.coordinate.latitude + dLat longitude:location.coordinate.longitude + dLon];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">BOOL</span>)outOfChina:(CLLocation *)location &#123;</span><br><span class="line">    <span class="keyword">if</span> (location.coordinate.longitude &lt; <span class="number">72.004</span> || location.coordinate.longitude &gt; <span class="number">137.8347</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (location.coordinate.latitude &lt; <span class="number">0.8293</span> || location.coordinate.latitude &gt; <span class="number">55.8271</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">double</span>)transformLatWithX:(<span class="keyword">double</span>)x y:(<span class="keyword">double</span>)y &#123;</span><br><span class="line">    <span class="keyword">double</span> ret = <span class="number">-100.0</span> + <span class="number">2.0</span> * x + <span class="number">3.0</span> * y + <span class="number">0.2</span> * y * y + <span class="number">0.1</span> * x * y + <span class="number">0.2</span> * sqrt(abs(x));</span><br><span class="line">    ret += (<span class="number">20.0</span> * sin(<span class="number">6.0</span> * x * M_PI) + <span class="number">20.0</span> * sin(<span class="number">2.0</span> * x * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">20.0</span> * sin(y * M_PI) + <span class="number">40.0</span> * sin(y / <span class="number">3.0</span> * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">160.0</span> * sin(y / <span class="number">12.0</span> * M_PI) + <span class="number">320</span> * sin(y * M_PI / <span class="number">30.0</span>)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">double</span>)transformLonWithX:(<span class="keyword">double</span>)x y:(<span class="keyword">double</span>)y &#123;</span><br><span class="line">    <span class="keyword">double</span> ret = <span class="number">300.0</span> + x + <span class="number">2.0</span> * y + <span class="number">0.1</span> * x * x + <span class="number">0.1</span> * x * y + <span class="number">0.1</span> * sqrt(abs(x));</span><br><span class="line">    ret += (<span class="number">20.0</span> * sin(<span class="number">6.0</span> * x * M_PI) + <span class="number">20.0</span> * sin(<span class="number">2.0</span> * x * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">20.0</span> * sin(x * M_PI) + <span class="number">40.0</span> * sin(x / <span class="number">3.0</span> * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">150.0</span> * sin(x / <span class="number">12.0</span> * M_PI) + <span class="number">300.0</span> * sin(x / <span class="number">30.0</span> * M_PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>亲测这套代码在iOS上面是可以完美转换地球坐标到火星坐标。<br>因为年代久远还是用objective-c写的，不过在swift中使用也没有问题吧。<br>我刚想起来博客地址迁移，没有把在Swift中使用objective-c编写的库的方法迁移过来。回头把那篇文章迁移过来，然后再更新下链接吧~</p>
   
 	</div>
@@ -181,22 +181,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u706B_u661F_u5750_u6807"><span class="toc-number">1.</span> <span class="toc-text">火星坐标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#u5730_u7403_u5750_u6807__u2013_26gt_3B__u706B_u661F_u5750_u6807"><span class="toc-number">2.</span> <span class="toc-text">地球坐标 –> 火星坐标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GetMarsCoor-h"><span class="toc-number">2.1.</span> <span class="toc-text">GetMarsCoor.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GetMarsCoor-m"><span class="toc-number">2.2.</span> <span class="toc-text">GetMarsCoor.m</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#火星坐标"><span class="toc-number">1.</span> <span class="toc-text">火星坐标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#地球坐标-–-gt-火星坐标"><span class="toc-number">2.</span> <span class="toc-text">地球坐标 –> 火星坐标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GetMarsCoor-h"><span class="toc-number">2.1.</span> <span class="toc-text">GetMarsCoor.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GetMarsCoor-m"><span class="toc-number">2.2.</span> <span class="toc-text">GetMarsCoor.m</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -221,7 +221,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -237,43 +237,7 @@
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
 			
 		
 			
@@ -285,7 +249,43 @@
 			
 		
 			
+				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -586,7 +586,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
