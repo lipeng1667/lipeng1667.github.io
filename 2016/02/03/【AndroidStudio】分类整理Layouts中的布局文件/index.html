@@ -1,0 +1,615 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【AndroidStudio】分类整理Layouts中的布局文件 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【AndroidStudio】分类整理Layouts中的布局文件">
+<meta property="og:url" content="http://yoursite.com/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/index.html">
+<meta property="og:site_name" content="KaKa's blog">
+<meta property="og:description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/2.png-imagewatermark">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/4.png-imagewatermark">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/5.png-imagewatermark">
+<meta property="og:updated_time" content="2016-02-03T09:03:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【AndroidStudio】分类整理Layouts中的布局文件">
+<meta name="twitter:description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/" title="【AndroidStudio】分类整理Layouts中的布局文件" itemprop="url">【AndroidStudio】分类整理Layouts中的布局文件</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-03T07:55:14.000Z" itemprop="datePublished"> 發表於 2016-02-03</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目錄</strong>
+		
+			
+		
+		</div>
+		
+		<p>好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。<br><a id="more"></a><br>先来看一张效果图：<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark" alt=""><br>下面我们就来详细看下如何实现的吧！</p>
+<p>说到布局文件的整理，一般有两种：</p>
+<ul>
+<li>按照文件类型：基本上分为Activity、Fragment和views等</li>
+<li>按照页面类型：你的工程有几个大的页面，每个页面下面又有多少个子页面，可以按照这种模块的方式分类整理下。<br>当然本文中介绍的就是采用第二种方式。</li>
+</ul>
+<p>说点题外话，我最开始的时候在StackOverFlow上面搜到了两种方法，一种方法是用一个plugin：</p>
+<blockquote>
+<p>I use Android File Grouping plugin for Android Studio.It doesn’t really allows you to create sub-folders, but it can DISPLAY your files and resources AS they are in different folders. And this is exactly what I wanted.<br>You can install “Android File Grouping” plugin by Android Studio -&gt; File -&gt; Settings -&gt; Plugins.</p>
+</blockquote>
+<p>但是这种方法经过实际认证，好像在1.3版本之后的AS就不能用了。下图就是我安装的版本，看到安装了之后，左侧的导航栏中根本没有other setting的入口。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/2.png-imagewatermark" alt=""><br>我还专门去问了这个插件的开发者，告诉他我的1.4.1版本的AS没有效果，然后作者给我推荐了另外一种方法，可能稍微麻烦一点，但是确实有效。其实也是在StackoverFlow中赞同数比较高的回答。下面我们就详细一步一步来吧：</p>
+<ol>
+<li>先说一个大前提，这种方法必须要你的AS设置成<strong>Project</strong>模式，而不是<font color="red">Android</font>模式<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/4.png-imagewatermark" alt=""></li>
+<li>把你的整个<strong>Layouts</strong>文件夹拷贝出来做一个备份（备份永远是我们在做尝试之前最重要的一件事情!!我一般习惯把整个工程也备份一下）</li>
+<li>整个删除你的Layouts文件夹（<strong>确保你至少做了第1步的文件夹备份</strong>）</li>
+<li>右键你的<strong>res</strong>文件夹，然后<strong>New –&gt; directory</strong></li>
+<li>命名为Layouts（其实你也可以起成另外的名字，无关紧要了）</li>
+<li>右键你刚建好的Layouts文件夹，New –&gt; directory（这里面就要建我们说的第1层目录了，按照我的习惯，这一层的文件夹就是我们的工程的几大模块的分类了。当然你也可以按照Activity和Fragment来命名）。<br> 这里插播一下，我当时直接在AS中操作的话，是会出现新建的目录是<em>Layouts.mainpage.layout</em>的格式，而不是用树形结构一层层打开的，后来我就直接在电脑的文件系统中手动新建文件夹，目的是一样的</li>
+<li>在你第5步新建好的文件夹中继续新建一个文件夹，命名为<strong>layout</strong>。 <font color="red">这一步骤非常重要！这一步骤非常重要！这一步骤非常重要！</font></li>
+<li>从第1步备份的文件中把相应的文件拷贝到这个layout文件夹中</li>
+<li>重复第5到第7步，把所有的布局文件分类存放好。</li>
+<li>打开<strong>build.gradle</strong>文件（注意这里会有两个build.grade文件，我们要改变的是工程里面的那个），然后添加进去下面的代码：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;  &#10;        main &#123;  &#10;            res.srcDirs =  &#10;                    [  &#10;                            &#39;src/main/res/layouts/mainpage&#39;,  &#10;                            &#39;src/main/res/layouts/investment&#39;,  &#10;                            &#39;src/main/res/layouts/productlist&#39;,  &#10;                            &#39;src/main/res/layouts/myaccount&#39;,  &#10;                            &#39;src/main/res/layouts/setting&#39;,  &#10;                            &#39;src/main/res/layouts&#39;,  &#10;                            &#39;src/main/res&#39;  &#10;                    ]  &#10;        &#125;  &#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>添加后的build.gradle文件类似这个样子<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/5.png-imagewatermark" alt=""></p>
+<p><font color="red">需要特别注意的是</font>：代码中一定要把 <code>src/main/res/layouts</code>  和 <code>src/main/res</code> 两行代码写在最后面！！！</p>
+<p>最后重启一下AS应该就ok了~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AndroidStudio/">AndroidStudio</a><a href="/tags/Layout/">Layout</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/" data-title="【AndroidStudio】分类整理Layouts中的布局文件 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/02/05/【Android】一步一步教你从Eclipse移植项目到AndroidStudio/" title="【Android】一步一步教你从Eclipse移植项目到AndroidStudio">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Android】一步一步教你从Eclipse移植项目到AndroidStudio</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/02/02/【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG/"  title="【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG">
+ <strong>下一篇：</strong><br/> 
+ <span>【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="Android">Android<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div id="recentcomments" class="dsq-widget">
+    <p class="asidetitle">Recent Comments</p>
+    <script type="text/javascript" src="http://lipeng1667.disqus.com/recent_comments_widget.js?num_items=10&hide_avatars=1&avatar_size=32&excerpt_length=100&hide_mods=0"></script>
+</div>
+
+
+<div class="categorieslist">
+    <p class="asidetitle">Recents</p>
+    <ul>
+      
+        <li>
+          <a href="/2016/03/24/【Python】脚本实现批量删除所有文件中的注释/">【Python】脚本实现批量删除所有文件中的注释</a>
+        </li>
+      
+        <li>
+          <a href="/2016/03/24/【iOS】火星坐标和地球坐标的转换/">【iOS】火星坐标和地球坐标的转换</a>
+        </li>
+      
+        <li>
+          <a href="/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/">【Android】AsyncTask类实现轻量级的异步操作</a>
+        </li>
+      
+        <li>
+          <a href="/2016/02/14/【Android】设置全局变量的两种方法/">【Android】设置全局变量的两种方法</a>
+        </li>
+      
+        <li>
+          <a href="/2016/02/11/【Android】自定义BaseActivity类统计程序切入后台时间/">【Android】自定义BaseActivity类统计程序切入后台时间</a>
+        </li>
+      
+    </ul>
+</div>
+
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

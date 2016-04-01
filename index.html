@@ -1,0 +1,968 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="KaKa's blog">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="KaKa's blog">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KaKa's blog">
+<meta name="twitter:description">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/03/24/【Python】脚本实现批量删除所有文件中的注释/" title="【Python】脚本实现批量删除所有文件中的注释" itemprop="url">【Python】脚本实现批量删除所有文件中的注释</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-03-24T14:53:13.000Z" itemprop="datePublished"> 發表於 2016-03-24</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>为什么会有这个需求？<br>呃，不知道众程序猿们有没有听过这么一个笑话，大意说从前有个很努力的程序员，每天不断地优化服务器上的代码，但是因为工作量看起来没有那么大，而被不懂代码的上司认为工作不积极，于是该程序员直接把所有注释全部删除，然后离职了。。。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/24/【Python】脚本实现批量删除所有文件中的注释/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python/">Python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/python/">python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/24/【Python】脚本实现批量删除所有文件中的注释/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/03/24/【iOS】火星坐标和地球坐标的转换/" title="【iOS】火星坐标和地球坐标的转换" itemprop="url">【iOS】火星坐标和地球坐标的转换</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-03-24T14:17:10.000Z" itemprop="datePublished"> 發表於 2016-03-24</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>不知道大家有没有遇到过这样的情况，在APP上开启定位，会发现自己所在的位置和地图上会有一定的偏差，前2年的时候这个问题特别严重，记得快的打车（那会儿还没有和滴滴合并）的坐标也会出现这种问题。我之所以记录这个是发现不少记录运动轨迹的应用（例如乐心），包括一大票水土不服的国外优秀运动APP不少还有这个问题。</p>
+<p>为什么会出现这样的情况呢？</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/24/【iOS】火星坐标和地球坐标的转换/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/iOS/">iOS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Objective-C/">Objective-C</a><a href="/tags/iOS/">iOS</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/24/【iOS】火星坐标和地球坐标的转换/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/" title="【Android】AsyncTask类实现轻量级的异步操作" itemprop="url">【Android】AsyncTask类实现轻量级的异步操作</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-03-23T01:29:42.000Z" itemprop="datePublished"> 發表於 2016-03-23</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>实际开发过程中，我们难免会遇到需要异步操作的场景:</p>
+<p>例如用户下载升级文件，要让用户能够看到下载进度，同时完成后能点击安装，那下载的过程就是在另一个线程中完成，同时进度的显示则是要实时通知到UI主线程中的。<br>类似这样的轻量级的异步操作还有很多，那Android就给我们提供了一个方便的类<code>AsyncTask</code>来实现。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/AsyncTask/">AsyncTask</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/02/14/【Android】设置全局变量的两种方法/" title="【Android】设置全局变量的两种方法" itemprop="url">【Android】设置全局变量的两种方法</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-02-14T02:39:07.000Z" itemprop="datePublished"> 發表於 2016-02-14</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>说到全局变量，可能在教科书里面都不建议我们使用，但是在实际开发过程中，会发现全局变量其实带来了很大的便捷性。虽然Android在不同的Activity切换时可以把要传递的值传到Intent里面（iOS中也有类似的方法），但是当我们应用的页面很多，逻辑渐渐复杂了之后，全局变量就带来了非常大的便利。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/14/【Android】设置全局变量的两种方法/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/SharedPreferences/">SharedPreferences</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/14/【Android】设置全局变量的两种方法/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/02/11/【Android】自定义BaseActivity类统计程序切入后台时间/" title="【Android】自定义BaseActivity类统计程序切入后台时间" itemprop="url">【Android】自定义BaseActivity类统计程序切入后台时间</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-02-11T08:26:34.000Z" itemprop="datePublished"> 發表於 2016-02-11</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>我们在使用应用程序的时候，会遇到这样的需求：当程序被切换到后台运行（按Home键）一段比较长的时间，重现召唤到前台的时候，可能需要重新登录或者重新显示广告页面，表示我们的应用已经长时间处于非活动状态，相当于重新进行了一次重启应用的过程。<br>本篇Blog就来介绍下如果自定义一个BaseActivity，程序的所有Activity均继承自这个自定义的BaseActivity，当应用切换到后台时，启动一个本地服务，记录应用切换到后台的时间。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/11/【Android】自定义BaseActivity类统计程序切入后台时间/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Activity/">Activity</a><a href="/tags/Android/">Android</a><a href="/tags/Service/">Service</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/11/【Android】自定义BaseActivity类统计程序切入后台时间/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/02/05/【Python】字符串的换行-引入其他py文件/" title="【Python学习之路1】字符串的换行/引入其他py文件" itemprop="url">【Python学习之路1】字符串的换行/引入其他py文件</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-02-05T05:00:55.000Z" itemprop="datePublished"> 發表於 2016-02-05</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>这一系列blog用来记录python学习过程中积累的知识点吧。个人感觉在IT行业，最快地掌握知识点的方法就是用到实际中去，比如依托于一个项目，比如自己真正地去搞一个东西，在这个过程中的学习是非常高效而且记忆深刻的。后面准备把自己用python写的爬北邮人论坛的过程总结一下，今天就先介绍两个零碎的知识点：字符串的换行和引入其他py文件。</p>
+<font color=red>注意：我使用的python版本是3.5</font>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/05/【Python】字符串的换行-引入其他py文件/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python/">Python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/python/">python</a><a href="/tags/字符串/">字符串</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/05/【Python】字符串的换行-引入其他py文件/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/02/05/【Android】一步一步教你从Eclipse移植项目到AndroidStudio/" title="【Android】一步一步教你从Eclipse移植项目到AndroidStudio" itemprop="url">【Android】一步一步教你从Eclipse移植项目到AndroidStudio</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-02-05T02:42:14.000Z" itemprop="datePublished"> 發表於 2016-02-05</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>本篇Blog是从我在CSDN的个人博客中移植过来的，因为实在是受不了CSDN上blog的编辑和上传的速度了。正文如下：<br>搞了差不多一整天，终于成功把原来在Eclipse的项目移植到了Android Studio上面。其实网上关于如何做移植已经有不少文章了，而且Android Develop的官网也有介绍，但是差不多网上的版本都已经过时，因为<strong>Android Studio</strong>和<strong>Gradle</strong>的版本更新实在是太快了。。。（仿佛隐隐约约看到了从Swift1开始使用到Swift2之后的语法变化导致项目大面积语法修改的悲剧。。。）<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/05/【Android】一步一步教你从Eclipse移植项目到AndroidStudio/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AndroidStudio/">AndroidStudio</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/移植/">移植</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/05/【Android】一步一步教你从Eclipse移植项目到AndroidStudio/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/" title="【AndroidStudio】分类整理Layouts中的布局文件" itemprop="url">【AndroidStudio】分类整理Layouts中的布局文件</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-02-03T07:55:14.000Z" itemprop="datePublished"> 發表於 2016-02-03</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AndroidStudio/">AndroidStudio</a><a href="/tags/Layout/">Layout</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2016/02/02/【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG/" title="【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG" itemprop="url">【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-02-02T07:31:39.000Z" itemprop="datePublished"> 發表於 2016-02-02</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>记录下最近开发中研究的带进度条的WebView 自定义类吧。<br>其实网上有不少这样的帖子，但是都没有一个完整的好用的例子，最关键的是，用网上的例子后有一个很明显的bug：就是遇到输入框的话没法弹出软键盘。研究了好久总算搞定了，特此记录下。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/02/02/【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/webview/">webview</a><a href="/tags/软键盘/">软键盘</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/02/【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="Android">Android<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div id="recentcomments" class="dsq-widget">
+    <p class="asidetitle">Recent Comments</p>
+    <script type="text/javascript" src="http://lipeng1667.disqus.com/recent_comments_widget.js?num_items=10&hide_avatars=1&avatar_size=32&excerpt_length=100&hide_mods=0"></script>
+</div>
+
+
+<div class="categorieslist">
+    <p class="asidetitle">Recents</p>
+    <ul>
+      
+        <li>
+          <a href="/2016/03/24/【Python】脚本实现批量删除所有文件中的注释/">【Python】脚本实现批量删除所有文件中的注释</a>
+        </li>
+      
+        <li>
+          <a href="/2016/03/24/【iOS】火星坐标和地球坐标的转换/">【iOS】火星坐标和地球坐标的转换</a>
+        </li>
+      
+        <li>
+          <a href="/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/">【Android】AsyncTask类实现轻量级的异步操作</a>
+        </li>
+      
+        <li>
+          <a href="/2016/02/14/【Android】设置全局变量的两种方法/">【Android】设置全局变量的两种方法</a>
+        </li>
+      
+        <li>
+          <a href="/2016/02/11/【Android】自定义BaseActivity类统计程序切入后台时间/">【Android】自定义BaseActivity类统计程序切入后台时间</a>
+        </li>
+      
+    </ul>
+</div>
+
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>
