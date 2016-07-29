@@ -4,28 +4,35 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>【AndroidStudio】分类整理Layouts中的布局文件 | KaKa&#39;s blog</title>
+    <title>【Android】项目中引入第三方分享库Mob | KaKa&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Michael Lee">
     
 
     
-    <meta name="description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
+    <meta name="description" content="社交网络的发展让众多热点和项目能呈现病毒式的传播，因此目前移动APP中的分享功能就显得举足轻重，而各大社交平台例如Fackbook，Twitter，微信，微博，QQ等，都提供了自己的第三方开发者平台，方便应用能接入自己的平台。与此同时也给开发者带来的一定的影响：如此众多的社交平台，如果每一个都要在代码中自己实现，工作量会非常大，因为，作为国内做的较好的分享集成库Mob就成为众多开发者的选择。这里我">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【AndroidStudio】分类整理Layouts中的布局文件">
-<meta property="og:url" content="http://yoursite.com/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/index.html">
+<meta property="og:title" content="【Android】项目中引入第三方分享库Mob">
+<meta property="og:url" content="http://yoursite.com/2016/07/29/【Android】项目中引入第三方分享库Mob/index.html">
 <meta property="og:site_name" content="KaKa's blog">
-<meta property="og:description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/2.png-imagewatermark">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/4.png-imagewatermark">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/5.png-imagewatermark">
-<meta property="og:updated_time" content="2016-03-25T01:54:27.000Z">
+<meta property="og:description" content="社交网络的发展让众多热点和项目能呈现病毒式的传播，因此目前移动APP中的分享功能就显得举足轻重，而各大社交平台例如Fackbook，Twitter，微信，微博，QQ等，都提供了自己的第三方开发者平台，方便应用能接入自己的平台。与此同时也给开发者带来的一定的影响：如此众多的社交平台，如果每一个都要在代码中自己实现，工作量会非常大，因为，作为国内做的较好的分享集成库Mob就成为众多开发者的选择。这里我">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/01.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/02.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/03.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/07.jpg">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/04.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/05.jpg">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/06.jpg">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/08.jpg">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/10.jpg">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/11.jpg">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/09.jpg">
+<meta property="og:updated_time" content="2016-07-29T07:15:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【AndroidStudio】分类整理Layouts中的布局文件">
-<meta name="twitter:description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark">
+<meta name="twitter:title" content="【Android】项目中引入第三方分享库Mob">
+<meta name="twitter:description" content="社交网络的发展让众多热点和项目能呈现病毒式的传播，因此目前移动APP中的分享功能就显得举足轻重，而各大社交平台例如Fackbook，Twitter，微信，微博，QQ等，都提供了自己的第三方开发者平台，方便应用能接入自己的平台。与此同时也给开发者带来的一定的影响：如此众多的社交平台，如果每一个都要在代码中自己实现，工作量会非常大，因为，作为国内做的较好的分享集成库Mob就成为众多开发者的选择。这里我">
+<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160729/01.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -84,14 +91,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/" title="【AndroidStudio】分类整理Layouts中的布局文件" itemprop="url">【AndroidStudio】分类整理Layouts中的布局文件</a>
+      <a href="/2016/07/29/【Android】项目中引入第三方分享库Mob/" title="【Android】项目中引入第三方分享库Mob" itemprop="url">【Android】项目中引入第三方分享库Mob</a>
   </h1>
   <p class="article-author">BY
        
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T07:55:14.000Z" itemprop="datePublished"> Published 2016-02-03</time>
+    <time datetime="2016-07-29T02:59:14.000Z" itemprop="datePublished"> Published 2016-07-29</time>
   </p>
   
   <p class="page-count">
@@ -105,37 +112,21 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#拷入lib库文件"><span class="toc-number">1.</span> <span class="toc-text">拷入lib库文件</span></a></li></ol>
 		
 		</div>
 		
-		<p>好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。<br><a id="more"></a><br>先来看一张效果图：<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark" alt=""><br>下面我们就来详细看下如何实现的吧！</p>
-<p>说到布局文件的整理，一般有两种：</p>
+		<p>社交网络的发展让众多热点和项目能呈现病毒式的传播，因此目前移动APP中的分享功能就显得举足轻重，而各大社交平台例如Fackbook，Twitter，微信，微博，QQ等，都提供了自己的第三方开发者平台，方便应用能接入自己的平台。与此同时也给开发者带来的一定的影响：如此众多的社交平台，如果每一个都要在代码中自己实现，工作量会非常大，因为，作为国内做的较好的分享集成库Mob就成为众多开发者的选择。<br>这里我就介绍下如何在Android Studio中引入Mob库。</p>
+<a id="more"></a>
+<font color="red">写在前面:</font><br>关于如何到各大社交平台上申请APP id的过程大同小异且并不复杂，本篇博文就不再详细介绍，可以参考<a href="http://www.cnblogs.com/smyhvae/p/4585340.html" target="_blank" rel="external">这篇文章</a>，我本人最开始也是根据里面的步骤一步一步来的。这里我重点说一下其中最重要的环节：<strong>导入SDK</strong>。<br><br><a href="http://wiki.mob.com/Android_%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8C%87%E5%8D%97/" target="_blank" rel="external">Mob官网</a>中推荐我们使用直接复制Jar包的方式来导入SDK，但是我不推荐大家使用，虽然那个方式看起来更容易一些。<br>原因是因为Mob有很多自己的资源文件，而这些资源文件和我们自己用到的资源文件混合放在一起，其实对开发者来说是不小的干扰，当然这也可能是我个人的强迫症作祟，总之，我喜欢看到所有的文件分门别类地放在一起。<br>好了，我们来看一下，如果通过<font color="red"><strong>新建Library Module</strong></font>的方式来导入SDK。<br><br>## 新建Module<br><br>我们在Studio中右键项目，选择 <strong>New</strong> –&gt; <strong>Module</strong><br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/01.png" alt="New Module"><br><br>接下来，选择<strong>Android Library</strong><br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/02.png" alt=""><br><br>填写好相关的项目信息：<br><br>- Application/Library name  –&gt;  ShareSDK<br>- Module name –&gt; 会自动帮我们补充完整<br>- Package name –&gt; 注意填入自己的项目包名称<br><br>然后点击Finish， 这样一个Module就算建立好了。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/03.png" alt=""><br><br><br>我们用同样的步骤，建立另一个module名称 <strong>OneKeyShare</strong><br>完成之后，我们可以看到目录里面多了两个module，<strong>sharesdk</strong>和<strong>onekeyshare</strong>，他们和我们整个项目的module：<strong>app</strong>处于同一层级。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/07.jpg" alt=""><br>但是注意看，app和我们新建好的这两个module的图标是不一样的。<br><br>## 修改Modules之间的依赖关系<br><br>接下来，我们来修改他们之间的依赖关系。<br>我们同样在项目目录上点击右键，然后选择 <strong>Open Module Settings</strong>，或者使用快捷键 Commond+⬇️(Mac) or Ctrl+⬇️(Windows)。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/04.png" alt=""><br><br>可以看到在左侧的导航栏中Modules下，有3个Modules，分别是我们之前创建好的 sharesdk和onekeyshare 以及项目自身的app。<br>我们首先选中 <em>app</em>, 然后在顶部tab栏选中 <strong>Dependencies</strong> 栏目，在左下角，选择 <strong>+</strong> 号，然后在弹出的列表中双击选中 <strong>onekeyshare</strong>。 这样我们就相当于告诉IDE，我们的app module是依赖于 onekeyshare的。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/05.jpg" alt=""><br><br>然后我们用同样的步骤，设置onekeyshare 依赖于 sharesdk。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/06.jpg" alt=""><br><br>## 替换mob库中的相关文件<br><br>在这一步进行之前，假设我们已经从<a href="http://www.mob.com/#/downloadDetail/ShareSDK/android" target="_blank" rel="external">官网</a>上下载的你要用到的分享库资源。<br>下载下来的资源库解压之后的名称应该一样的： <strong>ShareSDK for Android</strong>。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/08.jpg" alt=""><br><br>我们看到Libs文件夹下面有两个目录，分别是 <strong>MainLibs</strong> 和 <strong>OneKeyShare</strong>。这两个目录分别对应着我们在上面新建的两个Module: <code>MainLibs --&gt; sharesde,  OneKeyShare --&gt; onekeyshare</code><br>我们可以看一下，<code>MainLibs/libs</code>目录下的这些jar包，就是我们下载前在网站选中的我们需要分享的库。<br><br>### 删除多余的文件<br><br>删掉两个Module目录中 <code>src/main</code> 目录中的所有文件（包括java,res和AndroidMainfest.xml）<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/10.jpg" alt=""><br><br>### 拷入相应文件，并且修改文件夹名称<br><br>从下载的第三方库中拷入AndroidMainfest.xml、 res文件夹和src文件夹分别到我们新建的Module目录中的<code>src/main</code>目录中。<br>也就是<br><br> - 把 <strong>MainLibs</strong>目录下的 <code>res</code>, <code>src</code>和<code>AndroidMainfest.xml</code> 拷贝至 <strong>sharesdk</strong> 目录下的 <code>src/main</code>目录中。<br> - 把 <strong>OneKeyShare</strong>目录下的 <code>res</code>, <code>src</code>和<code>AndroidMainfest.xml</code> 拷贝至 <strong>onekeyshare</strong> 目录下的 <code>src/main</code>目录中。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/11.jpg" alt=""><br><br><font color="red">我们拷入的目录名是<code>src</code>，我们需要把它改成<code>java</code>。</font>
+
+<h3 id="拷入lib库文件"><a href="#拷入lib库文件" class="headerlink" title="拷入lib库文件"></a>拷入lib库文件</h3><p>把 <code>ShareSDK for Android/Libs/MainLibs/libs</code>目录下的所有jar文件，拷贝至 <code>sharesdk/libs</code>文件夹中。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160729/09.jpg" alt=""></p>
+<p>经过这3步，我们的第三方库就成功导入了。接下来的步骤，继续参见</p>
 <ul>
-<li>按照文件类型：基本上分为Activity、Fragment和views等</li>
-<li>按照页面类型：你的工程有几个大的页面，每个页面下面又有多少个子页面，可以按照这种模块的方式分类整理下。<br>当然本文中介绍的就是采用第二种方式。</li>
+<li><a href="http://wiki.mob.com/Android_%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8C%87%E5%8D%97/" target="_blank" rel="external">Mob官网</a> 或者 <a href="http://www.cnblogs.com/smyhvae/p/4585340.html" target="_blank" rel="external">这篇文章</a></li>
 </ul>
-<p>说点题外话，我最开始的时候在StackOverFlow上面搜到了两种方法，一种方法是用一个plugin：</p>
-<blockquote>
-<p>I use Android File Grouping plugin for Android Studio.It doesn’t really allows you to create sub-folders, but it can DISPLAY your files and resources AS they are in different folders. And this is exactly what I wanted.<br>You can install “Android File Grouping” plugin by Android Studio -&gt; File -&gt; Settings -&gt; Plugins.</p>
-</blockquote>
-<p>但是这种方法经过实际认证，好像在1.3版本之后的AS就不能用了。下图就是我安装的版本，看到安装了之后，左侧的导航栏中根本没有other setting的入口。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/2.png-imagewatermark" alt=""><br>我还专门去问了这个插件的开发者，告诉他我的1.4.1版本的AS没有效果，然后作者给我推荐了另外一种方法，可能稍微麻烦一点，但是确实有效。其实也是在StackoverFlow中赞同数比较高的回答。下面我们就详细一步一步来吧：</p>
-<ol>
-<li>先说一个大前提，这种方法必须要你的AS设置成<strong>Project</strong>模式，而不是<font color="red">Android</font>模式<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/4.png-imagewatermark" alt=""></li>
-<li>把你的整个<strong>Layouts</strong>文件夹拷贝出来做一个备份（备份永远是我们在做尝试之前最重要的一件事情!!我一般习惯把整个工程也备份一下）</li>
-<li>整个删除你的Layouts文件夹（<strong>确保你至少做了第1步的文件夹备份</strong>）</li>
-<li>右键你的<strong>res</strong>文件夹，然后<strong>New –&gt; directory</strong></li>
-<li>命名为Layouts（其实你也可以起成另外的名字，无关紧要了）</li>
-<li>右键你刚建好的Layouts文件夹，New –&gt; directory（这里面就要建我们说的第1层目录了，按照我的习惯，这一层的文件夹就是我们的工程的几大模块的分类了。当然你也可以按照Activity和Fragment来命名）。<br> 这里插播一下，我当时直接在AS中操作的话，是会出现新建的目录是<em>Layouts.mainpage.layout</em>的格式，而不是用树形结构一层层打开的，后来我就直接在电脑的文件系统中手动新建文件夹，目的是一样的</li>
-<li>在你第5步新建好的文件夹中继续新建一个文件夹，命名为<strong>layout</strong>。 <font color="red">这一步骤非常重要！这一步骤非常重要！这一步骤非常重要！</font></li>
-<li>从第1步备份的文件中把相应的文件拷贝到这个layout文件夹中</li>
-<li>重复第5到第7步，把所有的布局文件分类存放好。</li>
-<li>打开<strong>build.gradle</strong>文件（注意这里会有两个build.grade文件，我们要改变的是工程里面的那个），然后添加进去下面的代码：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;  </span><br><span class="line">        main &#123;  </span><br><span class="line">            res.srcDirs =  </span><br><span class="line">                    [  </span><br><span class="line">                            &apos;src/main/res/layouts/mainpage&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/investment&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/productlist&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/myaccount&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/setting&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts&apos;,  </span><br><span class="line">                            &apos;src/main/res&apos;  </span><br><span class="line">                    ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>添加后的build.gradle文件类似这个样子<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/5.png-imagewatermark" alt=""></p>
-<p><font color="red">需要特别注意的是</font>：代码中一定要把 <code>src/main/res/layouts</code>  和 <code>src/main/res</code> 两行代码写在最后面！！！</p>
-<p>最后重启一下AS应该就ok了~</p>
+<p>中的步骤。</p>
+<p>有任何疑问，欢迎在下面留言。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -149,7 +140,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/AndroidStudio/">AndroidStudio</a><a href="/tags/Layout/">Layout</a>
+  <span></span> <a href="/tags/Mob/">Mob</a><a href="/tags/ShareSDK/">ShareSDK</a>
   </div>
 
 </div>
@@ -158,7 +149,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/" data-title="【AndroidStudio】分类整理Layouts中的布局文件 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/07/29/【Android】项目中引入第三方分享库Mob/" data-title="【Android】项目中引入第三方分享库Mob | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -171,19 +162,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/02/05/【Android】一步一步教你从Eclipse移植项目到AndroidStudio/" title="【Android】一步一步教你从Eclipse移植项目到AndroidStudio">
-  <strong>上一篇：</strong><br/>
-  <span>
-  【Android】一步一步教你从Eclipse移植项目到AndroidStudio</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/02/02/【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG/"  title="【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG">
+<a href="/2016/06/23/【Android】Handler-Class-Should-be-Static-or-Leaks-Occur-警告原因及处理/"  title="【Android】Handler Class Should be Static or Leaks Occur 警告原因及处理">
  <strong>下一篇：</strong><br/> 
- <span>【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG
+ <span>【Android】Handler Class Should be Static or Leaks Occur 警告原因及处理
 </span>
 </a>
 </div>
@@ -204,7 +187,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#拷入lib库文件"><span class="toc-number">1.</span> <span class="toc-text">拷入lib库文件</span></a></li></ol>
  
   </div>
 
