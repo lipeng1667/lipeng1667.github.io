@@ -112,7 +112,7 @@
 <li>在构造函数中 不能直接调用<strong>this(context, attrs,0)</strong>,最后style是0的话，会导致无法响应点击动作。同时也不能直接写成 com.android.internal.R.attr.webview ，具体的原因注释里面已经写的很清楚了</li>
 <li>在initView之前先判断了一个情况： <strong>isInEditMode()</strong>，加入这个函数是不会在XML文件打开时弹出一个冗长的错误。其实不加这个判断条件也可以，但是作为重度强迫症患者，必须把XML文件上烦人的提示给去掉才行。。。<br>接下来看一下进度条的drawable文件：</li>
 </ol>
-<h1 id="progress-bar-states-XML"><a href="#progress-bar-states-XML" class="headerlink" title="progress_bar_states.XML"></a>progress_bar_states.XML</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;  </span><br><span class="line"><span class="comment">&lt;!--WebView顶端的进度条的样式--&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!--layer-list 层叠样式--&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">layer-list</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@android:id/background"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">shape</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">corners</span> <span class="attr">android:radius</span>=<span class="string">"2dp"</span> /&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">gradient</span>  </span><br><span class="line">                <span class="attr">android:angle</span>=<span class="string">"270"</span>  </span><br><span class="line">                <span class="attr">android:centerColor</span>=<span class="string">"#E3E3E3"</span>  </span><br><span class="line">                <span class="attr">android:endColor</span>=<span class="string">"#E6E6E6"</span>  </span><br><span class="line">                <span class="attr">android:startColor</span>=<span class="string">"#C8C8C8"</span> /&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">shape</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@android:id/progress"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">clip</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">shape</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">corners</span> <span class="attr">android:radius</span>=<span class="string">"2dp"</span> /&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">gradient</span>  </span><br><span class="line">                    <span class="attr">android:centerColor</span>=<span class="string">"#4AEA2F"</span>  </span><br><span class="line">                    <span class="attr">android:endColor</span>=<span class="string">"#31CE15"</span>  </span><br><span class="line">                    <span class="attr">android:startColor</span>=<span class="string">"#5FEC46"</span> /&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;/<span class="name">shape</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">clip</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">layer-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="progress-bar-states-XML"><a href="#progress-bar-states-XML" class="headerlink" title="progress_bar_states.XML"></a>progress_bar_states.XML</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span>  </span><br><span class="line"><span class="comment">&lt;!--WebView顶端的进度条的样式--&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!--layer-list 层叠样式--&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">layer-list</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@android:id/background"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">shape</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">corners</span> <span class="attr">android:radius</span>=<span class="string">"2dp"</span> /&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">gradient</span>  </span><br><span class="line">                <span class="attr">android:angle</span>=<span class="string">"270"</span>  </span><br><span class="line">                <span class="attr">android:centerColor</span>=<span class="string">"#E3E3E3"</span>  </span><br><span class="line">                <span class="attr">android:endColor</span>=<span class="string">"#E6E6E6"</span>  </span><br><span class="line">                <span class="attr">android:startColor</span>=<span class="string">"#C8C8C8"</span> /&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">shape</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@android:id/progress"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">clip</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">shape</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">corners</span> <span class="attr">android:radius</span>=<span class="string">"2dp"</span> /&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">gradient</span>  </span><br><span class="line">                    <span class="attr">android:centerColor</span>=<span class="string">"#4AEA2F"</span>  </span><br><span class="line">                    <span class="attr">android:endColor</span>=<span class="string">"#31CE15"</span>  </span><br><span class="line">                    <span class="attr">android:startColor</span>=<span class="string">"#5FEC46"</span> /&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;/<span class="name">shape</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">clip</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">layer-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h1 id="调用ProgressWebView"><a href="#调用ProgressWebView" class="headerlink" title="调用ProgressWebView"></a>调用ProgressWebView</h1><p>最后对我们自定义的progresswebview的调用就像普通的webview一样了。<br>例如在某个activity中用下面的方式来调用（XML文件我就不列出了，非常简单）：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">web_view_ = (ProgressWebView) view.findViewById(R.id.web_view);  </span><br><span class="line">web_view_.setOnWebCallback(<span class="keyword">new</span> OnWebCallBack() &#123;     <span class="comment">// 设置回调  </span></span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getTitle</span><span class="params">(String title)</span> </span>&#123;  </span><br><span class="line">        LogUtils.i(<span class="string">"当前页面的标题"</span>, title);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getUrl</span><span class="params">(String url)</span> </span>&#123;  </span><br><span class="line">        LogUtils.i(<span class="string">"访问页面的url是"</span>, url);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;);  </span><br><span class="line">web_view_.loadUrl(<span class="string">"http://m.baidu.com"</span>);  </span><br><span class="line">web_view_.getSettings().setJavaScriptEnabled(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
 <p>web<em>view</em> 是我们定义的private 成员变量，然后它对应这XML文件中id是web_view的progressWebView控件。<br>回调的作用你可以看到当前访问的URL的页面标题和地址。<br>最后如果你的页面有用到<strong>JS</strong>，一定要设置JS为<strong>Enable</strong>。</p>
@@ -198,6 +198,10 @@
 		  
 		
 		  
+			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
 		  
 		
@@ -231,7 +235,19 @@
 			
 		
 			
-				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
 			
 		
 			
@@ -247,15 +263,7 @@
 			
 		
 			
-				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 			
@@ -264,6 +272,14 @@
 		
 			
 				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
 			
 		
 			
@@ -279,19 +295,11 @@
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -309,6 +317,10 @@
     <ul>
       
         <li>
+          <a href="/2016/08/04/1/">【LAMP】搭建LAMP系统及相关配置</a>
+        </li>
+      
+        <li>
           <a href="/2016/08/01/【一周总结】2016.07.24--2016.07.31 & 硅谷之谜 读书笔记/">【一周总结】2016.07.24--2016.07.31 &amp; 硅谷之谜 读书笔记</a>
         </li>
       
@@ -322,10 +334,6 @@
       
         <li>
           <a href="/2016/04/01/程序员如何优雅地使用Mac/">程序员如何优雅地使用Mac</a>
-        </li>
-      
-        <li>
-          <a href="/2016/03/31/【Blog】Hexo搭建个人Blog全过程记录/">【Blog】Hexo搭建个人Blog全过程记录</a>
         </li>
       
     </ul>
