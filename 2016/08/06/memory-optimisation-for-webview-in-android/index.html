@@ -4,28 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>【AndroidStudio】分类整理Layouts中的布局文件 | KaKa&#39;s blog</title>
+    <title>【Android】 WebView内存泄漏优化之路 | KaKa&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Michael Lee">
     
 
     
-    <meta name="description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
+    <meta name="description" content="这几年H5的快速发展，使得Hybrid混合开发越来越流行，而webview也成为了开发中必备的元素。但是我们知道WebView在加载页面时，会占用非常大的内存，无论是iOS还是Android系统上，加载一个Web页面一般需要用到100M左右，而如果我们不及时清理WebView的内存，那最后可能会随着内存消耗的不断增加而发生OOM(Out Of Memory)导致程序崩溃。那今天我就总结一下前一阵子">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【AndroidStudio】分类整理Layouts中的布局文件">
-<meta property="og:url" content="http://yoursite.com/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/index.html">
+<meta property="og:title" content="【Android】 WebView内存泄漏优化之路">
+<meta property="og:url" content="http://yoursite.com/2016/08/06/memory-optimisation-for-webview-in-android/index.html">
 <meta property="og:site_name" content="KaKa's blog">
-<meta property="og:description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/2.png-imagewatermark">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/4.png-imagewatermark">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/5.png-imagewatermark">
-<meta property="og:updated_time" content="2016-03-25T01:54:27.000Z">
+<meta property="og:description" content="这几年H5的快速发展，使得Hybrid混合开发越来越流行，而webview也成为了开发中必备的元素。但是我们知道WebView在加载页面时，会占用非常大的内存，无论是iOS还是Android系统上，加载一个Web页面一般需要用到100M左右，而如果我们不及时清理WebView的内存，那最后可能会随着内存消耗的不断增加而发生OOM(Out Of Memory)导致程序崩溃。那今天我就总结一下前一阵子">
+<meta property="og:updated_time" content="2016-08-07T12:56:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【AndroidStudio】分类整理Layouts中的布局文件">
-<meta name="twitter:description" content="好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark">
+<meta name="twitter:title" content="【Android】 WebView内存泄漏优化之路">
+<meta name="twitter:description" content="这几年H5的快速发展，使得Hybrid混合开发越来越流行，而webview也成为了开发中必备的元素。但是我们知道WebView在加载页面时，会占用非常大的内存，无论是iOS还是Android系统上，加载一个Web页面一般需要用到100M左右，而如果我们不及时清理WebView的内存，那最后可能会随着内存消耗的不断增加而发生OOM(Out Of Memory)导致程序崩溃。那今天我就总结一下前一阵子">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -84,14 +79,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/" title="【AndroidStudio】分类整理Layouts中的布局文件" itemprop="url">【AndroidStudio】分类整理Layouts中的布局文件</a>
+      <a href="/2016/08/06/memory-optimisation-for-webview-in-android/" title="【Android】 WebView内存泄漏优化之路" itemprop="url">【Android】 WebView内存泄漏优化之路</a>
   </h1>
   <p class="article-author">BY
        
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-03T07:55:14.000Z" itemprop="datePublished"> Published 2016-02-03</time>
+    <time datetime="2016-08-06T00:12:26.000Z" itemprop="datePublished"> Published 2016-08-06</time>
   </p>
   
   <p class="page-count">
@@ -105,37 +100,32 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用代码New一个WebView而不是在XML中静态写入"><span class="toc-number">1.</span> <span class="toc-text">用代码New一个WebView而不是在XML中静态写入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在XML文件中用layout占位"><span class="toc-number">1.1.</span> <span class="toc-text">在XML文件中用layout占位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在对应的Activity中通过代码添加"><span class="toc-number">1.2.</span> <span class="toc-text">在对应的Activity中通过代码添加</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#销毁时的动作"><span class="toc-number">2.</span> <span class="toc-text">销毁时的动作</span></a></li></ol>
 		
 		</div>
 		
-		<p>好吧，这个功能需求也是因为作为一个重度强迫症患者，非常想要把layouts中的文件分类整理下。否则看到一堆Activity和Fragment等文件混在一起特别难受。更重要的原因是，如果你的工程交给别人维护，别人看到一堆布局文件压根不知道从哪里下手。又是经过一番折腾，总算把文件的布局整理成我想要的样子了。<br><a id="more"></a><br>先来看一张效果图：<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/1.png-imagewatermark" alt=""><br>下面我们就来详细看下如何实现的吧！</p>
-<p>说到布局文件的整理，一般有两种：</p>
+		<p>这几年H5的快速发展，使得Hybrid混合开发越来越流行，而webview也成为了开发中必备的元素。但是我们知道WebView在加载页面时，会占用非常大的内存，无论是iOS还是Android系统上，加载一个Web页面一般需要用到100M左右，而如果我们不及时清理WebView的内存，那最后可能会随着内存消耗的不断增加而发生OOM(Out Of Memory)导致程序崩溃。那今天我就总结一下前一阵子在开发中解决WebView内存消耗过大问题吧，当然，这个过程也是参考了很多前人的经验总结，我会照例在文章的末尾列出来表示感谢。<br>这里先交代下关于查看程序的内存消耗，笔者每次都是在程序运行起来以后，通过手机上的系统工具来查看每个应用实时消耗内存的大小。因为AndroidStudio的Monitor中的内存消耗并没有记录WebView，而手机上工具显示的一定是准确有效的，所以，不要说我看AndroidStudio里面的内存并没有增加啊就误以为你的内存控制策略真的有效。<br>好了，我们来看一下一个有效的WebView内存控制策略是如何的。</p>
+<a id="more"></a>
+<h1 id="用代码New一个WebView而不是在XML中静态写入"><a href="#用代码New一个WebView而不是在XML中静态写入" class="headerlink" title="用代码New一个WebView而不是在XML中静态写入"></a>用代码New一个WebView而不是在XML中静态写入</h1><p>这个步骤是之后所有步骤的前提，如果你的WebView是在XML中静态存在的，那么本篇博文后面的方法将不会起到效果。<br>那么如何通过代码New一个WebView呢？</p>
+<h2 id="在XML文件中用layout占位"><a href="#在XML文件中用layout占位" class="headerlink" title="在XML文件中用layout占位"></a>在XML文件中用layout占位</h2><p>我们可以通过建立一个layout(无论是RelativeLayout亦或是LinearLayout)来作为WebView的容器(Container)。<br>一个简单的XML代码片段如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- webViewContainer--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span></span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/base_web_view_container"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="在对应的Activity中通过代码添加"><a href="#在对应的Activity中通过代码添加" class="headerlink" title="在对应的Activity中通过代码添加"></a>在对应的Activity中通过代码添加</h2><p>接下来只需要在Activity中New一个WebView并且添加到我们的容器中就ok了。<br>同样奉上代码片段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RelativeLayout webview_container = (RelativeLayout) findViewById(R.id.base_web_view_container);</span><br><span class="line">web_view_ = <span class="keyword">new</span> WebView(yourApplicationContext);</span><br><span class="line">web_view_.setLayoutParams(<span class="keyword">new</span> ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,</span><br><span class="line">                ViewGroup.LayoutParams.MATCH_PARENT));</span><br><span class="line">web_view_.setOnWebCallback(yourWebCallback);</span><br><span class="line">webview_container.addView(web_view_);</span><br></pre></td></tr></table></figure>
+<p>这里特别说明几点：<br>关于WebView的context应该用Activity还是Application的context，这里网上较为一致的观点都是采用Application的，理由是这样不会造成Activity的context的内存泄漏。<br>不过我用<a href="http://www.liaohuqiu.net/cn/posts/leak-canary-read-me/" target="_blank" rel="external">LearCanary</a>检测并没有发现因为WebView引用了Activity的context而导致Activity的内存泄漏。<br>而网上说的引用Application的context会在WebView的某些特殊动作是产生由Application到Activity的类型转换错误，关于这个错误我也并没有遇到过，而我的WebView也是负责了相当多的操作，例如视频播放，弹窗处理等等，所以，不要一味地听信别人的结论，一定要实实在在地动手写一遍。<br>但是我这里依旧使用的是Application的Context，因为经过我的实际测试，在反复New和销毁WebView时，采用Application要比采用Activity的context要稳定地少用20~30M左右的内存，虽然他们的内存都维持在一个稳定的消耗水平，但总体看来，Application要比Activity少那么一点。</p>
+<h1 id="销毁时的动作"><a href="#销毁时的动作" class="headerlink" title="销毁时的动作"></a>销毁时的动作</h1><p>当我们使用完了一个WebView，要销毁时，需要做的事情其实也很简单，我们直接来看代码吧：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Description: release the memory of web view, otherwise it's resource will not be recycle.</span><br><span class="line"> * Created by Michael Lee on 7/18/16 20:38</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearWebViewResource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (web_view_ != <span class="keyword">null</span>) &#123;</span><br><span class="line">        LogUtils.d(TAG,<span class="string">"Clear webview's resources"</span>);</span><br><span class="line">        web_view_.removeAllViews();</span><br><span class="line">        <span class="comment">// in android 5.1(sdk:21) we should invoke this to avoid memory leak</span></span><br><span class="line">        <span class="comment">// see (https://coolpers.github.io/webview/memory/leak/2015/07/16/</span></span><br><span class="line">        <span class="comment">// android-5.1-webview-memory-leak.html)</span></span><br><span class="line">        ((ViewGroup) web_view_.getParent()).removeView(web_view_);</span><br><span class="line">        web_view_.setTag(<span class="keyword">null</span>);</span><br><span class="line">        web_view_.clearHistory();</span><br><span class="line">        web_view_.destroy();</span><br><span class="line">        web_view_ = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在你要退出Activity或者单纯地想要销毁一个webview时，调用这个方法就好了。</p>
+<p>大家一定有注意到我的代码中有一行代码前面加了很多的注释。这里面其实是一段辛酸的故事：<br>笔者的程序在大部分机型上都测试的没有问题，但是唯独在小米的几个机型（小米4和红米）上，总是无缘无故出现内存泄漏而导致闪退，最后定位确实是因为WebView的某些原因导致的，但是又苦于找不到是什么原因，因为在别的手机上无法重现，唯独小米的手机上，在WebView之间切换时，不定期就会闪退。<br>但是即便在程序中安装了LeakCanary，也没有检测到哪里发生了内存泄漏。<br>直到第二天，我在其他手机上运行时，突然检测到一个<code>mComponentCallbacks</code>导致的内存泄漏，于是就在google上搜到了<a href="https://coolpers.github.io/webview/memory/leak/2015/07/16/android-5.1-webview-memory-leak.html" target="_blank" rel="external">这篇文章</a>,里面提到是由于Android5.1中的一个bug引起的新的内存泄漏点，正好我的手机也是5.1系统的，于是就出现了这个内存泄漏，于是我就按照帖子里给出方法，由webview的父view手动把它remove出去。<br>结果，这一行简单的代码<code>((ViewGroup) web_view_.getParent()).removeView(web_view_);</code>竟然顺便修好了小米手机上闪退的问题，虽然那几台小米手机都不是Android5.1版本的，但是问题就这么随之修复了。。。</p>
+<hr>
+<p>好了，这就是在我的工程中切实有效的优化WebView的所有代码了。当然，我也在网上找到了微信开创的单独启用一个线程来进行webview的相关操作，然后退出时直接杀死这个线程来解决webview的内存泄漏的问题，但是和我的工程不太相符，因为这种方法要求你的webview在单独的Activity中，这样你可以在finish activity时杀死进程；而我的程序是因为在一个activity中要显示多个webview，所以，那种方法显然不好使了。<br>总之，选择何种解法还是要根据你自己的工程来的。<br>还有就是，<a href="http://www.liaohuqiu.net/cn/posts/leak-canary-read-me/" target="_blank" rel="external">LearCanary</a>确实是个很好用的工具，强烈推荐大家使用。</p>
+<p>最后奉上参考文章：</p>
 <ul>
-<li>按照文件类型：基本上分为Activity、Fragment和views等</li>
-<li>按照页面类型：你的工程有几个大的页面，每个页面下面又有多少个子页面，可以按照这种模块的方式分类整理下。<br>当然本文中介绍的就是采用第二种方式。</li>
+<li><a href="http://my.oschina.net/zhibuji/blog/100580" target="_blank" rel="external">Android WebView Memory Leak WebView内存泄漏</a></li>
+<li><a href="http://www.jianshu.com/p/c2412918b2b5" target="_blank" rel="external">android内存优化之webview</a></li>
+<li><a href="https://drakeet.me/android-leaks" target="_blank" rel="external">Android 内存泄漏案例和解析</a></li>
+<li><a href="http://www.jianshu.com/p/0049e9b344b0" target="_blank" rel="external">利用 LeakCanary 来检查 Android 内存泄漏</a></li>
+<li><a href="https://coolpers.github.io/webview/memory/leak/2015/07/16/android-5.1-webview-memory-leak.html" target="_blank" rel="external">Android 5.1 Webview 内存泄漏新场景</a></li>
 </ul>
-<p>说点题外话，我最开始的时候在StackOverFlow上面搜到了两种方法，一种方法是用一个plugin：</p>
-<blockquote>
-<p>I use Android File Grouping plugin for Android Studio.It doesn’t really allows you to create sub-folders, but it can DISPLAY your files and resources AS they are in different folders. And this is exactly what I wanted.<br>You can install “Android File Grouping” plugin by Android Studio -&gt; File -&gt; Settings -&gt; Plugins.</p>
-</blockquote>
-<p>但是这种方法经过实际认证，好像在1.3版本之后的AS就不能用了。下图就是我安装的版本，看到安装了之后，左侧的导航栏中根本没有other setting的入口。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/2.png-imagewatermark" alt=""><br>我还专门去问了这个插件的开发者，告诉他我的1.4.1版本的AS没有效果，然后作者给我推荐了另外一种方法，可能稍微麻烦一点，但是确实有效。其实也是在StackoverFlow中赞同数比较高的回答。下面我们就详细一步一步来吧：</p>
-<ol>
-<li>先说一个大前提，这种方法必须要你的AS设置成<strong>Project</strong>模式，而不是<font color="red">Android</font>模式<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/4.png-imagewatermark" alt=""></li>
-<li>把你的整个<strong>Layouts</strong>文件夹拷贝出来做一个备份（备份永远是我们在做尝试之前最重要的一件事情!!我一般习惯把整个工程也备份一下）</li>
-<li>整个删除你的Layouts文件夹（<strong>确保你至少做了第1步的文件夹备份</strong>）</li>
-<li>右键你的<strong>res</strong>文件夹，然后<strong>New –&gt; directory</strong></li>
-<li>命名为Layouts（其实你也可以起成另外的名字，无关紧要了）</li>
-<li>右键你刚建好的Layouts文件夹，New –&gt; directory（这里面就要建我们说的第1层目录了，按照我的习惯，这一层的文件夹就是我们的工程的几大模块的分类了。当然你也可以按照Activity和Fragment来命名）。<br> 这里插播一下，我当时直接在AS中操作的话，是会出现新建的目录是<em>Layouts.mainpage.layout</em>的格式，而不是用树形结构一层层打开的，后来我就直接在电脑的文件系统中手动新建文件夹，目的是一样的</li>
-<li>在你第5步新建好的文件夹中继续新建一个文件夹，命名为<strong>layout</strong>。 <font color="red">这一步骤非常重要！这一步骤非常重要！这一步骤非常重要！</font></li>
-<li>从第1步备份的文件中把相应的文件拷贝到这个layout文件夹中</li>
-<li>重复第5到第7步，把所有的布局文件分类存放好。</li>
-<li>打开<strong>build.gradle</strong>文件（注意这里会有两个build.grade文件，我们要改变的是工程里面的那个），然后添加进去下面的代码：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;  </span><br><span class="line">        main &#123;  </span><br><span class="line">            res.srcDirs =  </span><br><span class="line">                    [  </span><br><span class="line">                            &apos;src/main/res/layouts/mainpage&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/investment&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/productlist&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/myaccount&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts/setting&apos;,  </span><br><span class="line">                            &apos;src/main/res/layouts&apos;,  </span><br><span class="line">                            &apos;src/main/res&apos;  </span><br><span class="line">                    ]  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>添加后的build.gradle文件类似这个样子<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160203/5.png-imagewatermark" alt=""></p>
-<p><font color="red">需要特别注意的是</font>：代码中一定要把 <code>src/main/res/layouts</code>  和 <code>src/main/res</code> 两行代码写在最后面！！！</p>
-<p>最后重启一下AS应该就ok了~</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -149,7 +139,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/AndroidStudio/">AndroidStudio</a><a href="/tags/Layout/">Layout</a>
+  <span></span> <a href="/tags/内存管理/">内存管理</a>
   </div>
 
 </div>
@@ -158,7 +148,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/" data-title="【AndroidStudio】分类整理Layouts中的布局文件 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/08/06/memory-optimisation-for-webview-in-android/" data-title="【Android】 WebView内存泄漏优化之路 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -171,19 +161,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/02/05/【Android】一步一步教你从Eclipse移植项目到AndroidStudio/" title="【Android】一步一步教你从Eclipse移植项目到AndroidStudio">
-  <strong>上一篇：</strong><br/>
-  <span>
-  【Android】一步一步教你从Eclipse移植项目到AndroidStudio</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/02/02/【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG/"  title="【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG">
+<a href="/2016/08/05/connect_remote_mysql_and_config_phpstorm_for_your_php_project/"  title="远程连接MySQL以及PHPStorm远程开发你的php项目">
  <strong>下一篇：</strong><br/> 
- <span>【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG
+ <span>远程连接MySQL以及PHPStorm远程开发你的php项目
 </span>
 </a>
 </div>
@@ -204,7 +186,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用代码New一个WebView而不是在XML中静态写入"><span class="toc-number">1.</span> <span class="toc-text">用代码New一个WebView而不是在XML中静态写入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在XML文件中用layout占位"><span class="toc-number">1.1.</span> <span class="toc-text">在XML文件中用layout占位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在对应的Activity中通过代码添加"><span class="toc-number">1.2.</span> <span class="toc-text">在对应的Activity中通过代码添加</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#销毁时的动作"><span class="toc-number">2.</span> <span class="toc-text">销毁时的动作</span></a></li></ol>
  
   </div>
 

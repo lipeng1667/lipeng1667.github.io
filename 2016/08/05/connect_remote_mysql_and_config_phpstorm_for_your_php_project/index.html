@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/23.png">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/24.png">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/25.png">
-<meta property="og:updated_time" content="2016-08-05T07:08:05.000Z">
+<meta property="og:updated_time" content="2016-08-07T11:35:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="远程连接MySQL以及PHPStorm远程开发你的php项目">
 <meta name="twitter:description" content="在上一篇博文中介绍了如何在完整地搭建LAMP环境。其中提到了新建一个可以在任意IP地址远程连接MySQL的用户，今天这篇博文就详细介绍下如何在你的电脑上远程连接mysql，并且介绍如何用phpstorm来远程开发你的php项目。">
@@ -133,7 +133,7 @@
 <li>如果不设置别名的话，每次需要使用完整的路径才能在命令行中使用mysql</li>
 <li>如果对我的主题感兴趣，可以参见我的<a href="http://lipeng1667.github.io/2016/04/01/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E4%BD%BF%E7%94%A8Mac/" target="_blank" rel="external">这篇博文</a></li>
 <li>如果你没有安装zsh，可以直接修改<code>~/.bash_profile</code>文件，如果没有这个文件的话，直接新建一个好了</li>
-<li>不管你是在<code>.zshrc</code> 还是 <code>bash_profile</code>中添加了别名，都记得最后要 <code>source ~/.zshrc</code>一下</li>
+<li>如果你是在<code>.zshrc</code> 中添加了别名，记得最后要 <code>source ~/.zshrc</code>一下；如果是在 <code>bash_profile</code>中，则<code>source ~/.bash_profile</code></li>
 </ul>
 <h2 id="远程连接mysql-1"><a href="#远程连接mysql-1" class="headerlink" title="远程连接mysql"></a>远程连接mysql</h2><p>直接在命令行中键入下面的命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u yourname -h xxx.xxx.xxx.xxx -p</span><br></pre></td></tr></table></figure>
@@ -241,6 +241,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2016/08/06/memory-optimisation-for-webview-in-android/" title="【Android】 WebView内存泄漏优化之路">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Android】 WebView内存泄漏优化之路</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2016/08/04/Build_LAMP_Environment_Step-by-step/"  title="【LAMP】搭建LAMP系统及相关配置">
@@ -280,7 +288,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>8</sup></a></li>
+			<li><a href="/categories/android/" title="Android">Android<sup>9</sup></a></li>
 		  
 		
 		  
@@ -325,7 +333,11 @@
 			
 		
 			
-				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
+				<li><a href="/tags/Mob/" title="Mob">Mob<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
 			
 		
 			
@@ -333,11 +345,11 @@
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
 			
 		
 			
@@ -349,14 +361,6 @@
 			
 		
 			
-				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
 			
 		
@@ -365,7 +369,7 @@
 			
 		
 			
-				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+				<li><a href="/tags/ShareSDK/" title="ShareSDK">ShareSDK<sup>1</sup></a></li>
 			
 		
 			
@@ -389,7 +393,11 @@
 			
 		
 			
-				<li><a href="/tags/Mob/" title="Mob">Mob<sup>1</sup></a></li>
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -407,6 +415,10 @@
     <ul>
       
         <li>
+          <a href="/2016/08/06/memory-optimisation-for-webview-in-android/">【Android】 WebView内存泄漏优化之路</a>
+        </li>
+      
+        <li>
           <a href="/2016/08/05/connect_remote_mysql_and_config_phpstorm_for_your_php_project/">远程连接MySQL以及PHPStorm远程开发你的php项目</a>
         </li>
       
@@ -420,10 +432,6 @@
       
         <li>
           <a href="/2016/07/29/【Android】项目中引入第三方分享库Mob/">【Android】项目中引入第三方分享库Mob</a>
-        </li>
-      
-        <li>
-          <a href="/2016/06/23/【Android】Handler-Class-Should-be-Static-or-Leaks-Occur-警告原因及处理/">【Android】Handler Class Should be Static or Leaks Occur 警告原因及处理</a>
         </li>
       
     </ul>
