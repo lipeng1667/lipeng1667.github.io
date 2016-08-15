@@ -4,6 +4,5 @@
 
 =======
 Hello, everyone, this is KaKa's blog.
-I'm using Hexo and the 'Jackman' theme.
+I'm using [Hexo](https://hexo.io/) and the `Jackman` theme.
 And, As a coder, there's no reason not going into the source codes, so there will always be some changes, and any discussion is welcome~
-
