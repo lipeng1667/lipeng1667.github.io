@@ -1,0 +1,640 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Android】WebView下拉刷新功能源码解析 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Android】WebView下拉刷新功能源码解析">
+<meta property="og:url" content="http://yoursite.com/2016/09/12/android-webview-pull-to-refresh/index.html">
+<meta property="og:site_name" content="KaKa's blog">
+<meta property="og:description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160923/00.gif">
+<meta property="og:image" content="http://img.blog.csdn.net/20130706113543125?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2lueXU4OTA4MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2016-09-23T04:00:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Android】WebView下拉刷新功能源码解析">
+<meta name="twitter:description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
+<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160923/00.gif">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/09/12/android-webview-pull-to-refresh/" title="【Android】WebView下拉刷新功能源码解析" itemprop="url">【Android】WebView下拉刷新功能源码解析</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-09-12T08:49:30.000Z" itemprop="datePublished"> Published 2016-09-12</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构"><span class="toc-number">1.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-number">2.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#检测是否允许下拉刷新"><span class="toc-number">3.</span> <span class="toc-text">检测是否允许下拉刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷新过程"><span class="toc-number">4.</span> <span class="toc-text">刷新过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装WebView对外接口"><span class="toc-number">5.</span> <span class="toc-text">封装WebView对外接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用"><span class="toc-number">6.</span> <span class="toc-text">如何使用</span></a></li></ol>
+		
+		</div>
+		
+		<p>之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？</p>
+<a id="more"></a>
+<p>网上还是有不少布道者给出了解决方案，然后我就仿照着这篇Blog：<a href="http://blog.csdn.net/guolin_blog/article/details/9255575" target="_blank" rel="external">Android下拉刷新完全解析，教你如何一分钟实现下拉刷新功能</a> ，实现了给WebView加上下拉刷新的功能。先来看一下最终的效果图：</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20160923/00.gif"><br></p>
+
+<p>大致的实现原理可以参见原作者的博文。原作者是实现ListView的下拉刷新，我也是仔细阅读了作者的源码，读懂了他的实现原理，然后加以精华和修改，完成了自己的功能实现。因为之前的功能和我们自己的项目耦合性太高，所以我特地花了2天时间，把下拉webview的功能分离出来，形成了一个单独的库，已经上传到<a href="https://github.com/lipeng1667/PullToRefreshWebView" target="_blank" rel="external">我的Github</a>, 感兴趣的同学可以直接使用，同时欢迎Star和Fork，我也会不断完善相关的功能。</p>
+<p>这篇博文就来分析一下我的源码，看看究竟是如何在webview中实现下拉刷新功能的。<br>因为源码比较长，而且后续还会不断更新，所以我就不在这里贴出来了，大家可以参照<a href="https://github.com/lipeng1667/PullToRefreshWebView/blob/master/ptrwebview/src/main/java/com/microwu/ptrwebview/PullToRefreshWebView.java" target="_blank" rel="external">这里</a>并照着帖子来研究下。</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>这里盗一张图，其实这里的结构和郭林的Blog中的是一样的，都是隐藏在主题之上的，不过他的主体是ListView，而我这里是WebView而已。</p>
+<p align="center"><br>    <img src="http://img.blog.csdn.net/20130706113543125?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2lueXU4OTA4MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center"><br></p>
+
+<p>这里附上XML布局文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- WebView container layout --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">RelativeLayout</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@+id/base_web_view_header_layout"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- webViewContainer--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">RelativeLayout</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/base_web_view_container"</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- header layout--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/base_web_view_header_layout"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"120dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"60dp"</span></span><br><span class="line">        <span class="attr">android:layout_centerHorizontal</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_marginTop</span>=<span class="string">"-60dp"</span></span><br><span class="line">        <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- left area : arrow image--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">RelativeLayout</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"60dp"</span></span><br><span class="line">            <span class="attr">android:layout_weight</span>=<span class="string">"3"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/pull_to_refresh_arrow"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_centerInParent</span>=<span class="string">"true"</span></span><br><span class="line">                <span class="attr">android:src</span>=<span class="string">"@mipmap/arrow"</span></span><br><span class="line">                <span class="attr">android:visibility</span>=<span class="string">"visible"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">&lt;!-- loading gif --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pl.droidsonroids.gif.GifTextView</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/pull_to_refresh_progress_bar"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_centerInParent</span>=<span class="string">"true"</span></span><br><span class="line">                <span class="attr">android:background</span>=<span class="string">"@drawable/pull_to_refresh_progress"</span></span><br><span class="line">                <span class="attr">android:visibility</span>=<span class="string">"gone"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- right area : text view --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"0dip"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"60dip"</span></span><br><span class="line">            <span class="attr">android:layout_weight</span>=<span class="string">"12"</span></span><br><span class="line">            <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span> &gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/pull_to_refresh_description"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">                <span class="attr">android:gravity</span>=<span class="string">"center_vertical"</span></span><br><span class="line">                <span class="attr">android:textColor</span>=<span class="string">"@color/pull_to_refresh_text_color"</span></span><br><span class="line">                <span class="attr">android:textAlignment</span>=<span class="string">"center"</span></span><br><span class="line">                <span class="attr">android:text</span>=<span class="string">"@string/pull_to_refresh"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里可以看到其实整个是一个<code>RelativeLayout</code>，然后顶部的<code>header layout</code>是一个水平方向的<code>LinearLayout</code>。<br>头部左侧区域放的是下拉的箭头，当达到下拉刷新的极限长度时，做一个旋转的动作，把下拉的箭头旋转成向上的；同时左侧还有一个GIF的旋转图片，当处于刷新状态时，隐藏下拉箭头图片，同时显示旋转的GIF动画。 这里关于GIF图片我们使用了一个<a href="https://github.com/koral--/android-gif-drawable" target="_blank" rel="external">第三方的库</a>。<br>头部右侧区域放的是TextView，用于显示当前的状态，例如“继续下拉刷新”，“释放立即刷新”等，用于告知用户当前的状态。</p>
+<p>在头部下方，是我们的WebView主体内容。可以看到我并没有在XML文件中静态地添加WebView，添加WebView的方法是通过代码实现的，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * Description: init the webview object</span><br><span class="line">    *  We add webView object into view with codes but not in XML, the benefits is that we can release</span><br><span class="line">    *  the memory more deeply and clearly when we destroy webview's instance.</span><br><span class="line">    * Created by Michael Lee on 9/21/16 10:47</span><br><span class="line">    * <span class="doctag">@param</span>   aContext        current context</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initWebView</span><span class="params">(Context aContext)</span> </span>&#123;</span><br><span class="line">       RelativeLayout webview_container = (RelativeLayout) findViewById(R.id.base_web_view_container);</span><br><span class="line">       web_view_ = <span class="keyword">new</span> MyWebView(aContext,<span class="keyword">null</span>);</span><br><span class="line">       web_view_.setLayoutParams(<span class="keyword">new</span> ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,</span><br><span class="line">               ViewGroup.LayoutParams.MATCH_PARENT));</span><br><span class="line">       web_view_.setOnTouchListener(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">       webview_container.addView(web_view_);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这样做的目的是，如果静态的添加WebView，则不能在Activity destroy时完全clear掉WebView占用的内存资源，而通过代码添加则可以很好的释放资源。但是目前1.0.0版本里面没有添加释放资源的接口，后续打算补充完整。</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * Description: see &#123;<span class="doctag">@link</span> LinearLayout#onLayout(boolean, int, int, int, int)&#125;</span><br><span class="line">    *  After views are initialized, get web_view's location in screen to check if able to pull_to_</span><br><span class="line">    *  refresh. And these codes only be execute once.</span><br><span class="line">    * Created by Michael Lee on 9/21/16 15:46</span><br><span class="line">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onLayout(changed,l,t,r,b);</span><br><span class="line">       <span class="keyword">if</span> (changed &amp;&amp; !load_once_) &#123;</span><br><span class="line">           <span class="comment">// confirm the WebView's original location</span></span><br><span class="line">           web_view_.getLocationOnScreen(location_array_);</span><br><span class="line">           original_location_y_ = location_array_[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">           header_layout_params_ = (MarginLayoutParams) header_.getLayoutParams();</span><br><span class="line">           hide_header_height_ = -header_.getHeight();</span><br><span class="line">           </span><br><span class="line">           load_once_ = <span class="keyword">true</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要记录一下初始化之后，WebView的初始坐标，因为当我们判断是否可以执行下拉刷新动作的时候，需要先判断下当前WebView的坐标是否大于初始坐标；<br>同时，因为onLayout是在界面初始化时被调用，所以我们需要把header部分隐藏起来，做法就是通过改变头部的<code>MarginLayoutParams</code>,而且这段代码仅需要执行一次，所以通过变量load_once来控制。</p>
+<h2 id="检测是否允许下拉刷新"><a href="#检测是否允许下拉刷新" class="headerlink" title="检测是否允许下拉刷新"></a>检测是否允许下拉刷新</h2><p>下拉刷新仅当控件当前已经处于顶部时，才有意义。郭林的博文中因为是采用的ListView，所以他可以通过判断第一个item来判断是否处于List的顶部，从而来判断是否允许下来刷新，所以我们需要重写WebView中的<code>onScrollChanged</code>方法来设置<code>can_pull_to_refresh_</code>参数表示当前是否处于顶端从而可以下拉刷新</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**---------------------------------------------------------------------------------------------</span><br><span class="line">    * Description: mywebview extends &#123;<span class="doctag">@link</span> WebView&#125;</span><br><span class="line">    *  override onScrollChanged method to set if we should allow pull-to-refresh, cause when user</span><br><span class="line">    *  is navigating the web page, we should NOT show the pull-to-refresh header.</span><br><span class="line">    *--------------------------------------------------------------------------------------------*/</span></span><br><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebView</span> <span class="keyword">extends</span> <span class="title">WebView</span> </span>&#123;</span><br><span class="line">       <span class="comment">/**</span><br><span class="line">        * Description: Default Constructor</span><br><span class="line">        * Created by Michael Lee on 9/21/16 17:13</span><br><span class="line">        * <span class="doctag">@param</span>   context     context</span><br><span class="line">        */</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyWebView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">this</span>(context,<span class="keyword">null</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**</span><br><span class="line">        * Description: copy constructor.</span><br><span class="line">        *  Do NOT invoke this(context, attrs,0), cause if style type was 0, would not response click</span><br><span class="line">        *  event, and if type is 'com.android.internal.R.attr.webViewStyle', there would be on compile</span><br><span class="line">        *  error:</span><br><span class="line">        *  You cannot access id's of com.android.internal.R at compile time, but you can access the</span><br><span class="line">        *  defined internal resources at runtime and get the resource by name.</span><br><span class="line">        *  You should be aware that this is slower than direct access and there is no guarantee.</span><br><span class="line">        * Created by Michael Lee on 9/21/16 17:13</span><br><span class="line">        * <span class="doctag">@param</span>   context     context</span><br><span class="line">        * <span class="doctag">@param</span>   attrs       attributes Set</span><br><span class="line">        */</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyWebView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">this</span>(context, attrs, Resources.getSystem().getIdentifier(<span class="string">"webViewStyle"</span>, <span class="string">"attr"</span>, <span class="string">"android"</span>));</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**</span><br><span class="line">        * Description: Copy Constructor</span><br><span class="line">        * Created by Michael Lee on 9/21/16 17:13</span><br><span class="line">        * <span class="doctag">@param</span>   context     context</span><br><span class="line">        * <span class="doctag">@param</span>   attrs       attributes set</span><br><span class="line">        * <span class="doctag">@param</span>   defStyle    sytle type</span><br><span class="line">        */</span></span><br><span class="line">       <span class="meta">@SuppressLint</span>(&#123;<span class="string">"SetJavaScriptEnabled"</span>&#125;)</span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyWebView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyle)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">super</span>(context, attrs, defStyle);</span><br><span class="line">           <span class="comment">// Set WebView client</span></span><br><span class="line">           setWebViewClient(<span class="keyword">new</span> MyWebViewClient());</span><br><span class="line">           <span class="comment">// set JS</span></span><br><span class="line">           getSettings().setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line">           <span class="comment">// Block press and hold event</span></span><br><span class="line">           <span class="keyword">this</span>.setOnLongClickListener(<span class="keyword">new</span> OnLongClickListener() &#123;</span><br><span class="line">               <span class="meta">@Override</span></span><br><span class="line">               <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onLongClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                   <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**</span><br><span class="line">        * Description: see &#123;<span class="doctag">@link</span> WebView#onScrollChanged&#125;</span><br><span class="line">        *  When webview scrolling, keep the progress bar on the top.</span><br><span class="line">        * Created by Michael Lee on 9/21/16 17:13</span><br><span class="line">        * <span class="doctag">@param</span>   l       Current horizontal scroll origin</span><br><span class="line">        * <span class="doctag">@param</span>   t       current vertical scroll origin</span><br><span class="line">        * <span class="doctag">@param</span>   oldl    Previous horizontal scroll origin</span><br><span class="line">        * <span class="doctag">@param</span>   oldt    Previous vertical scroll origin</span><br><span class="line">        */</span></span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onScrollChanged</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> oldl, <span class="keyword">int</span> oldt)</span> </span>&#123;</span><br><span class="line">           <span class="comment">// if current vertical scroll origin is not 0, CAN NOT pull to refresh</span></span><br><span class="line">           can_pull_to_refresh_ = (t == <span class="number">0</span>);</span><br><span class="line">           <span class="keyword">super</span>.onScrollChanged(l, t, oldl, oldt);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这部分就是我们重写的WebView，其中还设置了自定义的<code>WebViewClient</code>用来记录当前浏览的URL方便刷新，以及页面加载完成后重新隐藏下拉头的部分。</p>
+<p>可以看到在Override的<code>onScrollChanged</code>方法中，当t==0时，我们就认为当前已经处于顶部了，就把<code>can_pull_to_refresh_</code>设置为TRUE这样就允许下拉刷新了。而当t!=0时，我们知道当前用户正处于正常浏览页面的过程中，就屏蔽掉下拉刷新。</p>
+<h2 id="刷新过程"><a href="#刷新过程" class="headerlink" title="刷新过程"></a>刷新过程</h2><p>整个刷新过程是在<code>onTouch</code>方法中实现的，所以WebView要implements View.OnTouchListener接口。这里基本上和郭林的实现是一样的，只不过我这里做了一些简化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * Description: View.OnTouchListener</span><br><span class="line">    * Created by Michael Lee on 9/21/16 16:23</span><br><span class="line">    * <span class="doctag">@param</span>   v       touched view</span><br><span class="line">    * <span class="doctag">@param</span>   event   motion event</span><br><span class="line">    * <span class="doctag">@return</span> 'false' means do nothing, 'true' means do custom actions.</span><br><span class="line">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View v, MotionEvent event)</span> </span>&#123;</span><br><span class="line">       web_view_.getLocationOnScreen(location_array_);</span><br><span class="line">       <span class="comment">// we should reduce the original coordinate by 1, cause when convert float to int, there will</span></span><br><span class="line">       <span class="comment">// be 1 pix error.</span></span><br><span class="line">       <span class="keyword">if</span> ((original_location_y_ - <span class="number">1</span>) &lt;= location_array_[<span class="number">1</span>] &amp;&amp; can_pull_to_refresh_) &#123;</span><br><span class="line">           <span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">               <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">                   pressed_coords_y = event.getRawY();</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">               <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">                   <span class="keyword">float</span> y_move = event.getRawY();</span><br><span class="line">                   <span class="keyword">int</span> distance = (<span class="keyword">int</span>) (y_move - pressed_coords_y);</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span> (distance &lt;= <span class="number">0</span> &amp;&amp; header_layout_params_.topMargin &lt;= hide_header_height_) &#123;</span><br><span class="line">                       <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   <span class="comment">// distance is too small</span></span><br><span class="line">                   <span class="keyword">if</span> (distance &lt; touchSlop) &#123;</span><br><span class="line">                       <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span> (current_status_ != STATUS_REFRESHING) &#123;</span><br><span class="line">                       <span class="keyword">if</span> (header_layout_params_.topMargin &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                           current_status_ = STATUS_RELEASE_TO_REFRESH;</span><br><span class="line">                       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                           current_status_ = STATUS_PULL_TO_REFRESH;</span><br><span class="line">                       &#125;</span><br><span class="line">                       <span class="comment">// add the header's top margin</span></span><br><span class="line">                       header_layout_params_.topMargin = (distance / <span class="number">5</span> * <span class="number">2</span>) + hide_header_height_;</span><br><span class="line">                       <span class="comment">// LogUtils.d(TAG,"header layout's top margin is : " +</span></span><br><span class="line">                       <span class="comment">//        header_layout_params_.topMargin);</span></span><br><span class="line">                       header_.setLayoutParams(header_layout_params_);</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">               <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">               <span class="keyword">default</span>:</span><br><span class="line">                   <span class="comment">// when release the finger</span></span><br><span class="line">                   <span class="keyword">if</span> (current_status_ == STATUS_RELEASE_TO_REFRESH) &#123;</span><br><span class="line">                       refreshingAction();</span><br><span class="line">                   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                       <span class="comment">// hide header</span></span><br><span class="line">                       hideHeader();</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">if</span> (current_status_ != STATUS_REFRESH_FINISHED) &#123;</span><br><span class="line">               updateHeaderView();</span><br><span class="line">               last_status_ = current_status_;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="封装WebView对外接口"><a href="#封装WebView对外接口" class="headerlink" title="封装WebView对外接口"></a>封装WebView对外接口</h2><p>最后这里封装了3个方法，可以供外部调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * Description: this method is 'public' for outer class to load url into progressWebView</span><br><span class="line">    *  manually.</span><br><span class="line">    *  In some case, outer class may want to load url into webView.</span><br><span class="line">    *  For example, when login success, the inside activity should refresh the url before goto login.</span><br><span class="line">    * Created by Michael Lee on 9/21/16 10:41</span><br><span class="line">    * <span class="doctag">@param</span>   url     url for navigating</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadUrl</span><span class="params">(String url)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (web_view_ == <span class="keyword">null</span> &amp;&amp; current_context_ != <span class="keyword">null</span>) &#123;</span><br><span class="line">           Log.d(TAG,<span class="string">"current web view has not be init, do it now"</span>);</span><br><span class="line">           initWebView(current_context_);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span> (url != <span class="keyword">null</span> &amp;&amp; !url.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">           web_view_.loadUrl(url);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           Log.e(TAG,<span class="string">"Url navigating is NULL or empty"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span><br><span class="line">    * Description: webView's canGoBack</span><br><span class="line">    * Created by Michael Lee on 9/21/16 15:26</span><br><span class="line">    * <span class="doctag">@return</span>  can go back? true = yes, false = no.</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canGoBack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> web_view_.canGoBack();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span><br><span class="line">    * Description: webView's goBack</span><br><span class="line">    * Created by Michael Lee on 9/21/16 15:30</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goBack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (canGoBack()) &#123;</span><br><span class="line">           web_view_.goBack();</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           Log.d(TAG,<span class="string">"Can NOT go back anymore"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><p>关于源码的介绍基本就这些了，如果有不同的可以在页面下留言，详细的中文注释的源码可以去读一读<a href="http://blog.csdn.net/guolin_blog/article/details/9255575" target="_blank" rel="external">郭林的Blog</a>。</p>
+<p>关于如何使用我的库，我会在<a href="https://github.com/lipeng1667/PullToRefreshWebView" target="_blank" rel="external">GitHub的页面</a>中进行详细的说明，有兴趣的同学欢迎Star和Fork，再次感谢。</p>
+<p><strong>我的Github页面：<a href="https://github.com/lipeng1667/PullToRefreshWebView" target="_blank" rel="external">https://github.com/lipeng1667/PullToRefreshWebView</a></strong></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/webview/">webview</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/09/12/android-webview-pull-to-refresh/" data-title="【Android】WebView下拉刷新功能源码解析 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/09/04/weekly-summary-20160828-20160903/"  title="【一周总结】2016.08.28--2016.09.03 &amp; 《重新定义公司》读书笔记（二）">
+ <strong>下一篇：</strong><br/> 
+ <span>【一周总结】2016.08.28--2016.09.03 &amp; 《重新定义公司》读书笔记（二）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构"><span class="toc-number">1.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-number">2.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#检测是否允许下拉刷新"><span class="toc-number">3.</span> <span class="toc-text">检测是否允许下拉刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷新过程"><span class="toc-number">4.</span> <span class="toc-text">刷新过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装WebView对外接口"><span class="toc-number">5.</span> <span class="toc-text">封装WebView对外接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用"><span class="toc-number">6.</span> <span class="toc-text">如何使用</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="Android">Android<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Handler/" title="Handler">Handler<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Activity/" title="Activity">Activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mob/" title="Mob">Mob<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ShareSDK/" title="ShareSDK">ShareSDK<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SharedPreferences/" title="SharedPreferences">SharedPreferences<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div id="recentcomments" class="dsq-widget">
+    <p class="asidetitle">Recent Comments</p>
+    <script type="text/javascript" src="http://lipeng1667.disqus.com/recent_comments_widget.js?num_items=10&hide_avatars=1&avatar_size=32&excerpt_length=100&hide_mods=0"></script>
+</div>
+
+
+<div class="categorieslist">
+    <p class="asidetitle">Recents</p>
+    <ul>
+      
+        <li>
+          <a href="/2016/09/12/android-webview-pull-to-refresh/">【Android】WebView下拉刷新功能源码解析</a>
+        </li>
+      
+        <li>
+          <a href="/2016/09/04/weekly-summary-20160828-20160903/">【一周总结】2016.08.28--2016.09.03 &amp; 《重新定义公司》读书笔记（二）</a>
+        </li>
+      
+        <li>
+          <a href="/2016/08/28/weekly-summary-20160821-20160827/">【一周总结】2016.08.21--2016.08.27 &amp; 《重新定义公司》读书笔记（一）</a>
+        </li>
+      
+        <li>
+          <a href="/2016/08/22/weekly-summary-20160814-20160820/">【一周总结】2016.08.14--2016.08.20 &amp; 意志力 读书笔记</a>
+        </li>
+      
+        <li>
+          <a href="/2016/08/15/weekly-summary-20160807-20160814/">【一周总结】2016.08.07--2016.08.13 &amp; 增长黑客 读书笔记（下）</a>
+        </li>
+      
+    </ul>
+</div>
+
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
