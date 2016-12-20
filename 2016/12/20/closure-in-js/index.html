@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/12/20/closure-in-js/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="之前在写JS的时候，遇到过在循环中使用匿名函数时，程序运行的结果并不是按照我们想象的循环依次进行，当时随便在网上查了查，然后照着用IIFE方式解决了，但是一直没有去深入研究内部的原因。今天总算清闲下来，从JS中的闭包，一直到IIFE都细细理了一遍，这篇博文先总结下闭包的用法。文中部分内容引用了其他页面，会在最后统一引用说明。">
-<meta property="og:updated_time" content="2016-12-20T08:46:47.000Z">
+<meta property="og:updated_time" content="2016-12-20T10:01:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【WEB开发】JavaScript中的闭包(closure)">
 <meta name="twitter:description" content="之前在写JS的时候，遇到过在循环中使用匿名函数时，程序运行的结果并不是按照我们想象的循环依次进行，当时随便在网上查了查，然后照着用IIFE方式解决了，但是一直没有去深入研究内部的原因。今天总算清闲下来，从JS中的闭包，一直到IIFE都细细理了一遍，这篇博文先总结下闭包的用法。文中部分内容引用了其他页面，会在最后统一引用说明。">
@@ -49,7 +49,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -63,7 +63,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -86,7 +86,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-12-20T05:49:15.000Z" itemprop="datePublished"> 发表于 2016-12-20</time>
+    <time datetime="2016-12-20T05:49:15.000Z" itemprop="datePublished"> Published 2016-12-20</time>
   </p>
   
   <p class="page-count">
@@ -98,7 +98,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JS中的闭包"><span class="toc-number">2.</span> <span class="toc-text">JS中的闭包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的例子"><span class="toc-number">2.1.</span> <span class="toc-text">简单的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更多的例子"><span class="toc-number">2.2.</span> <span class="toc-text">更多的例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">Example 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-2"><span class="toc-number">2.2.2.</span> <span class="toc-text">Example 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-3"><span class="toc-number">2.2.3.</span> <span class="toc-text">Example 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-4"><span class="toc-number">2.2.4.</span> <span class="toc-text">Example 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-5"><span class="toc-number">2.2.5.</span> <span class="toc-text">Example 5</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他注意的点"><span class="toc-number">2.3.</span> <span class="toc-text">其他注意的点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闭包到底什么用"><span class="toc-number">2.4.</span> <span class="toc-text">闭包到底什么用</span></a></li></ol></li></ol>
 		
@@ -134,7 +134,7 @@
 <p>当<code>fnlist = buildList([1,2,3])</code>这一行代码被执行的时候，其实已经产生了一个闭包，在这个闭包里面，item作为local变量在经过循环以后，值已经变成了<code>item2</code>(当<code>var i = 0; i &lt; list.length; i++</code>执行到最后一个循环体内时<code>a_item=&#39;item&#39; + i</code>将<code>a_item</code>赋值成为<code>item2</code>）。<br>而当我们通过<code>fnlist[j]()</code>3次分别调用函数时，其实这3次都去访问的同一个闭包，在闭包里面，<code>a_item</code>自然停留在最后一次循环之后的<code>item2</code>，而list[i]对于外部函数来说，循环结束之后，i就是个undefined的变量，所以结果就打印了3次<code>item2 undefined</code>。</p>
 <p>那么我如何才能得到我们想要的效果，依次打印出下面的结果呢：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">item0 1</span><br><span class="line">item1 2</span><br><span class="line">item2 3</span><br></pre></td></tr></table></figure>
-<p>我们会在下一篇博客，JavaScript中的IIFE中 进行解答，我们继续来看闭包还有那些需要注意的地方。</p>
+<p>我们会在下一篇博客，<a href="http://lipeng1667.github.io/2016/12/20/IIFE-in-js/" target="_blank" rel="external">JavaScript中的IIFE</a> 中进行解答，我们继续来看闭包还有那些需要注意的地方。</p>
 <h3 id="Example-4"><a href="#Example-4" class="headerlink" title="Example 4"></a>Example 4</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayAlice</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> say = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(alice); &#125;</span><br><span class="line">    <span class="comment">// Local variable that ends up within closure</span></span><br><span class="line">    <span class="keyword">var</span> alice = <span class="string">'Hello Alice'</span>;</span><br><span class="line">    <span class="keyword">return</span> say;</span><br><span class="line">&#125;</span><br><span class="line">sayAlice()();<span class="comment">// logs "Hello Alice"</span></span><br></pre></td></tr></table></figure>
 <p>虽然local变量<code>alice</code>是在匿名函数申明之后才声明的，但是，我们依旧可以访问到它，这就说明，闭包含有当前作用域内的所有变量接入。<br>而<code>sayAlice()()</code>其实就是我们在第2部分要讲到的IIFE，它等价于</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> refer = sayAlice();</span><br><span class="line">refer();</span><br></pre></td></tr></table></figure>
@@ -251,22 +251,22 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JS中的闭包"><span class="toc-number">2.</span> <span class="toc-text">JS中的闭包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的例子"><span class="toc-number">2.1.</span> <span class="toc-text">简单的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更多的例子"><span class="toc-number">2.2.</span> <span class="toc-text">更多的例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">Example 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-2"><span class="toc-number">2.2.2.</span> <span class="toc-text">Example 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-3"><span class="toc-number">2.2.3.</span> <span class="toc-text">Example 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-4"><span class="toc-number">2.2.4.</span> <span class="toc-text">Example 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-5"><span class="toc-number">2.2.5.</span> <span class="toc-text">Example 5</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他注意的点"><span class="toc-number">2.3.</span> <span class="toc-text">其他注意的点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闭包到底什么用"><span class="toc-number">2.4.</span> <span class="toc-text">闭包到底什么用</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -303,7 +303,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -641,7 +641,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
