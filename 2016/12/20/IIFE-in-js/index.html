@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="立即执行函数表达式(Immediately-Invoked Function Expression)， 还有其他的名字：自执行匿名函数(self-executing anonymous function)。 接触到这个IIFE，最早就是为了解决闭包时造成的问题。
 还记得我们上一篇Blog, JavaScript中的闭包(closure)中的例子么?">
-<meta property="og:updated_time" content="2016-12-20T09:58:17.000Z">
+<meta property="og:updated_time" content="2016-12-20T10:13:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【WEB开发】JavaScript中的立即执行函数表达式(IIFE)">
 <meta name="twitter:description" content="立即执行函数表达式(Immediately-Invoked Function Expression)， 还有其他的名字：自执行匿名函数(self-executing anonymous function)。 接触到这个IIFE，最早就是为了解决闭包时造成的问题。
@@ -115,7 +115,7 @@
 <p>那么这篇blog我们就来研究下如何解决这个问题。</p>
 <h1 id="函数声明和函数表达式"><a href="#函数声明和函数表达式" class="headerlink" title="函数声明和函数表达式"></a>函数声明和函数表达式</h1><p>我们首先需要理解这两个概念：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 表达式（非匿名）</span></span><br><span class="line"><span class="keyword">var</span> f1 = <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="comment">// 表达式（匿名）</span></span><br><span class="line"><span class="keyword">var</span> f2 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>对于函数表达式，即可以是匿名的，也可以是非匿名的，不过对于非匿名的函数，其实这个函数也不能直接使用，必须通过等号左边的变量名称(f1, f2) 来调用。<br>在Javascript中，一对圆括号<code>()</code>是一种运算符，跟在函数名之后，表示调用该函数，所以我们可以通过函数表达式后面跟上()表示调用改函数。<br>那么问题来了，我们是否可以在函数声明之后立即调用呢？ 就像这样：</p>
+<p>对于函数表达式，即可以是匿名的，也可以是非匿名的，不过对于非匿名的函数，其实这个函数也不能直接使用，必须通过等号左边的变量名称(f1, f2) 来调用。<br>在Javascript中，一对圆括号<code>()</code>是一种运算符，跟在函数名之后，表示调用该函数，所以我们可以通过函数表达式后面跟上()表示调用该函数。<br>那么问题来了，我们是否可以在函数声明之后立即调用呢？ 就像这样：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="string">'test'</span>);&#125; ();</span><br></pre></td></tr></table></figure>
 <p>答案是<font color="red">NO</font>。<br>原因是：<code>JavaScript引擎规定，如果function关键字出现在行首，一律解释成语句</code>。因此，JavaScript引擎看到行首是function关键字之后，认为这一段都是函数的定义，不应该以圆括号结尾，所以就报错了。</p>
 <p>那我们想要让函数声明之后立即被调用，只需要不让function出现在行首就行了，这就是IIFE是怎么出现的了。</p>
@@ -283,11 +283,11 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+				<li><a href="/tags/webview/" title="webview">webview<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>2</sup></a></li>
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
 			
 		
 			
@@ -295,7 +295,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
 			
 		
 			
@@ -303,11 +303,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
 			
 		
 			
@@ -315,11 +311,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 			
@@ -327,11 +319,19 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
 			
 		
 			
@@ -347,7 +347,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 			
