@@ -154,7 +154,7 @@
 <p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161124/7.png" width="800"><br></p>
 
 <p>再贴上源代码：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">if</span> (<span class="attr">theme.duoshuo_shortname</span> &amp;&amp; <span class="attr">page.comments</span>)&#123; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"comments"</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说评论框 start --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ds-thread"</span> <span class="attr">data-thread-key</span>=<span class="string">"&lt;%- page.path%&gt;"</span></span><br><span class="line">      <span class="attr">data-title</span>=<span class="string">"&lt;%- page.title%&gt;"</span> <span class="attr">data-url</span>=<span class="string">"&lt;%- page.permalink%&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说评论框 end --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span><br><span class="line">      var duoshuoQuery = &#123;short_name:"lipeng1667"&#125;;</span><br><span class="line">        (function() &#123;</span><br><span class="line">          var ds = document.createElement('script');</span><br><span class="line">          ds.type = 'text/javascript';ds.async = true;</span><br><span class="line">          ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +</span><br><span class="line">            '//static.duoshuo.com/embed.js';</span><br><span class="line">          ds.charset = 'UTF-8';</span><br><span class="line">          (document.getElementsByTagName('head')[0]</span><br><span class="line">           || document.getElementsByTagName('body')[0]).appendChild(ds);</span><br><span class="line">      &#125;)();</span><br><span class="line">      </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说公共JS代码 end --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%if(</span> (<span class="attr">config.disqus_shortname</span> || <span class="attr">theme.disqus_shortname</span>) &amp;&amp; <span class="attr">page.comments</span>) &#123; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"comments"</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"disqus_thread"</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!-- &lt;noscript&gt;Please enable JavaScript to view the &lt;a</span><br><span class="line">     href="//disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt; --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">if</span> (<span class="attr">theme.duoshuo_shortname</span> &amp;&amp; <span class="attr">page.comments</span>)&#123; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"comments"</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说评论框 start --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ds-thread"</span> <span class="attr">data-thread-key</span>=<span class="string">"&lt;%- page.path%&gt;"</span></span><br><span class="line">      <span class="attr">data-title</span>=<span class="string">"&lt;%- page.title%&gt;"</span> <span class="attr">data-url</span>=<span class="string">"&lt;%- page.permalink%&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说评论框 end --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line">      <span class="keyword">var</span> duoshuoQuery = &#123;short_name:<span class="string">"lipeng1667"</span>&#125;;</span><br><span class="line">        (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="keyword">var</span> ds = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">          ds.type = <span class="string">'text/javascript'</span>;ds.async = <span class="literal">true</span>;</span><br><span class="line">          ds.src = (<span class="built_in">document</span>.location.protocol == <span class="string">'https:'</span> ? <span class="string">'https:'</span> : <span class="string">'http:'</span>) +</span><br><span class="line">            <span class="string">'//static.duoshuo.com/embed.js'</span>;</span><br><span class="line">          ds.charset = <span class="string">'UTF-8'</span>;</span><br><span class="line">          (<span class="built_in">document</span>.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>]</span><br><span class="line">           || <span class="built_in">document</span>.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>]).appendChild(ds);</span><br><span class="line">      &#125;)();</span><br><span class="line">      </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说公共JS代码 end --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%if(</span> (<span class="attr">config.disqus_shortname</span> || <span class="attr">theme.disqus_shortname</span>) &amp;&amp; <span class="attr">page.comments</span>) &#123; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"comments"</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"disqus_thread"</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!-- &lt;noscript&gt;Please enable JavaScript to view the &lt;a</span><br><span class="line">     href="//disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt; --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
 <p>这里就注意几点：</p>
 <ul>
 <li><code>data-thread-key</code>字段写入内容是 <code>&lt;%- page.path%&gt;</code></li>
@@ -193,6 +193,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2016/12/20/closure-in-js/" title="【WEB开发】JavaScript中的闭包(closure)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【WEB开发】JavaScript中的闭包(closure)</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2016/09/23/how-to-share-your-library/"  title="一步一步教你在bintray上分享自己的开源库">
@@ -264,6 +272,10 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 		  
 		
 		  
+			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 		  
 		
@@ -285,11 +297,11 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>2</sup></a></li>
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+				<li><a href="/tags/webview/" title="webview">webview<sup>2</sup></a></li>
 			
 		
 			
@@ -297,7 +309,11 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>1</sup></a></li>
 			
 		
 			
@@ -305,11 +321,23 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Handler/" title="Handler">Handler<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
 			
 		
 			
@@ -321,18 +349,6 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
 			
 		
@@ -341,23 +357,19 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Mob/" title="Mob">Mob<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ShareSDK/" title="ShareSDK">ShareSDK<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
 			
 		
 		</ul>
