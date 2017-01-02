@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/03/24/【Python】脚本实现批量删除所有文件中的注释/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="为什么会有这个需求？呃，不知道众程序猿们有没有听过这么一个笑话，大意说从前有个很努力的程序员，每天不断地优化服务器上的代码，但是因为工作量看起来没有那么大，而被不懂代码的上司认为工作不积极，于是该程序员直接把所有注释全部删除，然后离职了。。。">
-<meta property="og:updated_time" content="2016-03-25T01:54:27.000Z">
+<meta property="og:updated_time" content="2017-01-02T02:06:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Python】脚本实现批量删除所有文件中的注释">
 <meta name="twitter:description" content="为什么会有这个需求？呃，不知道众程序猿们有没有听过这么一个笑话，大意说从前有个很努力的程序员，每天不断地优化服务器上的代码，但是因为工作量看起来没有那么大，而被不懂代码的上司认为工作不积极，于是该程序员直接把所有注释全部删除，然后离职了。。。">
@@ -110,7 +110,7 @@
 <p>这段代码就是这样来的。。。</p>
 <h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>一般来说，我们使用到最多的添加注释的方法无非就两个：</p>
 <ul>
-<li>/<em> 我是注释 </em>/</li>
+<li>/* 我是注释 */</li>
 <li>// 我也是注释</li>
 </ul>
 <p>那我们的思路也很简单暴力，就是从原文件中一个字符一个字符地读取，正常的情况就再把字符一个一个地输出到另一个文件中；然后碰到 <code>/*</code> 之后，所有的字符不再输出，直到遇到后面的 <code>*/</code> 符号。<br>同理处理<code>//</code> 符号。</p>
