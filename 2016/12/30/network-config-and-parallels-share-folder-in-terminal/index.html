@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/53.png">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/54.png">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/55.png">
-<meta property="og:updated_time" content="2017-01-02T01:52:34.000Z">
+<meta property="og:updated_time" content="2017-01-02T01:55:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹">
 <meta name="twitter:description" content="上篇博文我们已经安装好了Redhat6.5的虚拟机，接下来我们开始手动配置静态IP地址 + 命令行实现Parallels共享文件夹！！！">
@@ -143,7 +143,7 @@
 <h2 id="2、-etc-resolv-conf"><a href="#2、-etc-resolv-conf" class="headerlink" title="2、/etc/resolv.conf"></a>2、/etc/resolv.conf</h2><p>第二个文件，我们输入<code>vim /etc/resolv.conf</code>来查看并修改，输入下列3行命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">search localdomain</span><br><span class="line">nameserver 114.114.114.114</span><br><span class="line">nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
 <p>如图所示:</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/38.png" w="" idth="800"><br></p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/38.png" width="800"><br></p>
 
 <p>如果之前我们没有在安装时进行配置，这个文件应该是空的，这个文件主要是配置DNS，这样我们在ping诸如<code>www.google.com</code>时才能解析到正确的IP地址去。</p>
 <h2 id="3、-etc-sysconfig-network-scripts-ifcfg-eth0"><a href="#3、-etc-sysconfig-network-scripts-ifcfg-eth0" class="headerlink" title="3、/etc/sysconfig/network-scripts/ifcfg-eth0"></a>3、/etc/sysconfig/network-scripts/ifcfg-eth0</h2><p>最后这个文件也是最重要的文件，就是配置我们的网卡信息。<br>我们知道一般linux都有一个<code>eth0</code>的网卡，我们要修改的正是这个， 输入：<code>vim /etc/sysconfig/network-scripts/ifcfg-eth0</code></p>
