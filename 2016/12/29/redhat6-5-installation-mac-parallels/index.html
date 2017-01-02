@@ -1,0 +1,750 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Linux】超详细教程！RedHat6.5安装全过程 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="史上超详细在Mac上用Parallels安装RedHat虚拟机全过程记录！！一步一步傻瓜式教程，看过一遍 包会！！如果不会？？再看一遍。。。本篇文章将会安装一个自定义的，主要用于开发的，没有桌面程序的RedHat6.5系统~ 
+提醒：本篇博文含有大量图片，爪机党慎入！！好了，就让我们进入正题吧！！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】超详细教程！RedHat6.5安装全过程">
+<meta property="og:url" content="http://yoursite.com/2016/12/29/redhat6-5-installation-mac-parallels/index.html">
+<meta property="og:site_name" content="KaKa's blog">
+<meta property="og:description" content="史上超详细在Mac上用Parallels安装RedHat虚拟机全过程记录！！一步一步傻瓜式教程，看过一遍 包会！！如果不会？？再看一遍。。。本篇文章将会安装一个自定义的，主要用于开发的，没有桌面程序的RedHat6.5系统~ 
+提醒：本篇博文含有大量图片，爪机党慎入！！好了，就让我们进入正题吧！！">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/0.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/1.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/2.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/3.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/4.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/5.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/6.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/7.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/8.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/9.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/10.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/11.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/12.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/13.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/14.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/15.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/20.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/16.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/17.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/18.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/19.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/21.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/22.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/23.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/24.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/25.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/26.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/27.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/28.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/29.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/30.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/31.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/32.png">
+<meta property="og:updated_time" content="2016-12-30T09:17:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Linux】超详细教程！RedHat6.5安装全过程">
+<meta name="twitter:description" content="史上超详细在Mac上用Parallels安装RedHat虚拟机全过程记录！！一步一步傻瓜式教程，看过一遍 包会！！如果不会？？再看一遍。。。本篇文章将会安装一个自定义的，主要用于开发的，没有桌面程序的RedHat6.5系统~ 
+提醒：本篇博文含有大量图片，爪机党慎入！！好了，就让我们进入正题吧！！">
+<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/0.png">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/12/29/redhat6-5-installation-mac-parallels/" title="【Linux】超详细教程！RedHat6.5安装全过程" itemprop="url">【Linux】超详细教程！RedHat6.5安装全过程</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-12-29T07:16:16.000Z" itemprop="datePublished"> Published 2016-12-29</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、放置镜像文件"><span class="toc-number">1.</span> <span class="toc-text">1、放置镜像文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、设置名称和路径"><span class="toc-number">2.</span> <span class="toc-text">2、设置名称和路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、前期步骤"><span class="toc-number">3.</span> <span class="toc-text">4、前期步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、设置网络和时区"><span class="toc-number">4.</span> <span class="toc-text">5、设置网络和时区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、设置硬盘分区"><span class="toc-number">5.</span> <span class="toc-text">6、设置硬盘分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、选择程序及库"><span class="toc-number">6.</span> <span class="toc-text">7、选择程序及库</span></a></li></ol>
+		
+		</div>
+		
+		<p>史上超详细在Mac上用Parallels安装RedHat虚拟机全过程记录！！一步一步傻瓜式教程，看过一遍 包会！！如果不会？？再看一遍。。。<br>本篇文章将会安装一个<strong>自定义的</strong>，主要用于<strong>开发</strong>的，<strong>没有</strong>桌面程序的RedHat6.5系统~ </p>
+<p><font color="red">提醒：本篇博文含有大量图片，爪机党慎入！！</font><br>好了，就让我们进入正题吧！！</p>
+<a id="more"></a>
+<p>所需工具：</p>
+<ul>
+<li>MacBookPro OS X El Capitan 10.11.6</li>
+<li>Parallels虚拟机</li>
+<li>RedHat6.5 iSO镜像文件 </li>
+</ul>
+<p>接下就开始我们的步骤吧~</p>
+<h4 id="1、放置镜像文件"><a href="#1、放置镜像文件" class="headerlink" title="1、放置镜像文件"></a>1、放置镜像文件</h4><p>将下载好的RedHat6.5 iso镜像文件拖入到Parallels中，它会自动识别当前镜像的系统名称，点击右下角的<code>Continue</code>：</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/0.png" width="800"><br></p>
+
+<p>把中间的<code>Express installation</code>复选框去除，这个默认是选中的；如果选中的话，将会按照默认的配置为你安装RedHat6.5系统，我们显然是要做一些特殊的配置的。</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/1.png" width="800"><br></p>
+
+<h4 id="2、设置名称和路径"><a href="#2、设置名称和路径" class="headerlink" title="2、设置名称和路径"></a>2、设置名称和路径</h4><p>这里的<code>Name</code>字段随便填，是给你自己看的； <code>location</code>表示当前的这个虚拟机的所有文件在你本地硬盘存储的位置；<br>最下方的复选框勾不勾其实无所谓，因为我们可以随时对虚拟机的配置进行修改，为了详细介绍，这里就勾上给大家演示一遍相关的设置吧</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/2.png" width="800"><br></p><br>点击右下角的<code>Continue</code><br><br>#### 3、Parallels虚拟化配置<br><br>接下来弹出来的界面是Parallels对当前虚拟机的一些硬件以及其他的设置<br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/3.png" width="800"><br></p><br>上面的截图显示的是共享文件夹的设置，这部分内容我们单独拿到下一篇博文中详细介绍。<br>然后在选中顶部的菜单栏中<code>Hardware</code>选项，进行当前虚拟机的相关硬件配置<br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/4.png" width="800"><br></p><br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/5.png" width="800"><br></p>
+
+<p>一般只需要设置图中标红的几部分内容就好了，比如</p>
+<ul>
+<li>默认的内存大小是1个G的，我们可以设置成2个G；</li>
+<li>默认的<code>Video</code>中3D加速是开启的，我们可以关闭，因为我们会设置一个只有命令行的Linux系统</li>
+</ul>
+<p>确定之后，就进入到正式的安装步骤了</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/6.png" width="800"><br></p>
+
+<h4 id="4、前期步骤"><a href="#4、前期步骤" class="headerlink" title="4、前期步骤"></a>4、前期步骤</h4><p>因为是安装的虚拟机，所以可以跳过硬盘检测</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/7.png" width="800"><br></p>
+
+<p>点击右下角的Next</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/8.png" width="800"><br></p>
+
+<p>选择语言</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/9.png" width="800"><br></p>
+
+<p>选择左上角第一个选项<code>Basic Storage Device</code></p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/10.png" width="800"><br></p>
+
+<p>选择左侧按钮<code>Yes, discard any data</code></p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/11.png" width="800"><br></p>
+
+<h4 id="5、设置网络和时区"><a href="#5、设置网络和时区" class="headerlink" title="5、设置网络和时区"></a>5、设置网络和时区</h4><p>在<code>Hostname</code>中填入网络中看到的你的机器的名称，左下角的<code>configure network</code>这里可以先不设置，我们在下个章节通过命令行来详细地走一遍网络设置。</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/12.png" width="800"><br></p>
+
+<p>左上角的时区选择上海，然后左下角的<code>System clock uses UTC</code>的复选框我们<font color="red">去掉</font>，因为格林威治时间和北京时间差8个小时，我们就用北京时间</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/13.png" width="800"><br></p>
+
+<p>接下来设置root用户的密码</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/14.png" width="800"><br></p>
+
+<h4 id="6、设置硬盘分区"><a href="#6、设置硬盘分区" class="headerlink" title="6、设置硬盘分区"></a>6、设置硬盘分区</h4><p>接下来是设置硬盘分区，硬盘分区一定要选择最后一项<code>Create Custom Layout</code>，我们自己手动来设置分区</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/15.png" width="800"><br></p>
+
+<p>Linux中的分区主要有下面几个：</p>
+<ul>
+<li>swap分区： 当内存不够时，作为交换分区扩充内存使用，一般为内存大小的1-2倍</li>
+<li>boot分区： 系统启动时的引导分区，一般大小为50-100MB</li>
+<li>/ 分区：   系统的主分区，根目录</li>
+</ul>
+<p>必须的分区就上面3个，剩下的是一些可选的分区：</p>
+<ul>
+<li>/home分区是存放个人文件的地方，可以视自己文件的多少、大小而定该分区的大小，</li>
+<li>/usr在Linux中绝大多数程序默认是安装在下面的，该分区是程序分区，</li>
+<li>/var是用来存放系统日志的地方</li>
+<li>/tmp是用来存放系统临时文件的地方</li>
+</ul>
+<p>可以看到点击 <code>Mount Point</code>可以看到我们介绍的几个分区点</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/20.png" width="800"><br></p>
+
+<p>我们这里就建立3个必要的分区就好了</p>
+<p>双击屏幕中的<code>Free</code>条目或者单击右下角的<code>Create</code>按钮</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/16.png" width="800"><br></p>
+
+<p>先来建立swap分区，这里我们设置大小和内存大小一样2048MB</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/17.png" width="800"><br></p>
+
+<p>建立好之后，能在界面中实时看到变化，我们接着建立boot分区</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/18.png" width="800"><br></p>
+
+<p>按照图中的设定，这里File System Type 就选ext4 就好了，ext2，3，4之间什么区别我们不需要了解的特别清楚，但是知道ext4是最新的比较先进的类型就ok了</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/19.png" width="800"><br></p>
+
+<p>接下来继续建立最后的根目录分区，简化操作，我们就只挂载根目录, 选择<code>Full to maximum allowable size</code></p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/21.png" width="800"><br></p>
+
+<p>最后看一眼设置好的3个分区</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/22.png" width="800"><br></p>
+
+<p>格式化硬盘，选择Format，然后点击Next</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/23.png" width="800"><br></p>
+
+<p>选择<code>Write changes to disk</code></p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/24.png" width="800"><br></p>
+
+<p>可以看下系统即将被安装到我们的根目录下。 单击Next</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/25.png" width="800"><br></p>
+
+<h4 id="7、选择程序及库"><a href="#7、选择程序及库" class="headerlink" title="7、选择程序及库"></a>7、选择程序及库</h4><p>接下来我们要安装相关的库以及程序。<br>之前我们已经介绍过，我们这个虚拟机主要用于开发任务，所以我们勾选<code>Software Development WorkStation</code>，同时一定要选择左下角的<code>Customize now</code></p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/26.png" width="800"><br></p>
+
+<p>根据我个人的经验，一般程序员用到的几个库我都单独标出来了，大家可以照着我这个把额外的需要勾选的库勾上，<br>同时，其余的库看每个人自己的需求</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/27.png" width="800"><br></p><br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/28.png" width="800"><br></p><br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/29.png" width="800"><br></p>
+
+<p>因为我们没有桌面系统，所以，把Desktops的所有内容都去掉，不要打钩</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/30.png" width="800"><br></p>
+
+<p>Applications里面的基本都是要用到桌面系统的，都可以去掉。</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/31.png" width="800"><br></p>
+
+<p>其余的都按照默认就好了。</p>
+<p>看到这个画面，基本上配置过程就完成了，我们接下来就进入安装流程，大概5，6分钟，就OK了。</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/32.png" width="800"><br></p>
+
+
+<p>到这里，全部的安装过程就完成了，但是我们的网络还没有配置，另外Parallels的共享文件件功能还无法使用，这两部分的内容，我们放在下一篇文章完成。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Mac/">Mac</a><a href="/tags/Parallels/">Parallels</a><a href="/tags/虚拟机/">虚拟机</a><a href="/tags/RedHat6-5/">RedHat6.5</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/12/29/redhat6-5-installation-mac-parallels/" data-title="【Linux】超详细教程！RedHat6.5安装全过程 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/12/30/network-config-and-parallels-share-folder-in-terminal/" title="【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/12/20/IIFE-in-js/"  title="【WEB开发】JavaScript中的立即执行函数表达式(IIFE)">
+ <strong>下一篇：</strong><br/> 
+ <span>【WEB开发】JavaScript中的立即执行函数表达式(IIFE)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/12/29/redhat6-5-installation-mac-parallels/"
+data-title="【Linux】超详细教程！RedHat6.5安装全过程" data-url="http://yoursite.com/2016/12/29/redhat6-5-installation-mac-parallels/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"lipeng1667"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、放置镜像文件"><span class="toc-number">1.</span> <span class="toc-text">1、放置镜像文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、设置名称和路径"><span class="toc-number">2.</span> <span class="toc-text">2、设置名称和路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、前期步骤"><span class="toc-number">3.</span> <span class="toc-text">4、前期步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、设置网络和时区"><span class="toc-number">4.</span> <span class="toc-text">5、设置网络和时区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、设置硬盘分区"><span class="toc-number">5.</span> <span class="toc-text">6、设置硬盘分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7、选择程序及库"><span class="toc-number">6.</span> <span class="toc-text">7、选择程序及库</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="Android">Android<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Handler/" title="Handler">Handler<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lipeng1667"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

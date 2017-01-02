@@ -1,0 +1,683 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="上篇博文我们已经安装好了Redhat6.5的虚拟机，接下来我们开始手动配置静态IP地址 + 命令行实现Parallels共享文件夹！！！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹">
+<meta property="og:url" content="http://yoursite.com/2016/12/30/network-config-and-parallels-share-folder-in-terminal/index.html">
+<meta property="og:site_name" content="KaKa's blog">
+<meta property="og:description" content="上篇博文我们已经安装好了Redhat6.5的虚拟机，接下来我们开始手动配置静态IP地址 + 命令行实现Parallels共享文件夹！！！">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/34.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/35.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/37.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/38.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/39.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/40.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/41.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/42.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/43.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/44.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/45.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/46.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/47.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/48.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/49.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/50.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/51.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/52.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/53.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/54.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/55.png">
+<meta property="og:updated_time" content="2017-01-02T01:52:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹">
+<meta name="twitter:description" content="上篇博文我们已经安装好了Redhat6.5的虚拟机，接下来我们开始手动配置静态IP地址 + 命令行实现Parallels共享文件夹！！！">
+<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20161229/34.png">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/12/30/network-config-and-parallels-share-folder-in-terminal/" title="【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹" itemprop="url">【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-12-30T00:38:52.000Z" itemprop="datePublished"> Published 2016-12-30</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#手动配置网络"><span class="toc-number">1.</span> <span class="toc-text">手动配置网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、-etc-sysconfig-network"><span class="toc-number">1.1.</span> <span class="toc-text">1、/etc/sysconfig/network</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、-etc-resolv-conf"><span class="toc-number">1.2.</span> <span class="toc-text">2、/etc/resolv.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、-etc-sysconfig-network-scripts-ifcfg-eth0"><span class="toc-number">1.3.</span> <span class="toc-text">3、/etc/sysconfig/network-scripts/ifcfg-eth0</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置共享文件夹"><span class="toc-number">2.</span> <span class="toc-text">设置共享文件夹</span></a></li></ol>
+		
+		</div>
+		
+		<p>上篇博文我们已经安装好了Redhat6.5的虚拟机，接下来我们开始手动配置静态IP地址 + 命令行实现Parallels共享文件夹！！！</p>
+<a id="more"></a>
+<h1 id="手动配置网络"><a href="#手动配置网络" class="headerlink" title="手动配置网络"></a>手动配置网络</h1><p>接着上一节，安装完成之后，重启系统，然后输入用户名和密码，进入全新的RedHat6.5系统</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/34.png" width="800"><br></p>
+
+<p>因为之前我们并没有配置过网络，所以，如果这时候我们查看网络配置<code>ifconfig</code>，只能得到两个网络信息，一个是回环地址，还有一个是虚拟网卡的地址，这两个都是无法连接到外网的</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/35.png" width="800"><br></p>
+
+<p>那我们就来一步步配置下网络吧。其实很简单，总共就3步，分别修改3个文件就好了</p>
+<h2 id="1、-etc-sysconfig-network"><a href="#1、-etc-sysconfig-network" class="headerlink" title="1、/etc/sysconfig/network"></a>1、/etc/sysconfig/network</h2><p>第一个文件位于<code>/etc/sysconfig</code>目录下的<code>network</code>文件，我们用<code>vim /etc/sysconfig/network</code>命令来查看一下这个文件吧。</p>
+<p>可以看到，第一行<code>NETWORKING=yes</code>表示启用网络；第二行是我们在网络中的主机名称</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/37.png" width="800"><br></p>
+
+
+<h2 id="2、-etc-resolv-conf"><a href="#2、-etc-resolv-conf" class="headerlink" title="2、/etc/resolv.conf"></a>2、/etc/resolv.conf</h2><p>第二个文件，我们输入<code>vim /etc/resolv.conf</code>来查看并修改，输入下列3行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">search localdomain</span><br><span class="line">nameserver 114.114.114.114</span><br><span class="line">nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
+<p>如图所示:</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/38.png" w="" idth="800"><br></p>
+
+<p>如果之前我们没有在安装时进行配置，这个文件应该是空的，这个文件主要是配置DNS，这样我们在ping诸如<code>www.google.com</code>时才能解析到正确的IP地址去。</p>
+<h2 id="3、-etc-sysconfig-network-scripts-ifcfg-eth0"><a href="#3、-etc-sysconfig-network-scripts-ifcfg-eth0" class="headerlink" title="3、/etc/sysconfig/network-scripts/ifcfg-eth0"></a>3、/etc/sysconfig/network-scripts/ifcfg-eth0</h2><p>最后这个文件也是最重要的文件，就是配置我们的网卡信息。<br>我们知道一般linux都有一个<code>eth0</code>的网卡，我们要修改的正是这个， 输入：<code>vim /etc/sysconfig/network-scripts/ifcfg-eth0</code></p>
+<p>下图是没有修改之前的文件内容</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/39.png" width="800"><br></p>
+
+<p>因为要配置成静态的IP地址，所以我们先来看一下当前虚拟机的IP地址池在哪个范围内，首先查看Parallels的设置：</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/40.png" width="800"><br></p>
+
+<p>在<code>Advanced</code>栏目下，点击<code>Change settings...</code></p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/41.png" width="800"><br></p>
+
+<p>我们看到在<code>Shared</code>下面，是DHCP的地址池起始和终止的IP地址，我们看到我的是在<code>10.211.55</code>网段</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/42.png" width="800"><br></p>
+
+<p>知道网段以后，我们就回到之前的文件，然后修改成这样：</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/43.png" width="800"><br></p>
+
+<ul>
+<li>ONBOOT 字段表示是否开机是自动启用该网卡</li>
+<li>BOOTPROTO 字段表示IP地址是动态DHCP还是静态STATIC，初始值是DHCP，我们把它改成<strong>STATIC</strong></li>
+<li>IPADDR 字段就是我们要设置的静态IP地址了，我们把它设置成<em>10.211.55.9</em></li>
+<li>GATEWAY 字段表示网关，一般都是<em>.1</em>做为网关</li>
+<li>NETMASK 字段表示子网掩码，这个学过网络的基本都知道要填写 <em>255.255.255.0</em></li>
+</ul>
+<p>这样，网络就配置完成了，然后我们通过<code>ifconfig</code>命令来查看我们刚刚配置好的<code>eth0</code>网卡</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/44.png" width="800"><br></p><br>发现并没有IP地址啊， 没有关系，我们配置完了网络以后，需要重新启动一下网络，我们输入下面的命令<code>service network restart</code><br>再次查看一下eth0的网络配置，是不是发现IP地址已经配置成我们之前设置的静态地址<em>10.211.55.9</em>了呢？<br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/45.png" width="800"><br></p><br>ping一下baidu，也是可以ping通了的<br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/46.png" width="800"><br></p>
+
+<p>然后我们回到Mac系统，在终端中看看能不能SSH到我们自己的虚拟机上</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/47.png" width="800"><br></p>
+
+
+<h1 id="设置共享文件夹"><a href="#设置共享文件夹" class="headerlink" title="设置共享文件夹"></a>设置共享文件夹</h1><p>Parallels和VirtualBox以及VMWare一样，都是有共享本地文件夹的功能的，这个功能让我们可以在虚拟机中直接访问到宿主机的文件。<br>这个功能对于像我这样习惯在Mac的终端中操作虚拟机的用户来说，真的非常实用。<br>Parallels启用这个功能需要首先安装<code>Parallels tools</code>工具，这个工具如果有桌面系统的话很容易安装，但是对于只有命令行的系统来说，就需要一些额外的步骤了。</p>
+<p>首先，安装工具的入口有两个，你可以通过点击虚拟机窗口菜单栏中的黄色感叹号来安装</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/48.png" width="800"><br></p><br>或者通过Parallels菜单栏中<strong>Actions</strong>栏目中的<strong>intall parallels tools…</strong>选项来安装<br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/49.png" width="800"><br></p>
+
+<p>点击Continue</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/50.png" width="800"><br></p>
+
+<p>这样就相当于装入了CD光盘，我们需要手动将其挂载在我们的文件系统中，输入下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /media/cdrom</span><br><span class="line">mount -o <span class="built_in">exec</span> /dev/sr0 /media/cdrom</span><br></pre></td></tr></table></figure>
+<p>这样我们就把CD盘挂到了<code>/media/cdrom</code>目录中，然后我们cd到这个目录中，执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./install</span><br></pre></td></tr></table></figure>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/51.png" width="800"><br></p>
+
+<p>就会弹出安装提示，然后我们一路Next下去就好了，期间可能会去下载一些依赖库，大概需要2，3分钟左右</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/52.png" width="800"><br></p><br>安装完成！<br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/53.png" width="800"><br></p>
+
+<p>之后，我们在Mac系统中，cd到<code>/media</code>目录中，会发现多了一个<code>psf</code>目录，这个目录，就是<code>parallels shared folder</code>的缩写，查看一下这个目录，会发现有两个目录</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/54.png" width="800"><br></p><br>这两个目录就是我们之前在Parallels设置中的Sharing选项下的对应，我们可以通过点击图中黄色框内的<strong>Custom Folders</strong>来设定我们自己的目录。<br><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20161229/55.png" width="800"><br></p>
+
+
+<hr>
+<p>以上，就是Linux手动配置网络环境和设置Parallels的方法全过程。有问题欢迎留言，一起研究~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/network/">network</a><a href="/tags/Mac/">Mac</a><a href="/tags/Parallels/">Parallels</a><a href="/tags/虚拟机/">虚拟机</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/12/30/network-config-and-parallels-share-folder-in-terminal/" data-title="【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/12/29/redhat6-5-installation-mac-parallels/"  title="【Linux】超详细教程！RedHat6.5安装全过程">
+ <strong>下一篇：</strong><br/> 
+ <span>【Linux】超详细教程！RedHat6.5安装全过程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/12/30/network-config-and-parallels-share-folder-in-terminal/"
+data-title="【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹" data-url="http://yoursite.com/2016/12/30/network-config-and-parallels-share-folder-in-terminal/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"lipeng1667"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#手动配置网络"><span class="toc-number">1.</span> <span class="toc-text">手动配置网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、-etc-sysconfig-network"><span class="toc-number">1.1.</span> <span class="toc-text">1、/etc/sysconfig/network</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、-etc-resolv-conf"><span class="toc-number">1.2.</span> <span class="toc-text">2、/etc/resolv.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、-etc-sysconfig-network-scripts-ifcfg-eth0"><span class="toc-number">1.3.</span> <span class="toc-text">3、/etc/sysconfig/network-scripts/ifcfg-eth0</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置共享文件夹"><span class="toc-number">2.</span> <span class="toc-text">设置共享文件夹</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="Android">Android<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Handler/" title="Handler">Handler<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移植/" title="移植">移植<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lipeng1667"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
