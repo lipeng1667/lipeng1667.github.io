@@ -14,7 +14,7 @@
     <meta name="description" content="最近公司的项目打算启用gerrit做为代码审核的工具，最近3天彻底研究了下gerrit的安装配置过程，这里做个记录，期间很多细节都一一记录下来，以便之后有同学需要用到。这篇博文先介绍下gerrit的安装过程，然后之后还准备写一篇文章，介绍如何利用gerrit和sourceTree进行协同工作，换句话说，就是gerrit的详细工作流程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程">
-<meta property="og:url" content="http://yoursite.com/2017/01/17/build-gerrit-with-nginx/index.html">
+<meta property="og:url" content="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="最近公司的项目打算启用gerrit做为代码审核的工具，最近3天彻底研究了下gerrit的安装配置过程，这里做个记录，期间很多细节都一一记录下来，以便之后有同学需要用到。这篇博文先介绍下gerrit的安装过程，然后之后还准备写一篇文章，介绍如何利用gerrit和sourceTree进行协同工作，换句话说，就是gerrit的详细工作流程。">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170117/0.png">
@@ -59,7 +59,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -73,8 +73,8 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
 					</li>
@@ -96,7 +96,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2017-01-17T06:43:49.000Z" itemprop="datePublished"> 发表于 2017-01-17</time>
+    <time datetime="2017-01-17T06:43:49.000Z" itemprop="datePublished"> Published 2017-01-17</time>
   </p>
   
   <p class="page-count">
@@ -108,7 +108,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装gerrit"><span class="toc-number">2.</span> <span class="toc-text">安装gerrit</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载gerrit安装包"><span class="toc-number">2.1.</span> <span class="toc-text">下载gerrit安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建gerrit专用用户"><span class="toc-number">2.2.</span> <span class="toc-text">新建gerrit专用用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装gerrit-1"><span class="toc-number">2.3.</span> <span class="toc-text">安装gerrit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动gerrit"><span class="toc-number">2.4.</span> <span class="toc-text">启动gerrit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx"><span class="toc-number">3.</span> <span class="toc-text">Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx默认配置"><span class="toc-number">3.1.</span> <span class="toc-text">nginx默认配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gerrit-conf配置"><span class="toc-number">3.2.</span> <span class="toc-text">gerrit.conf配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重启nginx"><span class="toc-number">3.3.</span> <span class="toc-text">重启nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#登录认证文件"><span class="toc-number">3.4.</span> <span class="toc-text">登录认证文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改gerrit配置"><span class="toc-number">4.</span> <span class="toc-text">修改gerrit配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#重启gerrit"><span class="toc-number">4.1.</span> <span class="toc-text">重启gerrit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gitweb-可选"><span class="toc-number">5.</span> <span class="toc-text">gitweb(可选)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装gitweb"><span class="toc-number">5.1.</span> <span class="toc-text">安装gitweb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改gitweb配置文件"><span class="toc-number">5.2.</span> <span class="toc-text">修改gitweb配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改Apache配置文件"><span class="toc-number">5.3.</span> <span class="toc-text">修改Apache配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改gerrit配置-1"><span class="toc-number">5.4.</span> <span class="toc-text">修改gerrit配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充内容"><span class="toc-number">6.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载Gerrit"><span class="toc-number">6.1.</span> <span class="toc-text">卸载Gerrit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除git工程"><span class="toc-number">6.2.</span> <span class="toc-text">删除git工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#退出gerrit网页"><span class="toc-number">6.3.</span> <span class="toc-text">退出gerrit网页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献："><span class="toc-number">6.4.</span> <span class="toc-text">参考文献：</span></a></li></ol></li></ol>
 		
@@ -310,7 +310,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/01/17/build-gerrit-with-nginx/" data-title="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/" data-title="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -346,7 +346,7 @@
 <section id="comments" class="comment">
 <!-- 多说评论框 start -->
     <div class="ds-thread" data-thread-key="2017/01/17/build-gerrit-with-nginx/"
-data-title="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程" data-url="http://yoursite.com/2017/01/17/build-gerrit-with-nginx/"></div>
+data-title="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程" data-url="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -367,22 +367,22 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装gerrit"><span class="toc-number">2.</span> <span class="toc-text">安装gerrit</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载gerrit安装包"><span class="toc-number">2.1.</span> <span class="toc-text">下载gerrit安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建gerrit专用用户"><span class="toc-number">2.2.</span> <span class="toc-text">新建gerrit专用用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装gerrit-1"><span class="toc-number">2.3.</span> <span class="toc-text">安装gerrit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动gerrit"><span class="toc-number">2.4.</span> <span class="toc-text">启动gerrit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx"><span class="toc-number">3.</span> <span class="toc-text">Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx默认配置"><span class="toc-number">3.1.</span> <span class="toc-text">nginx默认配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gerrit-conf配置"><span class="toc-number">3.2.</span> <span class="toc-text">gerrit.conf配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重启nginx"><span class="toc-number">3.3.</span> <span class="toc-text">重启nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#登录认证文件"><span class="toc-number">3.4.</span> <span class="toc-text">登录认证文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改gerrit配置"><span class="toc-number">4.</span> <span class="toc-text">修改gerrit配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#重启gerrit"><span class="toc-number">4.1.</span> <span class="toc-text">重启gerrit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gitweb-可选"><span class="toc-number">5.</span> <span class="toc-text">gitweb(可选)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装gitweb"><span class="toc-number">5.1.</span> <span class="toc-text">安装gitweb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改gitweb配置文件"><span class="toc-number">5.2.</span> <span class="toc-text">修改gitweb配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改Apache配置文件"><span class="toc-number">5.3.</span> <span class="toc-text">修改Apache配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改gerrit配置-1"><span class="toc-number">5.4.</span> <span class="toc-text">修改gerrit配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充内容"><span class="toc-number">6.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载Gerrit"><span class="toc-number">6.1.</span> <span class="toc-text">卸载Gerrit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除git工程"><span class="toc-number">6.2.</span> <span class="toc-text">删除git工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#退出gerrit网页"><span class="toc-number">6.3.</span> <span class="toc-text">退出gerrit网页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献："><span class="toc-number">6.4.</span> <span class="toc-text">参考文献：</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -427,7 +427,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -765,7 +765,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

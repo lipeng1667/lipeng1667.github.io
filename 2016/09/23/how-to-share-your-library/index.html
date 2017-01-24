@@ -16,7 +16,7 @@
 那其实这样格式的开源库都是上传到了bintray上面，然后在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一步一步教你在bintray上分享自己的开源库">
-<meta property="og:url" content="http://yoursite.com/2016/09/23/how-to-share-your-library/index.html">
+<meta property="og:url" content="http://lipeng1667.github.io/2016/09/23/how-to-share-your-library/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="之前在Github上引入别人的开源库，有一种非常简单的方法，如果你是用Gradle打包，那么直接在你的工程build.gradle中添加入下面的内容就可以实现了:
 123dependencies &amp;#123;    compile &apos;com.microwu.ptrwebviewlibray:ptrwebview:1.0.0&apos;&amp;#125;
@@ -79,7 +79,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -93,8 +93,8 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
 					</li>
@@ -116,7 +116,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-09-23T07:42:26.000Z" itemprop="datePublished"> 发表于 2016-09-23</time>
+    <time datetime="2016-09-23T07:42:26.000Z" itemprop="datePublished"> Published 2016-09-23</time>
   </p>
   
   <p class="page-count">
@@ -128,7 +128,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新建并调试自己的库"><span class="toc-number">2.</span> <span class="toc-text">新建并调试自己的库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改你的文件结构"><span class="toc-number">2.1.</span> <span class="toc-text">修改你的文件结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建Library"><span class="toc-number">2.2.</span> <span class="toc-text">新建Library</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地调试"><span class="toc-number">2.3.</span> <span class="toc-text">本地调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传到Github"><span class="toc-number">2.4.</span> <span class="toc-text">上传到Github</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备上传到bintray"><span class="toc-number">3.</span> <span class="toc-text">准备上传到bintray</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册并新建自己的仓库"><span class="toc-number">3.1.</span> <span class="toc-text">注册并新建自己的仓库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在AndroidStudio中上传库文件"><span class="toc-number">4.</span> <span class="toc-text">在AndroidStudio中上传库文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改build-gradle文件"><span class="toc-number">4.1.</span> <span class="toc-text">修改build.gradle文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整个工程全局的build-gradle文件"><span class="toc-number">4.1.1.</span> <span class="toc-text">整个工程全局的build.gradle文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你新建的Module中的build-gradle文件"><span class="toc-number">4.1.2.</span> <span class="toc-text">你新建的Module中的build.gradle文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加两个插件"><span class="toc-number">4.1.2.1.</span> <span class="toc-text">添加两个插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group和版本号"><span class="toc-number">4.1.2.2.</span> <span class="toc-text">group和版本号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译类库"><span class="toc-number">4.1.2.3.</span> <span class="toc-text">编译类库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加bintray中的package信息"><span class="toc-number">4.1.2.4.</span> <span class="toc-text">添加bintray中的package信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改local-properties文件"><span class="toc-number">4.2.</span> <span class="toc-text">修改local.properties文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在终端中进行上传"><span class="toc-number">4.3.</span> <span class="toc-text">在终端中进行上传</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何update"><span class="toc-number">5.</span> <span class="toc-text">如何update</span></a></li></ol>
 		
@@ -302,7 +302,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/09/23/how-to-share-your-library/" data-title="一步一步教你在bintray上分享自己的开源库 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="http://lipeng1667.github.io/2016/09/23/how-to-share-your-library/" data-title="一步一步教你在bintray上分享自己的开源库 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -338,7 +338,7 @@
 <section id="comments" class="comment">
 <!-- 多说评论框 start -->
     <div class="ds-thread" data-thread-key="2016/09/23/how-to-share-your-library/"
-data-title="一步一步教你在bintray上分享自己的开源库" data-url="http://yoursite.com/2016/09/23/how-to-share-your-library/"></div>
+data-title="一步一步教你在bintray上分享自己的开源库" data-url="http://lipeng1667.github.io/2016/09/23/how-to-share-your-library/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -359,22 +359,22 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新建并调试自己的库"><span class="toc-number">2.</span> <span class="toc-text">新建并调试自己的库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改你的文件结构"><span class="toc-number">2.1.</span> <span class="toc-text">修改你的文件结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建Library"><span class="toc-number">2.2.</span> <span class="toc-text">新建Library</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地调试"><span class="toc-number">2.3.</span> <span class="toc-text">本地调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传到Github"><span class="toc-number">2.4.</span> <span class="toc-text">上传到Github</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备上传到bintray"><span class="toc-number">3.</span> <span class="toc-text">准备上传到bintray</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册并新建自己的仓库"><span class="toc-number">3.1.</span> <span class="toc-text">注册并新建自己的仓库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在AndroidStudio中上传库文件"><span class="toc-number">4.</span> <span class="toc-text">在AndroidStudio中上传库文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改build-gradle文件"><span class="toc-number">4.1.</span> <span class="toc-text">修改build.gradle文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整个工程全局的build-gradle文件"><span class="toc-number">4.1.1.</span> <span class="toc-text">整个工程全局的build.gradle文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你新建的Module中的build-gradle文件"><span class="toc-number">4.1.2.</span> <span class="toc-text">你新建的Module中的build.gradle文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加两个插件"><span class="toc-number">4.1.2.1.</span> <span class="toc-text">添加两个插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group和版本号"><span class="toc-number">4.1.2.2.</span> <span class="toc-text">group和版本号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译类库"><span class="toc-number">4.1.2.3.</span> <span class="toc-text">编译类库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加bintray中的package信息"><span class="toc-number">4.1.2.4.</span> <span class="toc-text">添加bintray中的package信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改local-properties文件"><span class="toc-number">4.2.</span> <span class="toc-text">修改local.properties文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在终端中进行上传"><span class="toc-number">4.3.</span> <span class="toc-text">在终端中进行上传</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何update"><span class="toc-number">5.</span> <span class="toc-text">如何update</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -419,7 +419,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -757,7 +757,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

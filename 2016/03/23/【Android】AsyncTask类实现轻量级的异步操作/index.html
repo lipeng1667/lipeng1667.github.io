@@ -15,7 +15,7 @@
 例如用户下载升级文件，要让用户能够看到下载进度，同时完成后能点击安装，那下载的过程就是在另一个线程中完成，同时进度的显示则是要实时通知到UI主线程中的。类似这样的轻量级的异步操作还有很多，那Android就给我们提供了一个方便的类AsyncTask来实现。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Android】AsyncTask类实现轻量级的异步操作">
-<meta property="og:url" content="http://yoursite.com/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/index.html">
+<meta property="og:url" content="http://lipeng1667.github.io/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="实际开发过程中，我们难免会遇到需要异步操作的场景:
 例如用户下载升级文件，要让用户能够看到下载进度，同时完成后能点击安装，那下载的过程就是在另一个线程中完成，同时进度的显示则是要实时通知到UI主线程中的。类似这样的轻量级的异步操作还有很多，那Android就给我们提供了一个方便的类AsyncTask来实现。">
@@ -52,7 +52,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -66,8 +66,8 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
 					</li>
@@ -89,7 +89,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-23T01:29:42.000Z" itemprop="datePublished"> 发表于 2016-03-23</time>
+    <time datetime="2016-03-23T01:29:42.000Z" itemprop="datePublished"> Published 2016-03-23</time>
   </p>
   
   <p class="page-count">
@@ -101,7 +101,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何调用"><span class="toc-number">1.</span> <span class="toc-text">如何调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#onPreExecute-方法"><span class="toc-number">2.</span> <span class="toc-text">onPreExecute 方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#doInBackground-方法"><span class="toc-number">3.</span> <span class="toc-text">doInBackground 方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#onProgressUpdate-和-onPostExecute"><span class="toc-number">4.</span> <span class="toc-text">onProgressUpdate 和 onPostExecute</span></a></li></ol>
 		
@@ -147,7 +147,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/" data-title="【Android】AsyncTask类实现轻量级的异步操作 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="http://lipeng1667.github.io/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/" data-title="【Android】AsyncTask类实现轻量级的异步操作 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -183,7 +183,7 @@
 <section id="comments" class="comment">
 <!-- 多说评论框 start -->
     <div class="ds-thread" data-thread-key="2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/"
-data-title="【Android】AsyncTask类实现轻量级的异步操作" data-url="http://yoursite.com/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/"></div>
+data-title="【Android】AsyncTask类实现轻量级的异步操作" data-url="http://lipeng1667.github.io/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -204,22 +204,22 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何调用"><span class="toc-number">1.</span> <span class="toc-text">如何调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#onPreExecute-方法"><span class="toc-number">2.</span> <span class="toc-text">onPreExecute 方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#doInBackground-方法"><span class="toc-number">3.</span> <span class="toc-text">doInBackground 方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#onProgressUpdate-和-onPostExecute"><span class="toc-number">4.</span> <span class="toc-text">onProgressUpdate 和 onPostExecute</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -264,7 +264,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -602,7 +602,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
