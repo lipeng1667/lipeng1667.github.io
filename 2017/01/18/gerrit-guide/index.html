@@ -152,7 +152,7 @@
 		
 		</div>
 		
-		<p><a href="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/" target="_blank" rel="external">上一篇文章</a>中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。<br>gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。<br>这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。</p>
+		<p><a href="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/">上一篇文章</a>中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。<br>gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。<br>这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。</p>
 <a id="more"></a>
 <p>这篇文章首先会大致讲解下gerrit的工作流程；然后介绍管理员的相关配置工作，包括设置SSH密钥验证，添加新成员；接下来会用一个示例演示普通成员push一个commit之后，代码审核员是如何进行审核的；最后介绍一下如何使用sourceTree上传代码到gerrit服务器。</p>
 <p>提醒：<br>这篇文章需要一定的git基础，如果你还不熟悉git，请先学习下关于git的相关知识。<br>这篇文章中的所有操作不再需要登录到gerrit服务器上去了，因为所有的操作都是在管理员或者普通成员的电脑上完成的，至于管理员对组员的操作，也可以在管理员自己的电脑上通过SSH连接到gerrit服务器上完成。</p>
@@ -192,7 +192,7 @@
 <p>这里是当前账号的配置，你可以在这里把full-name填写完全，这样右上角也会同步更新你刚设置好的名称。</p>
 <p>注意这里的Preferred Email有两种设置方法：</p>
 <ol>
-<li>如果你的邮件服务器配置完成了(不清楚如何配置的同学请参见<a href="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/" target="_blank" rel="external">上一篇文章</a>)，可以点击<code>Register New Email</code>，你就会收到一封确认邮件，确认之后就能设置好了。</li>
+<li>如果你的邮件服务器配置完成了(不清楚如何配置的同学请参见<a href="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/">上一篇文章</a>)，可以点击<code>Register New Email</code>，你就会收到一封确认邮件，确认之后就能设置好了。</li>
 <li>通过SSH在命令行中进行配置，通过命令行进行配置是最方便快捷，也是最优先推荐的方法。</li>
 </ol>
 <p>不过因为SSH命令行的方式需要配置SSH公钥，所以我们这里先留空，一会通过命令行来配置。</p>
@@ -459,6 +459,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/02/27/promise-of-js/" title="【WEB开发】JS的异步执行操作--Promise用法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【WEB开发】JS的异步执行操作--Promise用法</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/01/17/build-gerrit-with-nginx/"  title="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程">
@@ -538,7 +546,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 		  
 		
 		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>2</sup></a></li>
+			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
 		  
 		
 		  
@@ -571,19 +579,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -591,7 +587,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
 			
 		
 			
@@ -599,27 +595,23 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
+				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 			
@@ -627,7 +619,23 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 			
@@ -635,7 +643,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 		</ul>

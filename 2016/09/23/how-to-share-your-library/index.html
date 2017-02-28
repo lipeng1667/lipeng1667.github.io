@@ -136,7 +136,7 @@
 		
 		<p>之前在Github上引入别人的开源库，有一种非常简单的方法，如果你是用Gradle打包，那么直接在你的工程build.gradle中添加入下面的内容就可以实现了:</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    compile <span class="string">'com.microwu.ptrwebviewlibray:ptrwebview:1.0.0'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那其实这样格式的开源库都是上传到了<a href="https://bintray.com/" target="_blank" rel="external">bintray</a>上面，然后在分享给大家的。正好最近想着把自己写的一个<a href="http://lipeng1667.github.io/2016/09/12/android-webview-pull-to-refresh/" target="_blank" rel="external">下拉刷新WebView</a>给开源了，于是就研究了下如何共享。</p>
+<p>那其实这样格式的开源库都是上传到了<a href="https://bintray.com/" target="_blank" rel="external">bintray</a>上面，然后在分享给大家的。正好最近想着把自己写的一个<a href="http://lipeng1667.github.io/2016/09/12/android-webview-pull-to-refresh/">下拉刷新WebView</a>给开源了，于是就研究了下如何共享。</p>
 <a id="more"></a>
 <p>这篇博文就详细记录下从建立开源库到最终分享到bintray网站上的全过程。<br>首先感谢<a href="http://blog.csdn.net/hejjunlin/article/details/52452220" target="_blank" rel="external">这篇博文：手把手图文并茂教你发布Android开源库</a>，绝大多数步骤都是按照这篇文章来的，不过我自己完善了一下步骤，同时有几个地方需要特别注意下，一起来看吧。</p>
 <h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><p>下面是我的开发环境，和原博文中的部分版本不一样，可能有部分命令也需要适当的修改，具体我们在后面会看到。</p>
@@ -402,7 +402,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 		  
 		
 		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>2</sup></a></li>
+			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
 		  
 		
 		  
@@ -435,19 +435,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -455,7 +443,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
 			
 		
 			
@@ -463,27 +451,23 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
+				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 			
@@ -491,7 +475,23 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 			
@@ -499,7 +499,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 		</ul>

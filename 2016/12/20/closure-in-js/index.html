@@ -134,7 +134,7 @@
 <p>当<code>fnlist = buildList([1,2,3])</code>这一行代码被执行的时候，其实已经产生了一个闭包，在这个闭包里面，item作为local变量在经过循环以后，值已经变成了<code>item2</code>(当<code>var i = 0; i &lt; list.length; i++</code>执行到最后一个循环体内时<code>a_item=&#39;item&#39; + i</code>将<code>a_item</code>赋值成为<code>item2</code>）。<br>而当我们通过<code>fnlist[j]()</code>3次分别调用函数时，其实这3次都去访问的同一个闭包，在闭包里面，<code>a_item</code>自然停留在最后一次循环之后的<code>item2</code>，而list[i]对于外部函数来说，循环结束之后，i就是个undefined的变量，所以结果就打印了3次<code>item2 undefined</code>。</p>
 <p>那么我如何才能得到我们想要的效果，依次打印出下面的结果呢：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">item0 1</span><br><span class="line">item1 2</span><br><span class="line">item2 3</span><br></pre></td></tr></table></figure>
-<p>我们会在下一篇博客，<a href="http://lipeng1667.github.io/2016/12/20/IIFE-in-js/" target="_blank" rel="external">JavaScript中的IIFE</a> 中进行解答，我们继续来看闭包还有那些需要注意的地方。</p>
+<p>我们会在下一篇博客，<a href="http://lipeng1667.github.io/2016/12/20/IIFE-in-js/">JavaScript中的IIFE</a> 中进行解答，我们继续来看闭包还有那些需要注意的地方。</p>
 <h3 id="Example-4"><a href="#Example-4" class="headerlink" title="Example 4"></a>Example 4</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayAlice</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> say = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(alice); &#125;</span><br><span class="line">    <span class="comment">// Local variable that ends up within closure</span></span><br><span class="line">    <span class="keyword">var</span> alice = <span class="string">'Hello Alice'</span>;</span><br><span class="line">    <span class="keyword">return</span> say;</span><br><span class="line">&#125;</span><br><span class="line">sayAlice()();<span class="comment">// logs "Hello Alice"</span></span><br></pre></td></tr></table></figure>
 <p>虽然local变量<code>alice</code>是在匿名函数申明之后才声明的，但是，我们依旧可以访问到它，这就说明，闭包含有当前作用域内的所有变量接入。<br>而<code>sayAlice()()</code>其实就是我们在第2部分要讲到的IIFE，它等价于</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> refer = sayAlice();</span><br><span class="line">refer();</span><br></pre></td></tr></table></figure>
@@ -294,7 +294,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 		  
 		
 		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>2</sup></a></li>
+			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
 		  
 		
 		  
@@ -327,19 +327,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -347,7 +335,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
 			
 		
 			
@@ -355,27 +343,23 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
+				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 			
@@ -383,7 +367,23 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 			
@@ -391,7 +391,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/软键盘/" title="软键盘">软键盘<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 		</ul>
