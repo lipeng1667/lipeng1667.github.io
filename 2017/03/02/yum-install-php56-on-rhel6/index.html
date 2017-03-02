@@ -1,0 +1,654 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【PHP】在RedHat6上通过yum安装php5.6 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="最近在研究一些php的framework，因为虽说已经搞了很长时间的php，写的代码虽说是自己按照MVC模式做了分类，总感觉和一些用户基数大的框架之间还是有很多差距的，代码结构也不是非常的合理。然后网上搜了搜php框架，似乎近几年Laravel的用户量最多，但是大致了解了下，感觉Laravel有点厚重了，而我想要的是一款轻量级的框架，毕竟目前的项目还没有到需要上那么大的框架。于是，Github上排">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【PHP】在RedHat6上通过yum安装php5.6">
+<meta property="og:url" content="http://lipeng1667.github.io/2017/03/02/yum-install-php56-on-rhel6/index.html">
+<meta property="og:site_name" content="KaKa's blog">
+<meta property="og:description" content="最近在研究一些php的framework，因为虽说已经搞了很长时间的php，写的代码虽说是自己按照MVC模式做了分类，总感觉和一些用户基数大的框架之间还是有很多差距的，代码结构也不是非常的合理。然后网上搜了搜php框架，似乎近几年Laravel的用户量最多，但是大致了解了下，感觉Laravel有点厚重了，而我想要的是一款轻量级的框架，毕竟目前的项目还没有到需要上那么大的框架。于是，Github上排">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170302/1.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170302/2.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170302/3.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170302/4.png">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170302/5.png">
+<meta property="og:updated_time" content="2017-03-02T11:21:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【PHP】在RedHat6上通过yum安装php5.6">
+<meta name="twitter:description" content="最近在研究一些php的framework，因为虽说已经搞了很长时间的php，写的代码虽说是自己按照MVC模式做了分类，总感觉和一些用户基数大的框架之间还是有很多差距的，代码结构也不是非常的合理。然后网上搜了搜php框架，似乎近几年Laravel的用户量最多，但是大致了解了下，感觉Laravel有点厚重了，而我想要的是一款轻量级的框架，毕竟目前的项目还没有到需要上那么大的框架。于是，Github上排">
+<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170302/1.png">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/02/yum-install-php56-on-rhel6/" title="【PHP】在RedHat6上通过yum安装php5.6" itemprop="url">【PHP】在RedHat6上通过yum安装php5.6</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-02T03:54:58.000Z" itemprop="datePublished"> Published 2017-03-02</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#下载Webtatic源"><span class="toc-number">1.</span> <span class="toc-text">下载Webtatic源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#卸载低版本php"><span class="toc-number">2.</span> <span class="toc-text">卸载低版本php</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用yum安装php5-6"><span class="toc-number">3.</span> <span class="toc-text">用yum安装php5.6</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看php版本、重启apache服务"><span class="toc-number">4.</span> <span class="toc-text">查看php版本、重启apache服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充内容"><span class="toc-number">5.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EPEL源"><span class="toc-number">5.1.</span> <span class="toc-text">EPEL源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#确定linux版本"><span class="toc-number">5.1.1.</span> <span class="toc-text">确定linux版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并安装对应的repo"><span class="toc-number">5.1.2.</span> <span class="toc-text">下载并安装对应的repo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除多余的repo"><span class="toc-number">5.1.3.</span> <span class="toc-text">删除多余的repo</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置DNS"><span class="toc-number">5.2.</span> <span class="toc-text">设置DNS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢"><span class="toc-number">6.</span> <span class="toc-text">致谢</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近在研究一些php的framework，因为虽说已经搞了很长时间的php，写的代码虽说是自己按照MVC模式做了分类，总感觉和一些用户基数大的框架之间还是有很多差距的，代码结构也不是非常的合理。然后网上搜了搜php框架，似乎近几年<a href="https://laravel.com/" target="_blank" rel="external">Laravel</a>的用户量最多，但是大致了解了下，感觉Laravel有点厚重了，而我想要的是一款轻量级的框架，毕竟目前的项目还没有到需要上那么大的框架。于是，Github上排名第3的<a href="https://codeigniter.com/" target="_blank" rel="external">CodeIgniter</a>就进入考察范围了。<br>关于CodeIgniter的使用过程，我会在后续抽空写一些文章，这篇文章主要介绍如何用yum安装php5.6。</p>
+<a id="more"></a>
+<p>之前一直用的一个yum源，里面的php还是5.3.3版本的，已经算是比较老的版本的，毕竟现在php已经进入7.0版本了，而相对比较稳定的，支持的比较好的，应该算是5.6了，所以才有了把php版本从5.3升级到5.6的想法。</p>
+<h1 id="下载Webtatic源"><a href="#下载Webtatic源" class="headerlink" title="下载Webtatic源"></a>下载Webtatic源</h1><p>php新版本的源，可以通过添加<code>webtatic</code>源来进行下载，然后所有的yum源都是安装到<code>/etc/yum.repos.d</code>目录下的，下载安装完成后，我们可以查看下是否安装成功了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm</span><br><span class="line">...</span><br><span class="line">$ ll /etc/yum.repos.d</span><br></pre></td></tr></table></figure>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170302/1.png" width="600"><br></p>
+
+<h1 id="卸载低版本php"><a href="#卸载低版本php" class="headerlink" title="卸载低版本php"></a>卸载低版本php</h1><p>在安装新版本php之前，我们需要先卸载掉老版本的php</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum remove php-common</span><br></pre></td></tr></table></figure>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170302/2.png" width="700"><br></p>
+
+<p>程序会告诉我们将要卸载掉哪些内容，我们确认无误之后，输入<code>y</code>就可以开始卸载了。</p>
+<h1 id="用yum安装php5-6"><a href="#用yum安装php5-6" class="headerlink" title="用yum安装php5.6"></a>用yum安装php5.6</h1><p>卸载完成后，我们在命令行中输入下面的命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y php56w php56w-opcache php56w-xml php56w-mcrypt php56w-gd php56w-devel php56w-mysql php56w-intl php56w-mbstring</span><br></pre></td></tr></table></figure>
+<p>这个命令基本上涵盖了我们LAMP中可能用到的php的相关程序</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170302/3.png" width="700"><br></p>
+
+<p>下载安装过程中可能会出现错误，我们可以按照提示，在命令后面加上<code>--skip-broken</code>来跳过错误的包。<br>图上所示的是php的加密库<code>mcrypt</code>因为依赖的关系没有安装成功。</p>
+<h1 id="查看php版本、重启apache服务"><a href="#查看php版本、重启apache服务" class="headerlink" title="查看php版本、重启apache服务"></a>查看php版本、重启apache服务</h1><p>安装完成后，我们可以在命令行中查看下是否php新版本已经安装成功了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php -v</span><br></pre></td></tr></table></figure>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170302/4.png" width="600"><br></p>
+
+<p>重启apache命令这里也顺手贴一下吧</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service httpd restart</span><br></pre></td></tr></table></figure>
+<p>到这里，完整的PHP升级过程就完成了。</p>
+<h1 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h1><h2 id="EPEL源"><a href="#EPEL源" class="headerlink" title="EPEL源"></a>EPEL源</h2><p>其实原本我是想从epel上找一找有没有新的php版本的，结果发现epel上也没有。但是关于yum的epel源，还是有必要记录下安装过程。<br>EPEL的安装还是相对比较简单的，只需要下载相应版本的epel，然后用rpm命令安装就好了。</p>
+<h3 id="确定linux版本"><a href="#确定linux版本" class="headerlink" title="确定linux版本"></a>确定linux版本</h3><p>在命令行中输入下面的命令，来查看自己的linux版本，我使用的是RedHat</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## redhat</span></span><br><span class="line">$ cat /etc/redhat-release</span><br><span class="line"><span class="comment">## centOS</span></span><br><span class="line">$ cat /etc/centos-release</span><br></pre></td></tr></table></figure>
+<h3 id="下载并安装对应的repo"><a href="#下载并安装对应的repo" class="headerlink" title="下载并安装对应的repo"></a>下载并安装对应的repo</h3><p>知道了自己的linux系统版本，就执行相应的命令下载</p>
+<ul>
+<li>RHEL/CentOS 7 64 Bit</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm</span><br><span class="line">$ rpm -ivh epel-release-7-9.noarch.rpm</span><br></pre></td></tr></table></figure>
+<ul>
+<li>RHEL/CentOS 6 32/64 Bit</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## RHEL/CentOS 6 32-Bit ##</span></span><br><span class="line">$ wget http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm</span><br><span class="line">$ rpm -ivh epel-release-6-8.noarch.rpm</span><br><span class="line"><span class="comment">## RHEL/CentOS 6 64-Bit ##</span></span><br><span class="line">$ wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span><br><span class="line">$ rpm -ivh epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>因为RedHat/CentOS 5上面， 最高支持到PHP5.5版本，所以这里就不做过多的介绍了。</p>
+<h3 id="删除多余的repo"><a href="#删除多余的repo" class="headerlink" title="删除多余的repo"></a>删除多余的repo</h3><p>如果在安装的过程中，提示已经有别的版本的epel源安装了，可以通过下面的命令删除。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum remove epel-release</span><br></pre></td></tr></table></figure>
+<h2 id="设置DNS"><a href="#设置DNS" class="headerlink" title="设置DNS"></a>设置DNS</h2><p>如果我们的服务器是部署在安全级别比较高的内网中，内网环境有可能会将DNS服务掐断，这样我们在通过yum下载时，就会得到无法解析dns的错误。<br>解决办法就是手动为你要使用的yum源下载地址配置dns。</p>
+<p>假设我们下载的地址<code>mirror.webtatic.com</code>因为DNS解析的原因无法下载，那么要做的是</p>
+<ol>
+<li>在一个可以上网的环境，<code>ping mirror.webtatic.com</code>拿到该域名的ip地址</li>
+<li><code>vim /etc/hosts</code>，修改hosts文件内容，添加进去ip地址及对应的域名</li>
+<li>示例如下：</li>
+</ol>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170302/5.png" width="500"><br></p>
+
+<p>图上就是要在内网用rpm下载webtatic源以及通过webtatic源下载php时添加进去的两条dns解析内容</p>
+<h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><ul>
+<li><a href="http://www.techoism.com/how-to-upgrade-php-version-5-4-to-5-6-on-centosrhel/" target="_blank" rel="external">How to Upgrade PHP version 5.4 to 5.6 on CentOS/RHEL 6/7</a></li>
+<li><a href="http://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/" target="_blank" rel="external">How to Enable EPEL Repository for RHEL/CentOS 7.x/6.x/5.x</a></li>
+<li><a href="http://www.linuxquestions.org/questions/linux-newbie-8/ho-to-remove-epel-release-6-8-noarch-4175488795/" target="_blank" rel="external">Ho to remove epel-release-6-8.noarch</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/LAMP/">LAMP</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/php/">php</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2017/03/02/yum-install-php56-on-rhel6/" data-title="【PHP】在RedHat6上通过yum安装php5.6 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/03/01/mysql-innodb-buffer-pool-size/"  title="【MySql】存储过程执行失败--The total number of locks exceeds the lock table size">
+ <strong>下一篇：</strong><br/> 
+ <span>【MySql】存储过程执行失败--The total number of locks exceeds the lock table size
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+<!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2017/03/02/yum-install-php56-on-rhel6/"
+data-title="【PHP】在RedHat6上通过yum安装php5.6" data-url="http://lipeng1667.github.io/2017/03/02/yum-install-php56-on-rhel6/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"lipeng1667"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#下载Webtatic源"><span class="toc-number">1.</span> <span class="toc-text">下载Webtatic源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#卸载低版本php"><span class="toc-number">2.</span> <span class="toc-text">卸载低版本php</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用yum安装php5-6"><span class="toc-number">3.</span> <span class="toc-text">用yum安装php5.6</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看php版本、重启apache服务"><span class="toc-number">4.</span> <span class="toc-text">查看php版本、重启apache服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充内容"><span class="toc-number">5.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EPEL源"><span class="toc-number">5.1.</span> <span class="toc-text">EPEL源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#确定linux版本"><span class="toc-number">5.1.1.</span> <span class="toc-text">确定linux版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并安装对应的repo"><span class="toc-number">5.1.2.</span> <span class="toc-text">下载并安装对应的repo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除多余的repo"><span class="toc-number">5.1.3.</span> <span class="toc-text">删除多余的repo</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置DNS"><span class="toc-number">5.2.</span> <span class="toc-text">设置DNS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢"><span class="toc-number">6.</span> <span class="toc-text">致谢</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lipeng1667"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
