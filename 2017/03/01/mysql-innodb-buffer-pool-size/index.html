@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/1.png">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/5.png">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/2.png">
-<meta property="og:updated_time" content="2017-03-01T07:05:38.000Z">
+<meta property="og:updated_time" content="2017-03-02T11:31:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MySql】存储过程执行失败--The total number of locks exceeds the lock table size">
 <meta name="twitter:description" content="最近发现如果业务到达高峰期，凌晨执行的某项Job就会不执行；但是如果我手动去跑的话，发现又是正常的。后来通过google和stackoverflow找到了解决问题的办法，特此记录一下。">
@@ -106,7 +106,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#查找问题"><span class="toc-number">1.</span> <span class="toc-text">查找问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决问题"><span class="toc-number">2.</span> <span class="toc-text">解决问题</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#查找问题"><span class="toc-number">1.</span> <span class="toc-text">查找问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决问题"><span class="toc-number">2.</span> <span class="toc-text">解决问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充"><span class="toc-number">3.</span> <span class="toc-text">补充</span></a></li></ol>
 		
 		</div>
 		
@@ -143,6 +143,14 @@
 <li>重启mysql(<code>service mysqld restart</code>)</li>
 </ol>
 <p>重启之后，可以到mysql下面再次执行<code>show variables like &#39;%buffer%&#39;;</code>命令，看看是不是相应的buffer值已经被改变了。</p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>有同学可能要问了，这里我们是把缓冲区设置成了<code>64M</code>，但是你如何确定这个64M到底够不够用呢？？ 如果不够用怎么办呢？？</p>
+<p>下面的方法可以帮助你判断自己到底要设置多大的缓冲区。</p>
+<ol>
+<li>先将缓冲区设置成尽量大一点的，比如内存的25%或者更多，然后让你的MySql正常跑一段时间（1周或者1个月）</li>
+<li>在mysql中查看下面的内容：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> (PagesData*PageSize)/<span class="keyword">POWER</span>(<span class="number">1024</span>,<span class="number">3</span>) DataGB <span class="keyword">FROM</span></span><br><span class="line">  (<span class="keyword">SELECT</span> variable_value PagesData</span><br><span class="line">    <span class="keyword">FROM</span> information_schema.global_status</span><br><span class="line">    <span class="keyword">WHERE</span> variable_name=<span class="string">'Innodb_buffer_pool_pages_data'</span>) A,</span><br><span class="line">  (<span class="keyword">SELECT</span> variable_value PageSize</span><br><span class="line">    <span class="keyword">FROM</span> information_schema.global_status</span><br><span class="line">    <span class="keyword">WHERE</span> variable_name=<span class="string">'Innodb_page_size'</span>) B;</span><br></pre></td></tr></table></figure>
+<p>得到的结果就是你的存储过程在过去的一段时间使用到的缓冲区的峰值大小，单位是<code>GB</code>；然后你可以根据这个大小来决定你到底要分配多少内存过去了~：</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -227,7 +235,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#查找问题"><span class="toc-number">1.</span> <span class="toc-text">查找问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决问题"><span class="toc-number">2.</span> <span class="toc-text">解决问题</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#查找问题"><span class="toc-number">1.</span> <span class="toc-text">查找问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决问题"><span class="toc-number">2.</span> <span class="toc-text">解决问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充"><span class="toc-number">3.</span> <span class="toc-text">补充</span></a></li></ol>
  
   </div>
 
