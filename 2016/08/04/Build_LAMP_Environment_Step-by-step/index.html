@@ -29,7 +29,8 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/06.png">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/07.png">
 <meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/08.png">
-<meta property="og:updated_time" content="2017-03-07T02:38:44.000Z">
+<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170314/1.png">
+<meta property="og:updated_time" content="2017-03-14T01:53:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【LAMP】搭建LAMP系统及相关配置">
 <meta name="twitter:description" content="不得不说云服务做的越来越好以后，搭建LAMP(Linux+Apache+MySQL+PHP)环境变得越来越方便了。这篇博文就记录一下在阿里云的主机上搭建LAMP环境的全过程，当然，整个过程也是参考了很多前人的经验，在文章最后我会全部贴出来以示感谢。先列出来各个版本：
@@ -64,7 +65,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -78,7 +79,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -101,7 +102,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-04T10:48:02.000Z" itemprop="datePublished"> Published 2016-08-04</time>
+    <time datetime="2016-08-04T10:48:02.000Z" itemprop="datePublished"> 发表于 2016-08-04</time>
   </p>
   
   <p class="page-count">
@@ -113,9 +114,9 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL"><span class="toc-number">2.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#yum安装mysql"><span class="toc-number">2.1.</span> <span class="toc-text">yum安装mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动mysql服务"><span class="toc-number">2.2.</span> <span class="toc-text">启动mysql服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接数据库"><span class="toc-number">2.3.</span> <span class="toc-text">连接数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为root用户创建密码"><span class="toc-number">2.3.1.</span> <span class="toc-text">为root用户创建密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建用户可以远程访问"><span class="toc-number">2.3.2.</span> <span class="toc-text">新建用户可以远程访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改字符集"><span class="toc-number">2.3.3.</span> <span class="toc-text">修改字符集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查找文件"><span class="toc-number">2.3.3.1.</span> <span class="toc-text">查找文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件"><span class="toc-number">2.3.3.2.</span> <span class="toc-text">修改文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改innodb-buffer-大小"><span class="toc-number">2.3.3.3.</span> <span class="toc-text">修改innodb buffer 大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置event执行"><span class="toc-number">2.3.3.4.</span> <span class="toc-text">配置event执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启mysql服务"><span class="toc-number">2.3.3.5.</span> <span class="toc-text">重启mysql服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看修改结果"><span class="toc-number">2.3.3.6.</span> <span class="toc-text">查看修改结果</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Apache"><span class="toc-number">3.</span> <span class="toc-text">安装Apache</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装php"><span class="toc-number">4.</span> <span class="toc-text">安装php</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">4.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.2.</span> <span class="toc-text">测试</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL"><span class="toc-number">2.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#yum安装mysql"><span class="toc-number">2.1.</span> <span class="toc-text">yum安装mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动mysql服务"><span class="toc-number">2.2.</span> <span class="toc-text">启动mysql服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接数据库"><span class="toc-number">2.3.</span> <span class="toc-text">连接数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为root用户创建密码"><span class="toc-number">2.3.1.</span> <span class="toc-text">为root用户创建密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建用户可以远程访问"><span class="toc-number">2.3.2.</span> <span class="toc-text">新建用户可以远程访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改字符集"><span class="toc-number">2.3.3.</span> <span class="toc-text">修改字符集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查找文件"><span class="toc-number">2.3.3.1.</span> <span class="toc-text">查找文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件"><span class="toc-number">2.3.3.2.</span> <span class="toc-text">修改文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改innodb-buffer-大小"><span class="toc-number">2.3.3.3.</span> <span class="toc-text">修改innodb buffer 大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置event执行"><span class="toc-number">2.3.3.4.</span> <span class="toc-text">配置event执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启mysql服务"><span class="toc-number">2.3.3.5.</span> <span class="toc-text">重启mysql服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看修改结果"><span class="toc-number">2.3.3.6.</span> <span class="toc-text">查看修改结果</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Apache"><span class="toc-number">3.</span> <span class="toc-text">安装Apache</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改apache配置"><span class="toc-number">3.1.</span> <span class="toc-text">修改apache配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动apache服务"><span class="toc-number">3.2.</span> <span class="toc-text">启动apache服务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装php"><span class="toc-number">4.</span> <span class="toc-text">安装php</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">4.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.2.</span> <span class="toc-text">测试</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -222,7 +223,15 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <h1 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h1><p>apache的安装也非常简单了，直接键入下面的命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd httpd-devel</span><br></pre></td></tr></table></figure>
 <p>同样yum在检测后会提示我们进行下载，我们直接输入y，然后回车就可以开始下载了。</p>
-<p>用下面的命令来启动apache服务器</p>
+<h2 id="修改apache配置"><a href="#修改apache配置" class="headerlink" title="修改apache配置"></a>修改apache配置</h2><p>我们这里了主要修改下配置，出于安全目的，关闭网站的目录浏览功能。</p>
+<p>找到httpd的配置文件目录：<code>/etc/httpd/conf/httpd.conf</code></p>
+<p>编辑下面的条目：</p>
+<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170314/1.png" width="500"><br></p>
+
+<p>在<code>&lt;Directory &quot;/var/www/html&quot;&gt;</code>条目中，修改<code>Options Indexs FollowSymLinks</code> 为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Options -Indexs FollowSymLinks</span><br></pre></td></tr></table></figure>
+<p>即在<code>Indexs</code>前加上<code>-</code>号。</p>
+<h2 id="启动apache服务"><a href="#启动apache服务" class="headerlink" title="启动apache服务"></a>启动apache服务</h2><p>用下面的命令来启动apache服务器</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/httpd start</span><br></pre></td></tr></table></figure>
 <p>和<code>mysqld</code>服务类似，httpd就是apache的服务名称，我们同样可以通过</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig httpd on</span><br></pre></td></tr></table></figure>
@@ -327,22 +336,22 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL"><span class="toc-number">2.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#yum安装mysql"><span class="toc-number">2.1.</span> <span class="toc-text">yum安装mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动mysql服务"><span class="toc-number">2.2.</span> <span class="toc-text">启动mysql服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接数据库"><span class="toc-number">2.3.</span> <span class="toc-text">连接数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为root用户创建密码"><span class="toc-number">2.3.1.</span> <span class="toc-text">为root用户创建密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建用户可以远程访问"><span class="toc-number">2.3.2.</span> <span class="toc-text">新建用户可以远程访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改字符集"><span class="toc-number">2.3.3.</span> <span class="toc-text">修改字符集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查找文件"><span class="toc-number">2.3.3.1.</span> <span class="toc-text">查找文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件"><span class="toc-number">2.3.3.2.</span> <span class="toc-text">修改文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改innodb-buffer-大小"><span class="toc-number">2.3.3.3.</span> <span class="toc-text">修改innodb buffer 大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置event执行"><span class="toc-number">2.3.3.4.</span> <span class="toc-text">配置event执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启mysql服务"><span class="toc-number">2.3.3.5.</span> <span class="toc-text">重启mysql服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看修改结果"><span class="toc-number">2.3.3.6.</span> <span class="toc-text">查看修改结果</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Apache"><span class="toc-number">3.</span> <span class="toc-text">安装Apache</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装php"><span class="toc-number">4.</span> <span class="toc-text">安装php</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">4.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.2.</span> <span class="toc-text">测试</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL"><span class="toc-number">2.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#yum安装mysql"><span class="toc-number">2.1.</span> <span class="toc-text">yum安装mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动mysql服务"><span class="toc-number">2.2.</span> <span class="toc-text">启动mysql服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接数据库"><span class="toc-number">2.3.</span> <span class="toc-text">连接数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为root用户创建密码"><span class="toc-number">2.3.1.</span> <span class="toc-text">为root用户创建密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建用户可以远程访问"><span class="toc-number">2.3.2.</span> <span class="toc-text">新建用户可以远程访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改字符集"><span class="toc-number">2.3.3.</span> <span class="toc-text">修改字符集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查找文件"><span class="toc-number">2.3.3.1.</span> <span class="toc-text">查找文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件"><span class="toc-number">2.3.3.2.</span> <span class="toc-text">修改文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改innodb-buffer-大小"><span class="toc-number">2.3.3.3.</span> <span class="toc-text">修改innodb buffer 大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置event执行"><span class="toc-number">2.3.3.4.</span> <span class="toc-text">配置event执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启mysql服务"><span class="toc-number">2.3.3.5.</span> <span class="toc-text">重启mysql服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看修改结果"><span class="toc-number">2.3.3.6.</span> <span class="toc-text">查看修改结果</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Apache"><span class="toc-number">3.</span> <span class="toc-text">安装Apache</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改apache配置"><span class="toc-number">3.1.</span> <span class="toc-text">修改apache配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动apache服务"><span class="toc-number">3.2.</span> <span class="toc-text">启动apache服务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装php"><span class="toc-number">4.</span> <span class="toc-text">安装php</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">4.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.2.</span> <span class="toc-text">测试</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -387,7 +396,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -407,7 +416,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
+				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
 			
 		
 			
@@ -419,7 +428,7 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
 			
 		
 			
@@ -427,15 +436,15 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
 			
 		
 			
@@ -447,18 +456,6 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
 			
 		
@@ -467,7 +464,19 @@ var duoshuoQuery = {short_name:"lipeng1667"};
 			
 		
 			
-				<li><a href="/tags/Layout/" title="Layout">Layout<sup>1</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AsyncTask/" title="AsyncTask">AsyncTask<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -725,7 +734,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
