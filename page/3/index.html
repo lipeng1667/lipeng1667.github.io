@@ -81,6 +81,70 @@
     <header class="article-info clearfix">
         <h1 itemprop="name">
         
+            <a href="/2016/08/06/memory-optimisation-for-webview-in-android/" title="【Android】 WebView内存泄漏优化之路" itemprop="url">【Android】 WebView内存泄漏优化之路</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2016-08-06T00:12:26.000Z" itemprop="datePublished"> Published 2016-08-06</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>这几年H5的快速发展，使得Hybrid混合开发越来越流行，而webview也成为了开发中必备的元素。但是我们知道WebView在加载页面时，会占用非常大的内存，无论是iOS还是Android系统上，加载一个Web页面一般需要用到100M左右，而如果我们不及时清理WebView的内存，那最后可能会随着内存消耗的不断增加而发生OOM(Out Of Memory)导致程序崩溃。那今天我就总结一下前一阵子在开发中解决WebView内存消耗过大问题吧，当然，这个过程也是参考了很多前人的经验总结，我会照例在文章的末尾列出来表示感谢。<br>这里先交代下关于查看程序的内存消耗，笔者每次都是在程序运行起来以后，通过手机上的系统工具来查看每个应用实时消耗内存的大小。因为AndroidStudio的Monitor中的内存消耗并没有记录WebView，而手机上工具显示的一定是准确有效的，所以，不要说我看AndroidStudio里面的内存并没有增加啊就误以为你的内存控制策略真的有效。<br>好了，我们来看一下一个有效的WebView内存控制策略是如何的。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/08/06/memory-optimisation-for-webview-in-android/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/内存管理/">内存管理</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/08/06/memory-optimisation-for-webview-in-android/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/08/06/memory-optimisation-for-webview-in-android/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
             <a href="/2016/08/05/connect_remote_mysql_and_config_phpstorm_for_your_php_project/" title="远程连接MySQL以及PHPStorm远程开发你的php项目" itemprop="url">远程连接MySQL以及PHPStorm远程开发你的php项目</a>
         </h1>
         <p class="article-author">BY
@@ -646,71 +710,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-
-    <header class="article-info clearfix">
-        <h1 itemprop="name">
-        
-            <a href="/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/" title="【Android】AsyncTask类实现轻量级的异步操作" itemprop="url">【Android】AsyncTask类实现轻量级的异步操作</a>
-        </h1>
-        <p class="article-author">BY
-            
-		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
-		    
-        <p class="article-time">
-            <time datetime="2016-03-23T01:29:42.000Z" itemprop="datePublished"> Published 2016-03-23</time>
-        </p>
-    </header>
-    <div class="article-content">
-        
-        <p>实际开发过程中，我们难免会遇到需要异步操作的场景:</p>
-<p>例如用户下载升级文件，要让用户能够看到下载进度，同时完成后能点击安装，那下载的过程就是在另一个线程中完成，同时进度的显示则是要实时通知到UI主线程中的。<br>类似这样的轻量级的异步操作还有很多，那Android就给我们提供了一个方便的类<code>AsyncTask</code>来实现。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/android/">Android</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/AsyncTask/">AsyncTask</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/23/【Android】AsyncTask类实现轻量级的异步操作/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -745,7 +744,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
 		  
 		
 		  
@@ -782,15 +781,15 @@
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -822,15 +821,11 @@
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+				<li><a href="/tags/ssh/" title="ssh">ssh<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
 			
 		
 			
@@ -842,7 +837,11 @@
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
 			
 		
 			
@@ -854,7 +853,7 @@
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
 			
 		
 		</ul>
