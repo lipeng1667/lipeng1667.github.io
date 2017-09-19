@@ -1,0 +1,638 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Oracle】PHP通过PDO访问oracle数据库 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="虽然LAMP中PHP和Mysql是标准配对，但是公司的项目是Mysql和Oracle分别作为运行库和详单库的，所以PHP连接oracle数据库也是必须要实现的。本篇文章就介绍下如果通过PDO连接到oracle数据库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Oracle】PHP通过PDO访问oracle数据库">
+<meta property="og:url" content="http://lipeng1667.github.io/2017/09/01/php_pdo_connect_to_oracle/index.html">
+<meta property="og:site_name" content="KaKa's blog">
+<meta property="og:description" content="虽然LAMP中PHP和Mysql是标准配对，但是公司的项目是Mysql和Oracle分别作为运行库和详单库的，所以PHP连接oracle数据库也是必须要实现的。本篇文章就介绍下如果通过PDO连接到oracle数据库。">
+<meta property="og:updated_time" content="2017-09-19T09:31:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Oracle】PHP通过PDO访问oracle数据库">
+<meta name="twitter:description" content="虽然LAMP中PHP和Mysql是标准配对，但是公司的项目是Mysql和Oracle分别作为运行库和详单库的，所以PHP连接oracle数据库也是必须要实现的。本篇文章就介绍下如果通过PDO连接到oracle数据库。">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/09/01/php_pdo_connect_to_oracle/" title="【Oracle】PHP通过PDO访问oracle数据库" itemprop="url">【Oracle】PHP通过PDO访问oracle数据库</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2017-09-01T07:10:35.000Z" itemprop="datePublished"> Published 2017-09-01</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装PDO-OCI"><span class="toc-number">2.</span> <span class="toc-text">安装PDO_OCI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并解压缩"><span class="toc-number">2.1.</span> <span class="toc-text">下载并解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">2.3.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">2.4.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ini文件"><span class="toc-number">2.5.</span> <span class="toc-text">创建ini文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装OCI8"><span class="toc-number">3.</span> <span class="toc-text">安装OCI8</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并解压缩-1"><span class="toc-number">3.1.</span> <span class="toc-text">下载并解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译和安装"><span class="toc-number">3.2.</span> <span class="toc-text">编译和安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ini文件-1"><span class="toc-number">3.3.</span> <span class="toc-text">创建ini文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重启Apache"><span class="toc-number">4.</span> <span class="toc-text">重启Apache</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考-amp-致谢"><span class="toc-number">5.</span> <span class="toc-text">参考&致谢</span></a></li></ol>
+		
+		</div>
+		
+		<p>虽然LAMP中PHP和Mysql是标准配对，但是公司的项目是Mysql和Oracle分别作为运行库和详单库的，所以PHP连接oracle数据库也是必须要实现的。本篇文章就介绍下如果通过PDO连接到oracle数据库。</p>
+<a id="more"></a>
+<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><p>同样先说明下我使用到的环境：</p>
+<ul>
+<li>RedHat(CentOS)6.7</li>
+<li>PHP5.6</li>
+<li>Oracle11g</li>
+</ul>
+<p>php5.6的搭建可以参照<a href="http://lipeng1667.github.io/2017/03/02/yum-install-php56-on-rhel6/">这里</a>；<br>Oracle在linux环境下的安装可以参考<a href="http://lipeng1667.github.io/2017/03/20/oracle-silence-install-in-rhel/">这里</a></p>
+<p>当然，你也可以不安装整个oracle，而只安装instant client来实现；如果是instant client的oracle连接步骤参见本篇博文最后的致谢部分。</p>
+<p>在开始下面的步骤前，请务必确保以上的3个环境都正确配置可用。</p>
+<h1 id="安装PDO-OCI"><a href="#安装PDO-OCI" class="headerlink" title="安装PDO_OCI"></a>安装PDO_OCI</h1><p>如果你是安装的php5.6.31版本，似乎pdo_oci模块已经自带了；但是稳妥起见，我们重新安装一遍。</p>
+<h2 id="下载并解压缩"><a href="#下载并解压缩" class="headerlink" title="下载并解压缩"></a>下载并解压缩</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://pecl.php.net/get/PDO_OCI-1.0.tgz</span><br><span class="line">$ tar -xvf PDO_OCI-1.0.tgz</span><br><span class="line">$ <span class="built_in">cd</span> PDO_OCI-1.0</span><br></pre></td></tr></table></figure>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>更新目录中的<code>config.m4</code>文件，使其适配Oracle11g</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在第10行左右找到与下面类似的代码，添加这两行：</span></span><br><span class="line"><span class="keyword">elif</span> <span class="built_in">test</span> <span class="_">-f</span> <span class="variable">$PDO_OCI_DIR</span>/lib/libclntsh.<span class="variable">$SHLIB_SUFFIX_NAME</span>.11.2; <span class="keyword">then</span></span><br><span class="line">  PDO_OCI_VERSION=11.2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在第101行左右添加这几行：</span></span><br><span class="line">11.2)</span><br><span class="line">  PHP_ADD_LIBRARY(clntsh, 1, PDO_OCI_SHARED_LIBADD)</span><br><span class="line">  ;;</span><br></pre></td></tr></table></figure>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>在当前目录下执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ phpize</span><br></pre></td></tr></table></figure>
+<p><code>phpize</code>类似于gcc命令，主要是用来生成php的外挂模块。<code>phpize</code>是依赖于<code>php-deval</code>模块的，如果命令无法执行，请自行利用<code>yum</code>安装<code>php-deval</code>;<br>你可以通过下面的命令检查下是否已经安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qa | grep php</span><br></pre></td></tr></table></figure>
+<p>查看是否有<code>php56w-deval-5.6.xxx</code>，如果没有，请<code>yum install php56w-deval</code>来安装。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><code>phpize</code>命令执行之后，会在目录下生成很多文件，其中包括<code>configure</code>等我们常见的linux下通过源码安装应用的标准文件，依次执行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure</span><br><span class="line">$ make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>这里一般会遇到一个问题，在make的时候会提示在<code>pdo_oci.c</code>文件中:</p>
+<blockquote>
+<p>pdo_oci.c:34: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<strong>attribute</strong>’ before ‘pdo_oci_functions’</p>
+</blockquote>
+<p>解决办法是修改<code>pdo_oci.c</code>文件的第34行，把<code>function_entry</code>修改成<code>zend_function_entry</code>,保存后重新make就可以了。</p>
+<h2 id="创建ini文件"><a href="#创建ini文件" class="headerlink" title="创建ini文件"></a>创建ini文件</h2><p>成功之后，会提示已经在<code>/usr/lib64/php/modules</code>目录下生成了<code>pdo_oci.so</code>模块，我们要做的就是告诉php，我们要引用这个模块。</p>
+<p>在<code>/etc/php.d</code>目录下新建一个ini文件：<code>pdo_oci.ini</code>，内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extension=pdo_oci.so</span><br></pre></td></tr></table></figure>
+<p>到这里，pdo_oci模块就安装完成了，我们可以通过<code>php -m | grep oci</code>来查看。</p>
+<h1 id="安装OCI8"><a href="#安装OCI8" class="headerlink" title="安装OCI8"></a>安装OCI8</h1><p>接下来就是安装oci8模块。</p>
+<h2 id="下载并解压缩-1"><a href="#下载并解压缩-1" class="headerlink" title="下载并解压缩"></a>下载并解压缩</h2><p>依次在命令行中执行下面的命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://pecl.php.net/get/oci8-2.0.8.tgz</span><br><span class="line">$ tar -xvf oci8-2.0.8.tgz</span><br><span class="line">$ <span class="built_in">cd</span> oci8-2.0.8</span><br></pre></td></tr></table></figure>
+<h2 id="编译和安装"><a href="#编译和安装" class="headerlink" title="编译和安装"></a>编译和安装</h2><p>步骤和上面pdo_oci是类似的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ phpize</span><br><span class="line">$ ./configure --with-oci8=shared</span><br><span class="line">$ make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h2 id="创建ini文件-1"><a href="#创建ini文件-1" class="headerlink" title="创建ini文件"></a>创建ini文件</h2><p>同样的，我们在<code>/etc/php.d</code>目录下创建<code>oci8.ini</code>,内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extension=oci8.so</span><br></pre></td></tr></table></figure>
+<h1 id="重启Apache"><a href="#重启Apache" class="headerlink" title="重启Apache"></a>重启Apache</h1><p>别忘记重启一下apache服务器来重新加载php的模块：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service httpd restart</span><br></pre></td></tr></table></figure>
+<p>我们可以通过在网站目录下创建一个<code>test.php</code>文件，文件中的内容是：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo();</span><br></pre></td></tr></table></figure>
+<p>然后我们到页面中去查看下打印出来的phpinfo信息，查看其中的<code>pdo</code>, <code>pdo_oci</code>和<code>oci8</code>模块的相关信息。</p>
+<h1 id="参考-amp-致谢"><a href="#参考-amp-致谢" class="headerlink" title="参考&amp;致谢"></a>参考&amp;致谢</h1><ul>
+<li><a href="http://seanlook.com/2015/03/10/install-pdo-oci-oci8-phpext/" target="_blank" rel="external">php5.3连接oracle的客户端及pdo_oci模块安装
+</a></li>
+<li><a href="https://shiki.me/blog/installing-pdo_oci-and-oci8-php-extensions-on-centos-6-4-64bit" target="_blank" rel="external">Installing PDO_OCI and OCI8 PHP extensions on CentOS 6.4 64bit
+</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Database/">数据库</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/php/">php</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2017/09/01/php_pdo_connect_to_oracle/" data-title="【Oracle】PHP通过PDO访问oracle数据库 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/06/29/apache-virtualhost-multi-port/"  title="【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点">
+ <strong>下一篇：</strong><br/> 
+ <span>【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+   <!-- <noscript>Please enable JavaScript to view the <a
+href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
+  </div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装PDO-OCI"><span class="toc-number">2.</span> <span class="toc-text">安装PDO_OCI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并解压缩"><span class="toc-number">2.1.</span> <span class="toc-text">下载并解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">2.3.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">2.4.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ini文件"><span class="toc-number">2.5.</span> <span class="toc-text">创建ini文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装OCI8"><span class="toc-number">3.</span> <span class="toc-text">安装OCI8</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并解压缩-1"><span class="toc-number">3.1.</span> <span class="toc-text">下载并解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译和安装"><span class="toc-number">3.2.</span> <span class="toc-text">编译和安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ini文件-1"><span class="toc-number">3.3.</span> <span class="toc-text">创建ini文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重启Apache"><span class="toc-number">4.</span> <span class="toc-text">重启Apache</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考-amp-致谢"><span class="toc-number">5.</span> <span class="toc-text">参考&致谢</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
