@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2017/09/01/php_pdo_connect_to_oracle/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="虽然LAMP中PHP和Mysql是标准配对，但是公司的项目是Mysql和Oracle分别作为运行库和详单库的，所以PHP连接oracle数据库也是必须要实现的。本篇文章就介绍下如果通过PDO连接到oracle数据库。">
-<meta property="og:updated_time" content="2017-09-19T09:31:01.000Z">
+<meta property="og:updated_time" content="2017-11-29T08:13:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Oracle】PHP通过PDO访问oracle数据库">
 <meta name="twitter:description" content="虽然LAMP中PHP和Mysql是标准配对，但是公司的项目是Mysql和Oracle分别作为运行库和详单库的，所以PHP连接oracle数据库也是必须要实现的。本篇文章就介绍下如果通过PDO连接到oracle数据库。">
@@ -121,9 +121,9 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在第10行左右找到与下面类似的代码，添加这两行：</span></span><br><span class="line"><span class="keyword">elif</span> <span class="built_in">test</span> <span class="_">-f</span> <span class="variable">$PDO_OCI_DIR</span>/lib/libclntsh.<span class="variable">$SHLIB_SUFFIX_NAME</span>.11.2; <span class="keyword">then</span></span><br><span class="line">  PDO_OCI_VERSION=11.2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在第101行左右添加这几行：</span></span><br><span class="line">11.2)</span><br><span class="line">  PHP_ADD_LIBRARY(clntsh, 1, PDO_OCI_SHARED_LIBADD)</span><br><span class="line">  ;;</span><br></pre></td></tr></table></figure>
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>在当前目录下执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ phpize</span><br></pre></td></tr></table></figure>
-<p><code>phpize</code>类似于gcc命令，主要是用来生成php的外挂模块。<code>phpize</code>是依赖于<code>php-deval</code>模块的，如果命令无法执行，请自行利用<code>yum</code>安装<code>php-deval</code>;<br>你可以通过下面的命令检查下是否已经安装：</p>
+<p><code>phpize</code>类似于gcc命令，主要是用来生成php的外挂模块。<code>phpize</code>是依赖于<code>php-devel</code>模块的，如果命令无法执行，请自行利用<code>yum</code>安装<code>php-devel</code>;<br>你可以通过下面的命令检查下是否已经安装：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qa | grep php</span><br></pre></td></tr></table></figure>
-<p>查看是否有<code>php56w-deval-5.6.xxx</code>，如果没有，请<code>yum install php56w-deval</code>来安装。</p>
+<p>查看是否有<code>php56w-devel-5.6.xxx</code>，如果没有，请<code>yum install php56w-devel</code>来安装。</p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><code>phpize</code>命令执行之后，会在目录下生成很多文件，其中包括<code>configure</code>等我们常见的linux下通过源码安装应用的标准文件，依次执行下面的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure</span><br><span class="line">$ make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
 <p>这里一般会遇到一个问题，在make的时候会提示在<code>pdo_oci.c</code>文件中:</p>
