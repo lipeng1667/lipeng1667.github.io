@@ -19,14 +19,14 @@ This Handler class should be static or leaks might occur下面我们来详细分
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="最近开始优化以前程序中的代码，目标是消除掉所有的警告。然后今天就碰到了使用Handler时的一条警告信息：
 This Handler class should be static or leaks might occur下面我们来详细分析一下这条警告的由来及相应的解决办法。">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160624/0.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160624/1.png">
-<meta property="og:updated_time" content="2016-06-24T02:15:38.000Z">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160624/0.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160624/1.png">
+<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Android】Handler Class Should be Static or Leaks Occur 警告原因及处理">
 <meta name="twitter:description" content="最近开始优化以前程序中的代码，目标是消除掉所有的警告。然后今天就碰到了使用Handler时的一条警告信息：
 This Handler class should be static or leaks might occur下面我们来详细分析一下这条警告的由来及相应的解决办法。">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160624/0.png">
+<meta name="twitter:image" content="http://img.cdn.microwu.com/20160624/0.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -117,7 +117,7 @@ This Handler class should be static or leaks might occur下面我们来详细分
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Handler my_Handler_ = <span class="keyword">new</span> Handler() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// TODO you actions</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其实，如果把问题扩散开来，是一个更具普遍意义的问题：inner class 要不要设置成static的？<br>先上答案：<strong>一定要！</strong></p>
 <p>这个问题，Romain Guy在google自家的android开发者论坛上很早就有回答，我也是在搜索Stackoverflow的时候偶然看到的：</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160624/0.png" alt="Romain Guy&#39;s suggestion"></p>
+<p><img src="http://img.cdn.microwu.com/20160624/0.png" alt="Romain Guy&#39;s suggestion"></p>
 <p>这他建议的写法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OuterClass</span> </span>&#123;</span><br><span class="line">       <span class="class"><span class="keyword">class</span> <span class="title">InnerClass</span> </span>&#123;</span><br><span class="line">           <span class="keyword">private</span> <span class="keyword">final</span> WeakReference&lt;OuterClass&gt; mTarget;</span><br><span class="line"></span><br><span class="line">           InnerClass(OuterClass target) &#123;</span><br><span class="line">               mTarget = <span class="keyword">new</span> WeakReference&lt;OuterClass&gt;(target);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="function"><span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">               OuterClass target = mTarget.get();</span><br><span class="line">               <span class="keyword">if</span> (target != <span class="keyword">null</span>) target.do();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>引用<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1106/1922.html" target="_blank" rel="external">某位不知名的大牛的blog</a>中很清晰的解释:</p>
@@ -131,7 +131,7 @@ This Handler class should be static or leaks might occur下面我们来详细分
 <p>当Activity被finish()掉，Message 将存在于消息队列中长达10分钟的时间才会被执行到。这个Message持有一个对Handler的引用，Handler也会持有一个对于外部类（SampleActivity）的隐式引用，这些引用在Message被执行前将一直保持，这样会保证Activity的上下文不被垃圾回收机制回收，同时也会泄露应用程序的资源（views and resources）。</p>
 <p>为解决这个问题，下面这段代码中的Handler则是一个静态匿名内部类。静态匿名内部类不会持有一个对外部类的隐式引用，因此Activity将不会被泄露。如果你需要在Handler中调用外部Activity的方法，就让Handler持有一个对Activity的WeakReference，这样就不会泄露Activity的上下文了。</p>
 <p>我还在Stackoverflow的回答上看到一条回答是这样的：</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160624/1.png" alt="Stackoverflow"></p>
+<p><img src="http://img.cdn.microwu.com/20160624/1.png" alt="Stackoverflow"></p>
 <p>意思是没有必要使用<code>WeakReference</code>， 点赞的人同样很多，我后来才明白，他们讨论的是说non-static的inner class会有强引用，而Romain的建议里面似乎是忘记把InnerClass声明为<code>static</code>的了。所以，Tomasz才会说，WeakReference没有什么用，因为如果你的Inner Class不是static的，那自动有一个outer class的强引用了~<br>但是我们可以看到，老外在这方面的严谨程度，Sogger在回答里面也提到了这一点，但是他后面补充了一句，有可能Romain使用了一种酷炫的编译器如果inner class没有使用outer class的成员变量，那么就自动把inner class设置成static的？？Intresting~</p>
 <p><font color="red"><strong>结论：</strong></font><br><strong>无论如何，如果你要使用嵌套的class，最好要把它设置成static的。</strong><br>否则，inner class将会持有outer class的一个强引用，这样在多线程操作中，非常容易出现内存泄漏。</p>
 <p>最后附上我的部分源代码：</p>
@@ -268,11 +268,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -281,10 +285,6 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		
 			
 				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -332,15 +332,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			

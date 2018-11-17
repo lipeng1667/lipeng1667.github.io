@@ -17,26 +17,26 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2016/08/05/connect_remote_mysql_and_config_phpstorm_for_your_php_project/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="在上一篇博文中介绍了如何在完整地搭建LAMP环境。其中提到了新建一个可以在任意IP地址远程连接MySQL的用户，今天这篇博文就详细介绍下如何在你的电脑上远程连接mysql，并且介绍如何用phpstorm来远程开发你的php项目。">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/11.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/12.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/13.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/14.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/15.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/16.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/17.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/18.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/19.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/20.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/21.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/22.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/23.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/24.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/25.png">
-<meta property="og:updated_time" content="2016-08-07T11:35:14.000Z">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/11.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/12.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/13.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/14.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/15.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/16.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/17.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/18.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/19.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/20.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/21.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/22.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/23.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/24.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/25.png">
+<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="远程连接MySQL以及PHPStorm远程开发你的php项目">
 <meta name="twitter:description" content="在上一篇博文中介绍了如何在完整地搭建LAMP环境。其中提到了新建一个可以在任意IP地址远程连接MySQL的用户，今天这篇博文就详细介绍下如何在你的电脑上远程连接mysql，并且介绍如何用phpstorm来远程开发你的php项目。">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/11.png">
+<meta name="twitter:image" content="http://img.cdn.microwu.com/20160805/11.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -124,10 +124,10 @@
 <a id="more"></a>
 <p>我的开发环境是MAC，所以我这篇博文里面的相关方法都是在macOS环境下的，不过如果你习惯在win上面用命令行的话，我相信问题不大。</p>
 <h1 id="远程连接mysql"><a href="#远程连接mysql" class="headerlink" title="远程连接mysql"></a>远程连接mysql</h1><p>前提是你已经新建好了一个可以在任意IP地址连接数据库的用户，如果不清楚如何创建，请参考我的<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>中关于MySQL的部分。</p>
-<h2 id="下载mysql"><a href="#下载mysql" class="headerlink" title="下载mysql"></a>下载mysql</h2><p>MacOS系统本身是不带mysql的，所以我们需要去官网上下载一下。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/11.png" alt=""><br>我下载的是<a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="external">MySQL Community Server</a>, 其实这个不是普通的安装包，就是一个压缩包，因为我们要在命令行下远程连接mysql，所以，这个包就足够了~<br>解压缩之后，记下你保存的位置，我们要用到<code>bin</code>文件夹中的<code>mysql</code>。</p>
+<h2 id="下载mysql"><a href="#下载mysql" class="headerlink" title="下载mysql"></a>下载mysql</h2><p>MacOS系统本身是不带mysql的，所以我们需要去官网上下载一下。<br><img src="http://img.cdn.microwu.com/20160805/11.png" alt=""><br>我下载的是<a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="external">MySQL Community Server</a>, 其实这个不是普通的安装包，就是一个压缩包，因为我们要在命令行下远程连接mysql，所以，这个包就足够了~<br>解压缩之后，记下你保存的位置，我们要用到<code>bin</code>文件夹中的<code>mysql</code>。</p>
 <h2 id="设置mysql的别名"><a href="#设置mysql的别名" class="headerlink" title="设置mysql的别名"></a>设置mysql的别名</h2><p>我因为之前装了<code>zsh</code>,所以直接在<code>~/.zhsrc</code>中进行相关的别名设置就可以了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias mysql=&apos;/yourpath/mysql-5.7.14-osx10.11-x86_64/mysql-5.7.14-osx10.11-x86_64/bin/mysql&apos;</span><br></pre></td></tr></table></figure>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/12.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/12.png" alt=""></p>
 <p>注：</p>
 <ul>
 <li>如果不设置别名的话，每次需要使用完整的路径才能在命令行中使用mysql</li>
@@ -142,16 +142,16 @@
 <li><code>-u</code> 后面接的是我们新建好的用户名称，记得一定要设置可以在任意ip地址访问呦（或者指定ip地址也可以，但是一定要设置就好了）；</li>
 <li><code>-h</code> 后面接的是我们的mysql远程地址</li>
 </ul>
-<p>输入密码就可以远程访问我们的mysql了<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/13.png" alt=""></p>
+<p>输入密码就可以远程访问我们的mysql了<br><img src="http://img.cdn.microwu.com/20160805/13.png" alt=""></p>
 <p>这里有一个特别有意思的地方，我们可以看到在命令行中远程接入数据库，是要我们输入密码的，但是后面我们通过php连接的时候，却会发现很奇怪的现象，这个现象的原因在我的<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>中有详细描述，我们还是直接来看一下好了，不过不要急，我们先来搭建好phpstorm的环境。</p>
 <h1 id="搭建PhpStorm开发环境"><a href="#搭建PhpStorm开发环境" class="headerlink" title="搭建PhpStorm开发环境"></a>搭建PhpStorm开发环境</h1><p><a href="http://www.jetbrains.com/phpstorm/" target="_blank" rel="external">PhpStorm</a>也是JetBrains旗下非常好用的一款软件，当然也是要收费的，不过Mac用户可以通过这个<a href="http://xclient.info/s/php-storm.html" target="_blank" rel="external">网站</a>上下载PhpStorm，你懂的~</p>
 <h2 id="连接mysql数据库"><a href="#连接mysql数据库" class="headerlink" title="连接mysql数据库"></a>连接mysql数据库</h2><p>其实原理和我们之前在命令行中远程连接一样，如果你习惯看图形界面，那么你可以直接在PhpStorm上面进行数据库的一些操作。</p>
 <h3 id="新建database"><a href="#新建database" class="headerlink" title="新建database"></a>新建database</h3><p>在顶部菜单栏中选择 <code>View -&gt; Tool Windows --&gt; Database</code></p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/14.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/14.png" alt=""></p>
 <h3 id="添加Mysql"><a href="#添加Mysql" class="headerlink" title="添加Mysql"></a>添加Mysql</h3><p>选择左上角的 <strong>+</strong> 号，然后在弹出的列表中依次选择 <code>Data Source --&gt; MySQL</code></p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/15.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/15.png" alt=""></p>
 <p>接着填写相关的信息：</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/16.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/16.png" alt=""></p>
 <ul>
 <li><code>Host</code>：就是我们的远程主机的IP地址。这里说一下，一般商用的系统，服务器和数据库是分离的，这样可以保证数据的安全，不至于服务器被攻破以后数据库也一并暴露（或者反过来），但是我们的小系统没有必要分离，所以主机和数据库放在一起。</li>
 <li><code>Database</code>： 就是我们选择的某一个数据库，因为可能你新建的用户只允许访问某一个特殊的数据库，这里也可以留空就表示所有的库都可以访问</li>
@@ -161,9 +161,9 @@
 <p>注意看最下方，如果你们是第一次通过PhpStorm建立远程连接，应该会提示 <code>miss driver files</code>，我们直接点击下载就好了，下载成功后，就会显示和我的界面一样的<code>no ojbects</code>了.</p>
 <p>我们可以点击中间的<code>test</code>进行测试连接，正常的话，会提示<code>connect success</code>的对话框</p>
 <h3 id="保存连接"><a href="#保存连接" class="headerlink" title="保存连接"></a>保存连接</h3><p>点击OK以后，会弹出来让我们输入密码，这个密码是PhpStorm要用到的存储在本地密码，在日后要使用某个数据库时，可能会需要我们再次输入。</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/17.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/17.png" alt=""></p>
 <h3 id="成功接入"><a href="#成功接入" class="headerlink" title="成功接入"></a>成功接入</h3><p>贴一张我成功连接后的图片：</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/18.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/18.png" alt=""></p>
 <ul>
 <li>中间的窗口可以供我们进行数据库语句的编写，写完之后直接<code>Cmd + Enter</code>会提示我们执行相关的语句；</li>
 <li>右侧的窗口显示我们建立好连接的数据库的列表，包括每张表的详细列属性等等；</li>
@@ -172,15 +172,15 @@
 <p>在这个窗口执行相关数据的操作语句，就显得比较直观了~</p>
 <h2 id="远程开发PHP"><a href="#远程开发PHP" class="headerlink" title="远程开发PHP"></a>远程开发PHP</h2><p>如果<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>中大家按照步骤建立了完整的LAMP环境，也在<code>/var/www/html</code>中测试了我们放进去的第一个php文件，那么我们就看如何利用phpstorm进行远程开发吧，也就是我们可以在我们自己本机的电脑上进行线下的开发，等到测试没有问题了之后，直接部署到线上。</p>
 <h3 id="创建工程"><a href="#创建工程" class="headerlink" title="创建工程"></a>创建工程</h3><p>点击顶部菜单栏中的 <code>File --&gt; New Project from Existing Files...</code></p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/19.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/19.png" alt=""></p>
 <p>在弹出的对话框中选择 <code>Web server is on remote host, files are accessible via FTP/SFTP/FTPS</code></p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/20.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/20.png" alt=""></p>
 <p>然后给我们的工程命名和选择路径，在 <code>Deployment options</code>下选择 <code>Custom</code>， 点击 <code>next</code></p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/21.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/21.png" alt=""></p>
 <p>因为我们选择了custom，所以这里我们可以进行一些部署时的选项。为了图方便，我们可以选择每次保存文件的时候就自动上传，当然这样对测试系统是没有问题的，但是对于正式部署的系统要谨慎，一定要线下测试完成之后，再选择上传到remote端。</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/22.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/22.png" alt=""></p>
 <h3 id="添加远程的服务器"><a href="#添加远程的服务器" class="headerlink" title="添加远程的服务器"></a>添加远程的服务器</h3><p>然后我们选择 <code>Add new remote server</code>，点击 <code>next</code></p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/23.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/23.png" alt=""></p>
 <p>给自己的远程服务命名，然后 <code>type</code> 中选择 <code>SFTP</code>， 并填入相关的参数，</p>
 <ul>
 <li><code>SFTP host</code>: 填入我们的主机的ip地址</li>
@@ -189,9 +189,9 @@
 <li><code>User name</code>、 <code>Password</code> 大家都知道填什么对不对。</li>
 </ul>
 <p>完成之后可以 <code>Test SFTP connection...</code></p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/24.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/24.png" alt=""></p>
 <p>在下个页面中，选中 <code>Project Root</code>并且点击next</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/25.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/25.png" alt=""></p>
 <p>基本上整个环境就部署好了，我们可以试着新建一些php文件，然后编辑之后，点击Cmd+S，就会自动把文件上传到远端了，然后我们在相应的页面上就能看到我们刚部署上去的php文件了。</p>
 <h3 id="在php文件中连接数据"><a href="#在php文件中连接数据" class="headerlink" title="在php文件中连接数据"></a>在php文件中连接数据</h3><p>之前留了个悬念给大家，就是我们在php文件中连接我们的数据库，因为php文件和mysql数据库是在一个主机上的，所以相当于在localhost上面登录，而如果你之前添加的那个可以在任意ip地址登录的那个用户，在localhost上没有被赋予权限（因为我们近添加了<code>%</code>而没有添加<code>localhost</code>）详情参见<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>，就会登录失败。</p>
 <p>所以在你的php文件中，密码<strong>必须</strong>是null，才能登录成功。 当然如果你新建的其他用户只能在<code>localhost</code>通过密码登录，就真的需要输入秘密了。</p>
@@ -338,11 +338,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -351,10 +355,6 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		
 			
 				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -402,15 +402,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			

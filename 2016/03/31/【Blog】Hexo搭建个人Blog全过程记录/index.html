@@ -17,17 +17,17 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2016/03/31/【Blog】Hexo搭建个人Blog全过程记录/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="自动使用Hexo搭建Blog之后，觉得写Blog更加有动力了。之前的配置弄完就弄好了，这次新的Mac到手后，重新整理了下搭建Hexo的步骤，所有用到的东西都记录下，一是防自己忘记，二是给其他想用Hexo搭建博客的童鞋们指点个道路。">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160401:1.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160401:2.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160404/5.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160401:4.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160404/6.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160404/7.png">
-<meta property="og:updated_time" content="2016-04-01T11:48:42.000Z">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160401:1.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160401:2.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160404/5.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160401:4.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160404/6.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160404/7.png">
+<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Blog】Hexo搭建个人Blog全过程记录">
 <meta name="twitter:description" content="自动使用Hexo搭建Blog之后，觉得写Blog更加有动力了。之前的配置弄完就弄好了，这次新的Mac到手后，重新整理了下搭建Hexo的步骤，所有用到的东西都记录下，一是防自己忘记，二是给其他想用Hexo搭建博客的童鞋们指点个道路。">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160401:1.png">
+<meta name="twitter:image" content="http://img.cdn.microwu.com/20160401:1.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -115,17 +115,17 @@
 <a id="more"></a>
 <h1 id="安装Brew"><a href="#安装Brew" class="headerlink" title="安装Brew"></a>安装Brew</h1><p>Brew（又叫Homebrew）是一个很有用的工具，<a href="http://brew.sh/" target="_blank" rel="external">官网</a>中有这么一句话：<br><code>Homebrew installs the stuff you need that Apple didn’t.</code><br>安装的方法也很简单，官网上面在最明显的地方标识了如何安装Homebrew：<br>打开终端，输入下面的代码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby <span class="_">-e</span> <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
-<p>安装的过程如下，中间可能让你输入root的密码，完成后就安装好了。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160401:1.png" alt="1"></p>
+<p>安装的过程如下，中间可能让你输入root的密码，完成后就安装好了。<br><img src="http://img.cdn.microwu.com/20160401:1.png" alt="1"></p>
 <h1 id="安装wget-optional"><a href="#安装wget-optional" class="headerlink" title="安装wget(optional)"></a>安装wget(optional)</h1><p>注：<br>如果选择用wget下载node就继续，如果直接从官网下载安装Node直接跳过此步骤进入下一步。不过wget确实比较强大，建议大家还是顺手安装了吧，后面很多下载都可以抛弃curl了，直接用wget。</p>
 <p>其实我们安装Brew的目的也是为了安装wget。<br>Mac自带了curl，但是wget显然比自带的功能要强大。如果我们成功安装了Brew，那么wget的安装方法也非常简单，因为在brew的官网上面就赫然在列wget的安装语句：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install wget</span><br></pre></td></tr></table></figure>
-<p>安装过程如下，稍等片刻就安装完成了。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160401:2.png" alt="2"></p>
+<p>安装过程如下，稍等片刻就安装完成了。<br><img src="http://img.cdn.microwu.com/20160401:2.png" alt="2"></p>
 <h1 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h1><p>因为Hexo是依赖于Node的，所以我们需要先安装Node.js<br>从官网 (<a href="https://nodejs.org/en/)[https://nodejs.org/en/" target="_blank" rel="external">https://nodejs.org/en/)[https://nodejs.org/en/</a>] 上面直接下载就好了，然后一路next下去。 </p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160404/5.png" alt="5"><br>我是安装的4.4.2版本。</p>
+<p><img src="http://img.cdn.microwu.com/20160404/5.png" alt="5"><br>我是安装的4.4.2版本。</p>
 <h1 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><p>在root用户下尝试下面的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
 <p>因为如果不在root用户下会报错误：</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160401:4.png" alt="4"></p>
+<p><img src="http://img.cdn.microwu.com/20160401:4.png" alt="4"></p>
 <p>如果你的程序成功的完成了完成了安装，那么就ok了。我的是因为之前node安装过程中出了些小问题，最后实在没办法，只好求助官网，从官网上下载直接安装node。</p>
 <font color="red">下载hexo的过程可能会比较慢，猜测是因为GFW的原因，耐心等待一下</font>
 
@@ -138,13 +138,13 @@
 <ol>
 <li><p>首先确保你拥有root权限 <code>sudo -s</code></p>
 </li>
-<li><p>执行<code>npm uninstall hexo</code>此步骤会先卸载掉已经安装的hexo。下图列出了我的node和npm的版本信息。<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160404/6.png" alt=""></p>
+<li><p>执行<code>npm uninstall hexo</code>此步骤会先卸载掉已经安装的hexo。下图列出了我的node和npm的版本信息。<br><img src="http://img.cdn.microwu.com/20160404/6.png" alt=""></p>
 </li>
 <li><p>重新安装hexo，使用下面两个命令：</p>
 </li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">npm install hexo --save</span><br></pre></td></tr></table></figure>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160404/7.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160404/7.png" alt=""></p>
 <h1 id="用Hexo搭建blog"><a href="#用Hexo搭建blog" class="headerlink" title="用Hexo搭建blog"></a>用Hexo搭建blog</h1><font color="red"> 请注意：如果你以前从未用Hexo搭建过Blog，请移步 <a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">http://www.jianshu.com/p/05289a4bc8b2</a> , 那个教程里面有比较详细的过程，只不过那个教程里面没有讲如何安装Hexo的过程。</font>
 
 <p>因为我之前是有一直在写Blog的，也做了备份（再次强调，备份很重要，一些可能你认为没有什么用的备份说不定哪天就会帮上你的大忙），所以剩下的步骤就比较简单了。</p>
@@ -292,11 +292,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -305,10 +309,6 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		
 			
 				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -356,15 +356,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			

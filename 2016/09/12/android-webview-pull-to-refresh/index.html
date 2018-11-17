@@ -17,13 +17,13 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2016/09/12/android-webview-pull-to-refresh/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160923/00.gif">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160923/00.gif">
 <meta property="og:image" content="http://img.blog.csdn.net/20130706113543125?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2lueXU4OTA4MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
-<meta property="og:updated_time" content="2016-09-23T04:00:37.000Z">
+<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Android】WebView下拉刷新功能源码解析">
 <meta name="twitter:description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160923/00.gif">
+<meta name="twitter:image" content="http://img.cdn.microwu.com/20160923/00.gif">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -110,7 +110,7 @@
 		<p>之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？</p>
 <a id="more"></a>
 <p>网上还是有不少布道者给出了解决方案，然后我就仿照着这篇Blog：<a href="http://blog.csdn.net/guolin_blog/article/details/9255575" target="_blank" rel="external">Android下拉刷新完全解析，教你如何一分钟实现下拉刷新功能</a> ，实现了给WebView加上下拉刷新的功能。先来看一下最终的效果图：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20160923/00.gif"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20160923/00.gif"><br></p>
 
 <p>大致的实现原理可以参见原作者的博文。原作者是实现ListView的下拉刷新，我也是仔细阅读了作者的源码，读懂了他的实现原理，然后加以精华和修改，完成了自己的功能实现。因为之前的功能和我们自己的项目耦合性太高，所以我特地花了2天时间，把下拉webview的功能分离出来，形成了一个单独的库，已经上传到<a href="https://github.com/lipeng1667/PullToRefreshWebView" target="_blank" rel="external">我的Github</a>, 感兴趣的同学可以直接使用，同时欢迎Star和Fork，我也会不断完善相关的功能。</p>
 <p>这篇博文就来分析一下我的源码，看看究竟是如何在webview中实现下拉刷新功能的。<br>因为源码比较长，而且后续还会不断更新，所以我就不在这里贴出来了，大家可以参照<a href="https://github.com/lipeng1667/PullToRefreshWebView/blob/master/ptrwebview/src/main/java/com/microwu/ptrwebview/PullToRefreshWebView.java" target="_blank" rel="external">这里</a>并照着帖子来研究下。</p>
@@ -268,11 +268,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -281,10 +285,6 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		
 			
 				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -332,15 +332,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			

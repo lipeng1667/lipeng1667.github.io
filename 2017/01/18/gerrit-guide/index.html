@@ -17,58 +17,58 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2017/01/18/gerrit-guide/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="上一篇文章中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/2.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/3.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/4.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/10.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/5.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/7.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/8.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/11.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/9.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/12.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/13.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/14.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/15.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/16.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/17.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/18.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/19.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/20.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/21.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/22.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/23.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/24.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/25.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/26.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/27.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/28.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/30.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/29.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/31.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/32.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/33.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/34.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/35.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/41.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/36.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/38.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/37.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/39.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/40.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/42.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/43.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/44.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/45.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/46.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/47.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/48.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/49.png">
-<meta property="og:updated_time" content="2017-01-18T09:35:33.000Z">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/2.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/3.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/4.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/10.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/5.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/7.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/8.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/11.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/9.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/12.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/13.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/14.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/15.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/16.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/17.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/18.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/19.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/20.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/21.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/22.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/23.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/24.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/25.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/26.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/27.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/28.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/30.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/29.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/31.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/32.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/33.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/34.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/35.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/41.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/36.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/38.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/37.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/39.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/40.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/42.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/43.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/44.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/45.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/46.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/47.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/48.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170118/49.png">
+<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Gerrit】Gerrit工作流程及使用手册">
 <meta name="twitter:description" content="上一篇文章中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170118/2.png">
+<meta name="twitter:image" content="http://img.cdn.microwu.com/20170118/2.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -157,7 +157,7 @@
 <p>这篇文章首先会大致讲解下gerrit的工作流程；然后介绍管理员的相关配置工作，包括设置SSH密钥验证，添加新成员；接下来会用一个示例演示普通成员push一个commit之后，代码审核员是如何进行审核的；最后介绍一下如何使用sourceTree上传代码到gerrit服务器。</p>
 <p>提醒：<br>这篇文章需要一定的git基础，如果你还不熟悉git，请先学习下关于git的相关知识。<br>这篇文章中的所有操作不再需要登录到gerrit服务器上去了，因为所有的操作都是在管理员或者普通成员的电脑上完成的，至于管理员对组员的操作，也可以在管理员自己的电脑上通过SSH连接到gerrit服务器上完成。</p>
 <h1 id="gerrit工作流程"><a href="#gerrit工作流程" class="headerlink" title="gerrit工作流程"></a>gerrit工作流程</h1><p>好不容易在google上找了一篇相对简单明了的介绍gerrit工作流程的图：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/2.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/2.png" width="500"><br></p>
 
 <p>使用过git的同学，都知道，当我们<code>git add --&gt; git commit --&gt; git push</code> 之后，你的代码会被直接提交到repo，也就是代码仓库中，就是图中橘红色箭头指示的那样。</p>
 <p>那么gerrit就是上图中的那只鸟，普通成员的代码是被先push到gerrit服务器上，然后由代码审核人员，就是左上角的integrator在web页面进行代码的审核(review)，可以单人审核，也可以邀请其他成员一同审核，当代码审核通过(approve)之后，这次代码才会被提交(submit)到代码仓库(repo)中去。</p>
@@ -173,21 +173,21 @@
 
 <p>这两点在稍后的示例中，我们会依次介绍。</p>
 <h1 id="管理员配置"><a href="#管理员配置" class="headerlink" title="管理员配置"></a>管理员配置</h1><p>在上一篇文章的最后，我们做为管理员，初次登录到了gerrit的web页面中，接下来还有很多内容需要设置一下。我们依次来看看吧。</p>
-<h2 id="profile"><a href="#profile" class="headerlink" title="profile"></a>profile</h2><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/3.png" width="800"><br></p>
+<h2 id="profile"><a href="#profile" class="headerlink" title="profile"></a>profile</h2><p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/3.png" width="800"><br></p>
 
 <p>初次登录时，Full Name 和 Email Address 字段都是空的，待会我们会一一设置。没有设置之前，右上角显示的用户名称也是<code>admin</code></p>
-<h2 id="Preferences"><a href="#Preferences" class="headerlink" title="Preferences"></a>Preferences</h2><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/4.png" width="800"><br></p>
+<h2 id="Preferences"><a href="#Preferences" class="headerlink" title="Preferences"></a>Preferences</h2><p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/4.png" width="800"><br></p>
 
 <p>Preferences页面用于配置gerrit的web页面，我一般把时间格式改成习惯的24小时制，同时确保<code>Email Nofification</code>处于开启状态，这个默认就是开启的；然后在<code>Show Change Number In Changes Tables</code>打上勾，这样能清楚地看到每个审核的编号，邮件里面显示的也是这个编号。</p>
 <h2 id="Watched-Projects"><a href="#Watched-Projects" class="headerlink" title="Watched Projects"></a>Watched Projects</h2><p>这里有必要先说一下gerrit的两个默认项目：</p>
 <p>我们点击左上方的菜单栏 Projects –&gt; List，就能看到两个默认的项目<code>All-Projects</code>和 <code>All-Users</code>，这两个工程是两个基础的工程，我们新建的工程默认都是继承自<code>All-Projects</code>的权限。关于权限部分我们在后面的章节详细介绍。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/10.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/10.png" width="800"><br></p>
 
 <p>所以在<code>Watched Projects</code>菜单中，就是当前用户要监听的项目，当这些项目发生变化时，你会收到邮件提醒，如果你选择了<code>All-Projects</code>，那么就意味着你要监听所有的工程，因为所有工程都会默认继承自<code>All-Projects</code>。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/5.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/5.png" width="800"><br></p>
 
 <p>注意，后面的那些选项，勾选了某一项，就表示仅仅给当前项发送邮件提醒，保险期间，我们就全部勾上就好了。</p>
-<h2 id="Contact-Information"><a href="#Contact-Information" class="headerlink" title="Contact Information"></a>Contact Information</h2><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/7.png" width="800"><br></p>
+<h2 id="Contact-Information"><a href="#Contact-Information" class="headerlink" title="Contact Information"></a>Contact Information</h2><p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/7.png" width="800"><br></p>
 
 <p>这里是当前账号的配置，你可以在这里把full-name填写完全，这样右上角也会同步更新你刚设置好的名称。</p>
 <p>注意这里的Preferred Email有两种设置方法：</p>
@@ -196,43 +196,43 @@
 <li>通过SSH在命令行中进行配置，通过命令行进行配置是最方便快捷，也是最优先推荐的方法。</li>
 </ol>
 <p>不过因为SSH命令行的方式需要配置SSH公钥，所以我们这里先留空，一会通过命令行来配置。</p>
-<h2 id="SSH-Public-Keys"><a href="#SSH-Public-Keys" class="headerlink" title="SSH Public Keys"></a>SSH Public Keys</h2><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/8.png" width="800"><br></p>
+<h2 id="SSH-Public-Keys"><a href="#SSH-Public-Keys" class="headerlink" title="SSH Public Keys"></a>SSH Public Keys</h2><p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/8.png" width="800"><br></p>
 
 <p>这里需要把你的公钥内容拷贝出来，然后粘贴到对话框中。我简单演示下如何操作。</p>
 <h3 id="生成公私钥对"><a href="#生成公私钥对" class="headerlink" title="生成公私钥对"></a>生成公私钥对</h3><p>如果你之前有使用过git，那你一定已经生成了公私钥对，可以直接跳过这个步骤。<br>在命令行中输入下面的内容：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
 <p>然后会提示你输入一个密码，用来访问公私钥，可以直接回车表示不加密码。接下来就会自动帮你创建好一对公私钥了。</p>
 <h3 id="找到公钥文件"><a href="#找到公钥文件" class="headerlink" title="找到公钥文件"></a>找到公钥文件</h3><p>默认公私钥的是放置在<code>~/.ssh</code>目录下的，默认的名称是<code>id_rsa</code>和<code>id_rsa.pub</code>。其中<code>.pub</code>文件就是公钥，私钥你自己需要保存好。我们来看下我的.ssh文件夹中的内容</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/11.png" width="400"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/11.png" width="400"><br></p>
 
 <ul>
 <li>config是ssh的配置文件，稍后我们会演示通过管理员ssh连接到gerrit服务器时，会在来看这个文件</li>
 <li>lipeng和lipeng.pub分别是我的私钥和公钥</li>
 </ul>
 <p>我们要做的，就是把公钥的内容拷贝出来，然后粘贴到页面上去。<br>注意拷贝时，要从<code>RSA</code>开始拷贝，如果格式不对，页面上会有提示。<br>还有一点要说明的是，这些都是在你想要作为管理员账号的机器上操作完成，对我来说，我的macbook就是管理员要使用的电脑。</p>
-<h2 id="Groups"><a href="#Groups" class="headerlink" title="Groups"></a>Groups</h2><p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/9.png" width="800"><br></p>
+<h2 id="Groups"><a href="#Groups" class="headerlink" title="Groups"></a>Groups</h2><p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/9.png" width="800"><br></p>
 
 <p>最后来看一下gerrit的分组。图片里面是gerrit默认的几个分组，我们需要知道的是<code>Administrator</code>就是管理员分组，<code>Anonymous Users</code>指的是所有添加到gerrit数据库中的成员都默认加入的一个组。之后我们还可以建立新的分组，加入新的成员等等。</p>
 <h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><p>接下来我们来做一个演示，看看一个新的成员是如何被添加到gerrit服务器中，然后他们又是如何协同工作的。<br>这里一共涉及到两个角色，一个是管理员，一个是普通成员。</p>
 <h2 id="管理员设置SSH"><a href="#管理员设置SSH" class="headerlink" title="管理员设置SSH"></a>管理员设置SSH</h2><p>在之前的文章中我们提到过，gerrit自带的H2数据库就完全够用了，对成员的管理，邮件添加等操作，均可以通过SSH来完成。那第一步我们就来看一下管理员如何才能远程SSH到gerrit服务器。</p>
 <p>首先确保在之前，已经成功把你的公钥添加到了web页面账户中。<br>接下来，需要修改之前<code>~/.ssh/</code>文件夹下面的config文件，我们拿我的config文件做为示例，做个讲解。</p>
 <p>我们还是先进入到<code>~/.ssh/</code>文件夹中</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/12.png" width="400"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/12.png" width="400"><br></p>
 
 <p>然后查看一下<code>config</code>文件： <code>vim config</code></p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/13.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/13.png" width="500"><br></p>
 
 <p>我们看到这里面有两个Host部分，我们重点来看第2个Host部分，这个是我们新建的，用于连接到gerrit服务器的配置。</p>
 <p>照猫画虎，对于我们之前建立在<code>192.168.1.100</code>的gerrit服务器来说，你的<code>Host</code>配置可能如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Host gerrit</span><br><span class="line">HostName &quot;192.168.1.100&quot;</span><br><span class="line">User &quot;admin&quot;</span><br><span class="line">IndentityFile &quot;~/.ssh/id_rsa&quot;</span><br><span class="line">port 29418</span><br></pre></td></tr></table></figure>
 <p>User要和我们在gerrit服务器上注册的名称保持一致( <strong>不是</strong> full-name)，认证文件注意要和公钥对应的私钥文件，端口要填写gerrit服务的端口号，这里是默认的<code>29418</code>。</p>
 <p>配置完config文件，我们就可以SSH到gerrit了，我们来尝试一下吧：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/14.png" width="400"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/14.png" width="400"><br></p>
 
 <p>我们在管理员的机器上，输入<code>ssh gerrit -l admin</code>命令，就可以得到gerrit服务器的响应，只不过因为我们禁用了shell，所以连接很快断开了，没有关系，这样证明做为管理员，已经可以通过命令行对gerrit服务器进行一系列的操作了。</p>
 <h2 id="添加普通成员"><a href="#添加普通成员" class="headerlink" title="添加普通成员"></a>添加普通成员</h2><p>在管理员添加新的组员之前，我们需要先在普通成员的机器上生成ssh的公私钥，这里方便描述，我们把这个普通成员命名为test3。</p>
 <p>在test3的电脑命令行中，生成利用<code>ssh-keygen</code>命令，生成公私钥。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/15.png" width="400"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/15.png" width="400"><br></p>
 
 <p>我们就使用默认的id_rsa命名好了。</p>
 <p>接下来，test3成员需要把<code>id_rsa.pub</code>公钥发送给管理员，这样管理员才能正常把test3添加到gerrit用户组中。<br>我们假设管理员将test3的pub公钥放到了<code>~/home</code>目录下，也就是说，在管理员的电脑上，test3的公钥存放在<code>~/home/id_rsa.pub</code>文件，当然我们也可以重新把它命名为<code>test3.pub</code>，方便演示我这里就不做更名处理了，</p>
@@ -254,36 +254,36 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh gerrit gerrit <span class="built_in">set</span>-account --add-email admin@microwu.com admin</span><br></pre></td></tr></table></figure>
 <p>这个命令就表示为我们的<code>admin</code>用户添加email<code>admin@microwu.com</code>。执行完这个命令，再回到web界面上的用户设置界面，看看是不是管理员的email已经被设置好了？？</p>
 <h2 id="修改用户所在组"><a href="#修改用户所在组" class="headerlink" title="修改用户所在组"></a>修改用户所在组</h2><p>接下来我们看一下怎样修改test3用户所在的组吧。我们知道他已经出在<code>Anonymous Users</code>组中了，那我们想要新建一个组，就叫<code>test_user</code>吧，我们来看一下</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/16.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/16.png" width="800"><br></p>
 
 <p>我们在gerrit页面的顶部，点击People –&gt; list， 看一下默认的两个分组，<code>Administrator</code>和<code>Non-interactive Users</code>，这两个分组我们都能从字面上理解是什么意思。我们注意到<code>Anonymous Users</code>这个分组并没有显示在页面，因为它是匿名的嘛，所有的用户自动添加到这个分组中了。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/17.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/17.png" width="800"><br></p>
 
 <p>选择<code>Create New Group</code>，输入我们要添加的新的分组 <code>test_user</code></p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/18.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/18.png" width="800"><br></p>
 
 <p>新的分组中，我们看到管理员的账号被自动添加了进来</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/19.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/19.png" width="800"><br></p>
 
 <p>我们在<code>Add</code>搜索栏中输入test，就会自动显示出来管理员之前在命令行中创建的test3用户，看到full-name和email了吧，都已经添加完成了！<br>test3用户已经添加到了test_user分组中了。</p>
 <h2 id="新建和修改项目"><a href="#新建和修改项目" class="headerlink" title="新建和修改项目"></a>新建和修改项目</h2><p>用同样的方法，我们来新建一个项目吧</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/20.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/20.png" width="800"><br></p>
 
 <p>点击Project，然后Create New Project， 创建一个名为<code>test2</code>的项目吧。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/21.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/21.png" width="800"><br></p>
 
 <p>可以通过点击project名称，进入到工程的详细设置界面。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/22.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/22.png" width="800"><br></p>
 
 <p>点击顶部菜单栏中的<code>Access</code>，来设置这个项目的权限吧。<br>我们可以看到这个项目已经有了个默认的继承自<code>All-Projects</code>的权限，关于默认的权限这里不做多的介绍，想要深入学习的同学可以点击进去看一下。</p>
 <p>修改权限的时候慎重，<font color="red">不要直接修改<code>All-Projects</code>组的权限</font>，因为这个是所有项目的依赖权限组，修改了以后，所有的项目权限都会跟着发生变化。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/23.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/23.png" width="800"><br></p>
 
 <p>我们点击<code>Edit</code>按钮来修改这个项目的权限</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/24.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/24.png" width="800"><br></p>
 
 <p>我们把<code>Reference</code>改成<code>refs/*</code>，表示所有的refs下的分支<br>然后选择<code>read</code>项目</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/25.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/25.png" width="800"><br></p>
 
 <p>接着筛选不同的分组，并且赋予不同的权限。</p>
 <ul>
@@ -292,12 +292,12 @@
 </ul>
 <p>这样，当前的工程就只能被<code>test_user</code>组内的用户所访问，其他组的用户均无法访问了！</p>
 <h2 id="test3用户clone工程"><a href="#test3用户clone工程" class="headerlink" title="test3用户clone工程"></a>test3用户clone工程</h2><p>接下来我们来到test3用户的电脑上，下拉刚刚创建的<code>test2</code>工程</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/26.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/26.png" width="500"><br></p>
 
 <p>在命令行执行下面的命令，就可以把test2工程给clone下来了</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> ssh://<span class="built_in">test</span>3@192.168.1.100:29418/<span class="built_in">test</span>2.git</span><br></pre></td></tr></table></figure>
 <p>对比下，会发现我们的目录中多了一个名为test2的文件夹，这个就是我们的工程了！</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/27.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/27.png" width="500"><br></p>
 
 <p>注意如果从ssh方式clone下来的工程，里面是自带了hooks文件夹的，这个文件夹很重要！！如果不是用<code>ssh://</code>方式克隆下来的，还没有这个文件夹，需要我们自己<code>mkdir</code></p>
 <p>我们直接新建一个test.md文件，来尝试着往远程提交。</p>
@@ -305,18 +305,18 @@
 
 <h2 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h2><p>首先我们通过下面两个命令首先commit到本地仓库：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add test.md</span><br><span class="line">$ git commit</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/28.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/28.png" width="500"><br></p>
 
 <p>在commit的时候，发现提交者的名称和email都是错误的，我们需要先配置成我们当前的test3用户，以及对应的email</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config user.name <span class="built_in">test</span>3</span><br><span class="line">$ git config user.email <span class="built_in">test</span>3@microwu.com</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/30.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/30.png" width="500"><br></p>
 
 <p>通过<code>git config --list</code>来查看一下当前git仓库的配置，发现已经把用户名和密码正确设置了。</p>
 <p>接下来我们继续<code>git commit</code>来提交到本地</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/29.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/29.png" width="500"><br></p>
 
 <p>我们把这次提交命名为<code>commit_1</code>，然后我们通过<code>git push</code>命令来推送</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/31.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/31.png" width="500"><br></p>
 
 <p>发现推送失败了，提示的错误是：</p>
 <blockquote>
@@ -327,47 +327,47 @@
 <p>那怎么办呢？？<br>我们在命令行写入下面的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config remote.origin.push refs/heads/*:refs/<span class="keyword">for</span>/*</span><br></pre></td></tr></table></figure>
 <p>这行命令的意思是，当执行<code>push</code>命令时，将会推送到<code>refs/for/当前head所在的分支</code>上。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/32.png" width="600"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/32.png" width="600"><br></p>
 
 <p>我们设置了push命令之后，重新进行push，结果又报错了。。<br>这次的错误是：</p>
 <blockquote>
 <p>missing Change-Id in commit message footer</p>
 </blockquote>
 <p>这个是提到的第2个问题，commit一定要有<code>Change-Id</code><br>然后我们看到了命令行中给了我们提示，我们可以从hooks文件中拷贝commit-msg文件下来，这样commit时，会自动帮我们生成<code>Change-Id</code>.</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/33.png" width="600"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/33.png" width="600"><br></p>
 
 <p>我们可以看一下 <code>git rev-parse --git-dir</code>就是指向的当前git配置的文件，就是<code>.git</code>文件夹<br>所以我们直接用scp命令从gerrit服务器上拉取当前用户的hooks文件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scp -p -P 29418 <span class="built_in">test</span>3@192.168.1.100:hooks/commit-msg .git/hooks/</span><br></pre></td></tr></table></figure>
 <p>然后我们重新push发现一样的错误，因为我们还停留在上次commit，上次的commit是没有生成<code>Change-Id</code>的！</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/34.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/34.png" width="500"><br></p>
 
 <p>没有关系，我们回退一下，然后重新提交。<br>回退命令是先用<code>git log</code>找到上一次的commit id，  然后用<code>git reset --hard 找到的id</code>命令回退</p>
 <p>这次我们终于提交成功了，可以看到提交到的分支是<code>refs/for/master</code></p>
 <h2 id="管理员审查"><a href="#管理员审查" class="headerlink" title="管理员审查"></a>管理员审查</h2><p>接下来我们回到管理员的web页面，会发现，test3用户刚提交的那条已经在页面中了<br>点击顶部的<code>My --&gt; Watched Changes</code></p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/35.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/35.png" width="800"><br></p>
 
 <p>因为之前我们已经监听了<code>All-Projects</code>，而test2工程又是默认继承自<code>All-Projects</code>的，所以我们就可以收到了，如果当前管理员没有监听<code>All-Projects</code>，就需要手动把<code>test2</code>项目加进来，否则是不会在<code>watched</code>页面看到这条推送提醒的。</p>
 <p>与此同时，我们会收到来自gerrit@microwu.com发送来的邮件了：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/41.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/41.png" width="500"><br></p>
 
 <h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><p>我们通过点击commit_1可以进入到当前事件的详情页面：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/36.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/36.png" width="800"><br></p>
 
 <p>可以在页面中看到我们生成的<code>Change-Id</code>，以及我们新添加的文件<code>test.md</code>，点击以后可以看到每个文件的详情。<br>注意屏幕中间的两个按钮：</p>
 <ul>
 <li>Reply 表示对这次事件的回应，里面可以有5个选项，表示当前审查人员对这个事件的打分：-2，-1，0，+1，+2， +2表示直接同意，1表示我同意了，需要别的人员来一起审核</li>
 <li>Code-Review+2 相当于直接打+2分</li>
 </ul>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/38.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/38.png" width="800"><br></p>
 
 <p>我们还可以通过点击右边的小人，来添加新的审核人员</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/37.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/37.png" width="800"><br></p>
 
 <p>reply之后，如果分数够了2分，就可以直接submit到主线上去了</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/39.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/39.png" width="800"><br></p>
 
 <p>合并了之后，可以在 <code>My --&gt; Changes</code> 中看到我们的审核历史</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/40.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/40.png" width="800"><br></p>
 
 <p>到这里，一个完整的从普通项目成员提交，到代码审核人员检查的全过程，就结束了。</p>
 <h1 id="SourceTree"><a href="#SourceTree" class="headerlink" title="SourceTree"></a>SourceTree</h1><p>SourceTree是git的可视化工具，也是比较流行的git工具，通过sourceTree我们一样可以commit，push等，而且更方便直观地看到项目的历史等等。</p>
@@ -381,28 +381,28 @@
 <li>如果我们是通过soureTree工具clone项目，而不是通过<code>ssh://</code>方式来clone，那么工程中的.git文件夹中是没有hooks文件夹的，需要我们手动去文件夹中创建</li>
 </ul>
 <p>我们在管理员的视角从gerrit服务器上拉取之前的test2工程吧：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/42.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/42.png" width="500"><br></p>
 
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/43.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/43.png" width="500"><br></p>
 
 <ul>
 <li>Source URL中填入gerrit:test2.git。 因为我们之前已经在<code>.ssh/config</code>文件中设置好了名为gerrit的HOST所以这里就可以简写了</li>
 </ul>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/44.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/44.png" width="800"><br></p>
 
 <p>可以看到test3用户提交的commit_1，因为已经通过审核了，所以，就合并到master中了</p>
 <p>我们到当前的目录中，看一下.git文件夹，确实是没有hooks文件夹的</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/45.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/45.png" width="500"><br></p>
 
 <p>我们通过<code>scp gerrit:hooks/commit-msg hooks/</code>命令来拉取commit-msg文件</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/46.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/46.png" width="500"><br></p>
 
 <p>同时通过<code>git config remote.origin.push refs/heads/*:refs/for/*</code>命令来设置push命令</p>
 <h2 id="设置自定义push"><a href="#设置自定义push" class="headerlink" title="设置自定义push"></a>设置自定义push</h2><p>虽然我们设置好了push命令到远程的<code>refs/for/*</code>目录，但是如果我们直接用SourceTree中的push功能，我们会发现直接给我们在远程新建了一个<code>refs/for/*</code>分支，而且gerrit也没有审核事件触发，这是因为sourceTree的push应该是有它自己的一些配置，所以这里我们需要自定义push事件，来完成将代码推送到正确的分支上。</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/47.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/47.png" width="500"><br></p>
 
 <p>我们进入SourceTree的配置页面</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/48.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/48.png" width="500"><br></p>
 
 
 <p>点击<code>Custom Actions</code>，然后输入命令的名字： push to gerrit</p>
@@ -410,7 +410,7 @@
 <li>Script to run： 指的是要执行的文件，我们这里把git的可执行文件目录放进来，如果是windows请自行找到该目录</li>
 <li>Parameters 就直接写入<code>push</code>，表示执行的是push命令</li>
 </ul>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170118/49.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/49.png" width="500"><br></p>
 
 <p>最后当我们要通过推送到gerrit服务器时，在当前的分支上，右键，然后点击<code>Custom Actions</code>，再选择我们刚创建的<code>push to gerrit</code>动作，就实现了推送到gerrit服务器的功能！！</p>
 <p>好了，到这里，关于gerrit的所有内容都介绍完了！！！</p>
@@ -556,11 +556,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -569,10 +573,6 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		
 			
 				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -620,15 +620,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			

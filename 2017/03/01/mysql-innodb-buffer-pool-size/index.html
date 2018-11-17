@@ -17,16 +17,16 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2017/03/01/mysql-innodb-buffer-pool-size/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="最近发现如果业务到达高峰期，凌晨执行的某项Job就会不执行；但是如果我手动去跑的话，发现又是正常的。后来通过google和stackoverflow找到了解决问题的办法，特此记录一下。">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/3.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/4.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/1.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/5.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/2.png">
-<meta property="og:updated_time" content="2017-03-02T11:31:09.000Z">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170301/3.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170301/4.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170301/1.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170301/5.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170301/2.png">
+<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MySql】存储过程执行失败--The total number of locks exceeds the lock table size">
 <meta name="twitter:description" content="最近发现如果业务到达高峰期，凌晨执行的某项Job就会不执行；但是如果我手动去跑的话，发现又是正常的。后来通过google和stackoverflow找到了解决问题的办法，特此记录一下。">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170301/3.png">
+<meta name="twitter:image" content="http://img.cdn.microwu.com/20170301/3.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -113,28 +113,28 @@
 		<p>最近发现如果业务到达高峰期，凌晨执行的某项Job就会不执行；但是如果我手动去跑的话，发现又是正常的。后来通过google和stackoverflow找到了解决问题的办法，特此记录一下。</p>
 <a id="more"></a>
 <h1 id="查找问题"><a href="#查找问题" class="headerlink" title="查找问题"></a>查找问题</h1><p>出了问题，那自然是要找问题出在哪里。google上找一下mysql的log在什么地方：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170301/3.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/3.png" width="500"><br></p>
 
 <p>读懂了上面说的关于mysql的几种错误日志，我们看下我们自己的mysql已经配置了什么吧。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/my.cnf</span><br></pre></td></tr></table></figure>
 <p>然后我们看到：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170301/4.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/4.png" width="500"><br></p>
 
 <p>我们的 error log日志，均存储在<code>/var/log/mysqld.log</code>中</p>
 <p>然后我们就到指定的目录下看一看到底存储过程的执行过程中发生了什么情况吧。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/mysqld.log</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170301/1.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/1.png" width="800"><br></p>
 
 <p>图中可以很清楚的看到，最近2天凌晨的任务，都出现的错误导致失败，错误内容是：</p>
 <blockquote>
 <p>The total number of locks exceeds the lock table size</p>
 </blockquote>
 <h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>问题找到了，我们就继续google解决办法吧</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170301/5.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/5.png" width="500"><br></p>
 
 <p>解决步骤说的很清楚了，在mysql的配置文件中，修改一下<code>Innodb buffer pool size</code>的值就好了，默认的值是8M，这个我们从上面的错误日志中也能看到相关的信息，我们可以先在mysql中查一下这个buffer的值,</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show variables like '%buffer%';</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170301/2.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/2.png" width="500"><br></p>
 
 <p>果然<code>innodb_buffer_pool_size</code>的值是8M，那我们就按照帖子里面说的步骤操作下吧：</p>
 <ol>
@@ -283,11 +283,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -296,10 +300,6 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		
 			
 				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -347,15 +347,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			

@@ -21,22 +21,22 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <meta property="og:description" content="不得不说云服务做的越来越好以后，搭建LAMP(Linux+Apache+MySQL+PHP)环境变得越来越方便了。这篇博文就记录一下在阿里云的主机上搭建LAMP环境的全过程，当然，整个过程也是参考了很多前人的经验，在文章最后我会全部贴出来以示感谢。先列出来各个版本：
 
 Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经帮我们装好了yum，我们后面的安装都通过yum很方便的">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/01.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/02.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/03.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/04.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/05.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/06.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/07.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/08.png">
-<meta property="og:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20170314/1.png">
-<meta property="og:updated_time" content="2017-03-14T01:53:31.000Z">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/01.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/02.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/03.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/04.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/05.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/06.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/07.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20160805/08.png">
+<meta property="og:image" content="http://img.cdn.microwu.com/20170314/1.png">
+<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【LAMP】搭建LAMP系统及相关配置">
 <meta name="twitter:description" content="不得不说云服务做的越来越好以后，搭建LAMP(Linux+Apache+MySQL+PHP)环境变得越来越方便了。这篇博文就记录一下在阿里云的主机上搭建LAMP环境的全过程，当然，整个过程也是参考了很多前人的经验，在文章最后我会全部贴出来以示感谢。先列出来各个版本：
 
 Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经帮我们装好了yum，我们后面的安装都通过yum很方便的">
-<meta name="twitter:image" content="http://7xqppk.com1.z0.glb.clouddn.com/20160805/01.png">
+<meta name="twitter:image" content="http://img.cdn.microwu.com/20160805/01.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -138,14 +138,14 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p>其实主流的Linux系统版本都已经集成了MySQL数据库，我们可以通过下面的命令查看我们的操作系统是否已经安装了MySQL。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep mysql</span><br></pre></td></tr></table></figure>
 <p>下图可以看到我的操作系统上已经安装了这些和MySQL相关的程序。</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/01.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/01.png" alt=""></p>
 <p>当然，如果你想自己重新安装mysql，可以执行下面的命令：<br>进行普通删除:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e mysql</span><br></pre></td></tr></table></figure>
 <p>或者进行强力删除，因为可能有其他依赖的文件。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps mysql</span><br></pre></td></tr></table></figure>
 <h2 id="yum安装mysql"><a href="#yum安装mysql" class="headerlink" title="yum安装mysql"></a>yum安装mysql</h2><p>我们通过yum可以非常方便的在linux系统中安装应用。<br>首先我们查看下yum都有哪些mysql可供下载</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list | grep mysql</span><br></pre></td></tr></table></figure>
-<p>可以看到yum服务器上mysql数据库的可供下载的版本信息<br><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/02.png" alt=""></p>
+<p>可以看到yum服务器上mysql数据库的可供下载的版本信息<br><img src="http://img.cdn.microwu.com/20160805/02.png" alt=""></p>
 <p>然后我们可以通过<br><code>yum install mysql mysql-server mysql-devel</code>命令一次性将mysql, mysql-server和 mysql-devel都安装好(<strong>注意:安装mysql时我们并不是安装了mysql客户端就相当于安装好了mysql数据库了，我们还需要安装mysql-server服务端才行</strong>)</p>
 <p>中途可能会出现下面问题</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--&gt; Finished Dependency Resolution</span><br><span class="line">mysql-devel-5.0.95-1.el5_7.1.i386 from updates has depsolving problems</span><br><span class="line">  --&gt; Missing Dependency: mysql = 5.0.95-1.el5_7.1 is needed by package mysql-devel-5.0.95-1.el5_7.1.i386 (updates)</span><br><span class="line">Error: Missing Dependency: mysql = 5.0.95-1.el5_7.1 is needed by package mysql-devel-5.0.95-1.el5_7.1.i386 (updates)</span><br><span class="line"> You could try using --skip-broken to work around the problem</span><br><span class="line"> You could try running: package-cleanup --problems</span><br><span class="line">                        package-cleanup --dupes</span><br><span class="line">                        rpm -Va --nofiles --nodigest</span><br><span class="line">The program package-cleanup is found in the yum-utils package.</span><br></pre></td></tr></table></figure>
@@ -154,7 +154,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <p>然后yum会检测版本，然后提示我们进行下载，输入<strong>y</strong>，回车，就可是下载了，基本上没什么问题。</p>
 <h2 id="启动mysql服务"><a href="#启动mysql服务" class="headerlink" title="启动mysql服务"></a>启动mysql服务</h2><p>安装完成之后，我们的会多一个<code>mysqld</code>的服务，这个就是我们的数据库的服务，我们通过<code>service mysqld start</code>来启动。<br>第一次启动，可能需要比较多的加载项，但是之后就很快了，只需要两步就ok。<br>当然，我们可以设置开机自动启动mysqld服务。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --list | grep mysqld</span><br></pre></td></tr></table></figure>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/03.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/03.png" alt=""></p>
 <p>可以看到因为我已经设置过了，所以这里很多项都是<strong>on</strong>，如果第一次使用，这里全部都是<strong>off</strong><br>那么我们可以通过下面的命令把它设置成每次都自动启用mysql：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig mysqld on</span><br></pre></td></tr></table></figure>
 <p>再次执行</p>
@@ -163,7 +163,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><h3 id="为root用户创建密码"><a href="#为root用户创建密码" class="headerlink" title="为root用户创建密码"></a>为root用户创建密码</h3><p>我们的新安装好的数据库会自动有一个root用户，我们通过下面的命令来为它建立密码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password &apos;yourpassword&apos;</span><br></pre></td></tr></table></figure>
 <p>然后我们就可以通过 <code>mysql -u root -p</code> 命令来登录我们自己的数据库了。</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/04.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/04.png" alt=""></p>
 <h3 id="新建用户可以远程访问"><a href="#新建用户可以远程访问" class="headerlink" title="新建用户可以远程访问"></a>新建用户可以远程访问</h3><p>那到现在，我们可以通过SSH到主机上，然后用root用户登录到MySQL上了。但是我们<strong>一定</strong>希望能够通过远程直接连我们的数据库，那么我们就来新建一个用户吧。</p>
 <p>我们通过下面的命令来建立用户</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'yourname'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'yourpassword'</span>;</span><br></pre></td></tr></table></figure>
@@ -195,14 +195,14 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <p>从本机连接时，mysql_install_db创建的localhost的匿名用户账户将占先。结果是，user_a将被视为匿名用户。原因是匿名用户账户的Host列值比’user_a’@’%’账户更具体，这样在user表排序顺序中排在前面。</p>
 </blockquote>
 <p>为了进一步看清楚，我们来看位于<code>mysql</code>库中的<code>user</code>表里面的用户顺序：</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/05.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/05.png" alt=""></p>
 <p>可以从表中看到，确实，我们新建的用户因为位于之后，而被local的匿名用户所顶替掉了。当然，我们的权限也只有新建时的那些权限，而不是真正root用户的超级权限。</p>
 <h3 id="修改字符集"><a href="#修改字符集" class="headerlink" title="修改字符集"></a>修改字符集</h3><p>在和php连接以及网页的显示时，字符集经常是一个另人头疼的事情，而新建好的mysql字符集都是<code>latin1</code>，怎样才能把它改成我们常用的<code>UTF-8</code>呢?</p>
 <h4 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h4><p>我们先通过下面的命令，找到我们要的文件，</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -iname &apos;*.cnf&apos; -print</span><br></pre></td></tr></table></figure>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/06.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/06.png" alt=""></p>
 <h4 id="修改文件"><a href="#修改文件" class="headerlink" title="修改文件"></a>修改文件</h4><p>可以看到我们想要的文件 <code>/etc/my.cnf</code>， 然后我们通过vim打开，如果没有的话，直接建一个好了。</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/07.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/07.png" alt=""></p>
 <p>然后在<code>[client]</code>(没有的话，手动打上去)和<code>[mysqld]</code>下添加<code>default-character-set=utf8</code></p>
 <h4 id="修改innodb-buffer-大小"><a href="#修改innodb-buffer-大小" class="headerlink" title="修改innodb buffer 大小"></a>修改innodb buffer 大小</h4><p>默认的innodb缓冲大小是8M，当你需要处理大批量的数据时，就会发现这个缓冲区不够用了，会出现<code>The total number of locks exceeds the lock table size</code>的错误。所以，我们要在<code>[mysqld]</code>中添加下面的内容，设置缓冲区大小为64M(也可以更大)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innodb_buffer_pool_size=64MB`</span><br></pre></td></tr></table></figure>
@@ -218,7 +218,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <p>查看结果</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%character%'</span>;</span><br></pre></td></tr></table></figure>
 <p>看看是不是就和我的表一样了呢？</p>
-<p><img src="http://7xqppk.com1.z0.glb.clouddn.com/20160805/08.png" alt=""></p>
+<p><img src="http://img.cdn.microwu.com/20160805/08.png" alt=""></p>
 <p>到这里，mysql的安装和配置就全部完成了。关于如何在远程用我们新建好的用户连接我在之后会另开一篇博文详细介绍。</p>
 <h1 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h1><p>apache的安装也非常简单了，直接键入下面的命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd httpd-devel</span><br></pre></td></tr></table></figure>
@@ -226,7 +226,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <h2 id="修改apache配置"><a href="#修改apache配置" class="headerlink" title="修改apache配置"></a>修改apache配置</h2><p>我们这里了主要修改下配置，出于安全目的，关闭网站的目录浏览功能。</p>
 <p>找到httpd的配置文件目录：<code>/etc/httpd/conf/httpd.conf</code></p>
 <p>编辑下面的条目：</p>
-<p align="center"><br>  <img src="http://7xqppk.com1.z0.glb.clouddn.com/20170314/1.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170314/1.png" width="500"><br></p>
 
 <p>在<code>&lt;Directory &quot;/var/www/html&quot;&gt;</code>条目中，修改<code>Options Indexs FollowSymLinks</code> 为</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Options -Indexs FollowSymLinks</span><br></pre></td></tr></table></figure>
@@ -389,11 +389,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -402,10 +406,6 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 		
 			
 				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
@@ -453,15 +453,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			
