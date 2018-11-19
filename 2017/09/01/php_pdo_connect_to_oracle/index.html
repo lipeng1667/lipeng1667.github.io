@@ -49,7 +49,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -63,7 +63,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -86,7 +86,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-01T07:10:35.000Z" itemprop="datePublished"> Published 2017-09-01</time>
+    <time datetime="2017-09-01T07:10:35.000Z" itemprop="datePublished"> 发表于 2017-09-01</time>
   </p>
   
   <p class="page-count">
@@ -98,7 +98,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装PDO-OCI"><span class="toc-number">2.</span> <span class="toc-text">安装PDO_OCI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并解压缩"><span class="toc-number">2.1.</span> <span class="toc-text">下载并解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">2.3.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">2.4.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ini文件"><span class="toc-number">2.5.</span> <span class="toc-text">创建ini文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装OCI8"><span class="toc-number">3.</span> <span class="toc-text">安装OCI8</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并解压缩-1"><span class="toc-number">3.1.</span> <span class="toc-text">下载并解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译和安装"><span class="toc-number">3.2.</span> <span class="toc-text">编译和安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ini文件-1"><span class="toc-number">3.3.</span> <span class="toc-text">创建ini文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重启Apache"><span class="toc-number">4.</span> <span class="toc-text">重启Apache</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考-amp-致谢"><span class="toc-number">5.</span> <span class="toc-text">参考&致谢</span></a></li></ol>
 		
@@ -207,32 +207,40 @@
 
 </nav>
 
-	
-<section id="comments" class="comment">
-  <div id="disqus_thread">
-   <!-- <noscript>Please enable JavaScript to view the <a
-href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
-  </div>
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
 </section>
 
-
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装PDO-OCI"><span class="toc-number">2.</span> <span class="toc-text">安装PDO_OCI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并解压缩"><span class="toc-number">2.1.</span> <span class="toc-text">下载并解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">2.3.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">2.4.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ini文件"><span class="toc-number">2.5.</span> <span class="toc-text">创建ini文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装OCI8"><span class="toc-number">3.</span> <span class="toc-text">安装OCI8</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并解压缩-1"><span class="toc-number">3.1.</span> <span class="toc-text">下载并解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译和安装"><span class="toc-number">3.2.</span> <span class="toc-text">编译和安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ini文件-1"><span class="toc-number">3.3.</span> <span class="toc-text">创建ini文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重启Apache"><span class="toc-number">4.</span> <span class="toc-text">重启Apache</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考-amp-致谢"><span class="toc-number">5.</span> <span class="toc-text">参考&致谢</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -281,7 +289,7 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -333,7 +341,7 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/shadowsocks/" title="shadowsocks">shadowsocks<sup>1</sup></a></li>
 			
 		
 			
@@ -341,15 +349,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 			
@@ -361,7 +369,7 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -626,7 +634,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
