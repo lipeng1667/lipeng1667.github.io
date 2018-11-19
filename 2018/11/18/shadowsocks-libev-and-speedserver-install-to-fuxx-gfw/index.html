@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点 | KaKa&#39;s blog</title>
+    <title>【翻墙】搭建 SS 服务并开启锐速 | KaKa&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Michael Lee">
     
 
     
-    <meta name="description" content="本篇Blog记录一下如何在单台服务器上，利用apache的virtualhost(虚拟主机)来搭建多个不同的web站点，并且每个站点独立管理自己的session。">
+    <meta name="description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点">
-<meta property="og:url" content="http://lipeng1667.github.io/2017/06/29/apache-virtualhost-multi-port/index.html">
+<meta property="og:title" content="【翻墙】搭建 SS 服务并开启锐速">
+<meta property="og:url" content="http://lipeng1667.github.io/2018/11/18/shadowsocks-libev-and-speedserver-install-to-fuxx-gfw/index.html">
 <meta property="og:site_name" content="KaKa's blog">
-<meta property="og:description" content="本篇Blog记录一下如何在单台服务器上，利用apache的virtualhost(虚拟主机)来搭建多个不同的web站点，并且每个站点独立管理自己的session。">
-<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
+<meta property="og:description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
+<meta property="og:updated_time" content="2018-11-19T01:51:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点">
-<meta name="twitter:description" content="本篇Blog记录一下如何在单台服务器上，利用apache的virtualhost(虚拟主机)来搭建多个不同的web站点，并且每个站点独立管理自己的session。">
+<meta name="twitter:title" content="【翻墙】搭建 SS 服务并开启锐速">
+<meta name="twitter:description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -79,14 +79,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/06/29/apache-virtualhost-multi-port/" title="【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点" itemprop="url">【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点</a>
+      <a href="/2018/11/18/shadowsocks-libev-and-speedserver-install-to-fuxx-gfw/" title="【翻墙】搭建 SS 服务并开启锐速" itemprop="url">【翻墙】搭建 SS 服务并开启锐速</a>
   </h1>
   <p class="article-author">BY
        
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-29T02:44:47.000Z" itemprop="datePublished"> Published 2017-06-29</time>
+    <time datetime="2018-11-18T08:34:16.000Z" itemprop="datePublished"> Published 2018-11-18</time>
   </p>
   
   <p class="page-count">
@@ -100,41 +100,35 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改Apache配置"><span class="toc-number">2.</span> <span class="toc-text">修改Apache配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加监听端口"><span class="toc-number">2.1.</span> <span class="toc-text">添加监听端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动并添加VirtualHost"><span class="toc-number">2.2.</span> <span class="toc-text">启动并添加VirtualHost</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#独立Session"><span class="toc-number">3.</span> <span class="toc-text">独立Session</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前提"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改内核版本"><span class="toc-number">2.</span> <span class="toc-text">修改内核版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装-shadowsocks-libev"><span class="toc-number">3.</span> <span class="toc-text">安装 shadowsocks-libev</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开启-TCP-Fast-Open"><span class="toc-number">4.</span> <span class="toc-text">开启 TCP Fast Open</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改相关配置文件"><span class="toc-number">4.1.</span> <span class="toc-text">修改相关配置文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装锐速-serverspeeder"><span class="toc-number">5.</span> <span class="toc-text">安装锐速 serverspeeder</span></a></li></ol>
 		
 		</div>
 		
-		<p>本篇Blog记录一下如何在单台服务器上，利用apache的virtualhost(虚拟主机)来搭建多个不同的web站点，并且每个站点独立管理自己的session。</p>
+		<p>因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。</p>
 <a id="more"></a>
-<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><p>先说下我各项开发环境参数：</p>
-<ul>
-<li>操作系统: RedHat6.7(CentOS)</li>
-<li>WEB服务器：apache2.2</li>
-<li>php5.6.30</li>
+<h1 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h1><ul>
+<li>你已经购买了某个 VPS 的服务器</li>
+<li>vps 服务器版本最好是 CentOS6 内核</li>
+<li>熟悉linux 的相关命令操作，能够 ssh 登录你自己的服务器</li>
+<li>你已经不是 ss 的小白用户，知道一些相关的配置</li>
 </ul>
-<h1 id="修改Apache配置"><a href="#修改Apache配置" class="headerlink" title="修改Apache配置"></a>修改Apache配置</h1><p>apache2.2 的配置文件路径在 <code>/etc/httpd/conf/httpd.conf</code></p>
-<p>我们用下面的命令修改apache的配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/httpd/conf/httpd.conf</span><br></pre></td></tr></table></figure>
-<h2 id="添加监听端口"><a href="#添加监听端口" class="headerlink" title="添加监听端口"></a>添加监听端口</h2><p>找到如下的部分，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line"># Listen: Allows you to bind Apache to specific IP addresses and/or</span><br><span class="line"># ports, in addition to the default. See also the &lt;VirtualHost&gt;</span><br><span class="line"># directive.</span><br><span class="line">#</span><br><span class="line"># Change this to Listen on specific IP addresses as shown below to</span><br><span class="line"># prevent Apache from glomming onto all bound IP addresses (0.0.0.0)</span><br><span class="line">#</span><br><span class="line">#Listen 12.34.56.78:80</span><br><span class="line">Listen 80</span><br></pre></td></tr></table></figure>
-<p>默认的话，应该只会监听80端口，这里我们在后面加上用于另外站点的端口号。例如我们A站点是默认的80端口，B站点计划搭建在8080端口上，最终的配置文件修改成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">#Listen 12.34.56.78:80</span><br><span class="line">Listen 80</span><br><span class="line">Listen 8080</span><br></pre></td></tr></table></figure>
-<h2 id="启动并添加VirtualHost"><a href="#启动并添加VirtualHost" class="headerlink" title="启动并添加VirtualHost"></a>启动并添加VirtualHost</h2><p>接着在配置文件中找到下面的章节：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">### Section 3: Virtual Hosts</span><br><span class="line">#</span><br><span class="line"># VirtualHost: If you want to maintain multiple domains/hostnames on your</span><br><span class="line"># machine you can setup VirtualHost containers for them. Most configurations</span><br><span class="line"># use only name-based virtual hosts so the server doesn&apos;t need to worry about</span><br><span class="line"># IP addresses. This is indicated by the asterisks in the directives below.</span><br><span class="line">#</span><br><span class="line"># Please see the documentation at</span><br><span class="line"># &lt;URL:http://httpd.apache.org/docs/2.2/vhosts/&gt;</span><br><span class="line"># for further details before you try to setup virtual hosts.</span><br><span class="line">#</span><br><span class="line"># You may use the command line option &apos;-S&apos; to verify your virtual host</span><br><span class="line"># configuration.</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># Use name-based virtual hosting.</span><br><span class="line">#</span><br><span class="line"> NameVirtualHost *:80</span><br><span class="line"> NameVirtualHost *:8080</span><br></pre></td></tr></table></figure>
-<p>上面的代码是我已经修改好的，默认的话，最后两行<code>NameVirtualHost</code>应该也是被注释掉了。 因为我们要启用虚拟主机，所以这里就把我们之前监听的两个端口都设置好。</p>
-<p>同时，将之后的配置文件修改成如下的样子，我们先来设置默认的80端口的站点A</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line"># VirtualHost example:</span><br><span class="line"># Almost any Apache directive may go into a VirtualHost container.</span><br><span class="line"># The first VirtualHost section is used for requests without a known</span><br><span class="line"># server name.</span><br><span class="line">#</span><br><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">#    ServerAdmin webmaster@dummy-host.example.com</span><br><span class="line">    DocumentRoot /var/www/webA</span><br><span class="line">    ServerName webA</span><br><span class="line">#    ErrorLog logs/dummy-host.example.com-error_log</span><br><span class="line">#    CustomLog logs/dummy-host.example.com-access_log common</span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure>
-<p>默认的Apache是没有开启VirtualHost的，所以这些代码都是被注释掉了的，我们这里只需要把<code>DocumentRoot</code>和<code>ServerName</code>所在的行去掉注释并且编辑下就好了。</p>
-<p><code>DocumentRoot</code>指的的是我们A站点的网站根目录位置</p>
-<p>接下来再补充上8080端口的B站点信息就好了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;VirtualHost *:8080&gt;</span><br><span class="line">    DocumentRoot /var/www/webB</span><br><span class="line">    ServerName webB</span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure>
-<p>到这里，重启一下Apache服务(<code>service httpd restart</code>)，就可以访问两个不同的站点了。</p>
-<h1 id="独立Session"><a href="#独立Session" class="headerlink" title="独立Session"></a>独立Session</h1><p>如果我们的A，B两个站点的登录逻辑是用的一套代码，那我们使用后会发现，A站点和B站点的Session是共享的，也就是说，如果用户在A站点登录了之后，B站点是无需登录，自动也处于登录状态； 用户在A站点退出后，也会自动从B站点退出。</p>
-<p>这显然不是我们想要的结果，原因就是A，B两个站点公用了一套Session体系，所以才会造成这样的问题。<br>解决的办法就是我们指定站点中session的存放位置。</p>
-<p>同样是修改配置文件中指定虚拟主机，我们以站点B做为示例，修改配置文件如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;VirtualHost *:8080&gt;</span><br><span class="line">    DocumentRoot /var/www/webB</span><br><span class="line">    ServerName webB</span><br><span class="line">    &lt;Directory &quot;/var/www/webB&quot;&gt;</span><br><span class="line">        AllowOverride All</span><br><span class="line">        php_value session.save_path &quot;/var/lib/php/session_B&quot;</span><br><span class="line">    &lt;/Directory&gt;</span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure>
-<p>php_value中  session.save_path 其实就是php.ini文件中的session.save_path字段，这里我们其他值都使用默认的php.ini配置文件，唯独指定了session的文件存放路径，默认的php session文件是存储在 <code>/var/lib/php/session/</code>文件夹中。</p>
-<p>再试着去访问以下站点B，并且进行一些session的存取操作，回头到<code>/var/lib/php/session_B</code>文件夹中，就会发现新的session文件了。</p>
+<h1 id="修改内核版本"><a href="#修改内核版本" class="headerlink" title="修改内核版本"></a>修改内核版本</h1><p>首先为了能顺利使用 serverspeeder(锐速)，我们最好是在 Centos6的内核上，并且需要修改内核版本为<code>2.6.32-504.3.3.el6.x86_64</code></p>
+<p>命令行执行下面两个命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -ivh http://soft.91yun.org/ISO/Linux/CentOS/kernel/kernel-firmware-2.6.32-504.3.3.el6.noarch.rpm</span><br><span class="line">$ rpm -ivh http://soft.91yun.org/ISO/Linux/CentOS/kernel/kernel-2.6.32-504.3.3.el6.x86_64.rpm --force</span><br></pre></td></tr></table></figure>
+<p>等待下载并安装，可能需要3-5分钟。<br>之后检查内核是否安装成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br></pre></td></tr></table></figure>
+<p>在内核列表中能看到<code>2.6.32-504.3.3.el6.x86_64</code>就表示安装成功了。<code>reboot</code>重启服务器后，输入<code>uname -r</code> 查看内核是否修改成功。 </p>
+<h1 id="安装-shadowsocks-libev"><a href="#安装-shadowsocks-libev" class="headerlink" title="安装 shadowsocks-libev"></a>安装 shadowsocks-libev</h1><p>libev 版本更精简，消耗资源更少，安装很简单，github 上有大牛写好了脚本，我们只需要上传到服务器上，执行就好了。可以从<a href="http://img.cdn.microwu.com/shadowsocks-libev.sh" target="_blank" rel="external">这里(shadowsocks-liev.ssh)</a>下载安装脚本。</p>
+<p>只有直接运行就可以实现一键安装了，期间会询问一些诸如密码、端口、加密方式等问题，按照自己的喜好来吧。</p>
+<h1 id="开启-TCP-Fast-Open"><a href="#开启-TCP-Fast-Open" class="headerlink" title="开启 TCP Fast Open"></a>开启 TCP Fast Open</h1><p>Tcp fast open 可以让我们的传输更快，也就是上网速度更快，</p>
+<h2 id="修改相关配置文件"><a href="#修改相关配置文件" class="headerlink" title="修改相关配置文件"></a>修改相关配置文件</h2><p>用 vim 打开<code>/etc/rc.local</code>文件，在文件末尾添加如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 3 &gt; /proc/sys/net/ipv4/tcp_fastopen</span><br></pre></td></tr></table></figure>
+<p>接下来用 vim 打开<code>/etc/sysctl.conf</code> 文件，在文件末尾添加如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.tcp_fastopen = 3</span><br></pre></td></tr></table></figure>
+<p>接下来打开 shadowsocks 的配置文件，<code>/etc/shadowsocks-libev/config.json</code><br>把其中的 fast_open 由默认的 false 修改成 true， <code>&quot;fast_open&quot;:true</code><br>然后重启 shadowsocks， <code>/etc/init.d/shadowsocks restart</code></p>
+<h1 id="安装锐速-serverspeeder"><a href="#安装锐速-serverspeeder" class="headerlink" title="安装锐速 serverspeeder"></a>安装锐速 serverspeeder</h1><p>锐速的安装同样很简单，有现成的一键脚本，从<a href="http://img.cdn.microwu.com/serverspeeder-all.sh" target="_blank" rel="external">这里(serverspeed-all.sh)</a>来下载并安装。</p>
+<hr>
+<p>至此，服务器端的所有步骤都已经完成了，其他ss 相关的例如客户端或者配置的信息，网上很多文章都有介绍，这里就不再重复写了。如果问题，也可以给我邮件或者留言。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -142,13 +136,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/LAMP/">LAMP</a>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Apache/">Apache</a><a href="/tags/php/">php</a>
+  <span></span> <a href="/tags/shadowsocks/">shadowsocks</a>
   </div>
 
 </div>
@@ -157,7 +151,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://lipeng1667.github.io/2017/06/29/apache-virtualhost-multi-port/" data-title="【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="http://lipeng1667.github.io/2018/11/18/shadowsocks-libev-and-speedserver-install-to-fuxx-gfw/" data-title="【翻墙】搭建 SS 服务并开启锐速 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -170,19 +164,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/09/01/php_pdo_connect_to_oracle/" title="【Oracle】PHP通过PDO访问oracle数据库">
-  <strong>上一篇：</strong><br/>
-  <span>
-  【Oracle】PHP通过PDO访问oracle数据库</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/03/22/ssh-login-without-pass/"  title="【Linux】SSH免密登录">
+<a href="/2017/09/01/php_pdo_connect_to_oracle/"  title="【Oracle】PHP通过PDO访问oracle数据库">
  <strong>下一篇：</strong><br/> 
- <span>【Linux】SSH免密登录
+ <span>【Oracle】PHP通过PDO访问oracle数据库
 </span>
 </a>
 </div>
@@ -204,7 +190,7 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改Apache配置"><span class="toc-number">2.</span> <span class="toc-text">修改Apache配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加监听端口"><span class="toc-number">2.1.</span> <span class="toc-text">添加监听端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动并添加VirtualHost"><span class="toc-number">2.2.</span> <span class="toc-text">启动并添加VirtualHost</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#独立Session"><span class="toc-number">3.</span> <span class="toc-text">独立Session</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前提"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改内核版本"><span class="toc-number">2.</span> <span class="toc-text">修改内核版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装-shadowsocks-libev"><span class="toc-number">3.</span> <span class="toc-text">安装 shadowsocks-libev</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开启-TCP-Fast-Open"><span class="toc-number">4.</span> <span class="toc-text">开启 TCP Fast Open</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改相关配置文件"><span class="toc-number">4.1.</span> <span class="toc-text">修改相关配置文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装锐速-serverspeeder"><span class="toc-number">5.</span> <span class="toc-text">安装锐速 serverspeeder</span></a></li></ol>
  
   </div>
 
