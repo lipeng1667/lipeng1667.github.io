@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2018/11/18/shadowsocks-libev-and-speedserver-install-to-fuxx-gfw/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
-<meta property="og:updated_time" content="2018-11-19T01:51:54.000Z">
+<meta property="og:updated_time" content="2018-11-19T01:56:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【翻墙】搭建 SS 服务并开启锐速">
 <meta name="twitter:description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
@@ -118,7 +118,7 @@
 <p>等待下载并安装，可能需要3-5分钟。<br>之后检查内核是否安装成功</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br></pre></td></tr></table></figure>
 <p>在内核列表中能看到<code>2.6.32-504.3.3.el6.x86_64</code>就表示安装成功了。<code>reboot</code>重启服务器后，输入<code>uname -r</code> 查看内核是否修改成功。 </p>
-<h1 id="安装-shadowsocks-libev"><a href="#安装-shadowsocks-libev" class="headerlink" title="安装 shadowsocks-libev"></a>安装 shadowsocks-libev</h1><p>libev 版本更精简，消耗资源更少，安装很简单，github 上有大牛写好了脚本，我们只需要上传到服务器上，执行就好了。可以从<a href="http://img.cdn.microwu.com/shadowsocks-libev.sh" target="_blank" rel="external">这里(shadowsocks-liev.ssh)</a>下载安装脚本。</p>
+<h1 id="安装-shadowsocks-libev"><a href="#安装-shadowsocks-libev" class="headerlink" title="安装 shadowsocks-libev"></a>安装 shadowsocks-libev</h1><p>libev 版本更精简，消耗资源更少，安装很简单，github 上有大牛写好了脚本，我们只需要上传到服务器上，执行就好了。可以从<a href="http://img.cdn.microwu.com/shadowsocks-libev.sh" target="_blank" rel="external">这里(shadowsocks-liev.sh)</a>下载安装脚本。</p>
 <p>只有直接运行就可以实现一键安装了，期间会询问一些诸如密码、端口、加密方式等问题，按照自己的喜好来吧。</p>
 <h1 id="开启-TCP-Fast-Open"><a href="#开启-TCP-Fast-Open" class="headerlink" title="开启 TCP Fast Open"></a>开启 TCP Fast Open</h1><p>Tcp fast open 可以让我们的传输更快，也就是上网速度更快，</p>
 <h2 id="修改相关配置文件"><a href="#修改相关配置文件" class="headerlink" title="修改相关配置文件"></a>修改相关配置文件</h2><p>用 vim 打开<code>/etc/rc.local</code>文件，在文件末尾添加如下内容：</p>
@@ -261,7 +261,7 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
 			
 		
 			
@@ -269,11 +269,11 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -293,11 +293,15 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
+				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
 			
 		
 			
@@ -305,7 +309,7 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 			
@@ -313,15 +317,7 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/内存管理/" title="内存管理">内存管理<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/shadowsocks/" title="shadowsocks">shadowsocks<sup>1</sup></a></li>
+				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
 			
 		
 			
@@ -329,7 +325,11 @@ href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
 			
 		
 		</ul>
