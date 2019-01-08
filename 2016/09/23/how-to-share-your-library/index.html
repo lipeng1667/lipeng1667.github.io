@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>一步一步教你在bintray上分享自己的开源库 | KaKa&#39;s blog</title>
+    <title>【开源】一步一步教你在bintray上分享自己的开源库 | KaKa&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Michael Lee">
@@ -15,7 +15,7 @@
 123dependencies &amp;#123;    compile &apos;com.microwu.ptrwebviewlibray:ptrwebview:1.0.0&apos;&amp;#125;
 那其实这样格式的开源库都是上传到了bintray上面，然后在">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一步一步教你在bintray上分享自己的开源库">
+<meta property="og:title" content="【开源】一步一步教你在bintray上分享自己的开源库">
 <meta property="og:url" content="http://lipeng1667.github.io/2016/09/23/how-to-share-your-library/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="之前在Github上引入别人的开源库，有一种非常简单的方法，如果你是用Gradle打包，那么直接在你的工程build.gradle中添加入下面的内容就可以实现了:
@@ -44,9 +44,9 @@
 <meta property="og:image" content="http://img.cdn.microwu.com/20160926/16.png">
 <meta property="og:image" content="http://img.cdn.microwu.com/20160926/17.png">
 <meta property="og:image" content="http://img.cdn.microwu.com/20160926/18.png">
-<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
+<meta property="og:updated_time" content="2019-01-02T11:37:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一步一步教你在bintray上分享自己的开源库">
+<meta name="twitter:title" content="【开源】一步一步教你在bintray上分享自己的开源库">
 <meta name="twitter:description" content="之前在Github上引入别人的开源库，有一种非常简单的方法，如果你是用Gradle打包，那么直接在你的工程build.gradle中添加入下面的内容就可以实现了:
 123dependencies &amp;#123;    compile &apos;com.microwu.ptrwebviewlibray:ptrwebview:1.0.0&apos;&amp;#125;
 那其实这样格式的开源库都是上传到了bintray上面，然后在">
@@ -109,7 +109,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/09/23/how-to-share-your-library/" title="一步一步教你在bintray上分享自己的开源库" itemprop="url">一步一步教你在bintray上分享自己的开源库</a>
+      <a href="/2016/09/23/how-to-share-your-library/" title="【开源】一步一步教你在bintray上分享自己的开源库" itemprop="url">【开源】一步一步教你在bintray上分享自己的开源库</a>
   </h1>
   <p class="article-author">BY
        
@@ -193,7 +193,7 @@
 <li>name字段就是仓库的名称，就是显示在你的开源库地址的第1部分</li>
 <li>type字段我们一般选取Maven</li>
 <li>Default License字段一般也选用的Apache的开源协议。当然你也可以填入你自己的License</li>
-<li>Description字段是可选的，就是对你的仓库的一个描述 </li>
+<li>Description字段是可选的，就是对你的仓库的一个描述</li>
 </ul>
 </li>
 </ul>
@@ -235,7 +235,7 @@
 <p>同时还需要添加<code>artifacts</code>：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">archives generateJavaDocsJar</span><br><span class="line">archives generateSourcesJar</span><br></pre></td></tr></table></figure>
 <h4 id="添加bintray中的package信息"><a href="#添加bintray中的package信息" class="headerlink" title="添加bintray中的package信息"></a>添加bintray中的package信息</h4><p>接下来就需要把我们在bintray中申请的package相关信息填写进来</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Properties properties = <span class="keyword">new</span> Properties()</span><br><span class="line">properties.load(project.rootProject.file(<span class="string">'local.properties'</span>).newDataInputStream())</span><br><span class="line"></span><br><span class="line">bintray &#123;</span><br><span class="line">    user = properties.getProperty(<span class="string">"bintray.user"</span>)</span><br><span class="line">    key = properties.getProperty(<span class="string">"bintray.apikey"</span>)</span><br><span class="line">    </span><br><span class="line">    pkg &#123;</span><br><span class="line">        repo = <span class="string">'你申请的repository名称'</span></span><br><span class="line">        name = <span class="string">'将会显示在页面上的package名称'</span></span><br><span class="line">        </span><br><span class="line">        version &#123;</span><br><span class="line">            name = <span class="string">'1.0.0-release'</span></span><br><span class="line">            desc = <span class="string">"package简介"</span></span><br><span class="line">            vcsTag = <span class="string">'1.0.0'</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        licenses = [<span class="string">'Apache-2.0'</span>]</span><br><span class="line">        vcsUrl = <span class="string">'你的项目github地址url + .git'</span></span><br><span class="line">        websiteUrl = <span class="string">'你的项目github地址'</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    configurations = [<span class="string">'archives'</span>]</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Properties properties = <span class="keyword">new</span> Properties()</span><br><span class="line">properties.load(project.rootProject.file(<span class="string">'local.properties'</span>).newDataInputStream())</span><br><span class="line"></span><br><span class="line">bintray &#123;</span><br><span class="line">    user = properties.getProperty(<span class="string">"bintray.user"</span>)</span><br><span class="line">    key = properties.getProperty(<span class="string">"bintray.apikey"</span>)</span><br><span class="line"></span><br><span class="line">    pkg &#123;</span><br><span class="line">        repo = <span class="string">'你申请的repository名称'</span></span><br><span class="line">        name = <span class="string">'将会显示在页面上的package名称'</span></span><br><span class="line"></span><br><span class="line">        version &#123;</span><br><span class="line">            name = <span class="string">'1.0.0-release'</span></span><br><span class="line">            desc = <span class="string">"package简介"</span></span><br><span class="line">            vcsTag = <span class="string">'1.0.0'</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        licenses = [<span class="string">'Apache-2.0'</span>]</span><br><span class="line">        vcsUrl = <span class="string">'你的项目github地址url + .git'</span></span><br><span class="line">        websiteUrl = <span class="string">'你的项目github地址'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    configurations = [<span class="string">'archives'</span>]</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>到这里，所有的Buidle文件都修改完成了，最终的成品大家可以参考下我的buidle文件，其中红框标出的是需要我们新添加进去的内容，黄色框标出的是要按照你们自己的内容替换的。</p>
 <p align="center"><br>    <img src="http://img.cdn.microwu.com/20160926/9.png" width="800"><br></p>
 
@@ -295,6 +295,16 @@
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/个人随想/">个人随想</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开源/">开源</a>
+  </div>
 
 </div>
 
@@ -302,7 +312,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://lipeng1667.github.io/2016/09/23/how-to-share-your-library/" data-title="一步一步教你在bintray上分享自己的开源库 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="http://lipeng1667.github.io/2016/09/23/how-to-share-your-library/" data-title="【开源】一步一步教你在bintray上分享自己的开源库 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -372,43 +382,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -421,19 +415,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -441,27 +439,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -469,35 +459,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -554,7 +548,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

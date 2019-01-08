@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2017/03/20/oracle-silence-install-in-rhel/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="之前我们给大家介绍了专门用于开发的超精简RedHat系统的安装过程。今天这个教程，可以看做是在那篇文章之上的一个进阶版，就是如何在命令行中静默安装oracle数据库。">
-<meta property="og:updated_time" content="2018-11-17T08:44:28.000Z">
+<meta property="og:updated_time" content="2019-01-02T11:36:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程">
 <meta name="twitter:description" content="之前我们给大家介绍了专门用于开发的超精简RedHat系统的安装过程。今天这个教程，可以看做是在那篇文章之上的一个进阶版，就是如何在命令行中静默安装oracle数据库。">
@@ -118,7 +118,7 @@
 </ul>
 <p>另外有一些依赖需要用 yum 加载linux iso 安装光盘的方式来安装，所以最好需要 linux 的安装文件</p>
 <ul>
-<li>rhel-server-6.7-x86_64-dvd.iso </li>
+<li>rhel-server-6.7-x86_64-dvd.iso</li>
 </ul>
 <h1 id="用户创建和目录配置"><a href="#用户创建和目录配置" class="headerlink" title="用户创建和目录配置"></a>用户创建和目录配置</h1><p>这里我们是按照oracle官方给的文档，创建几个相关的用户和用户组。</p>
 <h2 id="用户组创建"><a href="#用户组创建" class="headerlink" title="用户组创建"></a>用户组创建</h2><p>用root用户登录之后，首先创建下面几个用户组：</p>
@@ -197,7 +197,7 @@
 <p>监听不需要太多额外的配置，可以看我这个配置好的<a href="http://img.cdn.microwu.com/20170320/netca.rsp" target="_blank" rel="external">监听响应文件</a></p>
 <p>我们需要重新切回<code>oracle</code>用户:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su -c oracle</span><br></pre></td></tr></table></figure>
-<p>接下来在命令行中依次执行, </p>
+<p>接下来在命令行中依次执行,</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">netca /silent /responsefile /home/oracle/database/response/netca.rsp</span><br><span class="line">ll <span class="variable">$ORACLE_HOME</span>/network/admin/*.ora</span><br><span class="line">lsnrctl status</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>注：</p>
@@ -249,7 +249,7 @@
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">lsnrctl start</span><br><span class="line">dbstart <span class="variable">$ORACLE_HOME</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>手动停止shell <code>vim stop_oracle.sh</code> </li>
+<li>手动停止shell <code>vim stop_oracle.sh</code></li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">lsnrctl stop</span><br><span class="line">sqlplus / as sysdba @stop.sql</span><br></pre></td></tr></table></figure>
 <ul>
@@ -278,7 +278,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/oracle/">oracle</a><a href="/tags/redhat/">redhat</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Oracle/">Oracle</a>
   </div>
 
 </div>
@@ -357,43 +357,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -406,19 +390,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -426,27 +414,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -454,35 +434,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -539,7 +523,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

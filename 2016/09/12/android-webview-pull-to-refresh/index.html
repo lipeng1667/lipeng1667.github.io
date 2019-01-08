@@ -19,7 +19,7 @@
 <meta property="og:description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
 <meta property="og:image" content="http://img.cdn.microwu.com/20160923/00.gif">
 <meta property="og:image" content="http://img.blog.csdn.net/20130706113543125?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2lueXU4OTA4MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
-<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
+<meta property="og:updated_time" content="2019-01-02T11:23:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Android】WebView下拉刷新功能源码解析">
 <meta name="twitter:description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
@@ -123,7 +123,7 @@
 <p>在头部下方，是我们的WebView主体内容。可以看到我并没有在XML文件中静态地添加WebView，添加WebView的方法是通过代码实现的，代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * Description: init the webview object</span><br><span class="line">    *  We add webView object into view with codes but not in XML, the benefits is that we can release</span><br><span class="line">    *  the memory more deeply and clearly when we destroy webview's instance.</span><br><span class="line">    * Created by Michael Lee on 9/21/16 10:47</span><br><span class="line">    * <span class="doctag">@param</span>   aContext        current context</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initWebView</span><span class="params">(Context aContext)</span> </span>&#123;</span><br><span class="line">       RelativeLayout webview_container = (RelativeLayout) findViewById(R.id.base_web_view_container);</span><br><span class="line">       web_view_ = <span class="keyword">new</span> MyWebView(aContext,<span class="keyword">null</span>);</span><br><span class="line">       web_view_.setLayoutParams(<span class="keyword">new</span> ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,</span><br><span class="line">               ViewGroup.LayoutParams.MATCH_PARENT));</span><br><span class="line">       web_view_.setOnTouchListener(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">       webview_container.addView(web_view_);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>这样做的目的是，如果静态的添加WebView，则不能在Activity destroy时完全clear掉WebView占用的内存资源，而通过代码添加则可以很好的释放资源。但是目前1.0.0版本里面没有添加释放资源的接口，后续打算补充完整。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * Description: see &#123;<span class="doctag">@link</span> LinearLayout#onLayout(boolean, int, int, int, int)&#125;</span><br><span class="line">    *  After views are initialized, get web_view's location in screen to check if able to pull_to_</span><br><span class="line">    *  refresh. And these codes only be execute once.</span><br><span class="line">    * Created by Michael Lee on 9/21/16 15:46</span><br><span class="line">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onLayout(changed,l,t,r,b);</span><br><span class="line">       <span class="keyword">if</span> (changed &amp;&amp; !load_once_) &#123;</span><br><span class="line">           <span class="comment">// confirm the WebView's original location</span></span><br><span class="line">           web_view_.getLocationOnScreen(location_array_);</span><br><span class="line">           original_location_y_ = location_array_[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">           header_layout_params_ = (MarginLayoutParams) header_.getLayoutParams();</span><br><span class="line">           hide_header_height_ = -header_.getHeight();</span><br><span class="line">           </span><br><span class="line">           load_once_ = <span class="keyword">true</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * Description: see &#123;<span class="doctag">@link</span> LinearLayout#onLayout(boolean, int, int, int, int)&#125;</span><br><span class="line">    *  After views are initialized, get web_view's location in screen to check if able to pull_to_</span><br><span class="line">    *  refresh. And these codes only be execute once.</span><br><span class="line">    * Created by Michael Lee on 9/21/16 15:46</span><br><span class="line">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onLayout(changed,l,t,r,b);</span><br><span class="line">       <span class="keyword">if</span> (changed &amp;&amp; !load_once_) &#123;</span><br><span class="line">           <span class="comment">// confirm the WebView's original location</span></span><br><span class="line">           web_view_.getLocationOnScreen(location_array_);</span><br><span class="line">           original_location_y_ = location_array_[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">           header_layout_params_ = (MarginLayoutParams) header_.getLayoutParams();</span><br><span class="line">           hide_header_height_ = -header_.getHeight();</span><br><span class="line"></span><br><span class="line">           load_once_ = <span class="keyword">true</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>这里需要记录一下初始化之后，WebView的初始坐标，因为当我们判断是否可以执行下拉刷新动作的时候，需要先判断下当前WebView的坐标是否大于初始坐标；<br>同时，因为onLayout是在界面初始化时被调用，所以我们需要把header部分隐藏起来，做法就是通过改变头部的<code>MarginLayoutParams</code>,而且这段代码仅需要执行一次，所以通过变量load_once来控制。</p>
 <h2 id="检测是否允许下拉刷新"><a href="#检测是否允许下拉刷新" class="headerlink" title="检测是否允许下拉刷新"></a>检测是否允许下拉刷新</h2><p>下拉刷新仅当控件当前已经处于顶部时，才有意义。郭林的博文中因为是采用的ListView，所以他可以通过判断第一个item来判断是否处于List的顶部，从而来判断是否允许下来刷新，所以我们需要重写WebView中的<code>onScrollChanged</code>方法来设置<code>can_pull_to_refresh_</code>参数表示当前是否处于顶端从而可以下拉刷新</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**---------------------------------------------------------------------------------------------</span><br><span class="line">    * Description: mywebview extends &#123;<span class="doctag">@link</span> WebView&#125;</span><br><span class="line">    *  override onScrollChanged method to set if we should allow pull-to-refresh, cause when user</span><br><span class="line">    *  is navigating the web page, we should NOT show the pull-to-refresh header.</span><br><span class="line">    *--------------------------------------------------------------------------------------------*/</span></span><br><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebView</span> <span class="keyword">extends</span> <span class="title">WebView</span> </span>&#123;</span><br><span class="line">       <span class="comment">/**</span><br><span class="line">        * Description: Default Constructor</span><br><span class="line">        * Created by Michael Lee on 9/21/16 17:13</span><br><span class="line">        * <span class="doctag">@param</span>   context     context</span><br><span class="line">        */</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyWebView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">this</span>(context,<span class="keyword">null</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**</span><br><span class="line">        * Description: copy constructor.</span><br><span class="line">        *  Do NOT invoke this(context, attrs,0), cause if style type was 0, would not response click</span><br><span class="line">        *  event, and if type is 'com.android.internal.R.attr.webViewStyle', there would be on compile</span><br><span class="line">        *  error:</span><br><span class="line">        *  You cannot access id's of com.android.internal.R at compile time, but you can access the</span><br><span class="line">        *  defined internal resources at runtime and get the resource by name.</span><br><span class="line">        *  You should be aware that this is slower than direct access and there is no guarantee.</span><br><span class="line">        * Created by Michael Lee on 9/21/16 17:13</span><br><span class="line">        * <span class="doctag">@param</span>   context     context</span><br><span class="line">        * <span class="doctag">@param</span>   attrs       attributes Set</span><br><span class="line">        */</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyWebView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">this</span>(context, attrs, Resources.getSystem().getIdentifier(<span class="string">"webViewStyle"</span>, <span class="string">"attr"</span>, <span class="string">"android"</span>));</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**</span><br><span class="line">        * Description: Copy Constructor</span><br><span class="line">        * Created by Michael Lee on 9/21/16 17:13</span><br><span class="line">        * <span class="doctag">@param</span>   context     context</span><br><span class="line">        * <span class="doctag">@param</span>   attrs       attributes set</span><br><span class="line">        * <span class="doctag">@param</span>   defStyle    sytle type</span><br><span class="line">        */</span></span><br><span class="line">       <span class="meta">@SuppressLint</span>(&#123;<span class="string">"SetJavaScriptEnabled"</span>&#125;)</span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyWebView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyle)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">super</span>(context, attrs, defStyle);</span><br><span class="line">           <span class="comment">// Set WebView client</span></span><br><span class="line">           setWebViewClient(<span class="keyword">new</span> MyWebViewClient());</span><br><span class="line">           <span class="comment">// set JS</span></span><br><span class="line">           getSettings().setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line">           <span class="comment">// Block press and hold event</span></span><br><span class="line">           <span class="keyword">this</span>.setOnLongClickListener(<span class="keyword">new</span> OnLongClickListener() &#123;</span><br><span class="line">               <span class="meta">@Override</span></span><br><span class="line">               <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onLongClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                   <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**</span><br><span class="line">        * Description: see &#123;<span class="doctag">@link</span> WebView#onScrollChanged&#125;</span><br><span class="line">        *  When webview scrolling, keep the progress bar on the top.</span><br><span class="line">        * Created by Michael Lee on 9/21/16 17:13</span><br><span class="line">        * <span class="doctag">@param</span>   l       Current horizontal scroll origin</span><br><span class="line">        * <span class="doctag">@param</span>   t       current vertical scroll origin</span><br><span class="line">        * <span class="doctag">@param</span>   oldl    Previous horizontal scroll origin</span><br><span class="line">        * <span class="doctag">@param</span>   oldt    Previous vertical scroll origin</span><br><span class="line">        */</span></span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onScrollChanged</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> oldl, <span class="keyword">int</span> oldt)</span> </span>&#123;</span><br><span class="line">           <span class="comment">// if current vertical scroll origin is not 0, CAN NOT pull to refresh</span></span><br><span class="line">           can_pull_to_refresh_ = (t == <span class="number">0</span>);</span><br><span class="line">           <span class="keyword">super</span>.onScrollChanged(l, t, oldl, oldt);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
@@ -143,13 +143,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/android/">Android</a>
+  <a class="article-category-link" href="/categories/移动开发/">移动开发</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/webview/">webview</a>
+  <span></span> <a href="/tags/WebView/">WebView</a><a href="/tags/Android/">Android</a>
   </div>
 
 </div>
@@ -172,10 +172,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/09/23/how-to-share-your-library/" title="一步一步教你在bintray上分享自己的开源库">
+ <a href="/2016/09/23/how-to-share-your-library/" title="【开源】一步一步教你在bintray上分享自己的开源库">
   <strong>上一篇：</strong><br/>
   <span>
-  一步一步教你在bintray上分享自己的开源库</span>
+  【开源】一步一步教你在bintray上分享自己的开源库</span>
 </a>
 </div>
 
@@ -228,43 +228,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -277,19 +261,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -297,27 +285,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -325,35 +305,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -410,7 +394,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2016/08/06/memory-optimisation-for-webview-in-android/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="这几年H5的快速发展，使得Hybrid混合开发越来越流行，而webview也成为了开发中必备的元素。但是我们知道WebView在加载页面时，会占用非常大的内存，无论是iOS还是Android系统上，加载一个Web页面一般需要用到100M左右，而如果我们不及时清理WebView的内存，那最后可能会随着内存消耗的不断增加而发生OOM(Out Of Memory)导致程序崩溃。那今天我就总结一下前一阵子">
-<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
+<meta property="og:updated_time" content="2019-01-02T11:23:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Android】 WebView内存泄漏优化之路">
 <meta name="twitter:description" content="这几年H5的快速发展，使得Hybrid混合开发越来越流行，而webview也成为了开发中必备的元素。但是我们知道WebView在加载页面时，会占用非常大的内存，无论是iOS还是Android系统上，加载一个Web页面一般需要用到100M左右，而如果我们不及时清理WebView的内存，那最后可能会随着内存消耗的不断增加而发生OOM(Out Of Memory)导致程序崩溃。那今天我就总结一下前一阵子">
@@ -133,13 +133,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/android/">Android</a>
+  <a class="article-category-link" href="/categories/移动开发/">移动开发</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/内存管理/">内存管理</a>
+  <span></span> <a href="/tags/WebView/">WebView</a><a href="/tags/Android/">Android</a>
   </div>
 
 </div>
@@ -218,43 +218,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -267,19 +251,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -287,27 +275,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -315,35 +295,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -400,7 +384,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

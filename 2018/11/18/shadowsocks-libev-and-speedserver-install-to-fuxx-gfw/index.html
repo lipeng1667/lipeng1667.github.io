@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2018/11/18/shadowsocks-libev-and-speedserver-install-to-fuxx-gfw/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
-<meta property="og:updated_time" content="2018-11-19T01:56:00.000Z">
+<meta property="og:updated_time" content="2019-01-02T11:37:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【翻墙】搭建 SS 服务并开启锐速">
 <meta name="twitter:description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
@@ -117,7 +117,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -ivh http://soft.91yun.org/ISO/Linux/CentOS/kernel/kernel-firmware-2.6.32-504.3.3.el6.noarch.rpm</span><br><span class="line">$ rpm -ivh http://soft.91yun.org/ISO/Linux/CentOS/kernel/kernel-2.6.32-504.3.3.el6.x86_64.rpm --force</span><br></pre></td></tr></table></figure>
 <p>等待下载并安装，可能需要3-5分钟。<br>之后检查内核是否安装成功</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br></pre></td></tr></table></figure>
-<p>在内核列表中能看到<code>2.6.32-504.3.3.el6.x86_64</code>就表示安装成功了。<code>reboot</code>重启服务器后，输入<code>uname -r</code> 查看内核是否修改成功。 </p>
+<p>在内核列表中能看到<code>2.6.32-504.3.3.el6.x86_64</code>就表示安装成功了。<code>reboot</code>重启服务器后，输入<code>uname -r</code> 查看内核是否修改成功。</p>
 <h1 id="安装-shadowsocks-libev"><a href="#安装-shadowsocks-libev" class="headerlink" title="安装 shadowsocks-libev"></a>安装 shadowsocks-libev</h1><p>libev 版本更精简，消耗资源更少，安装很简单，github 上有大牛写好了脚本，我们只需要上传到服务器上，执行就好了。可以从<a href="http://img.cdn.microwu.com/shadowsocks-libev.sh" target="_blank" rel="external">这里(shadowsocks-liev.sh)</a>下载安装脚本。</p>
 <p>只有直接运行就可以实现一键安装了，期间会询问一些诸如密码、端口、加密方式等问题，按照自己的喜好来吧。</p>
 <h1 id="开启-TCP-Fast-Open"><a href="#开启-TCP-Fast-Open" class="headerlink" title="开启 TCP Fast Open"></a>开启 TCP Fast Open</h1><p>Tcp fast open 可以让我们的传输更快，也就是上网速度更快，</p>
@@ -136,13 +136,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  <a class="article-category-link" href="/categories/个人随想/">个人随想</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/shadowsocks/">shadowsocks</a>
+  <span></span> <a href="/tags/SS/">SS</a>
   </div>
 
 </div>
@@ -164,6 +164,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2019/01/03/firewall-on-rhel7/" title="【Linux】Linux7中的防火墙 - Firewall">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Linux】Linux7中的防火墙 - Firewall</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/09/01/php_pdo_connect_to_oracle/"  title="【Oracle】PHP通过PDO访问oracle数据库">
@@ -213,43 +221,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -262,19 +254,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -282,27 +278,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -310,35 +298,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -395,7 +387,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://img.cdn.microwu.com/20160206/21.png-imagewatermark">
 <meta property="og:image" content="http://img.cdn.microwu.com/20160206/22.png-imagewatermark">
 <meta property="og:image" content="http://img.cdn.microwu.com/20160206/23.png-imagewatermark">
-<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
+<meta property="og:updated_time" content="2019-01-02T11:38:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Python学习之路1】字符串的换行/引入其他py文件">
 <meta name="twitter:description" content="这一系列blog用来记录python学习过程中积累的知识点吧。个人感觉在IT行业，最快地掌握知识点的方法就是用到实际中去，比如依托于一个项目，比如自己真正地去搞一个东西，在这个过程中的学习是非常高效而且记忆深刻的。后面准备把自己用python写的爬北邮人论坛的过程总结一下，今天就先介绍两个零碎的知识点：字符串的换行和引入其他py文件。
@@ -130,7 +130,7 @@
 <h2 id="导入模块"><a href="#导入模块" class="headerlink" title="导入模块"></a>导入模块</h2><p>在Python中，一个.py文件就构成一个模块。一个模块中的定义可以导入（import）到另一个模块或主模块。<br>比如你可以通过内置模块platform来查看你当前的操作平台信息：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> platform  </span><br><span class="line">s = platform.platform()  </span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
 <p>我的输出是</p>
-<p><code>Linux-3.15.8-200.fc20.x86_64-x86_64-with-fedora-20-Heisenbug</code> </p>
+<p><code>Linux-3.15.8-200.fc20.x86_64-x86_64-with-fedora-20-Heisenbug</code></p>
 <p>又比如你可以通过内置模块time获取当前的时间：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time  </span><br><span class="line">s = time.ctime()  </span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
 <p>输出：<code>Mon Aug 18 16:04:57 2014</code></p>
@@ -159,7 +159,7 @@
 <p><code>$ python test.py</code>   </p>
 <p>输出：<code>This program is being run by itself</code></p>
 <p>当作导入模块使用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import test`</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">输出： `I am being imported into another module`  </span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">## dir() 函数</span><br><span class="line"></span><br><span class="line">在Python3中可以通过内置dir()函数查询一个类或者对象的所有属性。除此之外，我们还可以用它列出一个模块里定义的所有名字，它返回一个有序字串列表：</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import builtins  </span><br><span class="line">dir(builtins)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import test`</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">输出： `I am being imported into another module`  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## dir() 函数</span><br><span class="line"></span><br><span class="line">在Python3中可以通过内置dir()函数查询一个类或者对象的所有属性。除此之外，我们还可以用它列出一个模块里定义的所有名字，它返回一个有序字串列表：</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import builtins  </span><br><span class="line">dir(builtins)</span><br></pre></td></tr></table></figure>
 <h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>可以把多个模块，即多个.py文件，放在同一个文件夹中，构成一个包（Package）。例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sound/							顶级包  </span><br><span class="line">	__init__.py					初始化这个声音包  </span><br><span class="line">	formats/					格式转换子包</span><br><span class="line">		__init__.py</span><br><span class="line">		wavread.py</span><br><span class="line">		wavwrite.py</span><br><span class="line">		aiffread.py</span><br><span class="line">		aiffwrite.py</span><br><span class="line">		auread.py</span><br><span class="line">		...</span><br><span class="line">	effects/					音效子包</span><br><span class="line">   		__init__.py</span><br><span class="line">   		echo.py</span><br><span class="line">   		surround.py</span><br><span class="line">   		reverse.py</span><br><span class="line">   		...</span><br><span class="line">  	filters/					过滤器子包</span><br><span class="line">   		__init__.py</span><br><span class="line">   		equalizer.py</span><br><span class="line">   		vocoder.py</span><br><span class="line">   		...</span><br></pre></td></tr></table></figure>
 <p><strong>注意：</strong><br>在每个包文件夹里都必须包含一个 <code>__init__.py</code> 的文件，告诉Python，该文件夹是一个包。<code>__init__.py</code> 可以是一个空文件。<br>我们可以通过import <code>包名.模块名</code>导入包中的子模块，例如：</p>
@@ -173,13 +173,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Python/">Python</a>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/python/">python</a><a href="/tags/字符串/">字符串</a>
+  <span></span> <a href="/tags/Python/">Python</a>
   </div>
 
 </div>
@@ -258,43 +258,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -307,19 +291,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -327,27 +315,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -355,35 +335,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -440,7 +424,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

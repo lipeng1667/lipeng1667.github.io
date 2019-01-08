@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2016/02/14/【Android】设置全局变量的两种方法/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="说到全局变量，可能在教科书里面都不建议我们使用，但是在实际开发过程中，会发现全局变量其实带来了很大的便捷性。虽然Android在不同的Activity切换时可以把要传递的值传到Intent里面（iOS中也有类似的方法），但是当我们应用的页面很多，逻辑渐渐复杂了之后，全局变量就带来了非常大的便利。">
-<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
+<meta property="og:updated_time" content="2019-01-02T11:17:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Android】设置全局变量的两种方法">
 <meta name="twitter:description" content="说到全局变量，可能在教科书里面都不建议我们使用，但是在实际开发过程中，会发现全局变量其实带来了很大的便捷性。虽然Android在不同的Activity切换时可以把要传递的值传到Intent里面（iOS中也有类似的方法），但是当我们应用的页面很多，逻辑渐渐复杂了之后，全局变量就带来了非常大的便利。">
@@ -115,7 +115,7 @@
 </ol>
 <p>我们就分类来看吧！</p>
 <h1 id="生命周期之外的全局变量"><a href="#生命周期之外的全局变量" class="headerlink" title="生命周期之外的全局变量"></a>生命周期之外的全局变量</h1><p>一般来说，这类全局变量不会很多，如果很多的话，就要使用sqlite等数据库了，所以，我的这些全局变量是放在你自己定义的一个公共方法类(我的命名为<code>CommonUtil</code>)里面的，这个类一般都是自定义的，不继承自任何类。在这个类里面，我们定义下面的成对的方法来设置和获取全局变量。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span><br><span class="line"> * Description: 设置和获取用户名</span><br><span class="line">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setAccount</span><span class="params">(String account)</span></span>&#123;</span><br><span class="line">    SharedPreferences sp = context.getSharedPreferences(<span class="string">"YOUR APP'S NAME"</span>, Activity.MODE_PRIVATE);</span><br><span class="line">    SharedPreferences.Editor editor = sp.edit();</span><br><span class="line">    editor.putString(<span class="string">"ACCOUNT"</span>,<span class="string">""</span>);    <span class="comment">// 先清空原始数据</span></span><br><span class="line">    editor.putString(<span class="string">"ACCOUNT"</span>,account);</span><br><span class="line">    editor.commit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    SharedPreferences sp = context.getSharedPreferences(<span class="string">"YOUR APP'S NAME"</span>, Activity.MODE_PRIVATE);</span><br><span class="line">    <span class="keyword">return</span> sp.getString(<span class="string">"ACCOUNT"</span>, <span class="string">""</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Description: 设置和获取用户名</span><br><span class="line">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setAccount</span><span class="params">(String account)</span></span>&#123;</span><br><span class="line">    SharedPreferences sp = context.getSharedPreferences(<span class="string">"YOUR APP'S NAME"</span>, Activity.MODE_PRIVATE);</span><br><span class="line">    SharedPreferences.Editor editor = sp.edit();</span><br><span class="line">    editor.putString(<span class="string">"ACCOUNT"</span>,<span class="string">""</span>);    <span class="comment">// 先清空原始数据</span></span><br><span class="line">    editor.putString(<span class="string">"ACCOUNT"</span>,account);</span><br><span class="line">    editor.commit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    SharedPreferences sp = context.getSharedPreferences(<span class="string">"YOUR APP'S NAME"</span>, Activity.MODE_PRIVATE);</span><br><span class="line">    <span class="keyword">return</span> sp.getString(<span class="string">"ACCOUNT"</span>, <span class="string">""</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong><font color="red">注：</font></strong></p>
 <ol>
 <li>必须通过<code>Context</code>提供的<code>getSharedPreferences(String, int)</code>来获得实例。该方法的第一个参数是指定XML文件名(不包含“.xml”后缀)的字符串，方法会去读取出对应的文件，创建一个SharedPreferences对象。第二个参数指定文件的访问权限，共有4中可选模式，从API 17开始基于安全的考虑，<code>MODE_WORLD_READABLE</code>和<code>MODE_WORLD_WRITEABLE</code>已经被废弃使用，只有<code>MODE_PRIVATE</code>和<code>MODE_MULTI_PROCESS</code>可使用，一般情况下指定<code>MODE_PRIVATE</code>即可。</li>
@@ -135,13 +135,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/android/">Android</a>
+  <a class="article-category-link" href="/categories/移动开发/">移动开发</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/SharedPreferences/">SharedPreferences</a>
+  <span></span> <a href="/tags/Android/">Android</a>
   </div>
 
 </div>
@@ -220,43 +220,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -269,19 +253,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -289,27 +277,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -317,35 +297,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -402,7 +386,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

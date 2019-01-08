@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2016/02/02/【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="记录下最近开发中研究的带进度条的WebView 自定义类吧。其实网上有不少这样的帖子，但是都没有一个完整的好用的例子，最关键的是，用网上的例子后有一个很明显的bug：就是遇到输入框的话没法弹出软键盘。研究了好久总算搞定了，特此记录下。">
-<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
+<meta property="og:updated_time" content="2019-01-02T11:31:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Android】自定义带进度条的WebView，修复不弹出软键盘的BUG">
 <meta name="twitter:description" content="记录下最近开发中研究的带进度条的WebView 自定义类吧。其实网上有不少这样的帖子，但是都没有一个完整的好用的例子，最关键的是，用网上的例子后有一个很明显的bug：就是遇到输入框的话没法弹出软键盘。研究了好久总算搞定了，特此记录下。">
@@ -105,7 +105,7 @@
 		</div>
 		
 		<p>记录下最近开发中研究的带进度条的WebView 自定义类吧。<br>其实网上有不少这样的帖子，但是都没有一个完整的好用的例子，最关键的是，用网上的例子后有一个很明显的bug：就是遇到输入框的话没法弹出软键盘。研究了好久总算搞定了，特此记录下。<br><a id="more"></a><br>直接上源代码，关于代码的解释，个人感觉注释中已经添加的足够清楚了。</p>
-<p><font color="red">注意：我省去了部分import的内容，因为是和我的工程命名相关的。</font> </p>
+<p><font color="red">注意：我省去了部分import的内容，因为是和我的工程命名相关的。</font></p>
 <h1 id="ProgressWebView-java"><a href="#ProgressWebView-java" class="headerlink" title="ProgressWebView.java"></a>ProgressWebView.java</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.res.Resources;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Bitmap;</span><br><span class="line"><span class="keyword">import</span> android.graphics.drawable.Drawable;</span><br><span class="line"><span class="keyword">import</span> android.util.AttributeSet;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebView;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebViewClient;</span><br><span class="line"><span class="keyword">import</span> android.widget.ProgressBar;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * File Description: 自定义带有进度条的webview</span><br><span class="line"> *  继承自&#123;<span class="doctag">@link</span> WebView&#125;</span><br><span class="line"> * Created by KAKA on 16/1/19 22:21</span><br><span class="line"> *  主要在&#123;<span class="doctag">@link</span> ProgressWebView#ProgressWebView(Context, AttributeSet, int)&#125;中完成实例的构建</span><br><span class="line"> *  使用&#123;<span class="doctag">@link</span> ProgressWebView#ProgressWebView(Context, AttributeSet)&#125;时要注意destyle类型的设置</span><br><span class="line">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"deprecation"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProgressWebView</span> <span class="keyword">extends</span> <span class="title">WebView</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 进度条</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">private</span> ProgressBar progress_bar_;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 回调</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">private</span> OnWebCallBack onweb_callback_;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Description: Default Constructor</span><br><span class="line">     * Created by KAKA on 16/1/19 22:23</span><br><span class="line">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProgressWebView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 不能直接调用this(context, attrs,0),最后style是0的话，会导致无法响应点击动作。</span><br><span class="line">     * 但是如果直接把最后一位写成 com.android.internal.R.attr.webViewStyle 编译时会弹出错误提示，原因：</span><br><span class="line">     * You cannot access id's of com.android.internal.R at compile time, but you can access the</span><br><span class="line">     * defined internal resources at runtime and get the resource by name.</span><br><span class="line">     * You should be aware that this is slower than direct access and there is no guarantee.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProgressWebView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, attrs, Resources.getSystem().getIdentifier(<span class="string">"webViewStyle"</span>,<span class="string">"attr"</span>,<span class="string">"android"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Description: Copy Constructor</span><br><span class="line">     * Created by KAKA on 16/1/19 22:23</span><br><span class="line">     *  isInEditMode函数的作用是去除打开XML文档时提示的错误</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProgressWebView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyle);</span><br><span class="line">        <span class="keyword">if</span> (!isInEditMode()) &#123;</span><br><span class="line">            initView(context);</span><br><span class="line">        &#125;</span><br><span class="line">        setWebViewClient(<span class="keyword">new</span> MyWebViewClient());</span><br><span class="line">        setWebChromeClient(<span class="keyword">new</span> WebChromeClient());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Description: 初始化界面元素</span><br><span class="line">     * Created by KAKA on 16/1/20 09:43</span><br><span class="line">     *  LayoutParams中第2个参数表示的是progress_bar的高度大小</span><br><span class="line">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">(<span class="keyword">final</span> Context context)</span> </span>&#123;</span><br><span class="line">        progress_bar_ = <span class="keyword">new</span> ProgressBar(context,<span class="keyword">null</span>, android.R.attr.progressBarStyleHorizontal);</span><br><span class="line">        progress_bar_.setLayoutParams(<span class="keyword">new</span> LayoutParams(LayoutParams.FILL_PARENT, <span class="number">20</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">        <span class="comment">// 添加drawable</span></span><br><span class="line">        Drawable drawable = context.getResources().getDrawable(R.drawable.progress_bar_states);</span><br><span class="line">        progress_bar_.setProgressDrawable(drawable);</span><br><span class="line">        <span class="keyword">this</span>.addView(progress_bar_);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Description: 设置webview的回调器</span><br><span class="line">     * Created by KAKA on 16/1/20 13:56</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnWebCallback</span><span class="params">(OnWebCallBack onwebcallback)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.onweb_callback_ = onwebcallback;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Description: 重写WebViewClient类，不重写的话会跳转默认浏览器</span><br><span class="line">     * Created by KAKA on 16/1/19 23:26</span><br><span class="line">    */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebViewClient</span> <span class="keyword">extends</span> <span class="title">WebViewClient</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceivedError</span><span class="params">(WebView view, <span class="keyword">int</span> errorCode,</span><br><span class="line">                                    String description, String failingUrl)</span> </span>&#123; <span class="comment">// Handle the</span></span><br><span class="line">            goBack() ;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</span><br><span class="line">            view.loadUrl(url);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageFinished</span><span class="params">(WebView view, String url)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.onPageFinished(view, url);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * Description: 获取请求页面的URL</span><br><span class="line">         * Created by KAKA on 16/1/20 13:54</span><br><span class="line">        */</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageStarted</span><span class="params">(WebView view, String url, Bitmap favicon)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (onweb_callback_ != <span class="keyword">null</span>) &#123;</span><br><span class="line">                onweb_callback_.getUrl(url);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Description: 重写webChromeClient类</span><br><span class="line">     * Created by KAKA on 16/1/19 22:40</span><br><span class="line">    */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebChromeClient</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">webkit</span>.<span class="title">WebChromeClient</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(WebView view, <span class="keyword">int</span> newProgress)</span> </span>&#123;</span><br><span class="line">            LogUtils.i(<span class="string">"当前进度"</span>,newProgress + <span class="string">"%"</span>);</span><br><span class="line">            <span class="keyword">if</span> (newProgress == <span class="number">100</span>) &#123;</span><br><span class="line">                progress_bar_.setVisibility(GONE);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (progress_bar_.getVisibility() == GONE) &#123;</span><br><span class="line">                    progress_bar_.setVisibility(VISIBLE);</span><br><span class="line">                &#125;</span><br><span class="line">                progress_bar_.setProgress(newProgress);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">super</span>.onProgressChanged(view,newProgress);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * Description: 获取页面的标题</span><br><span class="line">         * Created by KAKA on 16/1/20 13:54</span><br><span class="line">        */</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceivedTitle</span><span class="params">(WebView view, String title)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.onReceivedTitle(view,title);</span><br><span class="line">            <span class="keyword">if</span> (onweb_callback_ != <span class="keyword">null</span> ) &#123;</span><br><span class="line">                onweb_callback_.getTitle(title);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onScrollChanged</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> oldl, <span class="keyword">int</span> oldt)</span> </span>&#123;</span><br><span class="line">        LayoutParams lp = (LayoutParams) progress_bar_.getLayoutParams();</span><br><span class="line">        lp.x = l;</span><br><span class="line">        lp.y = t;</span><br><span class="line">        progress_bar_.setLayoutParams(lp);</span><br><span class="line">        <span class="keyword">super</span>.onScrollChanged(l, t, oldl, oldt);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>两个要点：</p>
 <ol>
@@ -123,13 +123,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/android/">Android</a>
+  <a class="article-category-link" href="/categories/移动开发/">移动开发</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/webview/">webview</a><a href="/tags/Android/">Android</a><a href="/tags/软键盘/">软键盘</a>
+  <span></span> <a href="/tags/WebView/">WebView</a><a href="/tags/Android/">Android</a>
   </div>
 
 </div>
@@ -200,43 +200,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -249,19 +233,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -269,27 +257,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -297,35 +277,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -382,7 +366,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

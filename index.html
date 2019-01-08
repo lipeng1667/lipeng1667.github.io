@@ -81,6 +81,140 @@
     <header class="article-info clearfix">
         <h1 itemprop="name">
         
+            <a href="/2019/01/06/LNMP-on-rhel7/" title="【LNMP】linux7系统中搭建LNMP 环境全过程" itemprop="url">【LNMP】linux7系统中搭建LNMP 环境全过程</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2019-01-06T02:06:55.000Z" itemprop="datePublished"> Published 2019-01-06</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>在此前的<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step/">文章</a>中，详细记录了在 RHEL6/CentOS6上搭建 LAMP 的过程，随着时间的流逝，操作系统已经到了7.x版本，PHP 版本已经发展到了7.x， MySQL 版本也进化到了8.x，所以我们今天就来记录一下，在Linux7版本上搭建 LNMP环境 的全过程。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/01/06/LNMP-on-rhel7/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Nginx/">Nginx</a><a href="/tags/PHP/">PHP</a><a href="/tags/MySQL/">MySQL</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/01/06/LNMP-on-rhel7/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
+            <a href="/2019/01/03/firewall-on-rhel7/" title="【Linux】Linux7中的防火墙 - Firewall" itemprop="url">【Linux】Linux7中的防火墙 - Firewall</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2019-01-03T03:28:54.000Z" itemprop="datePublished"> Published 2019-01-03</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>从 rhel7开始，系统推荐我们使用 firewall 来替代原先的 iptables，firewall 也是默认的 rhel 的防火墙配置。<br>网上已经有很多文章介绍 firewall 和 iptables 的不同，这里就不再重复啰嗦。个人觉得firewall 有几个地方要更好一些：  </p>
+<ol>
+<li>firewall 预设了9个 zone，每个 zone 可以有个性化的规则，这样当你的服务器/个人电脑 处于不同的环境下时，你就可以很方便的一键切换配置了。</li>
+<li>firewall 的配置项发生修改时，可以进行热生效；而 iptables 只能通过重启服务来实现。</li>
+<li>firewall 从命令行或从配置内容上，更加人性化。例如可以配置服务内容 ssh，http，https 等，这些就相当于开启了22端口、80端口和443端口的接入权限。</li>
+<li>最重要的，firewall 是 linux 默认的防火墙配置工具了，我们有什么理由不跟上潮流呢？</li>
+</ol>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/01/03/firewall-on-rhel7/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/01/03/firewall-on-rhel7/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
             <a href="/2018/11/18/shadowsocks-libev-and-speedserver-install-to-fuxx-gfw/" title="【翻墙】搭建 SS 服务并开启锐速" itemprop="url">【翻墙】搭建 SS 服务并开启锐速</a>
         </h1>
         <p class="article-author">BY
@@ -107,13 +241,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  <a class="article-category-link" href="/categories/个人随想/">个人随想</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/shadowsocks/">shadowsocks</a>
+  <span></span> <a href="/tags/SS/">SS</a>
   </div>
 
 </div>
@@ -157,7 +291,7 @@
     </header>
     <div class="article-content">
         
-        <p>虽然LAMP中PHP和Mysql是标准配对，但是公司的项目是Mysql和Oracle分别作为运行库和详单库的，所以PHP连接oracle数据库也是必须要实现的。本篇文章就介绍下如果通过PDO连接到oracle数据库。</p>
+        <p>虽然LAMP中PHP和MySQL是标准配对，但是公司的项目是MySQL和Oracle分别作为运行库和详单库的，所以PHP连接oracle数据库也是必须要实现的。本篇文章就介绍下如果通过PDO连接到oracle数据库。</p>
         
         
         <p class="article-more-link">
@@ -177,7 +311,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/php/">php</a>
+  <span></span> <a href="/tags/PHP/">PHP</a><a href="/tags/PDO/">PDO</a><a href="/tags/Oracle/">Oracle</a>
   </div>
 
 </div>
@@ -235,13 +369,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/LAMP/">LAMP</a>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Apache/">Apache</a><a href="/tags/php/">php</a>
+  <span></span> <a href="/tags/Apache/">Apache</a>
   </div>
 
 </div>
@@ -299,13 +433,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/ssh/">ssh</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/SSH/">SSH</a>
   </div>
 
 </div>
@@ -369,7 +503,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/oracle/">oracle</a><a href="/tags/redhat/">redhat</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Oracle/">Oracle</a>
   </div>
 
 </div>
@@ -427,13 +561,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/LAMP/">LAMP</a>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/php/">php</a><a href="/tags/Linux/">Linux</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/PHP/">PHP</a>
   </div>
 
 </div>
@@ -491,13 +625,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/LAMP/">LAMP</a>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/mysql/">mysql</a>
+  <span></span> <a href="/tags/MySQL/">MySQL</a>
   </div>
 
 </div>
@@ -555,7 +689,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/WEB开发/">WEB开发</a>
+  <a class="article-category-link" href="/categories/前端技术/">前端技术</a>
 </div>
 
 
@@ -586,137 +720,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-
-    <header class="article-info clearfix">
-        <h1 itemprop="name">
-        
-            <a href="/2017/01/18/gerrit-guide/" title="【Gerrit】Gerrit工作流程及使用手册" itemprop="url">【Gerrit】Gerrit工作流程及使用手册</a>
-        </h1>
-        <p class="article-author">BY
-            
-		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
-		    
-        <p class="article-time">
-            <time datetime="2017-01-18T01:55:41.000Z" itemprop="datePublished"> Published 2017-01-18</time>
-        </p>
-    </header>
-    <div class="article-content">
-        
-        <p><a href="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/">上一篇文章</a>中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。<br>gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。<br>这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/01/18/gerrit-guide/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Git/">Git</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/git/">git</a><a href="/tags/Linux/">Linux</a><a href="/tags/gerrit/">gerrit</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/01/18/gerrit-guide/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-
-    <header class="article-info clearfix">
-        <h1 itemprop="name">
-        
-            <a href="/2017/01/17/build-gerrit-with-nginx/" title="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程" itemprop="url">【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程</a>
-        </h1>
-        <p class="article-author">BY
-            
-		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
-		    
-        <p class="article-time">
-            <time datetime="2017-01-17T06:43:49.000Z" itemprop="datePublished"> Published 2017-01-17</time>
-        </p>
-    </header>
-    <div class="article-content">
-        
-        <p>最近公司的项目打算启用gerrit做为代码审核的工具，最近3天彻底研究了下gerrit的安装配置过程，这里做个记录，期间很多细节都一一记录下来，以便之后有同学需要用到。<br>这篇博文先介绍下gerrit的安装过程，然后之后还准备写一篇文章，介绍如何利用gerrit和sourceTree进行协同工作，换句话说，就是gerrit的详细工作流程。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/01/17/build-gerrit-with-nginx/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Git/">Git</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/git/">git</a><a href="/tags/Linux/">Linux</a><a href="/tags/gerrit/">gerrit</a><a href="/tags/nginx/">nginx</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/01/17/build-gerrit-with-nginx/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -732,43 +738,27 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -781,19 +771,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -801,27 +795,19 @@
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -829,35 +815,39 @@
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -914,7 +904,7 @@
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		

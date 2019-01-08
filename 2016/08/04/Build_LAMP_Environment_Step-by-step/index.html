@@ -30,7 +30,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <meta property="og:image" content="http://img.cdn.microwu.com/20160805/07.png">
 <meta property="og:image" content="http://img.cdn.microwu.com/20160805/08.png">
 <meta property="og:image" content="http://img.cdn.microwu.com/20170314/1.png">
-<meta property="og:updated_time" content="2018-11-17T03:47:37.000Z">
+<meta property="og:updated_time" content="2019-01-08T02:31:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【LAMP】搭建LAMP系统及相关配置">
 <meta name="twitter:description" content="不得不说云服务做的越来越好以后，搭建LAMP(Linux+Apache+MySQL+PHP)环境变得越来越方便了。这篇博文就记录一下在阿里云的主机上搭建LAMP环境的全过程，当然，整个过程也是参考了很多前人的经验，在文章最后我会全部贴出来以示感谢。先列出来各个版本：
@@ -211,7 +211,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <p>将mysql的事件计划打开，即便我们新建了event，也不会按照我们预想地正常执行。<br>因为<code>event_scheduler</code>默认是关闭的，所以当mysql重启之后，我们的计划任务就不再按照计划执行了，所以我们在配置文件里面讲它设置为默认开启, 我们在<code>[mysqld]</code>下面添加下面的语句</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event_scheduler = on</span><br></pre></td></tr></table></figure>
 <h4 id="重启mysql服务"><a href="#重启mysql服务" class="headerlink" title="重启mysql服务"></a>重启mysql服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/rc.d/init.d/mysql restart</span><br></pre></td></tr></table></figure>
-<p>或者 </p>
+<p>或者</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
 <h4 id="查看修改结果"><a href="#查看修改结果" class="headerlink" title="查看修改结果"></a>查看修改结果</h4><p>接入数据库：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
@@ -243,7 +243,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <p>或者</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service httpd restart</span><br></pre></td></tr></table></figure>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>apache的网站搭建在<code>/var/www/html</code>路径下，我们在其中新建一个test.php文件，然后写入下面的内容：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> </span><br><span class="line">phpinfo(); </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>输入地址试试：<code>http://serverip/test.php</code> 可以显示说明已经配置成功了！</p>
 <p>如果失败，查看下是不是80端口被占用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -apn |grep 80</span><br></pre></td></tr></table></figure>
@@ -252,7 +252,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 <p>最后附上参考连接：</p>
 <ul>
 <li><a href="http://www.cnblogs.com/wanghaosoft/archive/2013/01/11/2857206.html" target="_blank" rel="external">Centos下搭建php环境，安装lamp环境</a></li>
-<li><a href="http://www.cnblogs.com/xiaoluo501395377/archive/2013/04/07/3003278.html" target="_blank" rel="external">CentOS6.4下Mysql数据库的安装与配置</a></li>
+<li><a href="http://www.cnblogs.com/xiaoluo501395377/archive/2013/04/07/3003278.html" target="_blank" rel="external">CentOS6.4下MySQL数据库的安装与配置</a></li>
 <li><a href="http://www.cnblogs.com/donqiang/articles/2057972.html" target="_blank" rel="external">修改及查看mysql数据库的字符集</a></li>
 <li><a href="http://blog.sina.com.cn/s/blog_7f09a7160101n9dk.html" target="_blank" rel="external">MySQL用户账号管理（添加、删除、限制、设置密码、远程访问） </a></li>
 <li><a href="http://seawavecau.iteye.com/blog/282345" target="_blank" rel="external">MySql用户创建、授权以及删除</a></li>
@@ -264,13 +264,13 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/LAMP/">LAMP</a>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/linux-apache-mysql-php/">linux, apache, mysql, php</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/PHP/">PHP</a><a href="/tags/Apache/">Apache</a><a href="/tags/MySQL/">MySQL</a>
   </div>
 
 </div>
@@ -349,43 +349,27 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="Android">Android<sup>11</sup></a></li>
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>11</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Blog/" title="Blog">Blog<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/LAMP/" title="LAMP">LAMP<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/WEB开发/" title="WEB开发">WEB开发<sup>3</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/iOS/" title="iOS">iOS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>6</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>12</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -398,19 +382,23 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>6</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/php/" title="php">php<sup>3</sup></a></li>
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/webview/" title="webview">webview<sup>3</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -418,27 +406,19 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 			
 		
 			
-				<li><a href="/tags/gerrit/" title="gerrit">gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Mac/" title="Mac">Mac<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Parallels/" title="Parallels">Parallels<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/虚拟机/" title="虚拟机">虚拟机<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
@@ -446,35 +426,39 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
 			
 		
 			
-				<li><a href="/tags/RedHat6-5/" title="RedHat6.5">RedHat6.5<sup>1</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/network/" title="network">network<sup>1</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/linux-apache-mysql-php/" title="linux, apache, mysql, php">linux, apache, mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/oracle/" title="oracle">oracle<sup>1</sup></a></li>
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redhat/" title="redhat">redhat<sup>1</sup></a></li>
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql-php/" title="mysql, php">mysql, php<sup>1</sup></a></li>
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -531,7 +515,7 @@ Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经
         </span>
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
 		
