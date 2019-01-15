@@ -58,7 +58,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -72,7 +72,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -95,7 +95,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-11-24T07:13:45.000Z" itemprop="datePublished"> Published 2016-11-24</time>
+    <time datetime="2016-11-24T07:13:45.000Z" itemprop="datePublished"> 发表于 2016-11-24</time>
   </p>
   
   <p class="page-count">
@@ -107,7 +107,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前提"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注册多说"><span class="toc-number">2.</span> <span class="toc-text">注册多说</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改-config-yml文件"><span class="toc-number">3.</span> <span class="toc-text">修改_config.yml文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#根目录"><span class="toc-number">3.1.</span> <span class="toc-text">根目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主题模板目录"><span class="toc-number">3.2.</span> <span class="toc-text">主题模板目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改特定的文件"><span class="toc-number">4.</span> <span class="toc-text">修改特定的文件</span></a></li></ol>
 		
@@ -154,7 +154,7 @@
 <p align="center"><br>  <img src="http://img.cdn.microwu.com/20161124/7.png" width="800"><br></p>
 
 <p>再贴上源代码：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">if</span> (<span class="attr">theme.duoshuo_shortname</span> &amp;&amp; <span class="attr">page.comments</span>)&#123; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"comments"</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说评论框 start --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ds-thread"</span> <span class="attr">data-thread-key</span>=<span class="string">"&lt;%- page.path%&gt;"</span></span><br><span class="line">      <span class="attr">data-title</span>=<span class="string">"&lt;%- page.title%&gt;"</span> <span class="attr">data-url</span>=<span class="string">"&lt;%- page.permalink%&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说评论框 end --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span><br><span class="line">      var duoshuoQuery = &#123;short_name:"lipeng1667"&#125;;</span><br><span class="line">        (function() &#123;</span><br><span class="line">          var ds = document.createElement('script');</span><br><span class="line">          ds.type = 'text/javascript';ds.async = true;</span><br><span class="line">          ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +</span><br><span class="line">            '//static.duoshuo.com/embed.js';</span><br><span class="line">          ds.charset = 'UTF-8';</span><br><span class="line">          (document.getElementsByTagName('head')[0]</span><br><span class="line">           || document.getElementsByTagName('body')[0]).appendChild(ds);</span><br><span class="line">      &#125;)();</span><br><span class="line">      </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说公共JS代码 end --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%if(</span> (<span class="attr">config.disqus_shortname</span> || <span class="attr">theme.disqus_shortname</span>) &amp;&amp; <span class="attr">page.comments</span>) &#123; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"comments"</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"disqus_thread"</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!-- &lt;noscript&gt;Please enable JavaScript to view the &lt;a</span><br><span class="line">     href="//disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt; --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">if</span> (<span class="attr">theme.duoshuo_shortname</span> &amp;&amp; <span class="attr">page.comments</span>)&#123; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"comments"</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说评论框 start --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ds-thread"</span> <span class="attr">data-thread-key</span>=<span class="string">"&lt;%- page.path%&gt;"</span></span><br><span class="line">      <span class="attr">data-title</span>=<span class="string">"&lt;%- page.title%&gt;"</span> <span class="attr">data-url</span>=<span class="string">"&lt;%- page.permalink%&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说评论框 end --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line">      <span class="keyword">var</span> duoshuoQuery = &#123;short_name:<span class="string">"lipeng1667"</span>&#125;;</span><br><span class="line">        (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="keyword">var</span> ds = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">          ds.type = <span class="string">'text/javascript'</span>;ds.async = <span class="literal">true</span>;</span><br><span class="line">          ds.src = (<span class="built_in">document</span>.location.protocol == <span class="string">'https:'</span> ? <span class="string">'https:'</span> : <span class="string">'http:'</span>) +</span><br><span class="line">            <span class="string">'//static.duoshuo.com/embed.js'</span>;</span><br><span class="line">          ds.charset = <span class="string">'UTF-8'</span>;</span><br><span class="line">          (<span class="built_in">document</span>.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>]</span><br><span class="line">           || <span class="built_in">document</span>.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>]).appendChild(ds);</span><br><span class="line">      &#125;)();</span><br><span class="line">      </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 多说公共JS代码 end --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%if(</span> (<span class="attr">config.disqus_shortname</span> || <span class="attr">theme.disqus_shortname</span>) &amp;&amp; <span class="attr">page.comments</span>) &#123; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"comments"</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"disqus_thread"</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!-- &lt;noscript&gt;Please enable JavaScript to view the &lt;a</span><br><span class="line">     href="//disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt; --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
 <p>这里就注意几点：</p>
 <ul>
 <li><code>data-thread-key</code>字段写入内容是 <code>&lt;%- page.path%&gt;</code></li>
@@ -231,22 +231,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前提"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注册多说"><span class="toc-number">2.</span> <span class="toc-text">注册多说</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改-config-yml文件"><span class="toc-number">3.</span> <span class="toc-text">修改_config.yml文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#根目录"><span class="toc-number">3.1.</span> <span class="toc-text">根目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主题模板目录"><span class="toc-number">3.2.</span> <span class="toc-text">主题模板目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改特定的文件"><span class="toc-number">4.</span> <span class="toc-text">修改特定的文件</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -258,7 +258,7 @@
 		  
 		
 		  
-			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>5</sup></a></li>
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>6</sup></a></li>
 		  
 		
 		  
@@ -283,15 +283,15 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
@@ -299,11 +299,11 @@
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
 			
 		
 			
@@ -311,7 +311,7 @@
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
 			
 		
 			
@@ -319,15 +319,11 @@
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
 			
 		
 			
@@ -335,19 +331,11 @@
 			
 		
 			
-				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>2</sup></a></li>
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
@@ -355,15 +343,27 @@
 			
 		
 			
+				<li><a href="/tags/SS/" title="SS">SS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+				<li><a href="/tags/ShareSDK/" title="ShareSDK">ShareSDK<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -628,7 +628,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
