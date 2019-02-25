@@ -1,0 +1,636 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="其实Nginx的安装非常简单，直接一行简单的命令yum install nginx就搞定了。但是很多时候，我们所处的生产环境可能还未通公网，这个时候，你就需要用源码来安装nginx了。其实源码安装nginx也不复杂，因为nginx不需要太多的依赖，但是想要实现yum安装后的各种配置，例如你可以使用systemctl status nginx这样的命令来查看nginx的运行情况，就需要进行一定的配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx">
+<meta property="og:url" content="http://lipeng1667.github.io/2019/02/25/install-nginx-with-source-code-on-linux-centOS/index.html">
+<meta property="og:site_name" content="KaKa's blog">
+<meta property="og:description" content="其实Nginx的安装非常简单，直接一行简单的命令yum install nginx就搞定了。但是很多时候，我们所处的生产环境可能还未通公网，这个时候，你就需要用源码来安装nginx了。其实源码安装nginx也不复杂，因为nginx不需要太多的依赖，但是想要实现yum安装后的各种配置，例如你可以使用systemctl status nginx这样的命令来查看nginx的运行情况，就需要进行一定的配置">
+<meta property="og:image" content="http://img.cdn.microwu.com/20190225/20190226.jpg">
+<meta property="og:updated_time" content="2019-02-25T14:40:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx">
+<meta name="twitter:description" content="其实Nginx的安装非常简单，直接一行简单的命令yum install nginx就搞定了。但是很多时候，我们所处的生产环境可能还未通公网，这个时候，你就需要用源码来安装nginx了。其实源码安装nginx也不复杂，因为nginx不需要太多的依赖，但是想要实现yum安装后的各种配置，例如你可以使用systemctl status nginx这样的命令来查看nginx的运行情况，就需要进行一定的配置">
+<meta name="twitter:image" content="http://img.cdn.microwu.com/20190225/20190226.jpg">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/25/install-nginx-with-source-code-on-linux-centOS/" title="【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx" itemprop="url">【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-25T13:21:01.000Z" itemprop="datePublished"> 发表于 2019-02-25</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装包下载"><span class="toc-number">2.</span> <span class="toc-text">安装包下载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖包检测"><span class="toc-number">3.1.</span> <span class="toc-text">依赖包检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户和用户组"><span class="toc-number">3.2.</span> <span class="toc-text">用户和用户组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建相关文件夹"><span class="toc-number">3.3.</span> <span class="toc-text">创建相关文件夹</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源码安装"><span class="toc-number">4.</span> <span class="toc-text">源码安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#整理文件"><span class="toc-number">5.</span> <span class="toc-text">整理文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#软连接创建"><span class="toc-number">5.1.</span> <span class="toc-text">软连接创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件整理"><span class="toc-number">5.2.</span> <span class="toc-text">文件整理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现systemctl命令"><span class="toc-number">6.</span> <span class="toc-text">实现systemctl命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">7.</span> <span class="toc-text">致谢&参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>其实Nginx的安装非常简单，直接一行简单的命令<code>yum install nginx</code>就搞定了。但是很多时候，我们所处的生产环境可能还未通公网，这个时候，你就需要用源码来安装nginx了。<br>其实源码安装nginx也不复杂，因为nginx不需要太多的依赖，但是想要实现yum安装后的各种配置，例如你可以使用<code>systemctl status nginx</code>这样的命令来查看nginx的运行情况，就需要进行一定的配置；关于yum和源码安装的区别，可以参见文章末尾的致谢和参考部分。<br>这篇教程就介绍一下如何用源码安装nginx并配置过后实现和yum安装一样的效果。</p>
+<a id="more"></a>
+<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><p>按照惯例，还是列一下我们用到的系统环境和软件版本信息：  </p>
+<ul>
+<li>RHEL/CentOS 7</li>
+<li>nginx 1.14.2</li>
+</ul>
+<h1 id="安装包下载"><a href="#安装包下载" class="headerlink" title="安装包下载"></a>安装包下载</h1><p>既然没有办法连接外网，我们就先把nginx的源码安装包下载下来，然后再上传到所在的服务器上。下载地址在<a href="http://nginx.org/en/download.html" target="_blank" rel="external">http://nginx.org/en/download.html</a>，建议下载stable版本。笔者写这篇博客时，稳定的版本是1.14.2。</p>
+<p>之后上传到服务器上，我们假设上传到的目录是<code>/app/nginx</code>，并且我们已经cd到了该路径下，那么在当前目录下，应该有一个<code>nginx-1.14.2.tar.gz</code>的压缩包，我们通过下面的命令解压缩文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xzf nginx-1.14.2.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>在当前路径下会出现一个nginx-1.14.2的文件夹，我们cd到其中，准备下一步操作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> nginx-1.14.2</span><br></pre></td></tr></table></figure>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="依赖包检测"><a href="#依赖包检测" class="headerlink" title="依赖包检测"></a>依赖包检测</h2><p>因为我们要用nginx的c源码来打包编译，所以需要确保你的生产环境有如下的包已经安装好：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -q gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<p>这些依赖包都是比较基础的，一般的生产环境都会具备；如果没有，请参见我的这篇博文<a href="http://lipeng1667.github.io/2017/03/20/oracle-silence-install-in-rhel/#%E4%BE%9D%E8%B5%96%E6%A3%80%E6%B5%8B">【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程</a>中的依赖检测部分，并用iSO安装光盘挂载yum源进行安装。</p>
+<h2 id="用户和用户组"><a href="#用户和用户组" class="headerlink" title="用户和用户组"></a>用户和用户组</h2><p>接下来我们需要创建nginx用户和组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd ngxin</span><br><span class="line">$ useradd -g ngxin nginx</span><br></pre></td></tr></table></figure>
+<h2 id="创建相关文件夹"><a href="#创建相关文件夹" class="headerlink" title="创建相关文件夹"></a>创建相关文件夹</h2><p>我们需要创建相关文件夹并修改相应的权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /usr/share/nginx/html</span><br><span class="line">$ chmod -R 755 /usr/share/nginx</span><br><span class="line"></span><br><span class="line">$ mkdir -p /etc/nginx/conf.d</span><br><span class="line">$ mkdir -p /usr/lib64/nginx/modules</span><br><span class="line"></span><br><span class="line">$ mkdir -p /var/cache/nginx/client_temp</span><br></pre></td></tr></table></figure>
+<h1 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h1><p>确保你还在nginx的源码文件夹下<code>/app/nginx/nginx-1.14.2</code></p>
+<p>执行下面的语句确保你的nginx和通过yum安装的保持一致</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/<span class="built_in">log</span>/nginx/error.log --http-log-path=/var/<span class="built_in">log</span>/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-cc-opt=<span class="string">'-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -fPIC'</span> --with-ld-opt=<span class="string">'-Wl,-z,relro -Wl,-z,now -pie'</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：命令比较长，请确保复制所有内容，为方便显示查看，在下面重新显示一边，折行用\表示</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules \</span><br><span class="line">--conf-path=/etc/nginx/nginx.conf --error-log-path=/var/<span class="built_in">log</span>/nginx/error.log --http-log-path=/var/<span class="built_in">log</span>/nginx/access.log \</span><br><span class="line">--pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp \</span><br><span class="line">--http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \</span><br><span class="line">--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx \</span><br><span class="line">--group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module \</span><br><span class="line">--with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module \</span><br><span class="line">--with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module \</span><br><span class="line">--with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module \</span><br><span class="line">--with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module \</span><br><span class="line">--with-stream_ssl_preread_module \</span><br><span class="line">--with-cc-opt=<span class="string">'-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -fPIC'</span> \</span><br><span class="line">--with-ld-opt=<span class="string">'-Wl,-z,relro -Wl,-z,now -pie'</span></span><br></pre></td></tr></table></figure>
+<p>等待一段时间后，确保命令执行完后，就可以通过<code>make &amp;&amp; make install</code>命令进行安装了。</p>
+<p>验证是否安装成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/sbin/nginx -V</span><br></pre></td></tr></table></figure>
+<h1 id="整理文件"><a href="#整理文件" class="headerlink" title="整理文件"></a>整理文件</h1><p>安装成功之后，我们会在<code>/etc/nginx</code>目录下看到很多文件，其中<code>html</code>文件夹不需要，我们可以直接删掉，因为我们已经为nginx创建好了根目录<code>/usr/share/nginx/html</code>并且可以通过<code>nginx.conf</code>文件来进行配置。所以，可以将该文件夹整理成如下的样子：</p>
+<p align="center"><br>  <img src="http://img.cdn.microwu.com/20190225/20190226.jpg" width="800"><br></p>
+
+<h2 id="软连接创建"><a href="#软连接创建" class="headerlink" title="软连接创建"></a>软连接创建</h2><p>确保你已经处于<code>/etc/nginx</code>目录中，通过下面的命令创建软连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ln <span class="_">-s</span> /usr/lib64/nginx/modules modules</span><br></pre></td></tr></table></figure>
+<h2 id="文件整理"><a href="#文件整理" class="headerlink" title="文件整理"></a>文件整理</h2><p>删除多余的default文件，移动一些文件到<code>conf.d</code>目录中。<br>修改<code>nginx.conf</code>文件成如下内容(注：仅仅是最基本的nginx配置)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">user  nginx;</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">error_log  /var/log/nginx/error.log warn;</span><br><span class="line">pid        /var/run/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       /etc/nginx/mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">    access_log  /var/log/nginx/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line">    #gzip  on;</span><br><span class="line">    include /etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且在conf.d中新建一个默认的配置<code>/etc/nginx/conf.d/defautl.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  localhost;</span><br><span class="line">    #access_log  /var/log/nginx/host.access.log  main;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root   /usr/share/nginx/html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">    # redirect server error pages to the static page /50x.html</span><br><span class="line">    #</span><br><span class="line">    error_page   500 502 503 504  /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        root   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="实现systemctl命令"><a href="#实现systemctl命令" class="headerlink" title="实现systemctl命令"></a>实现systemctl命令</h1><p>如果要实现<code>systemctl start nginx</code>这样的命令，只需要最后一步。</p>
+<p>创建nginx.service文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /usr/lib/systemd/system/nginx.service</span><br></pre></td></tr></table></figure>
+<p>接着写入一下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nginx - high performance web server</span><br><span class="line">Documentation=http://nginx.org/en/docs/</span><br><span class="line">After=network-online.target remote-fs.target nss-lookup.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/var/run/nginx.pid</span><br><span class="line">ExecStart=/usr/sbin/nginx -c /etc/nginx/nginx.conf</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line">ExecStop=/bin/kill -s TERM $MAINPID</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<hr>
+<p>完成以上步骤之后，我们在命令行中输入<code>systemctl start nginx</code>看看是否就可以启动nginx了？<br>如果弹出来错误提示，我们可以用<code>systemctl status nginx</code>来查看具体出错的原因，之后，你就可以像用yum安装后一样的操作方式来自由控制nginx了。</p>
+<h1 id="致谢-amp-参考"><a href="#致谢-amp-参考" class="headerlink" title="致谢&amp;参考"></a>致谢&amp;参考</h1><ul>
+<li><a href="https://blog.csdn.net/qq_30353203/article/details/74640771" target="_blank" rel="external">nginx的yum 和 源码包 安装的区别</a></li>
+<li><a href="https://www.cnblogs.com/stulzq/p/9291223.html" target="_blank" rel="external">CentOS 7 源码编译安装 Nginx</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Nginx/">Nginx</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2019/02/25/install-nginx-with-source-code-on-linux-centOS/" data-title="【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/02/13/monthly-summary-201901/"  title="【月度总结】201901 新的一年">
+ <strong>下一篇：</strong><br/> 
+ <span>【月度总结】201901 新的一年
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+  <script src="https://jjeejj.github.io/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Mon Feb 25 2019 21:21:01 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装包下载"><span class="toc-number">2.</span> <span class="toc-text">安装包下载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖包检测"><span class="toc-number">3.1.</span> <span class="toc-text">依赖包检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户和用户组"><span class="toc-number">3.2.</span> <span class="toc-text">用户和用户组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建相关文件夹"><span class="toc-number">3.3.</span> <span class="toc-text">创建相关文件夹</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源码安装"><span class="toc-number">4.</span> <span class="toc-text">源码安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#整理文件"><span class="toc-number">5.</span> <span class="toc-text">整理文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#软连接创建"><span class="toc-number">5.1.</span> <span class="toc-text">软连接创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件整理"><span class="toc-number">5.2.</span> <span class="toc-text">文件整理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现systemctl命令"><span class="toc-number">6.</span> <span class="toc-text">实现systemctl命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">7.</span> <span class="toc-text">致谢&参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SS/" title="SS">SS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlab/" title="gitlab">gitlab<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
