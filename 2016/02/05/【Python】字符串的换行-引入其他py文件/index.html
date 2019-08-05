@@ -19,16 +19,16 @@
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="这一系列blog用来记录python学习过程中积累的知识点吧。个人感觉在IT行业，最快地掌握知识点的方法就是用到实际中去，比如依托于一个项目，比如自己真正地去搞一个东西，在这个过程中的学习是非常高效而且记忆深刻的。后面准备把自己用python写的爬北邮人论坛的过程总结一下，今天就先介绍两个零碎的知识点：字符串的换行和引入其他py文件。
 注意：我使用的python版本是3.5">
-<meta property="og:image" content="http://img.cdn.microwu.com/20160206/20.png-imagewatermark">
-<meta property="og:image" content="http://img.cdn.microwu.com/20160206/21.png-imagewatermark">
-<meta property="og:image" content="http://img.cdn.microwu.com/20160206/22.png-imagewatermark">
-<meta property="og:image" content="http://img.cdn.microwu.com/20160206/23.png-imagewatermark">
-<meta property="og:updated_time" content="2019-01-02T11:38:36.000Z">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/20.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/21.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/22.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/23.png">
+<meta property="og:updated_time" content="2019-08-05T11:12:54.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Python学习之路1】字符串的换行/引入其他py文件">
 <meta name="twitter:description" content="这一系列blog用来记录python学习过程中积累的知识点吧。个人感觉在IT行业，最快地掌握知识点的方法就是用到实际中去，比如依托于一个项目，比如自己真正地去搞一个东西，在这个过程中的学习是非常高效而且记忆深刻的。后面准备把自己用python写的爬北邮人论坛的过程总结一下，今天就先介绍两个零碎的知识点：字符串的换行和引入其他py文件。
 注意：我使用的python版本是3.5">
-<meta name="twitter:image" content="http://img.cdn.microwu.com/20160206/20.png-imagewatermark">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20160206/20.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -57,7 +57,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -71,7 +71,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -94,7 +94,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-05T05:00:55.000Z" itemprop="datePublished"> Published 2016-02-05</time>
+    <time datetime="2016-02-05T05:00:55.000Z" itemprop="datePublished"> 發表於 2016-02-05</time>
   </p>
   
   <p class="page-count">
@@ -106,7 +106,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#处理非常长的字符串"><span class="toc-number">1.</span> <span class="toc-text">处理非常长的字符串</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入其他的包或者其他的py文件"><span class="toc-number">2.</span> <span class="toc-text">引入其他的包或者其他的py文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#导入模块"><span class="toc-number">2.1.</span> <span class="toc-text">导入模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块搜索路径"><span class="toc-number">2.2.</span> <span class="toc-text">模块搜索路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块的name"><span class="toc-number">2.3.</span> <span class="toc-text">模块的name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包"><span class="toc-number">2.4.</span> <span class="toc-text">包</span></a></li></ol></li></ol>
 		
@@ -116,14 +116,14 @@
 <font color="red">注意：我使用的python版本是3.5</font>
 
 <a id="more"></a>
-<h1 id="处理非常长的字符串"><a href="#处理非常长的字符串" class="headerlink" title="处理非常长的字符串"></a>处理非常长的字符串</h1><p>如果你的字符串很长，那么改如何处理呢？直接回车是不行的，就像这样子：<br><img src="http://img.cdn.microwu.com/20160206/20.png-imagewatermark" alt=""></p>
+<h1 id="处理非常长的字符串"><a href="#处理非常长的字符串" class="headerlink" title="处理非常长的字符串"></a>处理非常长的字符串</h1><p>如果你的字符串很长，那么改如何处理呢？直接回车是不行的，就像这样子：<br><img src="http://www.microwu.com/MichaelLee/20160206/20.png" alt=""></p>
 <p>python提供了3种方式可以用来对很长的字符串进行换行显示：</p>
 <ul>
-<li><p>三个’号<br><img src="http://img.cdn.microwu.com/20160206/21.png-imagewatermark" alt=""></p>
+<li><p>三个’号<br><img src="http://www.microwu.com/MichaelLee/20160206/21.png" alt=""></p>
 </li>
-<li><p>三个”号<br><img src="http://img.cdn.microwu.com/20160206/22.png-imagewatermark" alt=""></p>
+<li><p>三个”号<br><img src="http://www.microwu.com/MichaelLee/20160206/22.png" alt=""></p>
 </li>
-<li><p>在第一行的末尾加上 \<br><img src="http://img.cdn.microwu.com/20160206/23.png-imagewatermark" alt=""></p>
+<li><p>在第一行的末尾加上 \<br><img src="http://www.microwu.com/MichaelLee/20160206/23.png" alt=""></p>
 </li>
 </ul>
 <h1 id="引入其他的包或者其他的py文件"><a href="#引入其他的包或者其他的py文件" class="headerlink" title="引入其他的包或者其他的py文件"></a>引入其他的包或者其他的py文件</h1><p>其实问题就归根结底到import的用法了，以下内容转自<a href="http://blog.csdn.net/lisonglisonglisong/article/details/38666819" target="_blank" rel="external">这里</a>。<br>在程序中定义函数可以实现代码重用。但当你的代码逐渐变得庞大时，你可能想要把它分割成几个文件，以便能够更简单地维护。同时，你希望在一个文件中写的代码能够被其他文件所重用，这时我们应该使用模块（module）。</p>
@@ -239,22 +239,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#处理非常长的字符串"><span class="toc-number">1.</span> <span class="toc-text">处理非常长的字符串</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引入其他的包或者其他的py文件"><span class="toc-number">2.</span> <span class="toc-text">引入其他的包或者其他的py文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#导入模块"><span class="toc-number">2.1.</span> <span class="toc-text">导入模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块搜索路径"><span class="toc-number">2.2.</span> <span class="toc-text">模块搜索路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块的name"><span class="toc-number">2.3.</span> <span class="toc-text">模块的name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包"><span class="toc-number">2.4.</span> <span class="toc-text">包</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -291,7 +291,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -636,7 +636,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

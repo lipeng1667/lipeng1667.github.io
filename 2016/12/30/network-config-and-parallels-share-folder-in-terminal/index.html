@@ -17,32 +17,32 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2016/12/30/network-config-and-parallels-share-folder-in-terminal/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="上篇博文我们已经安装好了Redhat6.5的虚拟机，接下来我们开始手动配置静态IP地址 + 命令行实现Parallels共享文件夹！！！">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/34.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/35.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/37.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/38.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/39.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/40.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/41.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/42.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/43.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/44.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/45.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/46.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/47.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/48.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/49.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/50.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/51.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/52.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/53.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/54.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20161229/55.png">
-<meta property="og:updated_time" content="2019-01-02T11:36:26.000Z">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/34.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/35.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/37.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/38.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/39.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/40.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/41.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/42.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/43.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/44.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/45.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/46.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/47.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/48.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/49.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/50.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/51.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/52.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/53.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/54.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20161229/55.png">
+<meta property="og:updated_time" content="2019-08-05T11:12:26.892Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Linux】手动配置网络设置静态IP地址 + Parallels中Mac和Linux虚拟机共享文件夹">
 <meta name="twitter:description" content="上篇博文我们已经安装好了Redhat6.5的虚拟机，接下来我们开始手动配置静态IP地址 + 命令行实现Parallels共享文件夹！！！">
-<meta name="twitter:image" content="http://img.cdn.microwu.com/20161229/34.png">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20161229/34.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -71,7 +71,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -85,7 +85,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -108,7 +108,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-12-30T00:38:52.000Z" itemprop="datePublished"> Published 2016-12-30</time>
+    <time datetime="2016-12-30T00:38:52.000Z" itemprop="datePublished"> 發表於 2016-12-30</time>
   </p>
   
   <p class="page-count">
@@ -120,7 +120,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#手动配置网络"><span class="toc-number">1.</span> <span class="toc-text">手动配置网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、-etc-sysconfig-network"><span class="toc-number">1.1.</span> <span class="toc-text">1、/etc/sysconfig/network</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、-etc-resolv-conf"><span class="toc-number">1.2.</span> <span class="toc-text">2、/etc/resolv.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、-etc-sysconfig-network-scripts-ifcfg-eth0"><span class="toc-number">1.3.</span> <span class="toc-text">3、/etc/sysconfig/network-scripts/ifcfg-eth0</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置共享文件夹"><span class="toc-number">2.</span> <span class="toc-text">设置共享文件夹</span></a></li></ol>
 		
@@ -129,38 +129,38 @@
 		<p>上篇博文我们已经安装好了Redhat6.5的虚拟机，接下来我们开始手动配置静态IP地址 + 命令行实现Parallels共享文件夹！！！</p>
 <a id="more"></a>
 <h1 id="手动配置网络"><a href="#手动配置网络" class="headerlink" title="手动配置网络"></a>手动配置网络</h1><p>接着上一节，安装完成之后，重启系统，然后输入用户名和密码，进入全新的RedHat6.5系统</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/34.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/34.png" width="800"><br></p>
 
 <p>因为之前我们并没有配置过网络，所以，如果这时候我们查看网络配置<code>ifconfig</code>，只能得到两个网络信息，一个是回环地址，还有一个是虚拟网卡的地址，这两个都是无法连接到外网的</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/35.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/35.png" width="800"><br></p>
 
 <p>那我们就来一步步配置下网络吧。其实很简单，总共就3步，分别修改3个文件就好了</p>
 <h2 id="1、-etc-sysconfig-network"><a href="#1、-etc-sysconfig-network" class="headerlink" title="1、/etc/sysconfig/network"></a>1、/etc/sysconfig/network</h2><p>第一个文件位于<code>/etc/sysconfig</code>目录下的<code>network</code>文件，我们用<code>vim /etc/sysconfig/network</code>命令来查看一下这个文件吧。</p>
 <p>可以看到，第一行<code>NETWORKING=yes</code>表示启用网络；第二行是我们在网络中的主机名称</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/37.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/37.png" width="800"><br></p>
 
 
 <h2 id="2、-etc-resolv-conf"><a href="#2、-etc-resolv-conf" class="headerlink" title="2、/etc/resolv.conf"></a>2、/etc/resolv.conf</h2><p>第二个文件，我们输入<code>vim /etc/resolv.conf</code>来查看并修改，输入下列3行命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">search localdomain</span><br><span class="line">nameserver 114.114.114.114</span><br><span class="line">nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
 <p>如图所示:</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/38.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/38.png" width="800"><br></p>
 
 <p>如果之前我们没有在安装时进行配置，这个文件应该是空的，这个文件主要是配置DNS，这样我们在ping诸如<code>www.google.com</code>时才能解析到正确的IP地址去。</p>
 <h2 id="3、-etc-sysconfig-network-scripts-ifcfg-eth0"><a href="#3、-etc-sysconfig-network-scripts-ifcfg-eth0" class="headerlink" title="3、/etc/sysconfig/network-scripts/ifcfg-eth0"></a>3、/etc/sysconfig/network-scripts/ifcfg-eth0</h2><p>最后这个文件也是最重要的文件，就是配置我们的网卡信息。<br>我们知道一般linux都有一个<code>eth0</code>的网卡，我们要修改的正是这个， 输入：<code>vim /etc/sysconfig/network-scripts/ifcfg-eth0</code></p>
 <p>下图是没有修改之前的文件内容</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/39.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/39.png" width="800"><br></p>
 
 <p>因为要配置成静态的IP地址，所以我们先来看一下当前虚拟机的IP地址池在哪个范围内，首先查看Parallels的设置：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/40.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/40.png" width="800"><br></p>
 
 <p>在<code>Advanced</code>栏目下，点击<code>Change settings...</code></p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/41.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/41.png" width="800"><br></p>
 
 <p>我们看到在<code>Shared</code>下面，是DHCP的地址池起始和终止的IP地址，我们看到我的是在<code>10.211.55</code>网段</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/42.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/42.png" width="800"><br></p>
 
 <p>知道网段以后，我们就回到之前的文件，然后修改成这样：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/43.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/43.png" width="800"><br></p>
 
 <ul>
 <li>ONBOOT 字段表示是否开机是自动启用该网卡</li>
@@ -170,30 +170,30 @@
 <li>NETMASK 字段表示子网掩码，这个学过网络的基本都知道要填写 <em>255.255.255.0</em></li>
 </ul>
 <p>这样，网络就配置完成了，然后我们通过<code>ifconfig</code>命令来查看我们刚刚配置好的<code>eth0</code>网卡</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/44.png" width="800"><br></p><br>发现并没有IP地址啊， 没有关系，我们配置完了网络以后，需要重新启动一下网络，我们输入下面的命令<code>service network restart</code><br>再次查看一下eth0的网络配置，是不是发现IP地址已经配置成我们之前设置的静态地址<em>10.211.55.9</em>了呢？<br><p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/45.png" width="800"><br></p><br>ping一下baidu，也是可以ping通了的<br><p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/46.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/44.png" width="800"><br></p><br>发现并没有IP地址啊， 没有关系，我们配置完了网络以后，需要重新启动一下网络，我们输入下面的命令<code>service network restart</code><br>再次查看一下eth0的网络配置，是不是发现IP地址已经配置成我们之前设置的静态地址<em>10.211.55.9</em>了呢？<br><p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/45.png" width="800"><br></p><br>ping一下baidu，也是可以ping通了的<br><p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/46.png" width="800"><br></p>
 
 <p>然后我们回到Mac系统，在终端中看看能不能SSH到我们自己的虚拟机上</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/47.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/47.png" width="800"><br></p>
 
 
 <h1 id="设置共享文件夹"><a href="#设置共享文件夹" class="headerlink" title="设置共享文件夹"></a>设置共享文件夹</h1><p>Parallels和VirtualBox以及VMWare一样，都是有共享本地文件夹的功能的，这个功能让我们可以在虚拟机中直接访问到宿主机的文件。<br>这个功能对于像我这样习惯在Mac的终端中操作虚拟机的用户来说，真的非常实用。<br>Parallels启用这个功能需要首先安装<code>Parallels tools</code>工具，这个工具如果有桌面系统的话很容易安装，但是对于只有命令行的系统来说，就需要一些额外的步骤了。</p>
 <p>首先，安装工具的入口有两个，你可以通过点击虚拟机窗口菜单栏中的黄色感叹号来安装</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/48.png" width="800"><br></p><br>或者通过Parallels菜单栏中<strong>Actions</strong>栏目中的<strong>intall parallels tools…</strong>选项来安装<br><p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/49.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/48.png" width="800"><br></p><br>或者通过Parallels菜单栏中<strong>Actions</strong>栏目中的<strong>intall parallels tools…</strong>选项来安装<br><p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/49.png" width="800"><br></p>
 
 <p>点击Continue</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/50.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/50.png" width="800"><br></p>
 
 <p>这样就相当于装入了CD光盘，我们需要手动将其挂载在我们的文件系统中，输入下面的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /media/cdrom</span><br><span class="line">mount -o <span class="built_in">exec</span> /dev/sr0 /media/cdrom</span><br></pre></td></tr></table></figure>
 <p>这样我们就把CD盘挂到了<code>/media/cdrom</code>目录中，然后我们cd到这个目录中，执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./install</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/51.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/51.png" width="800"><br></p>
 
 <p>就会弹出安装提示，然后我们一路Next下去就好了，期间可能会去下载一些依赖库，大概需要2，3分钟左右</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/52.png" width="800"><br></p><br>安装完成！<br><p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/53.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/52.png" width="800"><br></p><br>安装完成！<br><p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/53.png" width="800"><br></p>
 
 <p>之后，我们在Mac系统中，cd到<code>/media</code>目录中，会发现多了一个<code>psf</code>目录，这个目录，就是<code>parallels shared folder</code>的缩写，查看一下这个目录，会发现有两个目录</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/54.png" width="800"><br></p><br>这两个目录就是我们之前在Parallels设置中的Sharing选项下的对应，我们可以通过点击图中黄色框内的<strong>Custom Folders</strong>来设定我们自己的目录。<br><p align="center"><br>  <img src="http://img.cdn.microwu.com/20161229/55.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/54.png" width="800"><br></p><br>这两个目录就是我们之前在Parallels设置中的Sharing选项下的对应，我们可以通过点击图中黄色框内的<strong>Custom Folders</strong>来设定我们自己的目录。<br><p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20161229/55.png" width="800"><br></p>
 
 
 <hr>
@@ -271,22 +271,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#手动配置网络"><span class="toc-number">1.</span> <span class="toc-text">手动配置网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、-etc-sysconfig-network"><span class="toc-number">1.1.</span> <span class="toc-text">1、/etc/sysconfig/network</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、-etc-resolv-conf"><span class="toc-number">1.2.</span> <span class="toc-text">2、/etc/resolv.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、-etc-sysconfig-network-scripts-ifcfg-eth0"><span class="toc-number">1.3.</span> <span class="toc-text">3、/etc/sysconfig/network-scripts/ifcfg-eth0</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置共享文件夹"><span class="toc-number">2.</span> <span class="toc-text">设置共享文件夹</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -323,7 +323,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -668,7 +668,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

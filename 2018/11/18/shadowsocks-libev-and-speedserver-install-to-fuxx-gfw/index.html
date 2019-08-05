@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2018/11/18/shadowsocks-libev-and-speedserver-install-to-fuxx-gfw/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
-<meta property="og:updated_time" content="2019-01-10T08:52:25.000Z">
+<meta property="og:updated_time" content="2019-08-05T11:12:26.892Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【翻墙】搭建 SS 服务并开启锐速">
 <meta name="twitter:description" content="因为 GFW 一直在封各大 VPS 的端口，所以我们的 SS 服务需要不断新搭建，这里就记录下搭建 SS 和开启 serverspeeder(锐速)的全过程。">
@@ -49,7 +49,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -63,7 +63,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -86,7 +86,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-18T08:34:16.000Z" itemprop="datePublished"> Published 2018-11-18</time>
+    <time datetime="2018-11-18T08:34:16.000Z" itemprop="datePublished"> 發表於 2018-11-18</time>
   </p>
   
   <p class="page-count">
@@ -98,7 +98,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前提"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改内核版本"><span class="toc-number">2.</span> <span class="toc-text">修改内核版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装-shadowsocks-libev"><span class="toc-number">3.</span> <span class="toc-text">安装 shadowsocks-libev</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开启-TCP-Fast-Open"><span class="toc-number">4.</span> <span class="toc-text">开启 TCP Fast Open</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改相关配置文件"><span class="toc-number">4.1.</span> <span class="toc-text">修改相关配置文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装锐速-serverspeeder"><span class="toc-number">5.</span> <span class="toc-text">安装锐速 serverspeeder</span></a></li></ol>
 		
@@ -118,7 +118,7 @@
 <p>等待下载并安装，可能需要3-5分钟。<br>之后检查内核是否安装成功</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br></pre></td></tr></table></figure>
 <p>在内核列表中能看到<code>2.6.32-504.3.3.el6.x86_64</code>就表示安装成功了。<code>reboot</code>重启服务器后，输入<code>uname -r</code> 查看内核是否修改成功。</p>
-<h1 id="安装-shadowsocks-libev"><a href="#安装-shadowsocks-libev" class="headerlink" title="安装 shadowsocks-libev"></a>安装 shadowsocks-libev</h1><p>libev 版本更精简，消耗资源更少，安装很简单，github 上有大牛写好了脚本，我们只需要上传到服务器上，执行就好了。可以从<a href="http://img.cdn.microwu.com/shadowsocks-libev.sh" target="_blank" rel="external">这里(shadowsocks-liev.sh)</a>下载安装脚本。</p>
+<h1 id="安装-shadowsocks-libev"><a href="#安装-shadowsocks-libev" class="headerlink" title="安装 shadowsocks-libev"></a>安装 shadowsocks-libev</h1><p>libev 版本更精简，消耗资源更少，安装很简单，github 上有大牛写好了脚本，我们只需要上传到服务器上，执行就好了。可以从<a href="http://www.microwu.com/MichaelLee/shadowsocks-libev.sh" target="_blank" rel="external">这里(shadowsocks-liev.sh)</a>下载安装脚本。</p>
 <p>只有直接运行就可以实现一键安装了，期间会询问一些诸如密码、端口、加密方式等问题，按照自己的喜好来吧。</p>
 <h1 id="开启-TCP-Fast-Open"><a href="#开启-TCP-Fast-Open" class="headerlink" title="开启 TCP Fast Open"></a>开启 TCP Fast Open</h1><p>Tcp fast open 可以让我们的传输更快，也就是上网速度更快，</p>
 <h2 id="修改相关配置文件"><a href="#修改相关配置文件" class="headerlink" title="修改相关配置文件"></a>修改相关配置文件</h2><p>用 vim 打开<code>/etc/rc.local</code>文件，在文件末尾添加如下内容：</p>
@@ -126,7 +126,7 @@
 <p>接下来用 vim 打开<code>/etc/sysctl.conf</code> 文件，在文件末尾添加如下内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.tcp_fastopen = 3</span><br></pre></td></tr></table></figure>
 <p>接下来打开 shadowsocks 的配置文件，<code>/etc/shadowsocks-libev/config.json</code><br>把其中的 fast_open 由默认的 false 修改成 true， <code>&quot;fast_open&quot;:true</code><br>然后重启 shadowsocks， <code>/etc/init.d/shadowsocks restart</code></p>
-<h1 id="安装锐速-serverspeeder"><a href="#安装锐速-serverspeeder" class="headerlink" title="安装锐速 serverspeeder"></a>安装锐速 serverspeeder</h1><p>锐速的安装同样很简单，有现成的一键脚本，从<a href="http://img.cdn.microwu.com/serverspeeder-all.sh" target="_blank" rel="external">这里(serverspeed-all.sh)</a>来下载并安装。</p>
+<h1 id="安装锐速-serverspeeder"><a href="#安装锐速-serverspeeder" class="headerlink" title="安装锐速 serverspeeder"></a>安装锐速 serverspeeder</h1><p>锐速的安装同样很简单，有现成的一键脚本，从<a href="http://www.microwu.com/MichaelLee/serverspeeder-all.sh" target="_blank" rel="external">这里(serverspeed-all.sh)</a>来下载并安装。</p>
 <hr>
 <p>至此，服务器端的所有步骤都已经完成了，其他ss 相关的例如客户端或者配置的信息，网上很多文章都有介绍，这里就不再重复写了。如果问题，也可以给我邮件或者留言。</p>
   
@@ -202,22 +202,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前提"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改内核版本"><span class="toc-number">2.</span> <span class="toc-text">修改内核版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装-shadowsocks-libev"><span class="toc-number">3.</span> <span class="toc-text">安装 shadowsocks-libev</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开启-TCP-Fast-Open"><span class="toc-number">4.</span> <span class="toc-text">开启 TCP Fast Open</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改相关配置文件"><span class="toc-number">4.1.</span> <span class="toc-text">修改相关配置文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装锐速-serverspeeder"><span class="toc-number">5.</span> <span class="toc-text">安装锐速 serverspeeder</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -254,7 +254,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -599,7 +599,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

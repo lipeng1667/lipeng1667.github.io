@@ -17,16 +17,16 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2017/03/01/mysql-innodb-buffer-pool-size/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="最近发现如果业务到达高峰期，凌晨执行的某项Job就会不执行；但是如果我手动去跑的话，发现又是正常的。后来通过google和stackoverflow找到了解决问题的办法，特此记录一下。">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170301/3.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170301/4.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170301/1.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170301/5.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170301/2.png">
-<meta property="og:updated_time" content="2019-01-08T02:31:02.000Z">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170301/3.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170301/4.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170301/1.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170301/5.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170301/2.png">
+<meta property="og:updated_time" content="2019-08-05T11:12:26.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MySql】存储过程执行失败--The total number of locks exceeds the lock table size">
 <meta name="twitter:description" content="最近发现如果业务到达高峰期，凌晨执行的某项Job就会不执行；但是如果我手动去跑的话，发现又是正常的。后来通过google和stackoverflow找到了解决问题的办法，特此记录一下。">
-<meta name="twitter:image" content="http://img.cdn.microwu.com/20170301/3.png">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20170301/3.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -55,7 +55,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -69,7 +69,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -92,7 +92,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-01T06:09:01.000Z" itemprop="datePublished"> Published 2017-03-01</time>
+    <time datetime="2017-03-01T06:09:01.000Z" itemprop="datePublished"> 發表於 2017-03-01</time>
   </p>
   
   <p class="page-count">
@@ -104,7 +104,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#查找问题"><span class="toc-number">1.</span> <span class="toc-text">查找问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决问题"><span class="toc-number">2.</span> <span class="toc-text">解决问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充"><span class="toc-number">3.</span> <span class="toc-text">补充</span></a></li></ol>
 		
@@ -113,28 +113,28 @@
 		<p>最近发现如果业务到达高峰期，凌晨执行的某项Job就会不执行；但是如果我手动去跑的话，发现又是正常的。后来通过google和stackoverflow找到了解决问题的办法，特此记录一下。</p>
 <a id="more"></a>
 <h1 id="查找问题"><a href="#查找问题" class="headerlink" title="查找问题"></a>查找问题</h1><p>出了问题，那自然是要找问题出在哪里。google上找一下mysql的log在什么地方：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/3.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170301/3.png" width="500"><br></p>
 
 <p>读懂了上面说的关于mysql的几种错误日志，我们看下我们自己的mysql已经配置了什么吧。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/my.cnf</span><br></pre></td></tr></table></figure>
 <p>然后我们看到：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/4.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170301/4.png" width="500"><br></p>
 
 <p>我们的 error log日志，均存储在<code>/var/log/mysqld.log</code>中</p>
 <p>然后我们就到指定的目录下看一看到底存储过程的执行过程中发生了什么情况吧。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/mysqld.log</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/1.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170301/1.png" width="800"><br></p>
 
 <p>图中可以很清楚的看到，最近2天凌晨的任务，都出现的错误导致失败，错误内容是：</p>
 <blockquote>
 <p>The total number of locks exceeds the lock table size</p>
 </blockquote>
 <h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>问题找到了，我们就继续google解决办法吧</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/5.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170301/5.png" width="500"><br></p>
 
 <p>解决步骤说的很清楚了，在mysql的配置文件中，修改一下<code>Innodb buffer pool size</code>的值就好了，默认的值是8M，这个我们从上面的错误日志中也能看到相关的信息，我们可以先在mysql中查一下这个buffer的值,</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show variables like '%buffer%';</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170301/2.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170301/2.png" width="500"><br></p>
 
 <p>果然<code>innodb_buffer_pool_size</code>的值是8M，那我们就按照帖子里面说的步骤操作下吧：</p>
 <ol>
@@ -224,22 +224,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#查找问题"><span class="toc-number">1.</span> <span class="toc-text">查找问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决问题"><span class="toc-number">2.</span> <span class="toc-text">解决问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充"><span class="toc-number">3.</span> <span class="toc-text">补充</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -276,7 +276,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -621,7 +621,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

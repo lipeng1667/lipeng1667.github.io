@@ -17,12 +17,12 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2019/02/25/install-nginx-with-source-code-on-linux-centOS/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="其实Nginx的安装非常简单，直接一行简单的命令yum install nginx就搞定了。但是很多时候，我们所处的生产环境可能还未通公网，这个时候，你就需要用源码来安装nginx了。其实源码安装nginx也不复杂，因为nginx不需要太多的依赖，但是想要实现yum安装后的各种配置，例如你可以使用systemctl status nginx这样的命令来查看nginx的运行情况，就需要进行一定的配置">
-<meta property="og:image" content="http://img.cdn.microwu.com/20190225/20190226.jpg">
-<meta property="og:updated_time" content="2019-02-25T14:40:50.000Z">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20190225/20190226.jpg">
+<meta property="og:updated_time" content="2019-08-05T11:12:26.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx">
 <meta name="twitter:description" content="其实Nginx的安装非常简单，直接一行简单的命令yum install nginx就搞定了。但是很多时候，我们所处的生产环境可能还未通公网，这个时候，你就需要用源码来安装nginx了。其实源码安装nginx也不复杂，因为nginx不需要太多的依赖，但是想要实现yum安装后的各种配置，例如你可以使用systemctl status nginx这样的命令来查看nginx的运行情况，就需要进行一定的配置">
-<meta name="twitter:image" content="http://img.cdn.microwu.com/20190225/20190226.jpg">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20190225/20190226.jpg">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -51,7 +51,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -65,7 +65,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -88,7 +88,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2019-02-25T13:21:01.000Z" itemprop="datePublished"> Published 2019-02-25</time>
+    <time datetime="2019-02-25T13:21:01.000Z" itemprop="datePublished"> 發表於 2019-02-25</time>
   </p>
   
   <p class="page-count">
@@ -100,7 +100,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装包下载"><span class="toc-number">2.</span> <span class="toc-text">安装包下载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖包检测"><span class="toc-number">3.1.</span> <span class="toc-text">依赖包检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户和用户组"><span class="toc-number">3.2.</span> <span class="toc-text">用户和用户组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建相关文件夹"><span class="toc-number">3.3.</span> <span class="toc-text">创建相关文件夹</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源码安装"><span class="toc-number">4.</span> <span class="toc-text">源码安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#整理文件"><span class="toc-number">5.</span> <span class="toc-text">整理文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#软连接创建"><span class="toc-number">5.1.</span> <span class="toc-text">软连接创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件整理"><span class="toc-number">5.2.</span> <span class="toc-text">文件整理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现systemctl命令"><span class="toc-number">6.</span> <span class="toc-text">实现systemctl命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">7.</span> <span class="toc-text">致谢&参考</span></a></li></ol>
 		
@@ -135,7 +135,7 @@
 <p>验证是否安装成功：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/sbin/nginx -V</span><br></pre></td></tr></table></figure>
 <h1 id="整理文件"><a href="#整理文件" class="headerlink" title="整理文件"></a>整理文件</h1><p>安装成功之后，我们会在<code>/etc/nginx</code>目录下看到很多文件，其中<code>html</code>文件夹不需要，我们可以直接删掉，因为我们已经为nginx创建好了根目录<code>/usr/share/nginx/html</code>并且可以通过<code>nginx.conf</code>文件来进行配置。所以，可以将该文件夹整理成如下的样子：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20190225/20190226.jpg" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20190225/20190226.jpg" width="800"><br></p>
 
 <h2 id="软连接创建"><a href="#软连接创建" class="headerlink" title="软连接创建"></a>软连接创建</h2><p>确保你已经处于<code>/etc/nginx</code>目录中，通过下面的命令创建软连接</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ln <span class="_">-s</span> /usr/lib64/nginx/modules modules</span><br></pre></td></tr></table></figure>
@@ -227,22 +227,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装包下载"><span class="toc-number">2.</span> <span class="toc-text">安装包下载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖包检测"><span class="toc-number">3.1.</span> <span class="toc-text">依赖包检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户和用户组"><span class="toc-number">3.2.</span> <span class="toc-text">用户和用户组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建相关文件夹"><span class="toc-number">3.3.</span> <span class="toc-text">创建相关文件夹</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源码安装"><span class="toc-number">4.</span> <span class="toc-text">源码安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#整理文件"><span class="toc-number">5.</span> <span class="toc-text">整理文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#软连接创建"><span class="toc-number">5.1.</span> <span class="toc-text">软连接创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件整理"><span class="toc-number">5.2.</span> <span class="toc-text">文件整理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现systemctl命令"><span class="toc-number">6.</span> <span class="toc-text">实现systemctl命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">7.</span> <span class="toc-text">致谢&参考</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -279,7 +279,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -624,7 +624,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

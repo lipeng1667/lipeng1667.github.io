@@ -17,20 +17,20 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="最近公司的项目打算启用gerrit做为代码审核的工具，最近3天彻底研究了下gerrit的安装配置过程，这里做个记录，期间很多细节都一一记录下来，以便之后有同学需要用到。这篇博文先介绍下gerrit的安装过程，然后之后还准备写一篇文章，介绍如何利用gerrit和sourceTree进行协同工作，换句话说，就是gerrit的详细工作流程。">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170117/0.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170117/3.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170117/1.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170117/4.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170117/2.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170117/5.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170118/6.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170118/0.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170118/1.png">
-<meta property="og:updated_time" content="2019-01-02T11:36:27.000Z">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170117/0.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170117/3.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170117/1.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170117/4.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170117/2.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170117/5.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170118/6.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170118/0.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170118/1.png">
+<meta property="og:updated_time" content="2019-08-05T11:12:26.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程">
 <meta name="twitter:description" content="最近公司的项目打算启用gerrit做为代码审核的工具，最近3天彻底研究了下gerrit的安装配置过程，这里做个记录，期间很多细节都一一记录下来，以便之后有同学需要用到。这篇博文先介绍下gerrit的安装过程，然后之后还准备写一篇文章，介绍如何利用gerrit和sourceTree进行协同工作，换句话说，就是gerrit的详细工作流程。">
-<meta name="twitter:image" content="http://img.cdn.microwu.com/20170117/0.png">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20170117/0.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -59,7 +59,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -73,7 +73,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -96,7 +96,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2017-01-17T06:43:49.000Z" itemprop="datePublished"> Published 2017-01-17</time>
+    <time datetime="2017-01-17T06:43:49.000Z" itemprop="datePublished"> 發表於 2017-01-17</time>
   </p>
   
   <p class="page-count">
@@ -108,7 +108,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装gerrit"><span class="toc-number">2.</span> <span class="toc-text">安装gerrit</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载gerrit安装包"><span class="toc-number">2.1.</span> <span class="toc-text">下载gerrit安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建gerrit专用用户"><span class="toc-number">2.2.</span> <span class="toc-text">新建gerrit专用用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装gerrit-1"><span class="toc-number">2.3.</span> <span class="toc-text">安装gerrit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动gerrit"><span class="toc-number">2.4.</span> <span class="toc-text">启动gerrit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx"><span class="toc-number">3.</span> <span class="toc-text">Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx默认配置"><span class="toc-number">3.1.</span> <span class="toc-text">nginx默认配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gerrit-conf配置"><span class="toc-number">3.2.</span> <span class="toc-text">gerrit.conf配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重启nginx"><span class="toc-number">3.3.</span> <span class="toc-text">重启nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#登录认证文件"><span class="toc-number">3.4.</span> <span class="toc-text">登录认证文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改gerrit配置"><span class="toc-number">4.</span> <span class="toc-text">修改gerrit配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#重启gerrit"><span class="toc-number">4.1.</span> <span class="toc-text">重启gerrit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gitweb-可选"><span class="toc-number">5.</span> <span class="toc-text">gitweb(可选)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装gitweb"><span class="toc-number">5.1.</span> <span class="toc-text">安装gitweb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改gitweb配置文件"><span class="toc-number">5.2.</span> <span class="toc-text">修改gitweb配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改Apache配置文件"><span class="toc-number">5.3.</span> <span class="toc-text">修改Apache配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改gerrit配置-1"><span class="toc-number">5.4.</span> <span class="toc-text">修改gerrit配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充内容"><span class="toc-number">6.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载Gerrit"><span class="toc-number">6.1.</span> <span class="toc-text">卸载Gerrit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除git工程"><span class="toc-number">6.2.</span> <span class="toc-text">删除git工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#退出gerrit网页"><span class="toc-number">6.3.</span> <span class="toc-text">退出gerrit网页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献："><span class="toc-number">6.4.</span> <span class="toc-text">参考文献：</span></a></li></ol></li></ol>
 		
@@ -161,31 +161,31 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -ltpn | grep -i gerrit</span><br><span class="line"></span><br><span class="line">tcp        0      0 :::29418               :::*              LISTEN      49513/GerritCodeRev</span><br><span class="line">tcp        0      0 :::8080                :::*              LISTEN      49513/GerritCodeRev</span><br></pre></td></tr></table></figure>
 <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><p>接下来就该Nginx上场了。</p>
 <p>在没有配置nginx反向之前，我们直接访问<code>192.168.1.100:8080/login</code>(我们之前假设gerrit服务器的ip地址是192.168.1.100)，会得到一个错误页面，这个页面对于初次使用http方式的gerrit用户可能会让你感到非常。。。绝望，笔者至少看到这个页面不下10多次。。。<br>就是这样图片：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170117/0.png" width="800"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170117/0.png" width="800"><br></p>
 
 <p>下面我们就来看一下nginx需要怎样配置吧。</p>
 <h2 id="nginx默认配置"><a href="#nginx默认配置" class="headerlink" title="nginx默认配置"></a>nginx默认配置</h2><p>我们首先看一看nginx的默认配置。<br>注意，你的nginx应该是用root账户安装的，否则可能出现权限问题。我们需要从之前的gerrit用户退出来。<br>在root用户下面，输入下面的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /etc/nginx/conf.d</span><br><span class="line">$ ls <span class="_">-l</span></span><br></pre></td></tr></table></figure>
 <p>默认的nginx只有一个default.conf文件，是nginx的默认配置文件，我们这里需要新建一个专门用来处理gerrit请求的配置文件，先来看一下我的目录吧：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170117/3.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170117/3.png" width="500"><br></p>
 
 <p>我这里新建了一个<code>gerrit.conf</code>文件，用来处理gerrit的反向代理。待会我们来看里面需要配置些什么，我们先来研究下nginx默认的配置文件， <code>default.conf</code>吧。</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170117/1.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170117/1.png" width="500"><br></p>
 
 <p>上面就是默认的配置，看到这里我把端口默认的监听端口设置成了82， 因为80分配给了apache；<br>然后日志文件的路径在<code>/var/log/nginx/</code>目录下，如果后面登录认证的失败的时候，我们可以在这个目录下面查找日志文件，分析失败的原因。<br>nginx路径在<code>/usr/share/nginx/</code>路径下，如果我们进到该目录下，查看其下面的index.html文件，就会发现他就是我们在<code>192.168.1.100:82</code>页面中看到的关于nginx的介绍的页面。</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170117/4.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170117/4.png" width="500"><br></p>
 
 <p>之后还有一些注释掉的关于php的配置部分，这里不做多余的介绍。</p>
 <h2 id="gerrit-conf配置"><a href="#gerrit-conf配置" class="headerlink" title="gerrit.conf配置"></a>gerrit.conf配置</h2><p>重点来看下我们的<code>gerrit.conf</code>文件如何设置。<br>我们用<code>vim gerrit.conf</code>创建这个文件，然后输入下面的内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">     listen *:81;</span><br><span class="line">     server_name gerrit.microwu.com;</span><br><span class="line">     allow   all;</span><br><span class="line">     deny    all;</span><br><span class="line"></span><br><span class="line">     auth_basic &quot;Welcomme to Gerrit Code Review Site!&quot;;</span><br><span class="line">     auth_basic_user_file /home/gerrit/gerrit.password;</span><br><span class="line"></span><br><span class="line">     location / &#123;</span><br><span class="line">        proxy_pass  http://127.0.0.1:8080;</span><br><span class="line">        proxy_set_header X-Forwarded-For $remote_addr;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>最终是这样的：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170117/2.png" width="400"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170117/2.png" width="400"><br></p>
 
 <p>我们来详细解释几个重点：</p>
 <ul>
 <li>我们监听<code>81</code>端口，原因和前面一样，80端口被apache占用了，当然你还可以设置成其他没有被占用的端口</li>
 <li><p>auth_basic 是用于登录时弹出验证登录对话框，我盗一张图来说明一下</p>
-  <p align="center"><br>      <img src="http://img.cdn.microwu.com/20170117/5.png" width="300"><br>  </p>
+  <p align="center"><br>      <img src="http://www.microwu.com/MichaelLee/20170117/5.png" width="300"><br>  </p>
 
 <p>  图片中 <em>服务器提示：</em> 后面的文字，就是我们在配置中当前选项的内容</p>
 </li>
@@ -224,7 +224,7 @@
 <li>配置反向代理</li>
 </ul>
 <p>先来看一下我最终成品图，红框里面的东西是需要我们特别注意的：</p>
-<p align="center"><br>      <img src="http://img.cdn.microwu.com/20170118/6.png" width="600"><br></p>
+<p align="center"><br>      <img src="http://www.microwu.com/MichaelLee/20170118/6.png" width="600"><br></p>
 
 <ol>
 <li>canonicalWebUrl 就是gerrit的主页地址。开篇时，我们假设gerrit服务器的ip地址是<em>192.168.1.100</em>，这里我们就需要设置成<code>http://192.168.1.100:8080</code></li>
@@ -246,7 +246,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /home/gerrit/gerrit_site/bin/gerrit.sh restart</span><br></pre></td></tr></table></figure>
 <p>这样，gerrit就会重新启动，并且加载我们刚才修改的配置。</p>
 <p>重启完成之后，我们可以在浏览器中输入<code>192.168.1.100:81</code>看看是不是可以弹出输入用户名和密码的对话框(如果没有，请检查你的Nginx配置)；然后输入正确的用户名(我们创建的密码文件用户是admin)和密码，如果你能登录到这个页面，就表示你的gerrit已经成功配置好了！</p>
-<p align="center"><br>      <img src="http://img.cdn.microwu.com/20170118/0.png" width="800"><br></p>
+<p align="center"><br>      <img src="http://www.microwu.com/MichaelLee/20170118/0.png" width="800"><br></p>
 
 <p>需要注意的是，gerrit配置了之后，第一个登录成功的用户，自动成为管理员，gerrit会给他分配一个id，<code>1000000</code>，之后登录的成员会依次自增1，初始时 Full Name 和 Email Address字段都是空的。</p>
 <p>关于Gerrit的安装和配置Nginx实现反向代理的内容都介绍完了，关于如何使用Gerrit以及Gerrit的工作原理和流程，我们在下一个章节再介绍。</p>
@@ -273,7 +273,7 @@
 <p>然后直接删除<code>/home/gerrit/gerrit_site/</code>整个文件夹就好了。</p>
 <p>如果你的gerrit服务没有正常退出，可能会发现这个文件夹删除不掉(cache 和 db这两个文件夹一直都会存在)，其实是因为还有gerrit的进程在跑，我们要做的是找出gerrit的进程，然后kill掉就好了</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ps -ef | grep gerrit</span><br></pre></td></tr></table></figure>
-<p align="center"><br>      <img src="http://img.cdn.microwu.com/20170118/1.png" width="800"><br></p>
+<p align="center"><br>      <img src="http://www.microwu.com/MichaelLee/20170118/1.png" width="800"><br></p>
 
 <p>看上图中的最后一条，就是当前gerrit的进程，49513就是其进程id<br>我们接着执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">kill</span> -9 49513</span><br></pre></td></tr></table></figure>
@@ -361,22 +361,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装gerrit"><span class="toc-number">2.</span> <span class="toc-text">安装gerrit</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载gerrit安装包"><span class="toc-number">2.1.</span> <span class="toc-text">下载gerrit安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建gerrit专用用户"><span class="toc-number">2.2.</span> <span class="toc-text">新建gerrit专用用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装gerrit-1"><span class="toc-number">2.3.</span> <span class="toc-text">安装gerrit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动gerrit"><span class="toc-number">2.4.</span> <span class="toc-text">启动gerrit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx"><span class="toc-number">3.</span> <span class="toc-text">Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx默认配置"><span class="toc-number">3.1.</span> <span class="toc-text">nginx默认配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gerrit-conf配置"><span class="toc-number">3.2.</span> <span class="toc-text">gerrit.conf配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重启nginx"><span class="toc-number">3.3.</span> <span class="toc-text">重启nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#登录认证文件"><span class="toc-number">3.4.</span> <span class="toc-text">登录认证文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改gerrit配置"><span class="toc-number">4.</span> <span class="toc-text">修改gerrit配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#重启gerrit"><span class="toc-number">4.1.</span> <span class="toc-text">重启gerrit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gitweb-可选"><span class="toc-number">5.</span> <span class="toc-text">gitweb(可选)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装gitweb"><span class="toc-number">5.1.</span> <span class="toc-text">安装gitweb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改gitweb配置文件"><span class="toc-number">5.2.</span> <span class="toc-text">修改gitweb配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改Apache配置文件"><span class="toc-number">5.3.</span> <span class="toc-text">修改Apache配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改gerrit配置-1"><span class="toc-number">5.4.</span> <span class="toc-text">修改gerrit配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充内容"><span class="toc-number">6.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载Gerrit"><span class="toc-number">6.1.</span> <span class="toc-text">卸载Gerrit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除git工程"><span class="toc-number">6.2.</span> <span class="toc-text">删除git工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#退出gerrit网页"><span class="toc-number">6.3.</span> <span class="toc-text">退出gerrit网页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献："><span class="toc-number">6.4.</span> <span class="toc-text">参考文献：</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -413,7 +413,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -758,7 +758,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

@@ -17,16 +17,16 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2017/03/02/yum-install-php56-on-rhel6/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="最近在研究一些php的framework，因为虽说已经搞了很长时间的php，写的代码虽说是自己按照MVC模式做了分类，总感觉和一些用户基数大的框架之间还是有很多差距的，代码结构也不是非常的合理。然后网上搜了搜php框架，似乎近几年Laravel的用户量最多，但是大致了解了下，感觉Laravel有点厚重了，而我想要的是一款轻量级的框架，毕竟目前的项目还没有到需要上那么大的框架。于是，Github上排">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170302/1.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170302/2.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170302/3.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170302/4.png">
-<meta property="og:image" content="http://img.cdn.microwu.com/20170302/5.png">
-<meta property="og:updated_time" content="2019-01-02T11:36:27.000Z">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170302/1.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170302/2.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170302/3.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170302/4.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170302/5.png">
+<meta property="og:updated_time" content="2019-08-05T11:12:26.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【PHP】在RedHat6上通过yum安装php5.6">
 <meta name="twitter:description" content="最近在研究一些php的framework，因为虽说已经搞了很长时间的php，写的代码虽说是自己按照MVC模式做了分类，总感觉和一些用户基数大的框架之间还是有很多差距的，代码结构也不是非常的合理。然后网上搜了搜php框架，似乎近几年Laravel的用户量最多，但是大致了解了下，感觉Laravel有点厚重了，而我想要的是一款轻量级的框架，毕竟目前的项目还没有到需要上那么大的框架。于是，Github上排">
-<meta name="twitter:image" content="http://img.cdn.microwu.com/20170302/1.png">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20170302/1.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -55,7 +55,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -69,7 +69,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -92,7 +92,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-02T03:54:58.000Z" itemprop="datePublished"> Published 2017-03-02</time>
+    <time datetime="2017-03-02T03:54:58.000Z" itemprop="datePublished"> 發表於 2017-03-02</time>
   </p>
   
   <p class="page-count">
@@ -104,7 +104,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#下载Webtatic源"><span class="toc-number">1.</span> <span class="toc-text">下载Webtatic源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#卸载低版本php"><span class="toc-number">2.</span> <span class="toc-text">卸载低版本php</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用yum安装php5-6"><span class="toc-number">3.</span> <span class="toc-text">用yum安装php5.6</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看php版本、重启apache服务"><span class="toc-number">4.</span> <span class="toc-text">查看php版本、重启apache服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充内容"><span class="toc-number">5.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EPEL源"><span class="toc-number">5.1.</span> <span class="toc-text">EPEL源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#确定linux版本"><span class="toc-number">5.1.1.</span> <span class="toc-text">确定linux版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并安装对应的repo"><span class="toc-number">5.1.2.</span> <span class="toc-text">下载并安装对应的repo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除多余的repo"><span class="toc-number">5.1.3.</span> <span class="toc-text">删除多余的repo</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置DNS"><span class="toc-number">5.2.</span> <span class="toc-text">设置DNS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢"><span class="toc-number">6.</span> <span class="toc-text">致谢</span></a></li></ol>
 		
@@ -115,22 +115,22 @@
 <p>之前一直用的一个yum源，里面的php还是5.3.3版本的，已经算是比较老的版本的，毕竟现在php已经进入7.0版本了，而相对比较稳定的，支持的比较好的，应该算是5.6了，所以才有了把php版本从5.3升级到5.6的想法。</p>
 <h1 id="下载Webtatic源"><a href="#下载Webtatic源" class="headerlink" title="下载Webtatic源"></a>下载Webtatic源</h1><p>php新版本的源，可以通过添加<code>webtatic</code>源来进行下载，然后所有的yum源都是安装到<code>/etc/yum.repos.d</code>目录下的，下载安装完成后，我们可以查看下是否安装成功了。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm</span><br><span class="line">...</span><br><span class="line">$ ll /etc/yum.repos.d</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170302/1.png" width="600"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170302/1.png" width="600"><br></p>
 
 <h1 id="卸载低版本php"><a href="#卸载低版本php" class="headerlink" title="卸载低版本php"></a>卸载低版本php</h1><p>在安装新版本php之前，我们需要先卸载掉老版本的php</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum remove php-common</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170302/2.png" width="700"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170302/2.png" width="700"><br></p>
 
 <p>程序会告诉我们将要卸载掉哪些内容，我们确认无误之后，输入<code>y</code>就可以开始卸载了。</p>
 <h1 id="用yum安装php5-6"><a href="#用yum安装php5-6" class="headerlink" title="用yum安装php5.6"></a>用yum安装php5.6</h1><p>卸载完成后，我们在命令行中输入下面的命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y php56w php56w-opcache php56w-xml php56w-mcrypt php56w-gd php56w-devel php56w-mysql php56w-intl php56w-mbstring</span><br></pre></td></tr></table></figure>
 <p>这个命令基本上涵盖了我们LAMP中可能用到的php的相关程序</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170302/3.png" width="700"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170302/3.png" width="700"><br></p>
 
 <p>下载安装过程中可能会出现错误，我们可以按照提示，在命令后面加上<code>--skip-broken</code>来跳过错误的包。<br>图上所示的是php的加密库<code>mcrypt</code>因为依赖的关系没有安装成功。</p>
 <h1 id="查看php版本、重启apache服务"><a href="#查看php版本、重启apache服务" class="headerlink" title="查看php版本、重启apache服务"></a>查看php版本、重启apache服务</h1><p>安装完成后，我们可以在命令行中查看下是否php新版本已经安装成功了</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php -v</span><br></pre></td></tr></table></figure>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170302/4.png" width="600"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170302/4.png" width="600"><br></p>
 
 <p>重启apache命令这里也顺手贴一下吧</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service httpd restart</span><br></pre></td></tr></table></figure>
@@ -157,7 +157,7 @@
 <li><code>vim /etc/hosts</code>，修改hosts文件内容，添加进去ip地址及对应的域名</li>
 <li>示例如下：</li>
 </ol>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170302/5.png" width="500"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170302/5.png" width="500"><br></p>
 
 <p>图上就是要在内网用rpm下载webtatic源以及通过webtatic源下载php时添加进去的两条dns解析内容</p>
 <h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><ul>
@@ -238,22 +238,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#下载Webtatic源"><span class="toc-number">1.</span> <span class="toc-text">下载Webtatic源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#卸载低版本php"><span class="toc-number">2.</span> <span class="toc-text">卸载低版本php</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用yum安装php5-6"><span class="toc-number">3.</span> <span class="toc-text">用yum安装php5.6</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看php版本、重启apache服务"><span class="toc-number">4.</span> <span class="toc-text">查看php版本、重启apache服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充内容"><span class="toc-number">5.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EPEL源"><span class="toc-number">5.1.</span> <span class="toc-text">EPEL源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#确定linux版本"><span class="toc-number">5.1.1.</span> <span class="toc-text">确定linux版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载并安装对应的repo"><span class="toc-number">5.1.2.</span> <span class="toc-text">下载并安装对应的repo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除多余的repo"><span class="toc-number">5.1.3.</span> <span class="toc-text">删除多余的repo</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置DNS"><span class="toc-number">5.2.</span> <span class="toc-text">设置DNS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢"><span class="toc-number">6.</span> <span class="toc-text">致谢</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -290,7 +290,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -635,7 +635,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

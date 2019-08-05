@@ -17,13 +17,13 @@
 <meta property="og:url" content="http://lipeng1667.github.io/2016/09/12/android-webview-pull-to-refresh/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
-<meta property="og:image" content="http://img.cdn.microwu.com/20160923/00.gif">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160923/00.gif">
 <meta property="og:image" content="http://img.blog.csdn.net/20130706113543125?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2lueXU4OTA4MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
-<meta property="og:updated_time" content="2019-01-02T11:23:18.000Z">
+<meta property="og:updated_time" content="2019-08-05T11:12:26.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Android】WebView下拉刷新功能源码解析">
 <meta name="twitter:description" content="之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？">
-<meta name="twitter:image" content="http://img.cdn.microwu.com/20160923/00.gif">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20160923/00.gif">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -52,7 +52,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -66,7 +66,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -89,7 +89,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-09-12T08:49:30.000Z" itemprop="datePublished"> Published 2016-09-12</time>
+    <time datetime="2016-09-12T08:49:30.000Z" itemprop="datePublished"> 發表於 2016-09-12</time>
   </p>
   
   <p class="page-count">
@@ -101,7 +101,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构"><span class="toc-number">1.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-number">2.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#检测是否允许下拉刷新"><span class="toc-number">3.</span> <span class="toc-text">检测是否允许下拉刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷新过程"><span class="toc-number">4.</span> <span class="toc-text">刷新过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装WebView对外接口"><span class="toc-number">5.</span> <span class="toc-text">封装WebView对外接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用"><span class="toc-number">6.</span> <span class="toc-text">如何使用</span></a></li></ol>
 		
@@ -110,7 +110,7 @@
 		<p>之前项目中需要用到下拉刷新功能，虽然Android在SwipeRefreshLayout中集成了下拉刷新的功能，但是看起来并不那么舒服；加上我一贯不喜欢用第三方的库来完成本来可以自己实现的功能，所以，就自己开始研究，如何才能不借助任何工具，实现下拉刷新呢？</p>
 <a id="more"></a>
 <p>网上还是有不少布道者给出了解决方案，然后我就仿照着这篇Blog：<a href="http://blog.csdn.net/guolin_blog/article/details/9255575" target="_blank" rel="external">Android下拉刷新完全解析，教你如何一分钟实现下拉刷新功能</a> ，实现了给WebView加上下拉刷新的功能。先来看一下最终的效果图：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20160923/00.gif"><br></p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20160923/00.gif"><br></p>
 
 <p>大致的实现原理可以参见原作者的博文。原作者是实现ListView的下拉刷新，我也是仔细阅读了作者的源码，读懂了他的实现原理，然后加以精华和修改，完成了自己的功能实现。因为之前的功能和我们自己的项目耦合性太高，所以我特地花了2天时间，把下拉webview的功能分离出来，形成了一个单独的库，已经上传到<a href="https://github.com/lipeng1667/PullToRefreshWebView" target="_blank" rel="external">我的Github</a>, 感兴趣的同学可以直接使用，同时欢迎Star和Fork，我也会不断完善相关的功能。</p>
 <p>这篇博文就来分析一下我的源码，看看究竟是如何在webview中实现下拉刷新功能的。<br>因为源码比较长，而且后续还会不断更新，所以我就不在这里贴出来了，大家可以参照<a href="https://github.com/lipeng1667/PullToRefreshWebView/blob/master/ptrwebview/src/main/java/com/microwu/ptrwebview/PullToRefreshWebView.java" target="_blank" rel="external">这里</a>并照着帖子来研究下。</p>
@@ -209,22 +209,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构"><span class="toc-number">1.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-number">2.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#检测是否允许下拉刷新"><span class="toc-number">3.</span> <span class="toc-text">检测是否允许下拉刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷新过程"><span class="toc-number">4.</span> <span class="toc-text">刷新过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装WebView对外接口"><span class="toc-number">5.</span> <span class="toc-text">封装WebView对外接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用"><span class="toc-number">6.</span> <span class="toc-text">如何使用</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -261,7 +261,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -606,7 +606,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
