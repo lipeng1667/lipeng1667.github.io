@@ -11,12 +11,12 @@
     
 
     
-    <meta name="description" content="上一篇文章中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。">
+    <meta name="description" content="Update at 2019-08-04:&amp;gt; 今天偶然看了下图片的流量，发现这篇讲Gerrit的流量好高，果然一看这篇blog的阅读量已经好几万了。为了不误导大家，我还是做下更新：&amp;gt; 本人已经很久不使用Gerrit了，现在用GitLab，界面非常美观，使用方法也很简单，而且也能满足之前的代码审核的要求。所以大家也都转去GitLab吧。&amp;gt; 关于GitLab的搭建和使用网上应该有很多">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Gerrit】Gerrit工作流程及使用手册">
 <meta property="og:url" content="http://lipeng1667.github.io/2017/01/18/gerrit-guide/index.html">
 <meta property="og:site_name" content="KaKa's blog">
-<meta property="og:description" content="上一篇文章中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。">
+<meta property="og:description" content="Update at 2019-08-04:&amp;gt; 今天偶然看了下图片的流量，发现这篇讲Gerrit的流量好高，果然一看这篇blog的阅读量已经好几万了。为了不误导大家，我还是做下更新：&amp;gt; 本人已经很久不使用Gerrit了，现在用GitLab，界面非常美观，使用方法也很简单，而且也能满足之前的代码审核的要求。所以大家也都转去GitLab吧。&amp;gt; 关于GitLab的搭建和使用网上应该有很多">
 <meta property="og:image" content="http://img.cdn.microwu.com/20170118/2.png">
 <meta property="og:image" content="http://img.cdn.microwu.com/20170118/3.png">
 <meta property="og:image" content="http://img.cdn.microwu.com/20170118/4.png">
@@ -64,10 +64,10 @@
 <meta property="og:image" content="http://img.cdn.microwu.com/20170118/47.png">
 <meta property="og:image" content="http://img.cdn.microwu.com/20170118/48.png">
 <meta property="og:image" content="http://img.cdn.microwu.com/20170118/49.png">
-<meta property="og:updated_time" content="2019-01-02T11:36:27.000Z">
+<meta property="og:updated_time" content="2019-08-04T02:08:10.878Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Gerrit】Gerrit工作流程及使用手册">
-<meta name="twitter:description" content="上一篇文章中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。">
+<meta name="twitter:description" content="Update at 2019-08-04:&amp;gt; 今天偶然看了下图片的流量，发现这篇讲Gerrit的流量好高，果然一看这篇blog的阅读量已经好几万了。为了不误导大家，我还是做下更新：&amp;gt; 本人已经很久不使用Gerrit了，现在用GitLab，界面非常美观，使用方法也很简单，而且也能满足之前的代码审核的要求。所以大家也都转去GitLab吧。&amp;gt; 关于GitLab的搭建和使用网上应该有很多">
 <meta name="twitter:image" content="http://img.cdn.microwu.com/20170118/2.png">
 <meta name="twitter:creator" content="@Leepeng1667">
 
@@ -148,28 +148,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gerrit工作流程"><span class="toc-number">1.</span> <span class="toc-text">gerrit工作流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#管理员配置"><span class="toc-number">2.</span> <span class="toc-text">管理员配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#profile"><span class="toc-number">2.1.</span> <span class="toc-text">profile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preferences"><span class="toc-number">2.2.</span> <span class="toc-text">Preferences</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watched-Projects"><span class="toc-number">2.3.</span> <span class="toc-text">Watched Projects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contact-Information"><span class="toc-number">2.4.</span> <span class="toc-text">Contact Information</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH-Public-Keys"><span class="toc-number">2.5.</span> <span class="toc-text">SSH Public Keys</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成公私钥对"><span class="toc-number">2.5.1.</span> <span class="toc-text">生成公私钥对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#找到公钥文件"><span class="toc-number">2.5.2.</span> <span class="toc-text">找到公钥文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Groups"><span class="toc-number">2.6.</span> <span class="toc-text">Groups</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#示例"><span class="toc-number">3.</span> <span class="toc-text">示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理员设置SSH"><span class="toc-number">3.1.</span> <span class="toc-text">管理员设置SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加普通成员"><span class="toc-number">3.2.</span> <span class="toc-text">添加普通成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改用户所在组"><span class="toc-number">3.3.</span> <span class="toc-text">修改用户所在组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建和修改项目"><span class="toc-number">3.4.</span> <span class="toc-text">新建和修改项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#test3用户clone工程"><span class="toc-number">3.5.</span> <span class="toc-text">test3用户clone工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交"><span class="toc-number">3.6.</span> <span class="toc-text">提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管理员审查"><span class="toc-number">3.7.</span> <span class="toc-text">管理员审查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件处理"><span class="toc-number">3.7.1.</span> <span class="toc-text">事件处理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SourceTree"><span class="toc-number">4.</span> <span class="toc-text">SourceTree</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置自定义push"><span class="toc-number">4.1.</span> <span class="toc-text">设置自定义push</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考文文章"><span class="toc-number">5.</span> <span class="toc-text">致谢&参考文文章</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#管理员配置"><span class="toc-number">1.</span> <span class="toc-text">管理员配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#profile"><span class="toc-number">1.1.</span> <span class="toc-text">profile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preferences"><span class="toc-number">1.2.</span> <span class="toc-text">Preferences</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watched-Projects"><span class="toc-number">1.3.</span> <span class="toc-text">Watched Projects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contact-Information"><span class="toc-number">1.4.</span> <span class="toc-text">Contact Information</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH-Public-Keys"><span class="toc-number">1.5.</span> <span class="toc-text">SSH Public Keys</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成公私钥对"><span class="toc-number">1.5.1.</span> <span class="toc-text">生成公私钥对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#找到公钥文件"><span class="toc-number">1.5.2.</span> <span class="toc-text">找到公钥文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Groups"><span class="toc-number">1.6.</span> <span class="toc-text">Groups</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#示例"><span class="toc-number">2.</span> <span class="toc-text">示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理员设置SSH"><span class="toc-number">2.1.</span> <span class="toc-text">管理员设置SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加普通成员"><span class="toc-number">2.2.</span> <span class="toc-text">添加普通成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改用户所在组"><span class="toc-number">2.3.</span> <span class="toc-text">修改用户所在组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建和修改项目"><span class="toc-number">2.4.</span> <span class="toc-text">新建和修改项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#test3用户clone工程"><span class="toc-number">2.5.</span> <span class="toc-text">test3用户clone工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交"><span class="toc-number">2.6.</span> <span class="toc-text">提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管理员审查"><span class="toc-number">2.7.</span> <span class="toc-text">管理员审查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件处理"><span class="toc-number">2.7.1.</span> <span class="toc-text">事件处理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SourceTree"><span class="toc-number">3.</span> <span class="toc-text">SourceTree</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置自定义push"><span class="toc-number">3.1.</span> <span class="toc-text">设置自定义push</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考文文章"><span class="toc-number">4.</span> <span class="toc-text">致谢&参考文文章</span></a></li></ol>
 		
 		</div>
 		
-		<p><a href="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/">上一篇文章</a>中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。<br>gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。<br>这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。</p>
-<a id="more"></a>
-<p>这篇文章首先会大致讲解下gerrit的工作流程；然后介绍管理员的相关配置工作，包括设置SSH密钥验证，添加新成员；接下来会用一个示例演示普通成员push一个commit之后，代码审核员是如何进行审核的；最后介绍一下如何使用sourceTree上传代码到gerrit服务器。</p>
-<p>提醒：<br>这篇文章需要一定的git基础，如果你还不熟悉git，请先学习下关于git的相关知识。<br>这篇文章中的所有操作不再需要登录到gerrit服务器上去了，因为所有的操作都是在管理员或者普通成员的电脑上完成的，至于管理员对组员的操作，也可以在管理员自己的电脑上通过SSH连接到gerrit服务器上完成。</p>
-<h1 id="gerrit工作流程"><a href="#gerrit工作流程" class="headerlink" title="gerrit工作流程"></a>gerrit工作流程</h1><p>好不容易在google上找了一篇相对简单明了的介绍gerrit工作流程的图：</p>
-<p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/2.png" width="500"><br></p>
-
-<p>使用过git的同学，都知道，当我们<code>git add --&gt; git commit --&gt; git push</code> 之后，你的代码会被直接提交到repo，也就是代码仓库中，就是图中橘红色箭头指示的那样。</p>
-<p>那么gerrit就是上图中的那只鸟，普通成员的代码是被先push到gerrit服务器上，然后由代码审核人员，就是左上角的integrator在web页面进行代码的审核(review)，可以单人审核，也可以邀请其他成员一同审核，当代码审核通过(approve)之后，这次代码才会被提交(submit)到代码仓库(repo)中去。</p>
-<p>无论有新的代码提交待审核，代码审核通过或被拒绝，代码提交者(Contributor)和所有的相关代码审核人员(Integrator)都会收到邮件提醒。<br>gerrit还有自动测试的功能，和主线有冲突或者测试不通过的代码，是会被直接拒绝掉的，这个功能似乎就是右下角那个老头(Jenkins)的任务。</p>
-<p>整个流程就是这样。 在使用过程中，有两点需要特别注意下：</p>
-<ol>
-<li>当进行commit时，必须要生成一个Change-Id，否则，push到gerrit服务器时，会收到一个错误提醒。</li>
-<li><p>提交者不能直接把代码推到远程的master主线(或者其他远程分支)上去。这样就相当于越过了gerrit了。 gerrit必须依赖于一个<code>refs/for/*</code>的分支。</p>
-<p> 假如我们远程只有一个master主线，那么只有当你的代码被提交到<code>refs/for/master</code>分支时，gerrit才会知道，我收到了一个需要审核的代码推送，需要通知审核员来审核代码了。<br> 当审核通过之后，gerrit会自动将这条分支合并到master主线上，然后邮件通知相关成员，master分支有更新，需要的成员再去pull就好了。而且这条<code>refs/for/master</code>分支，是透明的，也就是说普通成员其实是不需要知道这条线的，如果你正确配置了sourceTree，你也应该是看不到这条线的。</p>
-</li>
-</ol>
-<font color="red">这两点很重要！！这两点很重要！！这两点很重要！！</font>
+		<font color="red">Update at 2019-08-04</font>:<br>&gt; 今天偶然看了下图片的流量，发现这篇讲Gerrit的流量好高，果然一看这篇blog的阅读量已经好几万了。为了不误导大家，我还是做下更新：<br>&gt; 本人已经很久不使用Gerrit了，现在用<strong>GitLab</strong>，界面非常美观，使用方法也很简单，而且也能满足之前的代码审核的要求。所以大家也都转去GitLab吧。<br>&gt; 关于GitLab的搭建和使用网上应该有很多介绍，这里就不做过多的介绍，我这里有一篇GitBook和GitLab搭建使用的文章，如果要使用GitLab的CI功能，可以参考一下<a href="http://lipeng1667.github.io/2019/01/15/public-doc-with-gitlab-ci-writing-with-gitbook/">这里http://lipeng1667.github.io/2019/01/15/public-doc-with-gitlab-ci-writing-with-gitbook/</a><br><br>—<br><br><a href="http://lipeng1667.github.io/2017/01/17/build-gerrit-with-nginx/">上一篇文章</a>中，我们介绍了如何安装和正确配置gerrit，相对于gerrit的使用，它的安装真的算简单的了。<br>gerrit的流程、权限控制其实对于初次接触的同学们来说，确实有点复杂。我希望这篇文章过后，我们能对gerrit的流程有一个大致的了解。<br>这篇文章将用一个真实的例子，演示一下gerrit的管理员，普通项目成员是如何协同完成项目管理工作的。<br><br><a id="more"></a><br><br>这篇文章首先会大致讲解下gerrit的工作流程；然后介绍管理员的相关配置工作，包括设置SSH密钥验证，添加新成员；接下来会用一个示例演示普通成员push一个commit之后，代码审核员是如何进行审核的；最后介绍一下如何使用sourceTree上传代码到gerrit服务器。<br><br>提醒：<br>这篇文章需要一定的git基础，如果你还不熟悉git，请先学习下关于git的相关知识。<br>这篇文章中的所有操作不再需要登录到gerrit服务器上去了，因为所有的操作都是在管理员或者普通成员的电脑上完成的，至于管理员对组员的操作，也可以在管理员自己的电脑上通过SSH连接到gerrit服务器上完成。<br><br># gerrit工作流程<br><br>好不容易在google上找了一篇相对简单明了的介绍gerrit工作流程的图：<br><br><p align="center"><br>  <img src="http://img.cdn.microwu.com/20170118/2.png" width="500"><br></p><br><br>使用过git的同学，都知道，当我们<code>git add --&gt; git commit --&gt; git push</code> 之后，你的代码会被直接提交到repo，也就是代码仓库中，就是图中橘红色箭头指示的那样。<br><br>那么gerrit就是上图中的那只鸟，普通成员的代码是被先push到gerrit服务器上，然后由代码审核人员，就是左上角的integrator在web页面进行代码的审核(review)，可以单人审核，也可以邀请其他成员一同审核，当代码审核通过(approve)之后，这次代码才会被提交(submit)到代码仓库(repo)中去。<br><br>无论有新的代码提交待审核，代码审核通过或被拒绝，代码提交者(Contributor)和所有的相关代码审核人员(Integrator)都会收到邮件提醒。<br>gerrit还有自动测试的功能，和主线有冲突或者测试不通过的代码，是会被直接拒绝掉的，这个功能似乎就是右下角那个老头(Jenkins)的任务。<br><br>整个流程就是这样。 在使用过程中，有两点需要特别注意下：<br><br>1. 当进行commit时，必须要生成一个Change-Id，否则，push到gerrit服务器时，会收到一个错误提醒。<br>2. 提交者不能直接把代码推到远程的master主线(或者其他远程分支)上去。这样就相当于越过了gerrit了。 gerrit必须依赖于一个<code>refs/for/*</code>的分支。<br><br>    假如我们远程只有一个master主线，那么只有当你的代码被提交到<code>refs/for/master</code>分支时，gerrit才会知道，我收到了一个需要审核的代码推送，需要通知审核员来审核代码了。<br>    当审核通过之后，gerrit会自动将这条分支合并到master主线上，然后邮件通知相关成员，master分支有更新，需要的成员再去pull就好了。而且这条<code>refs/for/master</code>分支，是透明的，也就是说普通成员其实是不需要知道这条线的，如果你正确配置了sourceTree，你也应该是看不到这条线的。<br><br><font color="red">这两点很重要！！这两点很重要！！这两点很重要！！</font>
 
 <p>这两点在稍后的示例中，我们会依次介绍。</p>
 <h1 id="管理员配置"><a href="#管理员配置" class="headerlink" title="管理员配置"></a>管理员配置</h1><p>在上一篇文章的最后，我们做为管理员，初次登录到了gerrit的web页面中，接下来还有很多内容需要设置一下。我们依次来看看吧。</p>
@@ -502,7 +485,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gerrit工作流程"><span class="toc-number">1.</span> <span class="toc-text">gerrit工作流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#管理员配置"><span class="toc-number">2.</span> <span class="toc-text">管理员配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#profile"><span class="toc-number">2.1.</span> <span class="toc-text">profile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preferences"><span class="toc-number">2.2.</span> <span class="toc-text">Preferences</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watched-Projects"><span class="toc-number">2.3.</span> <span class="toc-text">Watched Projects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contact-Information"><span class="toc-number">2.4.</span> <span class="toc-text">Contact Information</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH-Public-Keys"><span class="toc-number">2.5.</span> <span class="toc-text">SSH Public Keys</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成公私钥对"><span class="toc-number">2.5.1.</span> <span class="toc-text">生成公私钥对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#找到公钥文件"><span class="toc-number">2.5.2.</span> <span class="toc-text">找到公钥文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Groups"><span class="toc-number">2.6.</span> <span class="toc-text">Groups</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#示例"><span class="toc-number">3.</span> <span class="toc-text">示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理员设置SSH"><span class="toc-number">3.1.</span> <span class="toc-text">管理员设置SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加普通成员"><span class="toc-number">3.2.</span> <span class="toc-text">添加普通成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改用户所在组"><span class="toc-number">3.3.</span> <span class="toc-text">修改用户所在组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建和修改项目"><span class="toc-number">3.4.</span> <span class="toc-text">新建和修改项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#test3用户clone工程"><span class="toc-number">3.5.</span> <span class="toc-text">test3用户clone工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交"><span class="toc-number">3.6.</span> <span class="toc-text">提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管理员审查"><span class="toc-number">3.7.</span> <span class="toc-text">管理员审查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件处理"><span class="toc-number">3.7.1.</span> <span class="toc-text">事件处理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SourceTree"><span class="toc-number">4.</span> <span class="toc-text">SourceTree</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置自定义push"><span class="toc-number">4.1.</span> <span class="toc-text">设置自定义push</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考文文章"><span class="toc-number">5.</span> <span class="toc-text">致谢&参考文文章</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#管理员配置"><span class="toc-number">1.</span> <span class="toc-text">管理员配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#profile"><span class="toc-number">1.1.</span> <span class="toc-text">profile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Preferences"><span class="toc-number">1.2.</span> <span class="toc-text">Preferences</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watched-Projects"><span class="toc-number">1.3.</span> <span class="toc-text">Watched Projects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contact-Information"><span class="toc-number">1.4.</span> <span class="toc-text">Contact Information</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH-Public-Keys"><span class="toc-number">1.5.</span> <span class="toc-text">SSH Public Keys</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成公私钥对"><span class="toc-number">1.5.1.</span> <span class="toc-text">生成公私钥对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#找到公钥文件"><span class="toc-number">1.5.2.</span> <span class="toc-text">找到公钥文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Groups"><span class="toc-number">1.6.</span> <span class="toc-text">Groups</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#示例"><span class="toc-number">2.</span> <span class="toc-text">示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理员设置SSH"><span class="toc-number">2.1.</span> <span class="toc-text">管理员设置SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加普通成员"><span class="toc-number">2.2.</span> <span class="toc-text">添加普通成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改用户所在组"><span class="toc-number">2.3.</span> <span class="toc-text">修改用户所在组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建和修改项目"><span class="toc-number">2.4.</span> <span class="toc-text">新建和修改项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#test3用户clone工程"><span class="toc-number">2.5.</span> <span class="toc-text">test3用户clone工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交"><span class="toc-number">2.6.</span> <span class="toc-text">提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管理员审查"><span class="toc-number">2.7.</span> <span class="toc-text">管理员审查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件处理"><span class="toc-number">2.7.1.</span> <span class="toc-text">事件处理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SourceTree"><span class="toc-number">3.</span> <span class="toc-text">SourceTree</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置自定义push"><span class="toc-number">3.1.</span> <span class="toc-text">设置自定义push</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考文文章"><span class="toc-number">4.</span> <span class="toc-text">致谢&参考文文章</span></a></li></ol>
  
   </div>
 
@@ -524,7 +507,7 @@
 		  
 		
 		  
-			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>7</sup></a></li>
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>8</sup></a></li>
 		  
 		
 		  
@@ -565,15 +548,11 @@
 			
 		
 			
-				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>3</sup></a></li>
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
 			
 		
 			
@@ -581,11 +560,7 @@
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -593,11 +568,15 @@
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
@@ -605,7 +584,15 @@
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>1</sup></a></li>
 			
 		
 			
@@ -613,11 +600,7 @@
 			
 		
 			
-				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/iOS/" title="iOS">iOS<sup>1</sup></a></li>
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
 			
 		
 			
@@ -625,11 +608,11 @@
 			
 		
 			
-				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+				<li><a href="/tags/SS/" title="SS">SS<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/SS/" title="SS">SS<sup>1</sup></a></li>
+				<li><a href="/tags/SSH/" title="SSH">SSH<sup>1</sup></a></li>
 			
 		
 		</ul>
