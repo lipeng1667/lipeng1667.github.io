@@ -4,25 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>【一周总结】2016.08.07--2016.08.13 &amp; 增长黑客 读书笔记（下） | KaKa&#39;s blog</title>
+    <title>【KeepAlive】keepalive 源码安装 + 双机主从高可用配置 | KaKa&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Michael Lee">
     
 
     
-    <meta name="description" content="我们接着把这周读完的《增长黑客》中比较有意思和有启发的部分摘录下来作为读书笔记。">
+    <meta name="description">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【一周总结】2016.08.07--2016.08.13 & 增长黑客 读书笔记（下）">
-<meta property="og:url" content="http://lipeng1667.github.io/2016/08/15/weekly-summary-20160807-20160814/index.html">
+<meta property="og:title" content="【KeepAlive】keepalive 源码安装 + 双机主从高可用配置">
+<meta property="og:url" content="http://lipeng1667.github.io/2019/08/15/keepalived-nginx/index.html">
 <meta property="og:site_name" content="KaKa's blog">
-<meta property="og:description" content="我们接着把这周读完的《增长黑客》中比较有意思和有启发的部分摘录下来作为读书笔记。">
-<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160815/1.png">
-<meta property="og:updated_time" content="2019-08-05T11:12:26.890Z">
+<meta property="og:description">
+<meta property="og:updated_time" content="2019-08-16T03:44:01.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【一周总结】2016.08.07--2016.08.13 & 增长黑客 读书笔记（下）">
-<meta name="twitter:description" content="我们接着把这周读完的《增长黑客》中比较有意思和有启发的部分摘录下来作为读书笔记。">
-<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20160815/1.png">
+<meta name="twitter:title" content="【KeepAlive】keepalive 源码安装 + 双机主从高可用配置">
+<meta name="twitter:description">
 <meta name="twitter:creator" content="@Leepeng1667">
 
     
@@ -81,14 +79,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/15/weekly-summary-20160807-20160814/" title="【一周总结】2016.08.07--2016.08.13 &amp; 增长黑客 读书笔记（下）" itemprop="url">【一周总结】2016.08.07--2016.08.13 &amp; 增长黑客 读书笔记（下）</a>
+      <a href="/2019/08/15/keepalived-nginx/" title="【KeepAlive】keepalive 源码安装 + 双机主从高可用配置" itemprop="url">【KeepAlive】keepalive 源码安装 + 双机主从高可用配置</a>
   </h1>
   <p class="article-author">BY
        
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-15T09:25:02.000Z" itemprop="datePublished"> Published 2016-08-15</time>
+    <time datetime="2019-08-15T13:15:42.000Z" itemprop="datePublished"> Published 2019-08-15</time>
   </p>
   
   <p class="page-count">
@@ -102,49 +100,25 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#增长黑客-读书笔记（下）"><span class="toc-number">1.</span> <span class="toc-text">增长黑客 读书笔记（下）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#提高留存"><span class="toc-number">1.1.</span> <span class="toc-text">提高留存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增加收入"><span class="toc-number">1.2.</span> <span class="toc-text">增加收入</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在线广告技术-Retargeting"><span class="toc-number">2.</span> <span class="toc-text">在线广告技术-Retargeting</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一周时间开销"><span class="toc-number">3.</span> <span class="toc-text">一周时间开销</span></a></li></ol>
+			
 		
 		</div>
 		
-		<p>我们接着把这周读完的《增长黑客》中比较有意思和有启发的部分摘录下来作为读书笔记。</p>
-<a id="more"></a>
-<h1 id="增长黑客-读书笔记（下）"><a href="#增长黑客-读书笔记（下）" class="headerlink" title="增长黑客 读书笔记（下）"></a>增长黑客 读书笔记（下）</h1><h2 id="提高留存"><a href="#提高留存" class="headerlink" title="提高留存"></a>提高留存</h2><blockquote>
-<p>亚马逊的统计数据表明，网站的打开时间每多延迟100毫秒，就意味着多造成了100万美元的营收损失。</p>
-</blockquote>
-<p>可能会有不少开发者看到这个数字的时候和我一样会大吃一惊。也许在前期你的用户规模没有那么大的时候，这个损失没有那么大，但是对用户体验来说，更快更稳定一定是有益的。这里我想重点把《增长黑客》中对我来说最具启发的Facebook移动端改进自己客户端的历程记录一下。<br>在我之前读的吴军博士的大作《硅谷之谜》中，我们见识到，硅谷的公司一开始就把全球化作为战略目标，而不是本地化；我们来看看作为世界上最大的社交网络Facebook，是如何做好全球化的优化工作的。</p>
-<blockquote>
-<p>2013年，Facebook的增长黑客协同安卓产品经理、研发工程师共同奔赴非洲，亲身体验了一把当地的产品使用情况，以此深入寻求优化的方向。<br>体验的结果令他们印象深刻。当地网络环境极为糟糕，应用连接不时中断：人们所用的安卓设备内存小，导致应用加载缓慢且极易崩溃；每月的手机上网流量也捉襟见肘，通常40分钟就用完了。这些情况在遍布城市Wi-Fi热点的美国简直难以想象。为此，Facebook产品团队采用了下面的这些优化策略。</p>
-<ol>
-<li>单核的手机启动应用尤其缓慢，这是因为启动过程中需要并行初始化很多个模块。于是他们在单核手机上将这些初始化过程移到了启动完毕之后，甚至让某些模块只在即将被用到时才开始初始化。这一改动让应用的启动时间缩减了50%。</li>
-<li>在网络通畅的时候预加载未来可能用到的数据，以便在网络突然变得很糟糕时，用户能尽可能多地获取离线内容。</li>
-<li>为了应对上网流量昂贵的问题，让用户安心享受拍照功能，他们调研了众多的图片格式，并最终选择了WebP格式。原因很简单，WebP格式同样是由安卓系统的开发公司Google推出的，二者在生态上兼容良好，压缩效率极高，相对于网页常用的JPG格式图片而言，流量节省了25%~35%，比PNG更是节省了将近80%。最重要的是，图片的品质没有明显的改变。</li>
-<li>原来Facebook的应用会统一加载最大分辨率的图片，这是为了让用户可以自由地缩放。后来经过改进，会优先加载合适手机当前分辨率的图片，只在需要时（比如用户点击查看完整大图）才从服务器获取最高分辨率的图片，并且使用缓存时就绝不发起额外的请求。上诉两项改动让图片加载慢或者失败的反馈减少了90%。</li>
-<li>用户的手机空间太小，直接导致了升级时下载安装包受阻，这批用户将继续停留在老版本，无法享受因为升级带来的全新体验。于是工程师们开发了一个工具，能够自动计算出每个产品特性会让安装包的体积增大多少，以此在不同的安卓设备上做出功能取舍，推送不同的安装包。经过优化之后，文件大小减少了65%。<br>这趟令人大开眼界的非洲之旅让Facebook的开发者们彻底认识到了移动应用的性能、处理数据的策略、网络的可靠性，以及根据使用场景做出智能判断，对在发展中国家谋取增长的重要性。</li>
-</ol>
-</blockquote>
-<p>我们看到为了做好全球化，工程师们不断地精益求精，这样做出来的产品才能被更多的用户所接受和喜爱，也才能留下客户，而不是让你的客户因为你的产品在性能上的缺陷转投竞争对手。</p>
-<h2 id="增加收入"><a href="#增加收入" class="headerlink" title="增加收入"></a>增加收入</h2><blockquote>
-<p>提供付费服务的唯一选项，既表明了你对产品品质的承诺，也从侧面反映了用户的普遍认可。它用一种静默无声的姿态传达出“我们是能赚钱养活自己”的自信，并且也是在拍着胸脯向愿意缔结付费契约的用户保证：我们能持续为你提供优质的服务。这给人以安全感。当然，敢于掐断免费、仅留付费的前提，在于你的产品足够好到源源不断的顾客前来光顾并且留下。</p>
-</blockquote>
-<p>这段讲得是<a href="https://www.bidsketch.com/" target="_blank" rel="external">bidsketch</a>，一个专门提供网页在线方案的网站，从免费到收费的过程。作者的最后一句话我还是很赞同的<code>敢于掐断免费、仅留付费的前提，在于你的产品足够好到源源不断的顾客前来光顾并且留下</code>。</p>
-<p>最后奉上美丽说的CEO 徐易容从一个技术达人转型企业家的心路历程，共勉：</p>
-<blockquote>
-<p>创业要有梦想，而不是理想。梦想由你的心决定，它不一定成真，但你会喜欢，而理想由大脑决定，容易给自己太大压力。所谓欲速则不达，人被吹得太高就不淡定了。现在做美丽说我希望能让自己慢下来，别老根人家比来比去，先把用户体验修炼到极致再说，其他都是浮云。如果有梦想，那就坚持，顺势而为。。。以前我做的东西是我喜欢的，现在我觉得我做的东西应该是市场需要的，大家喜欢的。</p>
-</blockquote>
-<h1 id="在线广告技术-Retargeting"><a href="#在线广告技术-Retargeting" class="headerlink" title="在线广告技术-Retargeting"></a>在线广告技术-Retargeting</h1><p>虽说这本《增长黑客》和吴军博士写的《硅谷之谜》还有段差距，但是不可不说的是，作者是真的喜欢互联网也经常关注IT界新闻的业内<br>人，还是能从这本书里面学到一些开发相关的技术点的。<br>那我们就来记录一下retargeting技术吧。其实，我之前也有过这方面的疑问，但是却没有深究：<br>某天我们在某个电商网站上访问了某个感兴趣的商品，但是却并没有下单，但是我们之后在访问其他网站的时候，却经常能看到我们之前浏览过的那件商品。其实这个是增长黑客们使用的“黑科技”— retargeting。<br>重定向是针对已经浏览过网站的人群进行再次营销的广告方式。它能让用户曾经看过的广告再次展现在其面前，通过这种不断的提醒来强化品牌印象，并最终促成消费行为。其实他的原理并不复杂：</p>
-<p>首先你需要在网站里面插入一段追踪代码，当用户进入该页面后，代码就会在他们的电脑里植入一个cookie，它会标记出用户身份和感兴趣的商品信息。当这个用户访问其他网站时，只要该网站加入了重定向广告联盟，就有资格读取出cookie中记录的用户身份和商品信息，并将动态的广告位“掉包”成用户感兴趣的商品广告。这里的“重定向广告联盟”泛指第三方的重定向广告服务商，如Adoll、Retargeter、Chango，也包括像Google Adwords这样专业的展示广告功功能。</p>
-<h1 id="一周时间开销"><a href="#一周时间开销" class="headerlink" title="一周时间开销"></a>一周时间开销</h1><p><img src="http://www.microwu.com/MichaelLee/20160815/1.png" alt=""></p>
-<p>上周因为周六空闲了一整天，所以总体时间较上周比少了6个小时。<br>Productivity 的时间大概是30*0.64+5 = 24.2个小时。<br>本周开始阅读《意志力是锻炼出来的》，不是很厚的一本书，预计一周可以读完。希望读完之后，能学到一些好用的意志力锻炼办法。</p>
-  
+		  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/个人随想/">个人随想</a>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
 </div>
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/keepalive/">keepalive</a><a href="/tags/nginx/">nginx</a>
+  </div>
 
 </div>
 
@@ -152,7 +126,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://lipeng1667.github.io/2016/08/15/weekly-summary-20160807-20160814/" data-title="【一周总结】2016.08.07--2016.08.13 &amp; 增长黑客 读书笔记（下） | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  <div data-url="http://lipeng1667.github.io/2019/08/15/keepalived-nginx/" data-title="【KeepAlive】keepalive 源码安装 + 双机主从高可用配置 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -165,19 +139,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/08/22/weekly-summary-20160814-20160820/" title="【一周总结】2016.08.14--2016.08.20 &amp; 意志力 读书笔记">
-  <strong>上一篇：</strong><br/>
-  <span>
-  【一周总结】2016.08.14--2016.08.20 &amp; 意志力 读书笔记</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/08/08/weekly-summary-20160731-20160806/"  title="【一周总结】2016.07.31--2016.08.06 &amp; 增长黑客 读书笔记（上）">
+<a href="/2019/08/05/high-concurrent-system-configration-with-nginx-and-rhel/"  title="【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置">
  <strong>下一篇：</strong><br/> 
- <span>【一周总结】2016.07.31--2016.08.06 &amp; 增长黑客 读书笔记（上）
+ <span>【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置
 </span>
 </a>
 </div>
@@ -190,7 +156,7 @@
   <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
   <script>
   var gitment = new Gitment({
-    id : 'Mon Aug 15 2016 17:25:02 GMT+0800',
+    id : 'Thu Aug 15 2019 21:15:42 GMT+0800',
     owner: 'lipeng1667',
     repo: 'gitment',
     oauth: {
@@ -208,7 +174,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#增长黑客-读书笔记（下）"><span class="toc-number">1.</span> <span class="toc-text">增长黑客 读书笔记（下）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#提高留存"><span class="toc-number">1.1.</span> <span class="toc-text">提高留存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增加收入"><span class="toc-number">1.2.</span> <span class="toc-text">增加收入</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在线广告技术-Retargeting"><span class="toc-number">2.</span> <span class="toc-text">在线广告技术-Retargeting</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一周时间开销"><span class="toc-number">3.</span> <span class="toc-text">一周时间开销</span></a></li></ol>
+ 
  
   </div>
 

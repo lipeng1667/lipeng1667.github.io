@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Tags : Nginx | KaKa&#39;s blog</title>
+    <title>Tags : nginx | KaKa&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Michael Lee">
@@ -14,7 +14,7 @@
     <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="KaKa's blog">
-<meta property="og:url" content="http://lipeng1667.github.io/tags/Nginx/index.html">
+<meta property="og:url" content="http://lipeng1667.github.io/tags/nginx/index.html">
 <meta property="og:site_name" content="KaKa's blog">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -75,7 +75,7 @@
         
 
 <div class="archive-title" >
-  <h2 class="tag-icon">Nginx</h2>
+  <h2 class="tag-icon">nginx</h2>
   
 </div>
 <div id="main" class="archive-part clearfix">
@@ -83,52 +83,13 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2019/08/05/high-concurrent-system-configration-with-nginx-and-rhel/" title="【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置" itemprop="url">
+    <a href="/2019/08/15/keepalived-nginx/" title="【KeepAlive】keepalive 源码安装 + 双机主从高可用配置" itemprop="url">
   
 
-    <time datetime="2019-08-05T12:53:03.000Z" itemprop="datePublished">2019-08-05</time>
+    <time datetime="2019-08-15T13:15:42.000Z" itemprop="datePublished">2019-08-15</time>
 
 
-    <h1 itemprop="name">【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置</h1>
-
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2019/02/25/install-nginx-with-source-code-on-linux-centOS/" title="【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx" itemprop="url">
-  
-
-    <time datetime="2019-02-25T13:21:01.000Z" itemprop="datePublished">2019-02-25</time>
-
-
-    <h1 itemprop="name">【Nginx】在RHEL/CentOS7系统中源码安装并配置Nginx</h1>
-
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2019/01/06/LNMP-on-rhel7/" title="【LNMP】linux7系统中搭建LNMP 环境全过程" itemprop="url">
-  
-
-    <time datetime="2019-01-06T02:06:55.000Z" itemprop="datePublished">2019-01-06</time>
-
-
-    <h1 itemprop="name">【LNMP】linux7系统中搭建LNMP 环境全过程</h1>
-
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2017/01/17/build-gerrit-with-nginx/" title="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程" itemprop="url">
-  
-
-    <time datetime="2017-01-17T06:43:49.000Z" itemprop="datePublished">2017-01-17</time>
-
-
-    <h1 itemprop="name">【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程</h1>
+    <h1 itemprop="name">【KeepAlive】keepalive 源码安装 + 双机主从高可用配置</h1>
 
   </a>
 </section>
@@ -260,6 +221,61 @@ $(document).ready(function(){
       if ($(this).parent().hasClass('fancybox')) return;
       var alt = this.alt;
       if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+    </body>
+   </html>
+after('<span class="caption">' + alt + '</span>');
       $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
     });
     $(this).find('.fancybox').each(function(){
