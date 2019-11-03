@@ -57,7 +57,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -71,7 +71,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -94,7 +94,7 @@
 		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		
   <p class="article-time">
-    <time datetime="2019-01-15T09:03:26.000Z" itemprop="datePublished"> Published 2019-01-15</time>
+    <time datetime="2019-01-15T09:03:26.000Z" itemprop="datePublished"> 发表于 2019-01-15</time>
   </p>
   
   <p class="page-count">
@@ -106,7 +106,7 @@
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CI配置"><span class="toc-number">2.1.</span> <span class="toc-text">CI配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-CI-任务执行状态"><span class="toc-number">2.2.</span> <span class="toc-text">查看 CI 任务执行状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Runner"><span class="toc-number">2.3.</span> <span class="toc-text">Runner</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shared-runner"><span class="toc-number">2.3.1.</span> <span class="toc-text">shared runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-gitlab-runner-工具"><span class="toc-number">2.3.2.</span> <span class="toc-text">安装 gitlab-runner 工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建-shared-runner"><span class="toc-number">2.3.3.</span> <span class="toc-text">新建 shared runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他细节"><span class="toc-number">2.3.4.</span> <span class="toc-text">其他细节</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-引用"><span class="toc-number">3.</span> <span class="toc-text">致谢&引用</span></a></li></ol>
 		
@@ -238,22 +238,22 @@
 </section>
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CI配置"><span class="toc-number">2.1.</span> <span class="toc-text">CI配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-CI-任务执行状态"><span class="toc-number">2.2.</span> <span class="toc-text">查看 CI 任务执行状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Runner"><span class="toc-number">2.3.</span> <span class="toc-text">Runner</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shared-runner"><span class="toc-number">2.3.1.</span> <span class="toc-text">shared runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-gitlab-runner-工具"><span class="toc-number">2.3.2.</span> <span class="toc-text">安装 gitlab-runner 工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建-shared-runner"><span class="toc-number">2.3.3.</span> <span class="toc-text">新建 shared runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他细节"><span class="toc-number">2.3.4.</span> <span class="toc-text">其他细节</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-引用"><span class="toc-number">3.</span> <span class="toc-text">致谢&引用</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -269,7 +269,7 @@
 		  
 		
 		  
-			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>16</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
 		  
 		
 		  
@@ -290,7 +290,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -310,11 +310,11 @@
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
 			
 		
 			
@@ -322,7 +322,7 @@
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
@@ -334,7 +334,11 @@
 			
 		
 			
-				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
 			
 		
 			
@@ -342,7 +346,7 @@
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
 			
 		
 			
@@ -354,7 +358,11 @@
 			
 		
 			
-				<li><a href="/tags/keepalived/" title="keepalived">keepalived<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
 			
 		
 			
@@ -362,15 +370,7 @@
 			
 		
 			
-				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SS/" title="SS">SS<sup>1</sup></a></li>
+				<li><a href="/tags/gitlab/" title="gitlab">gitlab<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -635,7 +635,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

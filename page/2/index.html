@@ -48,7 +48,7 @@
 				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
 				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -62,7 +62,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:lipeng1667.github.io">
 					</form>
 					
@@ -81,6 +81,76 @@
     <header class="article-info clearfix">
         <h1 itemprop="name">
         
+            <a href="/2019/01/03/firewall-on-rhel7/" title="【Linux】Linux7中的防火墙 - Firewall" itemprop="url">【Linux】Linux7中的防火墙 - Firewall</a>
+        </h1>
+        <p class="article-author">BY
+            
+		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		    
+        <p class="article-time">
+            <time datetime="2019-01-03T03:28:54.000Z" itemprop="datePublished"> 发表于 2019-01-03</time>
+        </p>
+    </header>
+    <div class="article-content">
+        
+        <p>从 rhel7开始，系统推荐我们使用 firewall 来替代原先的 iptables，firewall 也是默认的 rhel 的防火墙配置。<br>网上已经有很多文章介绍 firewall 和 iptables 的不同，这里就不再重复啰嗦。个人觉得firewall 有几个地方要更好一些：  </p>
+<ol>
+<li>firewall 预设了9个 zone，每个 zone 可以有个性化的规则，这样当你的服务器/个人电脑 处于不同的环境下时，你就可以很方便的一键切换配置了。</li>
+<li>firewall 的配置项发生修改时，可以进行热生效；而 iptables 只能通过重启服务来实现。</li>
+<li>firewall 从命令行或从配置内容上，更加人性化。例如可以配置服务内容 ssh，http，https 等，这些就相当于开启了22端口、80端口和443端口的接入权限。</li>
+<li>最重要的，firewall 是 linux 默认的防火墙配置工具了，我们有什么理由不跟上潮流呢？</li>
+</ol>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/01/03/firewall-on-rhel7/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/01/03/firewall-on-rhel7/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+
+    <header class="article-info clearfix">
+        <h1 itemprop="name">
+        
             <a href="/2018/11/18/shadowsocks-libev-and-speedserver-install-to-fuxx-gfw/" title="【翻墙】搭建 SS 服务并开启锐速" itemprop="url">【翻墙】搭建 SS 服务并开启锐速</a>
         </h1>
         <p class="article-author">BY
@@ -88,7 +158,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2018-11-18T08:34:16.000Z" itemprop="datePublished"> Published 2018-11-18</time>
+            <time datetime="2018-11-18T08:34:16.000Z" itemprop="datePublished"> 发表于 2018-11-18</time>
         </p>
     </header>
     <div class="article-content">
@@ -152,7 +222,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2017-09-01T07:10:35.000Z" itemprop="datePublished"> Published 2017-09-01</time>
+            <time datetime="2017-09-01T07:10:35.000Z" itemprop="datePublished"> 发表于 2017-09-01</time>
         </p>
     </header>
     <div class="article-content">
@@ -216,7 +286,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2017-06-29T02:44:47.000Z" itemprop="datePublished"> Published 2017-06-29</time>
+            <time datetime="2017-06-29T02:44:47.000Z" itemprop="datePublished"> 发表于 2017-06-29</time>
         </p>
     </header>
     <div class="article-content">
@@ -280,7 +350,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2017-03-22T07:41:32.000Z" itemprop="datePublished"> Published 2017-03-22</time>
+            <time datetime="2017-03-22T07:41:32.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
         </p>
     </header>
     <div class="article-content">
@@ -344,7 +414,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2017-03-20T06:40:00.000Z" itemprop="datePublished"> Published 2017-03-20</time>
+            <time datetime="2017-03-20T06:40:00.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
         </p>
     </header>
     <div class="article-content">
@@ -408,7 +478,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2017-03-02T03:54:58.000Z" itemprop="datePublished"> Published 2017-03-02</time>
+            <time datetime="2017-03-02T03:54:58.000Z" itemprop="datePublished"> 发表于 2017-03-02</time>
         </p>
     </header>
     <div class="article-content">
@@ -472,7 +542,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2017-03-01T06:09:01.000Z" itemprop="datePublished"> Published 2017-03-01</time>
+            <time datetime="2017-03-01T06:09:01.000Z" itemprop="datePublished"> 发表于 2017-03-01</time>
         </p>
     </header>
     <div class="article-content">
@@ -536,7 +606,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2017-02-27T06:07:42.000Z" itemprop="datePublished"> Published 2017-02-27</time>
+            <time datetime="2017-02-27T06:07:42.000Z" itemprop="datePublished"> 发表于 2017-02-27</time>
         </p>
     </header>
     <div class="article-content">
@@ -600,7 +670,7 @@
 		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
 		    
         <p class="article-time">
-            <time datetime="2017-01-18T01:55:41.000Z" itemprop="datePublished"> Published 2017-01-18</time>
+            <time datetime="2017-01-18T01:55:41.000Z" itemprop="datePublished"> 发表于 2017-01-18</time>
         </p>
     </header>
     <div class="article-content">
@@ -657,85 +727,21 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-
-    <header class="article-info clearfix">
-        <h1 itemprop="name">
-        
-            <a href="/2017/01/17/build-gerrit-with-nginx/" title="【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程" itemprop="url">【Gerrit】Linux + Gerrit + Nginx + gitweb安装全过程</a>
-        </h1>
-        <p class="article-author">BY
-            
-		    <a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
-		    
-        <p class="article-time">
-            <time datetime="2017-01-17T06:43:49.000Z" itemprop="datePublished"> Published 2017-01-17</time>
-        </p>
-    </header>
-    <div class="article-content">
-        
-        <p>最近公司的项目打算启用gerrit做为代码审核的工具，最近3天彻底研究了下gerrit的安装配置过程，这里做个记录，期间很多细节都一一记录下来，以便之后有同学需要用到。<br>这篇博文先介绍下gerrit的安装过程，然后之后还准备写一篇文章，介绍如何利用gerrit和sourceTree进行协同工作，换句话说，就是gerrit的详细工作流程。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/01/17/build-gerrit-with-nginx/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Nginx/">Nginx</a><a href="/tags/Git/">Git</a><a href="/tags/Gerrit/">Gerrit</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/01/17/build-gerrit-with-nginx/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -751,7 +757,7 @@
 		  
 		
 		  
-			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>16</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
 		  
 		
 		  
@@ -772,7 +778,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -792,11 +798,11 @@
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
 			
 		
 			
@@ -804,7 +810,7 @@
 			
 		
 			
-				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
 			
 		
 			
@@ -816,7 +822,11 @@
 			
 		
 			
-				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
 			
 		
 			
@@ -824,7 +834,7 @@
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
 			
 		
 			
@@ -836,7 +846,11 @@
 			
 		
 			
-				<li><a href="/tags/keepalived/" title="keepalived">keepalived<sup>1</sup></a></li>
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PDO/" title="PDO">PDO<sup>1</sup></a></li>
 			
 		
 			
@@ -844,15 +858,7 @@
 			
 		
 			
-				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/SS/" title="SS">SS<sup>1</sup></a></li>
+				<li><a href="/tags/gitlab/" title="gitlab">gitlab<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1020,7 +1026,7 @@ ga('send', 'pageview');
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
