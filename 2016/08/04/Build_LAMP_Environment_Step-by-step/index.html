@@ -1,0 +1,747 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【LAMP】搭建LAMP系统及相关配置 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="不得不说云服务做的越来越好以后，搭建LAMP(Linux+Apache+MySQL+PHP)环境变得越来越方便了。这篇博文就记录一下在阿里云的主机上搭建LAMP环境的全过程，当然，整个过程也是参考了很多前人的经验，在文章最后我会全部贴出来以示感谢。先列出来各个版本：  Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经帮我们装好了yum，我们后面的安装都通过yum很方便的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【LAMP】搭建LAMP系统及相关配置">
+<meta property="og:url" content="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="不得不说云服务做的越来越好以后，搭建LAMP(Linux+Apache+MySQL+PHP)环境变得越来越方便了。这篇博文就记录一下在阿里云的主机上搭建LAMP环境的全过程，当然，整个过程也是参考了很多前人的经验，在文章最后我会全部贴出来以示感谢。先列出来各个版本：  Linux  直接在阿里云上买的主机，用的CentOS 6.5版本，而且已经帮我们装好了yum，我们后面的安装都通过yum很方便的">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/01.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/02.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/03.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/04.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/05.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/06.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/07.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/08.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20170314/1.png">
+<meta property="article:published_time" content="2016-08-04T10:48:02.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.583Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Apache">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20160805/01.png">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/04/Build_LAMP_Environment_Step-by-step/" title="【LAMP】搭建LAMP系统及相关配置" itemprop="url">【LAMP】搭建LAMP系统及相关配置</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-04T10:48:02.000Z" itemprop="datePublished"> Published 2016-08-04</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL"><span class="toc-number">2.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#yum安装mysql"><span class="toc-number">2.1.</span> <span class="toc-text">yum安装mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动mysql服务"><span class="toc-number">2.2.</span> <span class="toc-text">启动mysql服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接数据库"><span class="toc-number">2.3.</span> <span class="toc-text">连接数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为root用户创建密码"><span class="toc-number">2.3.1.</span> <span class="toc-text">为root用户创建密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建用户可以远程访问"><span class="toc-number">2.3.2.</span> <span class="toc-text">新建用户可以远程访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改字符集"><span class="toc-number">2.3.3.</span> <span class="toc-text">修改字符集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查找文件"><span class="toc-number">2.3.3.1.</span> <span class="toc-text">查找文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件"><span class="toc-number">2.3.3.2.</span> <span class="toc-text">修改文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改innodb-buffer-大小"><span class="toc-number">2.3.3.3.</span> <span class="toc-text">修改innodb buffer 大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置event执行"><span class="toc-number">2.3.3.4.</span> <span class="toc-text">配置event执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启mysql服务"><span class="toc-number">2.3.3.5.</span> <span class="toc-text">重启mysql服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看修改结果"><span class="toc-number">2.3.3.6.</span> <span class="toc-text">查看修改结果</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Apache"><span class="toc-number">3.</span> <span class="toc-text">安装Apache</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改apache配置"><span class="toc-number">3.1.</span> <span class="toc-text">修改apache配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动apache服务"><span class="toc-number">3.2.</span> <span class="toc-text">启动apache服务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装php"><span class="toc-number">4.</span> <span class="toc-text">安装php</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">4.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.2.</span> <span class="toc-text">测试</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>不得不说云服务做的越来越好以后，搭建LAMP(Linux+Apache+MySQL+PHP)环境变得越来越方便了。这篇博文就记录一下在阿里云的主机上搭建LAMP环境的全过程，当然，整个过程也是参考了很多前人的经验，在文章最后我会全部贴出来以示感谢。<br>先列出来各个版本：</p>
+<ul>
+<li><p>Linux<br>  直接在阿里云上买的主机，用的<code>CentOS 6.5</code>版本，而且已经帮我们装好了<code>yum</code>，我们后面的安装都通过yum很方便的安装</p>
+</li>
+<li><p>MySQL<br>  阿里云其实已经自动帮我们装好了MySQl，版本号是5.1.73； 不过我们也可以自己安装。</p>
+</li>
+<li><p>PHP<br>  版本号：5.3.3</p>
+</li>
+</ul>
+<p>好了，接下来我们看一下整个安装过程吧！</p>
+<a id="more"></a>
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>如果我们的Linux环境是自己安装的就很简单了，直接跳过这个章节进行之后MySQL的安装就好了。那如果大家和我一样，也是在阿里云或者其他云服务商那里购买的主机（大概1年前国内云服务商在推广自己的业务是，优惠力度很大，笔者之前就享受了1年的免费主机+数据库，但是如今已经过去了补贴期了，所以不用费劲去寻找很大的优惠政策了），就继续往下看。话说阿里云上面一个很基础(流量一个月固定1M带宽就够一些小型的服务使用了，这里的M指的是Byte，而不是我们通常说的Bit)的主机，一个月只要不到200块钱，算是很便宜的，甚至有的地区优惠力度非常大，1年可能也不到1k就能买到。<br>在购买主机的时候，需要设置一个root的密码，我们在我们自己的电脑上，通过命令行可以直接ssh到主机上。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@xxx.xxx.xxx.xxx</span><br></pre></td></tr></table></figure>
+<p>然后输入你之前设置的密码，就可以远程连接到我们购买的主机上面了。</p>
+<p>之后你可以新建用户，查看安装的程序等动作了。</p>
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p>其实主流的Linux系统版本都已经集成了MySQL数据库，我们可以通过下面的命令查看我们的操作系统是否已经安装了MySQL。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep mysql</span><br></pre></td></tr></table></figure>
+<p>下图可以看到我的操作系统上已经安装了这些和MySQL相关的程序。</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/01.png" alt=""></p>
+<p>当然，如果你想自己重新安装mysql，可以执行下面的命令：<br>进行普通删除:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e mysql</span><br></pre></td></tr></table></figure>
+<p>或者进行强力删除，因为可能有其他依赖的文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps mysql</span><br></pre></td></tr></table></figure>
+<h2 id="yum安装mysql"><a href="#yum安装mysql" class="headerlink" title="yum安装mysql"></a>yum安装mysql</h2><p>我们通过yum可以非常方便的在linux系统中安装应用。<br>首先我们查看下yum都有哪些mysql可供下载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list | grep mysql</span><br></pre></td></tr></table></figure>
+<p>可以看到yum服务器上mysql数据库的可供下载的版本信息<br><img src="http://www.microwu.com/MichaelLee/20160805/02.png" alt=""></p>
+<p>然后我们可以通过<br><code>yum install mysql mysql-server mysql-devel</code>命令一次性将mysql, mysql-server和 mysql-devel都安装好(<strong>注意:安装mysql时我们并不是安装了mysql客户端就相当于安装好了mysql数据库了，我们还需要安装mysql-server服务端才行</strong>)</p>
+<p>中途可能会出现下面问题</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">--&gt;</span><span class="bash"> Finished Dependency Resolution</span></span><br><span class="line">mysql-devel-5.0.95-1.el5_7.1.i386 from updates has depsolving problems</span><br><span class="line"><span class="meta">  --&gt;</span><span class="bash"> Missing Dependency: mysql = 5.0.95-1.el5_7.1 is needed by package mysql-devel-5.0.95-1.el5_7.1.i386 (updates)</span></span><br><span class="line">Error: Missing Dependency: mysql = 5.0.95-1.el5_7.1 is needed by package mysql-devel-5.0.95-1.el5_7.1.i386 (updates)</span><br><span class="line"> You could try using --skip-broken to work around the problem</span><br><span class="line"> You could try running: package-cleanup --problems</span><br><span class="line">                        package-cleanup --dupes</span><br><span class="line">                        rpm -Va --nofiles --nodigest</span><br><span class="line">The program package-cleanup is found in the yum-utils package.</span><br></pre></td></tr></table></figure>
+<p>是说有个包需要历来更新，我们不要理会，直接用下面的命令跳过：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql mysql-server mysql-devel --skip-broken</span><br></pre></td></tr></table></figure>
+<p>然后yum会检测版本，然后提示我们进行下载，输入<strong>y</strong>，回车，就可是下载了，基本上没什么问题。</p>
+<h2 id="启动mysql服务"><a href="#启动mysql服务" class="headerlink" title="启动mysql服务"></a>启动mysql服务</h2><p>安装完成之后，我们的会多一个<code>mysqld</code>的服务，这个就是我们的数据库的服务，我们通过<code>service mysqld start</code>来启动。<br>第一次启动，可能需要比较多的加载项，但是之后就很快了，只需要两步就ok。<br>当然，我们可以设置开机自动启动mysqld服务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --list | grep mysqld</span><br></pre></td></tr></table></figure>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/03.png" alt=""></p>
+<p>可以看到因为我已经设置过了，所以这里很多项都是<strong>on</strong>，如果第一次使用，这里全部都是<strong>off</strong><br>那么我们可以通过下面的命令把它设置成每次都自动启用mysql：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig mysqld on</span><br></pre></td></tr></table></figure>
+<p>再次执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --list | grep mysqld</span><br></pre></td></tr></table></figure>
+<p>就可以看到和我的一样的启动项配置了。</p>
+<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><h3 id="为root用户创建密码"><a href="#为root用户创建密码" class="headerlink" title="为root用户创建密码"></a>为root用户创建密码</h3><p>我们的新安装好的数据库会自动有一个root用户，我们通过下面的命令来为它建立密码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password 'yourpassword'</span><br></pre></td></tr></table></figure>
+<p>然后我们就可以通过 <code>mysql -u root -p</code> 命令来登录我们自己的数据库了。</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/04.png" alt=""></p>
+<h3 id="新建用户可以远程访问"><a href="#新建用户可以远程访问" class="headerlink" title="新建用户可以远程访问"></a>新建用户可以远程访问</h3><p>那到现在，我们可以通过SSH到主机上，然后用root用户登录到MySQL上了。但是我们<strong>一定</strong>希望能够通过远程直接连我们的数据库，那么我们就来新建一个用户吧。</p>
+<p>我们通过下面的命令来建立用户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'yourname'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'yourpassword'</span>;</span><br></pre></td></tr></table></figure>
+<p>这样我们就建立了一个和root用户一样权限的但是可以在任意一个ip地址访问我们数据库的‘超级用户’了。关于如何远程接入我们的数据库，我们在后面的博文中再详细介绍。</p>
+<p>我们具体来看看这条命令的每个参数的意义。</p>
+<ul>
+<li><p><code>all privileges</code> 就是所有的权限，包括增删查改，建表，连接等等。。。</p>
+</li>
+<li><p><code>*.*</code>的意思所有库的所有表中，假设我们的指向让改用户掌握某一个库（假设库名为test）下面所有表的权限，那就用</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> test.* <span class="keyword">to</span> <span class="string">'yourname'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'yourpassword'</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>@前面是你想要创建的用户名，@后面是指定可以连接的ip地址。 %表示所有的ip地址都可以，<code>localhost</code>表示只能在本地登录，例如：</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> test.* <span class="keyword">to</span> <span class="string">'adminA'</span>@<span class="string">'localhost'</span>;</span><br></pre></td></tr></table></figure>
+<p>就为我们穿件了一个用户： adminA，他只能在本机连接数据库。</p>
+</li>
+<li><p><code>identified by</code>后面加上创建用户的密码</p>
+</li>
+</ul>
+<p>创建好了之后，记得要</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br></pre></td></tr></table></figure>
+<p>去刷新下用户的权限。</p>
+<p><strong>特别强调：</strong><br>假如我们新建了一个用户可以在任意地方访问：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'user_a'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'yourpassword'</span>;</span><br></pre></td></tr></table></figure>
+<p>当我们在<strong>主机</strong>（localhost）中键入下面的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u user_a</span><br></pre></td></tr></table></figure>
+<p>我们会惊奇的发现，竟然直接连入了数据库，而没有要任何的密码，原因是：</p>
+<blockquote>
+<p>从本机连接时，mysql_install_db创建的localhost的匿名用户账户将占先。结果是，user_a将被视为匿名用户。原因是匿名用户账户的Host列值比’user_a’@’%’账户更具体，这样在user表排序顺序中排在前面。</p>
+</blockquote>
+<p>为了进一步看清楚，我们来看位于<code>mysql</code>库中的<code>user</code>表里面的用户顺序：</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/05.png" alt=""></p>
+<p>可以从表中看到，确实，我们新建的用户因为位于之后，而被local的匿名用户所顶替掉了。当然，我们的权限也只有新建时的那些权限，而不是真正root用户的超级权限。</p>
+<h3 id="修改字符集"><a href="#修改字符集" class="headerlink" title="修改字符集"></a>修改字符集</h3><p>在和php连接以及网页的显示时，字符集经常是一个另人头疼的事情，而新建好的mysql字符集都是<code>latin1</code>，怎样才能把它改成我们常用的<code>UTF-8</code>呢?</p>
+<h4 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h4><p>我们先通过下面的命令，找到我们要的文件，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -iname '*.cnf' -print</span><br></pre></td></tr></table></figure>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/06.png" alt=""></p>
+<h4 id="修改文件"><a href="#修改文件" class="headerlink" title="修改文件"></a>修改文件</h4><p>可以看到我们想要的文件 <code>/etc/my.cnf</code>， 然后我们通过vim打开，如果没有的话，直接建一个好了。</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/07.png" alt=""></p>
+<p>然后在<code>[client]</code>(没有的话，手动打上去)和<code>[mysqld]</code>下添加<code>default-character-set=utf8</code></p>
+<h4 id="修改innodb-buffer-大小"><a href="#修改innodb-buffer-大小" class="headerlink" title="修改innodb buffer 大小"></a>修改innodb buffer 大小</h4><p>默认的innodb缓冲大小是8M，当你需要处理大批量的数据时，就会发现这个缓冲区不够用了，会出现<code>The total number of locks exceeds the lock table size</code>的错误。所以，我们要在<code>[mysqld]</code>中添加下面的内容，设置缓冲区大小为64M(也可以更大)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innodb_buffer_pool_size=64MB`</span><br></pre></td></tr></table></figure>
+<h4 id="配置event执行"><a href="#配置event执行" class="headerlink" title="配置event执行"></a>配置event执行</h4><p>mysql中的event相当于oracle中的job，用于特定的时间内执行一系列的任务。<br>如果我们不显示地执行下面的语句，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> event_scheduler = <span class="keyword">ON</span></span><br></pre></td></tr></table></figure>
+<p>将mysql的事件计划打开，即便我们新建了event，也不会按照我们预想地正常执行。<br>因为<code>event_scheduler</code>默认是关闭的，所以当mysql重启之后，我们的计划任务就不再按照计划执行了，所以我们在配置文件里面讲它设置为默认开启, 我们在<code>[mysqld]</code>下面添加下面的语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event_scheduler = on</span><br></pre></td></tr></table></figure>
+<h4 id="重启mysql服务"><a href="#重启mysql服务" class="headerlink" title="重启mysql服务"></a>重启mysql服务</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/rc.d/init.d/mysql restart</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+<h4 id="查看修改结果"><a href="#查看修改结果" class="headerlink" title="查看修改结果"></a>查看修改结果</h4><p>接入数据库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+<p>查看结果</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%character%'</span>;</span><br></pre></td></tr></table></figure>
+<p>看看是不是就和我的表一样了呢？</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/08.png" alt=""></p>
+<p>到这里，mysql的安装和配置就全部完成了。关于如何在远程用我们新建好的用户连接我在之后会另开一篇博文详细介绍。</p>
+<h1 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h1><p>apache的安装也非常简单了，直接键入下面的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd httpd-devel</span><br></pre></td></tr></table></figure>
+<p>同样yum在检测后会提示我们进行下载，我们直接输入y，然后回车就可以开始下载了。</p>
+<h2 id="修改apache配置"><a href="#修改apache配置" class="headerlink" title="修改apache配置"></a>修改apache配置</h2><p>我们这里了主要修改下配置，出于安全目的，关闭网站的目录浏览功能。</p>
+<p>找到httpd的配置文件目录：<code>/etc/httpd/conf/httpd.conf</code></p>
+<p>编辑下面的条目：</p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20170314/1.png" width=500><br></p>
+
+<p>在<code>&lt;Directory &quot;/var/www/html&quot;&gt;</code>条目中，修改<code>Options Indexs FollowSymLinks</code> 为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Options -Indexs FollowSymLinks</span><br></pre></td></tr></table></figure>
+<p>即在<code>Indexs</code>前加上<code>-</code>号。</p>
+<h2 id="启动apache服务"><a href="#启动apache服务" class="headerlink" title="启动apache服务"></a>启动apache服务</h2><p>用下面的命令来启动apache服务器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/httpd start</span><br></pre></td></tr></table></figure>
+<p>和<code>mysqld</code>服务类似，httpd就是apache的服务名称，我们同样可以通过</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig httpd on</span><br></pre></td></tr></table></figure>
+<p>命令来把它设置成开机自启动。</p>
+<h1 id="安装php"><a href="#安装php" class="headerlink" title="安装php"></a>安装php</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>同样php的安装在yum下也非常简单。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install php php-mysql php-common php-gd php-mbstring php-mcrypt php-devel php-xml</span><br></pre></td></tr></table></figure>
+<p>安装完成之后，我们需要重新启动Apache</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/httpd start</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service httpd restart</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>apache的网站搭建在<code>/var/www/html</code>路径下，我们在其中新建一个test.php文件，然后写入下面的内容：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>输入地址试试：<code>http://serverip/test.php</code> 可以显示说明已经配置成功了！</p>
+<p>如果失败，查看下是不是80端口被占用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -apn |grep 80</span><br></pre></td></tr></table></figure>
+<p>到这里，基本上一个完整的过程就到此为止了！！有问题欢迎留言一起讨论~</p>
+<hr>
+<p>最后附上参考连接：</p>
+<ul>
+<li><a href="http://www.cnblogs.com/wanghaosoft/archive/2013/01/11/2857206.html" target="_blank" rel="noopener">Centos下搭建php环境，安装lamp环境</a></li>
+<li><a href="http://www.cnblogs.com/xiaoluo501395377/archive/2013/04/07/3003278.html" target="_blank" rel="noopener">CentOS6.4下MySQL数据库的安装与配置</a></li>
+<li><a href="http://www.cnblogs.com/donqiang/articles/2057972.html" target="_blank" rel="noopener">修改及查看mysql数据库的字符集</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_7f09a7160101n9dk.html" target="_blank" rel="noopener">MySQL用户账号管理（添加、删除、限制、设置密码、远程访问） </a></li>
+<li><a href="http://seawavecau.iteye.com/blog/282345" target="_blank" rel="noopener">MySql用户创建、授权以及删除</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Apache/">Apache</a><a href="/tags/MySQL/">MySQL</a><a href="/tags/PHP/">PHP</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step/" data-title="【LAMP】搭建LAMP系统及相关配置 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/08/05/connect_remote_mysql_and_config_phpstorm_for_your_php_project/" title="远程连接MySQL以及PHPStorm远程开发你的php项目">
+  <strong>上一篇：</strong><br/>
+  <span>
+  远程连接MySQL以及PHPStorm远程开发你的php项目</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/08/01/【一周总结】2016.07.24--2016.07.31 & 硅谷之谜 读书笔记/"  title="【一周总结】2016.07.24--2016.07.31 &amp; 硅谷之谜 读书笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>【一周总结】2016.07.24--2016.07.31 &amp; 硅谷之谜 读书笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Thu Aug 04 2016 18:48:02 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL"><span class="toc-number">2.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#yum安装mysql"><span class="toc-number">2.1.</span> <span class="toc-text">yum安装mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动mysql服务"><span class="toc-number">2.2.</span> <span class="toc-text">启动mysql服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接数据库"><span class="toc-number">2.3.</span> <span class="toc-text">连接数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为root用户创建密码"><span class="toc-number">2.3.1.</span> <span class="toc-text">为root用户创建密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建用户可以远程访问"><span class="toc-number">2.3.2.</span> <span class="toc-text">新建用户可以远程访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改字符集"><span class="toc-number">2.3.3.</span> <span class="toc-text">修改字符集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查找文件"><span class="toc-number">2.3.3.1.</span> <span class="toc-text">查找文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件"><span class="toc-number">2.3.3.2.</span> <span class="toc-text">修改文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改innodb-buffer-大小"><span class="toc-number">2.3.3.3.</span> <span class="toc-text">修改innodb buffer 大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置event执行"><span class="toc-number">2.3.3.4.</span> <span class="toc-text">配置event执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启mysql服务"><span class="toc-number">2.3.3.5.</span> <span class="toc-text">重启mysql服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看修改结果"><span class="toc-number">2.3.3.6.</span> <span class="toc-text">查看修改结果</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Apache"><span class="toc-number">3.</span> <span class="toc-text">安装Apache</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改apache配置"><span class="toc-number">3.1.</span> <span class="toc-text">修改apache配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动apache服务"><span class="toc-number">3.2.</span> <span class="toc-text">启动apache服务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装php"><span class="toc-number">4.</span> <span class="toc-text">安装php</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">4.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.2.</span> <span class="toc-text">测试</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

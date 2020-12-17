@@ -1,0 +1,661 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Gitlab】GitBook+GitLab撰写发布技术文档-Part2:GitLab篇 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="上一篇文章介绍了如果用 gitbook 写书，并且我们已经通过 gitbook build命令把书的内容打包成 HTML 格式发布到了_book文件夹中。接下来这篇文章将向大家介绍如何把写好的书发布到 gitlab 上。这里 gitlab 是我们自己搭建在公司内网中的，不过要用到的原理其实都是一样的，就是利用其 CI&#x2F;CD 功能。关于 CI&#x2F;CD 网上有很多详细的介绍，这里我就不不再重复啰嗦，如果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Gitlab】GitBook+GitLab撰写发布技术文档-Part2:GitLab篇">
+<meta property="og:url" content="http://lipeng1667.github.io/2019/01/15/public-doc-with-gitlab-ci-writing-with-gitbook/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="上一篇文章介绍了如果用 gitbook 写书，并且我们已经通过 gitbook build命令把书的内容打包成 HTML 格式发布到了_book文件夹中。接下来这篇文章将向大家介绍如何把写好的书发布到 gitlab 上。这里 gitlab 是我们自己搭建在公司内网中的，不过要用到的原理其实都是一样的，就是利用其 CI&#x2F;CD 功能。关于 CI&#x2F;CD 网上有很多详细的介绍，这里我就不不再重复啰嗦，如果">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20190116/1.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20190116/2.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20190116/3.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20190116/7.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20190116/4.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20190116/5.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20190116/6.png">
+<meta property="article:published_time" content="2019-01-15T09:03:26.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.498Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="gitbook">
+<meta property="article:tag" content="gitlab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20190116/1.png">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/15/public-doc-with-gitlab-ci-writing-with-gitbook/" title="【Gitlab】GitBook+GitLab撰写发布技术文档-Part2:GitLab篇" itemprop="url">【Gitlab】GitBook+GitLab撰写发布技术文档-Part2:GitLab篇</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2019-01-15T09:03:26.000Z" itemprop="datePublished"> Published 2019-01-15</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CI配置"><span class="toc-number">2.1.</span> <span class="toc-text">CI配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-CI-任务执行状态"><span class="toc-number">2.2.</span> <span class="toc-text">查看 CI 任务执行状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Runner"><span class="toc-number">2.3.</span> <span class="toc-text">Runner</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shared-runner"><span class="toc-number">2.3.1.</span> <span class="toc-text">shared runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-gitlab-runner-工具"><span class="toc-number">2.3.2.</span> <span class="toc-text">安装 gitlab-runner 工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建-shared-runner"><span class="toc-number">2.3.3.</span> <span class="toc-text">新建 shared runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他细节"><span class="toc-number">2.3.4.</span> <span class="toc-text">其他细节</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-引用"><span class="toc-number">3.</span> <span class="toc-text">致谢&amp;引用</span></a></li></ol>
+		
+		</div>
+		
+		<p>上一篇文章介绍了如果用 gitbook 写书，并且我们已经通过 <code>gitbook build</code>命令把书的内容打包成 HTML 格式发布到了<code>_book</code>文件夹中。<br>接下来这篇文章将向大家介绍如何把写好的书发布到 gitlab 上。这里 gitlab 是我们自己搭建在公司内网中的，不过要用到的原理其实都是一样的，就是利用其 CI/CD 功能。<br>关于 CI/CD 网上有很多详细的介绍，这里我就不不再重复啰嗦，如果有想学习的可以参看文末的致谢&amp;引用部分。</p>
+<a id="more"></a>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>简单来说CI 就类似一个触发器，你可以设定响应触发的条件，比如 master 分支有新的 commit合并进来，或者带有特殊 tag 的合并，亦或者其他指定分支的特殊提交，可以触发指定的指令。<br>一般来说标准的流程是3步，打包(build)、测试(test)和发布(deploy)。也就是我们只需要把源码提交上以后，CI 可以帮我们完成自动化部署工作。<br>考虑到我们在用 gitbook 写书的过程中需要预览时，其实已经在做build 和 test 的工作了，所以我们只需要在代码传到 gitlab 上后，让服务器帮我们执行发布的工作。<br>所以前提是我们搭建好了一个web 服务，然后 CI 帮我们把打包好的内容部署到相应的网站目录中就好了。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>我们就按照原理，来一步一步尝试着完成工作吧。</p>
+<h2 id="CI配置"><a href="#CI配置" class="headerlink" title="CI配置"></a>CI配置</h2><p>还记得我们上一篇文章中最后介绍目录结构时，有提到一个文件： <code>gitlab-ci.yml</code>。 这个文件是用YAML 进行配置，我们来看一下我们要用到的配置文件吧</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="comment"># make backup</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">sudo</span> <span class="string">rm</span> <span class="string">-rf</span> <span class="string">/usr/share/nginx/html/TechDocs/example_bak</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">sudo</span> <span class="string">mv</span> <span class="string">/usr/share/nginx/html/TechDocs/example</span> <span class="string">/usr/share/nginx/html/TechDocs/example_bak</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">sudo</span> <span class="string">mkdir</span> <span class="string">/usr/share/nginx/html/TechDocs/example</span></span><br><span class="line">    <span class="comment"># deploy latest files</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cd</span> <span class="string">_book</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">sudo</span> <span class="string">cp</span> <span class="string">-rf</span> <span class="string">.</span> <span class="string">/usr/share/nginx/html/TechDocs/example/</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span> <span class="comment"># this job will affect only the 'master' branch</span></span><br></pre></td></tr></table></figure>
+<p>这段 yaml 配置就只有deploy 的步骤，我们在 <code>script</code>部分进行了一系列的操作，完成旧文件的备份以及新文件的部署。当我们的代码上传到远端后，就会自动执行 script 里的内容了。让我们尝试下吧。</p>
+<h2 id="查看-CI-任务执行状态"><a href="#查看-CI-任务执行状态" class="headerlink" title="查看 CI 任务执行状态"></a>查看 CI 任务执行状态</h2><p>上传代码到 gitlab 的步骤这里就不介绍了。理论上说，当代码上传到 master 分支后，会自动执行我们设定好的部署任务。我们可以通过访问gitlab对应项目的页面， 在左侧菜单栏点击<code>CI/CD</code>来查看任务的执行情况。<br>但是如果你和我一样是第一次处理 CI 任务，我们会得到下面的提示：</p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20190116/1.png" width=800><br></p>
+
+<p>原因页面上也给出了我们提示<code>This job is waiting to be picked by a runner</code>。</p>
+<h2 id="Runner"><a href="#Runner" class="headerlink" title="Runner"></a>Runner</h2><p>这里就需要引入第2个概念： runner。很容易从字面上理解，runner 就是我们任务的执行者，也很形象，我们提交了一个任务以后，总得有人来执行。这些任务有些是需要shell 脚本执行，有些可能需要登录到远程机器，有些可能需要 docker 的执行权限，所以这些执行者也都有个子的分工，可能有些执行者只负责执行特定项目的任务，有些执行者执行特殊 tag 的。所以接下来我们看看如何才能创建 runner 吧。</p>
+<h3 id="shared-runner"><a href="#shared-runner" class="headerlink" title="shared runner"></a>shared runner</h3><p>前文提到了我们可能需要一些高权限的 runner 来跨项目间来执行任务。因为我们要做的是多个项目的技术文档，所以会有多个 gitbook 的项目，那这些项目的 CI 任务自然是公用1个 runner 就好，这种 runner 就叫做 shared runner。<br>shared runner 的创建需要我们用管理员的帐号登录gitlab 页面，在 admin area 区域，点击 runner 来根据提示创建。  </p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20190116/2.png" width=800><br></p>
+
+<p>这个页面会显示当前所有的 runner，包括项目独享的 runner 和共享的 shared runner。 我们看到目前还没有一个可用的 runner，所以之前的任务才会停留在等待 runner 来运行的状态。<br>我们就根据页面的提示来创建 runner 吧。</p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20190116/3.png" width=800><br></p>
+
+<h3 id="安装-gitlab-runner-工具"><a href="#安装-gitlab-runner-工具" class="headerlink" title="安装 gitlab-runner 工具"></a>安装 gitlab-runner 工具</h3><p>第一步是安装工具，可以通过页面上的提示来进行不同主机环境的安装。我们这里用到的是 RHEL/CentOS，其他版本可以参见页面链接。<br>我们登录到自建 gitlab 所在的主机，然后执行以下脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo wget -O /usr/<span class="built_in">local</span>/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64</span><br><span class="line">$ sudo chmod +x /usr/<span class="built_in">local</span>/bin/gitlab-runner</span><br><span class="line">$ sudo useradd --comment <span class="string">'GitLab Runner'</span> --create-home gitlab-runner --shell /bin/bash</span><br><span class="line">$ sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner</span><br><span class="line">$ sudo gitlab-runner start</span><br></pre></td></tr></table></figure></p>
+<h3 id="新建-shared-runner"><a href="#新建-shared-runner" class="headerlink" title="新建 shared runner"></a>新建 shared runner</h3><p>工具安装好了之后，我们就可以来创建用户了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gitlab-runner register</span><br></pre></td></tr></table></figure>
+<p>之后按照提示，一步一步创建就好了：  </p>
+<ol>
+<li>输入URL</li>
+<li>输入token。 URL 和 token 按照页面上给出的提示来创建就好了。token 用来标识创建的 runner 是某个项目特有的，还是 shared runner</li>
+<li>输入 runner 的描述，这个可以随便填写，只要自己能看明白，能区分就好了</li>
+<li>输入特定的 tag。 <strong>注意</strong>，这里最好留空，否则该 runner 仅会执行特定 tag 的提交</li>
+<li>选择执行类型。这里提供了很多常见的执行类型，例如 docker, docker-ssh, shell 等，我们这里输入 shell。</li>
+</ol>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20190116/7.png" width=800><br></p>
+
+<p>之后我们就创建好了一个可以执行 shell 命令的 shared runner。再次回到之前的 web 页面上查看我们创建的 runner 信息。</p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20190116/4.png" width=800><br></p>
+
+<p>可以看到页面提示我们已经创建了一个 runner 可以执行<code>all unassigned projects</code>的任务</p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20190116/5.png" width=800><br></p>
+
+<p>我们还可以进入到特定的项目，在设置里面查看 runner 的情况，可以看到已经有一个可用的 shared runner。如果想创建该项目特有的 runner，按照页面上的提示，输入特定的 token 就好了。</p>
+<p align="center"><br>  <img src="http://www.microwu.com/MichaelLee/20190116/6.png" width=800><br></p>
+
+<h3 id="其他细节"><a href="#其他细节" class="headerlink" title="其他细节"></a>其他细节</h3><p>我们重新查看CI任务页面，大多数情况下，你的任务状态会是<code>failed</code>或者<code>pendding</code>。 如果是 failed，我们可以点击查看具体失败的原因，例如我遇到的问题就是 gitlab-runner 用户没有 sudo 权限。<br>如果是 pendding，通常情况下是你的 job 没有合适的 runner 来执行，例如指定了分支或者添加了 tag 导致没有 runner 可用。  </p>
+<hr>
+<p>如果一切都设置妥当，我们可以看到 CI 页面任务的最终状态是 passed，也就是成功执行了。这样，gitbook 的内容就成功部署到你的 web 页面上了。</p>
+<h1 id="致谢-amp-引用"><a href="#致谢-amp-引用" class="headerlink" title="致谢&amp;引用"></a>致谢&amp;引用</h1><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/41330476" target="_blank" rel="noopener">基于 GitLab 的 CI 实践(https://zhuanlan.zhihu.com/p/41330476)</a></li>
+<li><a href="https://medium.com/@mvpdw06/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-gitlab-ci-ebf0b68ce24b" target="_blank" rel="noopener">如何使用 GitLab CI(https://medium.com/@mvpdw06/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-gitlab-ci-ebf0b68ce24b)</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/runners/" target="_blank" rel="noopener">Configuring GitLab Runners(https://docs.gitlab.com/ee/ci/runners/)</a></li>
+<li><a href="https://docs.gitlab.com/runner/register/" target="_blank" rel="noopener">Registering Runners(https://docs.gitlab.com/runner/register/)</a></li>
+<li><a href="https://xiaosuiba.github.io/Gitbook-CI-With-Gitlab/" target="_blank" rel="noopener">Gitbook CI With Gitlab(https://xiaosuiba.github.io/Gitbook-CI-With-Gitlab/)</a></li>
+<li><a href="https://www.kenming.idv.tw/simple-create-gitbook_at_gitlab_steps/" target="_blank" rel="noopener">在 Gitlab 平台簡單創建 GitBook 電子書的步驟(https://www.kenming.idv.tw/simple-create-gitbook_at_gitlab_steps/)</a></li>
+<li><a href="https://getpublii.com/docs/host-static-website-gitlab-pages.html" target="_blank" rel="noopener">How to create a static website using GitLab Pages(https://getpublii.com/docs/host-static-website-gitlab-pages.html)</a></li>
+<li><a href="https://docs.gitlab.com/runner/install/linux-manually.html" target="_blank" rel="noopener">Install GitLab Runner manually on GNU/Linux(https://docs.gitlab.com/runner/install/linux-manually.html)</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/gitbook/">gitbook</a><a href="/tags/gitlab/">gitlab</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2019/01/15/public-doc-with-gitlab-ci-writing-with-gitbook/" data-title="【Gitlab】GitBook+GitLab撰写发布技术文档-Part2:GitLab篇 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/02/13/monthly-summary-201901/" title="【月度总结】201901 新的一年">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【月度总结】201901 新的一年</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/01/15/how-to-write-techdoc-with-gitbook/"  title="【Gitbook】GitBook+GitLab撰写发布技术文档-Part1:GitBook篇">
+ <strong>下一篇：</strong><br/> 
+ <span>【Gitbook】GitBook+GitLab撰写发布技术文档-Part1:GitBook篇
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Tue Jan 15 2019 17:03:26 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CI配置"><span class="toc-number">2.1.</span> <span class="toc-text">CI配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看-CI-任务执行状态"><span class="toc-number">2.2.</span> <span class="toc-text">查看 CI 任务执行状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Runner"><span class="toc-number">2.3.</span> <span class="toc-text">Runner</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shared-runner"><span class="toc-number">2.3.1.</span> <span class="toc-text">shared runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-gitlab-runner-工具"><span class="toc-number">2.3.2.</span> <span class="toc-text">安装 gitlab-runner 工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建-shared-runner"><span class="toc-number">2.3.3.</span> <span class="toc-text">新建 shared runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他细节"><span class="toc-number">2.3.4.</span> <span class="toc-text">其他细节</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-引用"><span class="toc-number">3.</span> <span class="toc-text">致谢&amp;引用</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

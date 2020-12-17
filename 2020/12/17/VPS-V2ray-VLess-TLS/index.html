@@ -1,0 +1,641 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【VPS】V2ray(VLess)+域名+TLS高阶搭建全过程 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="最近因为GFW升高了的原因，加上我的一个域名进入了黑名单(没错你没有看错，GFW会封域名了)，我就在不断地搭建VPS。。。期间总要翻找好几篇BLOG，索性我就自己记录一下全过程吧。 郑重声明   本篇博文仅用于个人学习和技术交流，不得用于任何商业相关行为；任何媒体、网站或个人未经本人授权不得转载、链接、转贴或以其他方式复制发布&#x2F;发表。谢谢！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【VPS】V2ray(VLess)+域名+TLS高阶搭建全过程">
+<meta property="og:url" content="http://lipeng1667.github.io/2020/12/17/VPS-V2ray-VLess-TLS/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="最近因为GFW升高了的原因，加上我的一个域名进入了黑名单(没错你没有看错，GFW会封域名了)，我就在不断地搭建VPS。。。期间总要翻找好几篇BLOG，索性我就自己记录一下全过程吧。 郑重声明   本篇博文仅用于个人学习和技术交流，不得用于任何商业相关行为；任何媒体、网站或个人未经本人授权不得转载、链接、转贴或以其他方式复制发布&#x2F;发表。谢谢！">
+<meta property="article:published_time" content="2020-12-17T02:21:34.000Z">
+<meta property="article:modified_time" content="2020-12-17T06:47:07.536Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="v2ray">
+<meta property="article:tag" content="vpn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/17/VPS-V2ray-VLess-TLS/" title="【VPS】V2ray(VLess)+域名+TLS高阶搭建全过程" itemprop="url">【VPS】V2ray(VLess)+域名+TLS高阶搭建全过程</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-17T02:21:34.000Z" itemprop="datePublished"> Published 2020-12-17</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VPS"><span class="toc-number">2.</span> <span class="toc-text">VPS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#虚机申请"><span class="toc-number">2.1.</span> <span class="toc-text">虚机申请</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开启root远程登录及防火墙配置"><span class="toc-number">2.2.</span> <span class="toc-text">开启root远程登录及防火墙配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装v2ray"><span class="toc-number">2.3.</span> <span class="toc-text">安装v2ray</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BBR加速"><span class="toc-number">2.4.</span> <span class="toc-text">BBR加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx"><span class="toc-number">2.5.</span> <span class="toc-text">nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#域名"><span class="toc-number">3.</span> <span class="toc-text">域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TLS证书"><span class="toc-number">4.</span> <span class="toc-text">TLS证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置v2ray"><span class="toc-number">5.</span> <span class="toc-text">配置v2ray</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近因为GFW升高了的原因，加上我的一个域名进入了黑名单(没错你没有看错，GFW会封域名了)，我就在不断地搭建VPS。。。期间总要翻找好几篇BLOG，索性我就自己记录一下全过程吧。</p>
+<p><strong>郑重声明</strong> </p>
+<blockquote>
+<p>本篇博文仅用于个人学习和技术交流，不得用于任何商业相关行为；任何媒体、网站或个人未经本人授权不得转载、链接、转贴或以其他方式复制发布/发表。谢谢！</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>先说一下最近墙的动作：</p>
+<ol>
+<li>识别了v2ray<strong>低版本</strong>协议，注意这里的低版本指的是v2ray-core版本低于<code>4.23.2</code>，低版本的协议有特征明显的识别码，会被墙识别从而封锁，所以看到这篇blog的同学务必将你们的v2ray客户端的v2ray-core版本更新到4.23.2版本以上</li>
+<li>墙加入了对域名的封锁。为什么这么说，因为我之前用SS或者Brook的时候，也经常遇到IP被ban的情况，但是域名从来没出过问题。但是这次不一样，我新申请的VPS刚挂上域名下跑了1个小时，就立马被Ban，甚至我上了CDN还是不行，之前我怀疑是墙针对GCP的服务器IP群组，后来证实是域名的原因，我新申请了个域名后，就完全OK了。</li>
+<li>之前有传的墙识别了v2ray协议，以后v2ray不行了 经过我这段时间的验证是谣言，v2ray协议还是安全的，升级后的v2ray+TLS+WS的方式完全ok，而且新的vless协议速度更快。</li>
+</ol>
+<p>进入正题前，还需要确认以下：</p>
+<ol>
+<li>这篇Blog不是针对小白的，你要具备相当的linux知识，包括命令行、ssh、firewall、nginx配置等知识。</li>
+<li>你需要能登录购买VPS，我用的是GCP香港台湾节点，速度快，最低的资源一台虚机可能一个月也就50RMB左右，而且GCP对新用户会赠送300刀，用一年没啥问题。</li>
+<li>你要会申请域名，并且会申请TLS证书，域名申请推荐<a href="https://www.godaddy.com/" target="_blank" rel="noopener">Godaddy</a>，因为不需要实名认证和审核，一个普通的域名一年只要9RMB，到期了再换一个就ok了。证书推荐<a href="https://letsencrypt.osfipin.com/" target="_blank" rel="noopener">Letsencrypt</a>，但是证书只有3个月有效，不过你可以通过脚本实现证书的自动更新。原本证书我用的是<a href="https://freessl.org/" target="_blank" rel="noopener">FreeSSL</a>，可以直接免费1年的证书，但是最近他们改版了1年的证书需要手机实名认证，我就放弃了。</li>
+<li>加了TLS+新版的v2ray协议后，理论上不需要CDN了，因为CDN的劣势就是速度，本来一个HK或者台湾的节点速度可以到40ms，加上CDN后妥妥200+ms，所以我个人不推荐CDN，除非你的VPS IP很宝贵，你要好好保护它。</li>
+</ol>
+<h2 id="VPS"><a href="#VPS" class="headerlink" title="VPS"></a>VPS</h2><h3 id="虚机申请"><a href="#虚机申请" class="headerlink" title="虚机申请"></a>虚机申请</h3><p>第一步肯定是要先申请虚拟机，我这里以GCP举例。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20201216/1.png" width=800><br></p>
+
+<p>新建一个虚拟机，按照图中的示例，选用最低配置就ok了(N1,f1-micro)，这样一个月预计只需要6刀，算是很便宜了，而且如果这个VPS都是个人使用的话，server的cpu和内存基本上没什么消耗。</p>
+<p>系统选用CentOS7，火墙上HTTP和HTTPS都要开一下，因为后面证书自动更新要用到80端口，我们的v2ray服务是搭载在443端口。当然这个后面可以改，如果你想把服务搭建在不同的端口上。</p>
+<h3 id="开启root远程登录及防火墙配置"><a href="#开启root远程登录及防火墙配置" class="headerlink" title="开启root远程登录及防火墙配置"></a>开启root远程登录及防火墙配置</h3><p>个人习惯从本地免密ssh上服务器进行操作，并且上传文件什么的都很方便。还是以GCP为例，需要通过网页版的SSH工具进行一些配置。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20201216/2.png" width=800><br></p>
+
+<p>登录后需要先切换到root账户，并进行关于sshd的相关配置</p>
+<ol>
+<li>通过<code>sudo su</code>切换到root用户</li>
+<li>编辑并修改<code>/etc/ssh/sshd_config</code>配置文件，找到如下配置项<code>PermitRootLogin</code>，并改成<code>yes</code></li>
+<li>创建免密登录文件 <code>/root/.ssh/authorized_keys</code>, 把你本地的公钥放进去</li>
+<li><code>systemctl restart sshd</code>重启ssh服务，之后你就可以从你本地免密登录到虚机上去了</li>
+</ol>
+<h3 id="安装v2ray"><a href="#安装v2ray" class="headerlink" title="安装v2ray"></a>安装v2ray</h3><p>v2ray的安装非常简单，一键安装的shell脚本维护在github上并且自动更新，帮你安装最新的v2ray-core版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> bash &lt;(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)</span></span><br></pre></td></tr></table></figure>
+<p>v2ray的安装很快就能完成，然后配置文件会被放到<code>/usr/local/etc/v2ray/config.json</code>这个位置，我们先不着急，后面再统一讲配置文件</p>
+<h3 id="BBR加速"><a href="#BBR加速" class="headerlink" title="BBR加速"></a>BBR加速</h3><p>bbr加速的目的是让我们的tcp连接速度更快，也是通过一键脚本安装的，非常方便。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget --no-check-certificate https://github.com/sprov065/blog/raw/master/bbr.sh &amp;&amp; bash bbr.sh</span></span><br></pre></td></tr></table></figure>
+<p>如果没有安装wget直接yum install就可以，或者有的vps厂商的虚机yum源有问题，直接更新一下yum源就好。小问题自己google解决即可。</p>
+<p>BBR可能需要5分钟左右完成安装，并且需要重启虚机。</p>
+<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>这里安装nginx是为了后面TLS证书自动更新用的，如果你选择手动更新TLS证书，可以不需要nginx。nginx的安装和配置就不多说了，比较基础，yum install即可</p>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>Godaddy上申请域名，然后在如下位置修改DNS为你第一步申请的虚机公网IP地址</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20201216/3.png" width=800><br></p>
+
+<p>然后你就可以在你本地ping一下你的域名，看看是否配置成功了</p>
+<h2 id="TLS证书"><a href="#TLS证书" class="headerlink" title="TLS证书"></a>TLS证书</h2><p>证书就到<a href="https://letsencrypt.osfipin.com/" target="_blank" rel="noopener">Letsencrypt</a>申请就行，填写你上一步申请的域名，第一次可以选择手动验证，就是到你的域名服务商(Godaddy)上在DNS解析那里手动添加一下txt类型的解析(可以参见上图里面也有)，然后等着Letsencrypt验证就好了。</p>
+<p>说明一下，其实Letsencrypt中文版的网站做的不是很友好，感觉是对H5端的，而不是针对PC端的，而且页面跳转、提示啥做的都不太行，不过能找到不需要实名认证的就可以了，之前的freessl挺好的，现在要实名了就被我弃了。</p>
+<p>验证通过后，就可以下载证书签名和秘钥了，我记得第一次一共下了5个文件吧，找那个<code>fullchain.crt</code> 和 <code>private.pem</code> 两个文件就够用了。</p>
+<h2 id="配置v2ray"><a href="#配置v2ray" class="headerlink" title="配置v2ray"></a>配置v2ray</h2><p>现在所有的准备工作都齐全了，我们配置一下v2ray，然后基本服务端就搞定了。</p>
+<p>一个完整的v2ray配置文件如下所示。注意我这里用的是v2ray最新的vless协议，这个协议相较之前的vmess协议更加轻量化，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;log&quot;: &#123;</span><br><span class="line">    &quot;loglevel&quot;: &quot;warning&quot;,</span><br><span class="line">    &quot;access&quot;: &quot;&quot;,</span><br><span class="line">    &quot;error&quot;: &quot;&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;inbounds&quot;: [&#123;</span><br><span class="line">    &quot;port&quot;: 443,</span><br><span class="line">    &quot;protocol&quot;: &quot;vless&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">      &quot;decryption&quot;: &quot;none&quot;,</span><br><span class="line">      &quot;clients&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;id&quot;: &quot;你自己生成的配对id&quot;,</span><br><span class="line">          &quot;level&quot;: 0</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;streamSettings&quot;: &#123;</span><br><span class="line">      &quot;network&quot;:&quot;ws&quot;,</span><br><span class="line">      &quot;security&quot;: &quot;tls&quot;,</span><br><span class="line">      &quot;wsSettings&quot;:&#123;</span><br><span class="line">        &quot;path&quot;:&quot;&#x2F;&quot;,</span><br><span class="line">        &quot;headers&quot;:&#123;&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;tlsSettings&quot;: &#123;</span><br><span class="line">        &quot;serverName&quot;: &quot;你申请的域名&quot;,</span><br><span class="line">        &quot;certificates&quot;: [&#123;</span><br><span class="line">          &quot;certificateFile&quot;: &quot;证书文件位置-&#x2F;app&#x2F;tls&#x2F;fullchain.crt&quot;,</span><br><span class="line">          &quot;keyFile&quot;: &quot;证书秘钥位置-&#x2F;app&#x2F;tls&#x2F;private.pem&quot;</span><br><span class="line">        &#125;]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;outbounds&quot;: [&#123;</span><br><span class="line">    &quot;protocol&quot;: &quot;freedom&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;&#125;</span><br><span class="line">  &#125;,&#123;</span><br><span class="line">    &quot;protocol&quot;: &quot;blackhole&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;&#125;,</span><br><span class="line">    &quot;tag&quot;: &quot;blocked&quot;</span><br><span class="line">  &#125;],</span><br><span class="line">  &quot;routing&quot;: &#123;</span><br><span class="line">    &quot;rules&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;type&quot;: &quot;field&quot;,</span><br><span class="line">        &quot;ip&quot;: [&quot;geoip:private&quot;],</span><br><span class="line">        &quot;outboundTag&quot;: &quot;blocked&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/v2ray/">v2ray</a><a href="/tags/vpn/">vpn</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2020/12/17/VPS-V2ray-VLess-TLS/" data-title="【VPS】V2ray(VLess)+域名+TLS高阶搭建全过程 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/10/28/nginx-error-troubleshoot/"  title="【Nginx】记一次Nginx生产环境的Trouble Shooting过程">
+ <strong>下一篇：</strong><br/> 
+ <span>【Nginx】记一次Nginx生产环境的Trouble Shooting过程
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Thu Dec 17 2020 10:21:34 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VPS"><span class="toc-number">2.</span> <span class="toc-text">VPS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#虚机申请"><span class="toc-number">2.1.</span> <span class="toc-text">虚机申请</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开启root远程登录及防火墙配置"><span class="toc-number">2.2.</span> <span class="toc-text">开启root远程登录及防火墙配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装v2ray"><span class="toc-number">2.3.</span> <span class="toc-text">安装v2ray</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BBR加速"><span class="toc-number">2.4.</span> <span class="toc-text">BBR加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx"><span class="toc-number">2.5.</span> <span class="toc-text">nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#域名"><span class="toc-number">3.</span> <span class="toc-text">域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TLS证书"><span class="toc-number">4.</span> <span class="toc-text">TLS证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置v2ray"><span class="toc-number">5.</span> <span class="toc-text">配置v2ray</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

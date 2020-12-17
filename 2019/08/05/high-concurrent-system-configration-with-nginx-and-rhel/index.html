@@ -1,0 +1,696 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="最近业务系统需要使用Nginx做负载均衡支撑起单机大概每天10亿次量级的请求，踩了一些坑之后，正好借此机会对系统的参数配置，网络协议，Nginx的配置等做了全面的梳理，特此记录一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置">
+<meta property="og:url" content="http://lipeng1667.github.io/2019/08/05/high-concurrent-system-configration-with-nginx-and-rhel/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="最近业务系统需要使用Nginx做负载均衡支撑起单机大概每天10亿次量级的请求，踩了一些坑之后，正好借此机会对系统的参数配置，网络协议，Nginx的配置等做了全面的梳理，特此记录一下。">
+<meta property="article:published_time" content="2019-08-05T12:53:03.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.179Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/08/05/high-concurrent-system-configration-with-nginx-and-rhel/" title="【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置" itemprop="url">【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2019-08-05T12:53:03.000Z" itemprop="datePublished"> Published 2019-08-05</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux系统配置"><span class="toc-number">1.</span> <span class="toc-text">Linux系统配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件打开数"><span class="toc-number">1.1.</span> <span class="toc-text">文件打开数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接配置"><span class="toc-number">1.2.</span> <span class="toc-text">TCP连接配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Time-wait"><span class="toc-number">1.2.1.</span> <span class="toc-text">Time_wait</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-tw-recycle"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">net.ipv4.tcp_tw_recycle</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-tw-reuse"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">net.ipv4.tcp_tw_reuse</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-fin-timeout"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">net.ipv4.tcp_fin_timeout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-keepalive-intvl"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">net.ipv4.tcp_keepalive_intvl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-keepalive-probes"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">net.ipv4.tcp_keepalive_probes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-keepalive-time"><span class="toc-number">1.2.1.6.</span> <span class="toc-text">net.ipv4.tcp_keepalive_time</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-core-somaxconn"><span class="toc-number">1.2.1.7.</span> <span class="toc-text">net.core.somaxconn</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx配置"><span class="toc-number">2.</span> <span class="toc-text">Nginx配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#worker多线程"><span class="toc-number">2.1.</span> <span class="toc-text">worker多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主配置"><span class="toc-number">2.2.</span> <span class="toc-text">主配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负载节点信息"><span class="toc-number">2.3.</span> <span class="toc-text">负载节点信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监听端口信息"><span class="toc-number">2.4.</span> <span class="toc-text">监听端口信息</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-引用"><span class="toc-number">3.</span> <span class="toc-text">致谢&amp;引用</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近业务系统需要使用Nginx做负载均衡支撑起<strong>单机</strong>大概每天10亿次量级的请求，踩了一些坑之后，正好借此机会对系统的参数配置，网络协议，Nginx的配置等做了全面的梳理，特此记录一下。</p>
+<a id="more"></a>
+<h1 id="Linux系统配置"><a href="#Linux系统配置" class="headerlink" title="Linux系统配置"></a>Linux系统配置</h1><p>要想支持这么大量级的请求，所以对Linux的一些参数要做出调整。</p>
+<h2 id="文件打开数"><a href="#文件打开数" class="headerlink" title="文件打开数"></a>文件打开数</h2><p>文件打开数的意思是对一个进程，允许同时打开的句柄数是多少。对于网络程序，也就是能够支持的最大并发连接数了。系统默认的值是<code>65535</code>，我们可以通过下面的命令来查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ulimit</span> -a</span><br></pre></td></tr></table></figure>
+<p>如下图显示的，就是默认的Linux系统的一些信息。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190805/01.png" width=800><br></p>
+
+<p>那如何修改呢，直奔主题，可以<strong>永久</strong>修改文件打开数的方法是，修改<code>/etc/security/limits.conf</code>文件中的配置信息<br>默认的配置文件最后是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># End of file</span><br><span class="line">*	hard	nproc	65535</span><br><span class="line">*	soft	nproc	65535</span><br><span class="line">*	hard	nofile	65535</span><br><span class="line">*	soft	nofile	65535</span><br></pre></td></tr></table></figure>
+<p>我们要修改的就是<code>nofile</code>这两个配置，<code>hard</code>表示当前可以设置的最大值，<code>soft</code>表示当前的值，我们就把这两个值改成比如<code>500000</code>好了，因为单机的话，50万的并发连接基本也到nginx的极限了。</p>
+<blockquote>
+<p>注意，nofile的最大值不能超过<code>/proc/sys/fs/nr_open</code>这个值，默认是(1048576)</p>
+</blockquote>
+<p>完成后再次执行<code>ulimit -a</code>查看是否生效了。</p>
+<blockquote>
+<p>注：有些服务器因为系统配置原因，可能通过ssh登录时无法看到生效信息，可以通过配置<code>/etc/ssh/sshd_config</code>中的UsePAM 和 UseLogin参数来。<br>在文件中修改/添加<code>UsePAM yes</code>和<code>UseLogin yes</code>，然后重新登录ssh即可。</p>
+</blockquote>
+<h2 id="TCP连接配置"><a href="#TCP连接配置" class="headerlink" title="TCP连接配置"></a>TCP连接配置</h2><p>先看结论，打开<code>/etc/sysctl.conf</code>文件，默认的应该都是注释掉的一些内容，在文件末尾加入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># It enables fast recycling of TIME_WAIT sokcets. Known to cause some issues with hoststated(NAT and load balancing) if enabled, should be used with caution.</span><br><span class="line">net.ipv4.tcp_tw_recycle &#x3D; 0</span><br><span class="line"># This allows resuing sockets in TIME_WAIT state for new connections when it is safe from protocol viewpoint. It is generally a safer alternative to tcp_tw_recycle</span><br><span class="line">net.ipv4.tcp_tw_reuse &#x3D; 1</span><br><span class="line"># Determines the time that must elapse before TCP&#x2F;IP can release a closed connection and reuse its resource. During this TIME_WAIT state, reopening the connection to</span><br><span class="line"># the client costs less then establishing a new connection. By reducing the value of the entry, TCP&#x2F;IP can release closed connections faster, making more resources</span><br><span class="line"># available for new connections.</span><br><span class="line">net.ipv4.tcp_fin_timeout &#x3D; 5</span><br><span class="line"># The wait time between isAlive interval probes(seconds)</span><br><span class="line">net.ipv4.tcp_keepalive_intvl &#x3D; 15</span><br><span class="line"># The number of probes before timing out.</span><br><span class="line">net.ipv4.tcp_keepalive_probes &#x3D; 3</span><br><span class="line"># The time of keepalive remined time(seconds)</span><br><span class="line">net.ipv4.tcp_keepalive_time &#x3D; 300</span><br><span class="line"></span><br><span class="line"># TCP syn cookies</span><br><span class="line">net.ipv4.tcp_syncookies &#x3D; 1</span><br><span class="line"># The length of the syn quene</span><br><span class="line">net.ipv4.tcp_max_syn_backlog &#x3D; 655350</span><br><span class="line"># The length of the tcp accept queue</span><br><span class="line">net.core.somaxconn &#x3D; 65535</span><br><span class="line"></span><br><span class="line"># port range</span><br><span class="line">net.ipv4.ip_local_port_range &#x3D; 1024 65000</span><br></pre></td></tr></table></figure>
+<p>然后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl -p</span><br></pre></td></tr></table></figure>
+<p>接下来我们再来花大篇幅讲解一下为何要这样配置。</p>
+<h3 id="Time-wait"><a href="#Time-wait" class="headerlink" title="Time_wait"></a>Time_wait</h3><p>关于time_wait, close_wait, fin等TCP握手协议，这本篇文章里就不做赘述，可以参见最后的附录(强烈推荐第一篇)，里面有很多文章都讲到了网络协议相关的内容。大家需要知道的一个概念就是：  </p>
+<blockquote>
+<p>当client发起一个tcp连接到server后，这个连接被client主动断开后，在client所在的服务器和server所在的服务器上，这个tcp连接(fd)的状态都会被设置成time_wait。只有过去足够安全的时间后，这个tcp连接(fd)才会被重复使用。</p>
+</blockquote>
+<p>为什么我在这里把tcp连接后面备注了fd，其实对web服务器来说，一个tcp连接的建立就相当于使用了一个句柄，或者叫文件打开数，也就是我们上一个小节修改过的nofile的值。毕竟在Linux内核中，万物皆文件。</p>
+<p>我们再来假设一个典型的系统架构如下图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+--------+  HTTP   +-------+  HTTP   +----------+</span><br><span class="line">| Client | ------&gt; |       | ------&gt; | Upstream |</span><br><span class="line">+--------+         |       |         +----------+</span><br><span class="line">                   |       |  HTTP   +----------+</span><br><span class="line">                   | Nginx | ------&gt; | Upstream |</span><br><span class="line">                   |       |         +----------+</span><br><span class="line">                   |       |  HTTP   +----------+</span><br><span class="line">                   |       | ------&gt; | Upstream |</span><br><span class="line">                   +-------+         +----------+</span><br></pre></td></tr></table></figure>
+<p>如果Client到Nginx的连接都是短链接，那么在client和nginx所在的服务器上，都会出现大量的time_wait状态的连接。这种连接对Nginx服务器，也就是server是没问题的，因为不会消耗特别多的性能，只是会多消耗一些内存与端口链表查找的CPU资源，这点资源对现代的服务器来说基本上可以忽略。但是对client来说就不一样了，client每建立一个连接，都要占用一个本地的端口，而端口数量是有限的(65535个)，这也是为什么我们推荐用长连接的方式来进行业务处理。</p>
+<p>我们来结合实际用例看一下。</p>
+<p>我们先看一下服务器上的TCP连接的总情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -n | awk <span class="string">'/^tcp/ &#123;++state[$NF]&#125; END &#123;for(key in state) print key,"\t",state[key]&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>你会得到如下的信息：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190805/03.png" width=800><br></p>
+
+<p>如上图，close_wait是server主动关闭连接是产生的关闭状态，establish是在使用中的连接，time_wait就是我们要分析的目标了。如果没有做好相关配置时，可能服务器这个值会有十几甚至几十万。</p>
+<p>我们来看一下client主动关闭的连接情况：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190805/02.png" width=800><br></p>
+
+<p>如上图所示，我们的grep筛选条件里面筛选了查看由client主动连上来的连接，且状态是time_wait的，并且只看了最后几条，可以从图中清楚地得到一下几点：  </p>
+<ol>
+<li>server的端口443上连上了很多连接，但是这些连接其实不是特别消耗主机资源，我们的最大fd设置的是50万，所以是足够的，server是没问题的。</li>
+<li>client(88.194)明显用的是短链接，而且能看到是从不同的端口连接上来的，所以client如果请求量很大，会把它自己的端口占用完，导致连接不上来的。</li>
+</ol>
+<p>所以，如果我们的nginx连接到负载均衡节点时是短链接，那么nginx这台服务器的本地端口就会被耗尽，client就会得到nginx502的错误响应，错误原因大致是<code>Cannot assign requested address for upstream</code><br>对于nginx的配置，我们下个小节在详细描述。<br>了解了tcp的连接状态，我们再回到开头提到的配置文件，让我们逐条分析一下。  </p>
+<hr>
+<h4 id="net-ipv4-tcp-tw-recycle"><a href="#net-ipv4-tcp-tw-recycle" class="headerlink" title="net.ipv4.tcp_tw_recycle"></a>net.ipv4.tcp_tw_recycle</h4><p>recycle可以加快tcp连接的回收速度，但是recycle这个值的使用很容易出现问题，尤其在NAT的环境下，很多正常的连接会被丢弃。原理是当连接被很快复用后，从不同的服务器发来的请求，会被认为是从通一个remote过来的连接，但是这些服务器的时间戳是不一样的，就很容易被server认为tcp包序乱而丢弃掉。从client看来就是很多连接超时了没有响应。<br>所以，这个值保险期间，我们都设置成0，即不启用。之前的内容也提到了，作为server，只要它和后端的负载节点之间是长连接，就不会出现很多time_wait的连接。而作为server，被动连接进来的time_wait的tcp连接并不会占用server本身的资源。</p>
+<hr>
+<h4 id="net-ipv4-tcp-tw-reuse"><a href="#net-ipv4-tcp-tw-reuse" class="headerlink" title="net.ipv4.tcp_tw_reuse"></a>net.ipv4.tcp_tw_reuse</h4><p>recycle不安全，但是reuse就要安全地多，所以这个值可以打开，reuse可以安全地回收利用tcp连接。</p>
+<hr>
+<h4 id="net-ipv4-tcp-fin-timeout"><a href="#net-ipv4-tcp-fin-timeout" class="headerlink" title="net.ipv4.tcp_fin_timeout"></a>net.ipv4.tcp_fin_timeout</h4><p>对于本端断开的socket连接，TCP保持在FIN-WAIT-2状态的时间。对方可能会断开连接或一直不结束连接或不可预料的进程死亡。默认值为 60 秒。降低这个值可以一定程度上防范DDOS攻击。</p>
+<hr>
+<h4 id="net-ipv4-tcp-keepalive-intvl"><a href="#net-ipv4-tcp-keepalive-intvl" class="headerlink" title="net.ipv4.tcp_keepalive_intvl"></a>net.ipv4.tcp_keepalive_intvl</h4><p>两次检测tcp连接活动状态的间隔时间，默认75秒</p>
+<hr>
+<h4 id="net-ipv4-tcp-keepalive-probes"><a href="#net-ipv4-tcp-keepalive-probes" class="headerlink" title="net.ipv4.tcp_keepalive_probes"></a>net.ipv4.tcp_keepalive_probes</h4><p>最大多少次连接检测tcp非活动状态后断开连接，默认9次</p>
+<hr>
+<h4 id="net-ipv4-tcp-keepalive-time"><a href="#net-ipv4-tcp-keepalive-time" class="headerlink" title="net.ipv4.tcp_keepalive_time"></a>net.ipv4.tcp_keepalive_time</h4><p>长连接超时时间，默认7200秒</p>
+<hr>
+<h4 id="net-core-somaxconn"><a href="#net-core-somaxconn" class="headerlink" title="net.core.somaxconn"></a>net.core.somaxconn</h4><p>其实就是决定了tcp全连接队列的backlog数，详细内容参见<a href="http://lipeng1667.github.io/2019/10/28/nginx-error-troubleshoot/">这篇博文</a>中的TCP连接队列</p>
+<hr>
+<p>这些值的配置，都可以有效地缩短tcp连接的超时时间，从而加快tcp的回收。</p>
+<h1 id="Nginx配置"><a href="#Nginx配置" class="headerlink" title="Nginx配置"></a>Nginx配置</h1><p>接着上一章节中提到的，如果nginx所在的服务器和下游的负载均衡节点之间是短链接，会导致nginx所在的服务器有大量的time_wait连接，而且，这些连接都是要占用本地的端口的。而本地端口又是有限的，而nginx默认的负载节点之间的连接正好是短链接，所以需要对nginx的配置做一定的修改。</p>
+<p>还是先来看最终的配置文件<code>/etc/nginx/nginx.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">user                    nginx;</span><br><span class="line">worker_processes        auto;</span><br><span class="line">worker_cpu_affinity     auto;</span><br><span class="line">worker_rlimit_nofile    409600;</span><br><span class="line">error_log               &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log warn;</span><br><span class="line">pid                     &#x2F;var&#x2F;run&#x2F;nginx.pid;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    use                 epoll;</span><br><span class="line">    worker_connections  409600;</span><br><span class="line">    multi_accept        on;</span><br><span class="line">    accept_mutex        off;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include             &#x2F;etc&#x2F;nginx&#x2F;mime.types;</span><br><span class="line">    default_type        application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main    &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span><br><span class="line">                        &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                        &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line"></span><br><span class="line">    access_log          &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile            on;</span><br><span class="line">    tcp_nopush          on;</span><br><span class="line">    tcp_nodelay         on;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout   300;</span><br><span class="line">    keepalive_requests  20000000;</span><br><span class="line"></span><br><span class="line">    open_file_cache max&#x3D;10240 inactive&#x3D;20s;</span><br><span class="line">    open_file_cache_valid 30s;</span><br><span class="line">    open_file_cache_min_uses 1;</span><br><span class="line"></span><br><span class="line">    gzip                on;</span><br><span class="line">    gzip_min_length     1k;</span><br><span class="line">    gzip_buffers        4 16k;</span><br><span class="line">    gzip_http_version   1.0;</span><br><span class="line">    gzip_comp_level     2;</span><br><span class="line">    gzip_types          text&#x2F;plain application&#x2F;x-javascript text&#x2F;css application&#x2F;xml text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png;</span><br><span class="line">    gzip_vary           on;</span><br><span class="line"></span><br><span class="line">    upstream nis &#123;</span><br><span class="line">        server obp2:5001 max_fails&#x3D;0;</span><br><span class="line">        server obp2:5002 max_fails&#x3D;0;</span><br><span class="line">        server obp2:5003 max_fails&#x3D;0;</span><br><span class="line">        server obp2:5004 max_fails&#x3D;0;</span><br><span class="line">        keepalive 300;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen              443 ssl http2 backlog&#x3D;65535;</span><br><span class="line">        listen              [::]:443 ssl http2 backlog&#x3D;65535;</span><br><span class="line">        server_name         localhost.com;</span><br><span class="line">        access_log          off;</span><br><span class="line"></span><br><span class="line">        ssl_certificate     your-cert-file-path;</span><br><span class="line">        ssl_certificate_key your-cert-key-file-path;</span><br><span class="line">        ssl_session_timeout 1d;</span><br><span class="line">        ssl_session_cache   shared:SSL:50m;</span><br><span class="line">        ssl_session_tickets off;</span><br><span class="line"></span><br><span class="line">        # modern configuration</span><br><span class="line">        ssl_protocols       TLSv1.2;</span><br><span class="line">        ssl_ciphers &#39;ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256&#39;;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">        # HSTS (ngx_http_headers_module is required) (15768000 seconds &#x3D; 6 months)</span><br><span class="line">        add_header Strict-Transport-Security max-age&#x3D;15768000;</span><br><span class="line"></span><br><span class="line">        location &#x2F;nis &#123;</span><br><span class="line">            proxy_pass http:&#x2F;&#x2F;nis;</span><br><span class="line">            proxy_set_header Host $host:$server_port;</span><br><span class="line">            proxy_set_header X-Forwarded-Host $server_name;</span><br><span class="line">            proxy_set_header proxy_x_forward_ip $remote_addr;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">            proxy_set_header X-Forwarded-Proto $scheme;</span><br><span class="line">            proxy_set_header X-Forwarded-Port $server_port;</span><br><span class="line">            proxy_http_version 1.1;</span><br><span class="line">            proxy_set_header Connect &quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里为了方便显示，我把所有的配置都放到<code>/etc/nginx/nginx.conf</code>文件中了。实际情况下，<code>upstream</code>负载节点信息和<code>server</code>信息可以放到<code>conf.d</code>目录下，然后由nginx.conf统一加载进去。</p>
+</blockquote>
+<p>我们来分别看一下nginx都做了哪些配置：</p>
+<h2 id="worker多线程"><a href="#worker多线程" class="headerlink" title="worker多线程"></a>worker多线程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user                    nginx;</span><br><span class="line">worker_processes        auto;</span><br><span class="line">worker_cpu_affinity     auto;</span><br><span class="line">worker_rlimit_nofile    409600;</span><br><span class="line">error_log               &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log warn;</span><br><span class="line">pid                     &#x2F;var&#x2F;run&#x2F;nginx.pid;</span><br></pre></td></tr></table></figure>
+<p>这部分表示启用多线程处理，默认情况下，nginx只有一个master线程来处理，这段配置告诉nginx尽可能多地启用worker线程来帮助处理高并发的任务。</p>
+<h2 id="主配置"><a href="#主配置" class="headerlink" title="主配置"></a>主配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    use                 epoll;</span><br><span class="line">    worker_connections  409600;</span><br><span class="line">    multi_accept        on;</span><br><span class="line">    accept_mutex        off;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include             &#x2F;etc&#x2F;nginx&#x2F;mime.types;</span><br><span class="line">    default_type        application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main    &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span><br><span class="line">                        &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                        &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line"></span><br><span class="line">    access_log          &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile            on;</span><br><span class="line">    tcp_nopush          on;</span><br><span class="line">    tcp_nodelay         on;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout   300;</span><br><span class="line">    keepalive_requests  20000000;</span><br><span class="line"></span><br><span class="line">    open_file_cache max&#x3D;10240 inactive&#x3D;20s;</span><br><span class="line">    open_file_cache_valid 30s;</span><br><span class="line">    open_file_cache_min_uses 1;</span><br><span class="line"></span><br><span class="line">    gzip                on;</span><br><span class="line">    gzip_min_length     1k;</span><br><span class="line">    gzip_buffers        4 16k;</span><br><span class="line">    gzip_http_version   1.0;</span><br><span class="line">    gzip_comp_level     2;</span><br><span class="line">    gzip_types          text&#x2F;plain application&#x2F;x-javascript text&#x2F;css application&#x2F;xml text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png;</span><br><span class="line">    gzip_vary           on;</span><br><span class="line"></span><br><span class="line">    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>events表示启用epoll模型来处理高并发的请求，epoll模型是linux底层的高性能、高并发处理模型，nginx也是基于此实现的。<br>在http的主配置中，开启<code>sendfile</code>、<code>tcp_nopush</code>和<code>tcp_nodelay</code>；<br>同时keepalive一定要配置上，timeout表示超时时间；requests表示同一个连接接收多少请求后断开；<br>剩下的就是一些常用的配置，记得在最后如果有其他额外的配置，要放到<code>conf.d</code>目录下。  </p>
+<h2 id="负载节点信息"><a href="#负载节点信息" class="headerlink" title="负载节点信息"></a>负载节点信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream nis &#123;</span><br><span class="line">    server obp2:5001 max_fails&#x3D;0;</span><br><span class="line">    server obp2:5002 max_fails&#x3D;0;</span><br><span class="line">    server obp2:5003 max_fails&#x3D;0;</span><br><span class="line">    server obp2:5004 max_fails&#x3D;0;</span><br><span class="line">    keepalive 300;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里相当于我们申请了一个叫做<code>nis</code>的负载结构，里面把请求均匀地分配到4个节点上，同时<strong>一定</strong>要加上keepalive，否则，这个节点的负载就是短链接，而不是长连接。<br>注意max_fails=0表示忽略当前负载节点的报错，如果不配置，默认值为1，即当负载节点报错1次后，即暂停向当前节点分发请求。</p>
+<blockquote>
+<p>注：对于可靠性较高的负载节点，可以像我一样，忽略掉报错，因为极端情况下，如果所有节点均出错，则当前服务即不可用。</p>
+</blockquote>
+<h2 id="监听端口信息"><a href="#监听端口信息" class="headerlink" title="监听端口信息"></a>监听端口信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              443 ssl http2 backlog&#x3D;65535;</span><br><span class="line">    listen              [::]:443 ssl http2 backlog&#x3D;65535;</span><br><span class="line">    server_name         localhost.com;</span><br><span class="line">    access_log          off;</span><br><span class="line"></span><br><span class="line">    ssl_certificate     your-cert-file-path;</span><br><span class="line">    ssl_certificate_key your-cert-key-file-path;</span><br><span class="line">    ssl_session_timeout 1d;</span><br><span class="line">    ssl_session_cache   shared:SSL:50m;</span><br><span class="line">    ssl_session_tickets off;</span><br><span class="line"></span><br><span class="line">    # modern configuration</span><br><span class="line">    ssl_protocols       TLSv1.2;</span><br><span class="line">    ssl_ciphers &#39;ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256&#39;;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    # HSTS (ngx_http_headers_module is required) (15768000 seconds &#x3D; 6 months)</span><br><span class="line">    add_header Strict-Transport-Security max-age&#x3D;15768000;</span><br><span class="line"></span><br><span class="line">    location &#x2F;nis &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;nis;</span><br><span class="line">        proxy_set_header Host $host:$server_port;</span><br><span class="line">        proxy_set_header X-Forwarded-Host $server_name;</span><br><span class="line">        proxy_set_header proxy_x_forward_ip $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto $scheme;</span><br><span class="line">        proxy_set_header X-Forwarded-Port $server_port;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后的sever部分就是实际监听的端口配置了。这里我们监听在443端口上。注意看最后一部分，nginx根据路径，当url路径是<code>/nis</code>时，将请求转发到之前的负载均衡配置节点<code>nis</code>上，然后最后两个配置项</p>
+<p>监听项后的<code>backlog</code>参数，就决定了tcp连接队列的最大长度。默认nginx的tcp监听连接队列是511，我们这里改成较大的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_http_version 1.1;</span><br><span class="line">proxy_set_header Connection &quot;&quot;;</span><br></pre></td></tr></table></figure>
+<p>保险期间也一并加上，防止意外情况下默认使用1.0协议的短链接http请求。</p>
+<hr>
+<p>以上配置完成后，<code>systemctl reload nginx</code>重载nginx的配置信息。</p>
+<h1 id="致谢-amp-引用"><a href="#致谢-amp-引用" class="headerlink" title="致谢&amp;引用"></a>致谢&amp;引用</h1><ul>
+<li><a href="http://lipeng1667.github.io/2019/10/28/nginx-error-troubleshoot/">【Nginx】记一次Nginx生产环境的Trouble Shooting过程</a> </li>
+<li><a href="http://www.just4coding.com/blog/2017/11/09/timewait/" target="_blank" rel="noopener">TIME_WAIT状态实验分析</a> &lt;—强烈推荐这篇文章</li>
+<li><a href="https://lanjingling.github.io/2016/06/11/nginx-https-keepalived-youhua/" target="_blank" rel="noopener">nginx优化——包括https、keepalive等</a></li>
+<li><a href="https://ma.ttias.be/enable-keepalive-connections-in-nginx-upstream-proxy-configurations/" target="_blank" rel="noopener">Enable Keepalive connections in Nginx Upstream proxy configurations</a></li>
+<li><a href="https://xiezefan.me/2017/09/27/nginx-502-bug-trace/?nsukey=inZzThj82rbxX35GomobUUV0f%2FqzwBfW9m5YaVLtGzzXiQ76JHj2cY%2BXe7XvysvZ3vEiMSUy1caStNdJE5CLnbNEP23A4513pbn%2BV2d%2FrGcfQ%2FO7rsSO9z2FUQpsbxu2v679MQn5okrRk19W%2F6wPdl3sidxiFZJ6vdGaoBzencRq5BwtRwhFs5sEtClhFs7CTFckijD%2BeFPSqNgsK1FFTA%3D%3D" target="_blank" rel="noopener">记一次生产环境Nginx间歇性502的事故分析过程</a></li>
+<li><a href="https://ma.ttias.be/nginx-cannot-assign-requested-address-for-upstream/" target="_blank" rel="noopener">Nginx: Cannot assign requested address for upstream</a></li>
+<li><a href="https://blog.csdn.net/google0802/article/details/73530683" target="_blank" rel="noopener">https://blog.csdn.net/google0802/article/details/73530683</a></li>
+<li><a href="https://my.oschina.net/u/1024767/blog/757465" target="_blank" rel="noopener">linux服务器大量TIME_WAIT状态问题</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Nginx/">Nginx</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2019/08/05/high-concurrent-system-configration-with-nginx-and-rhel/" data-title="【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/10/23/keepalived-nginx/" title="【KeepAlived】keepalived 源码安装 + 主从高可用配置">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【KeepAlived】keepalived 源码安装 + 主从高可用配置</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/08/04/tips-for-vscode-in-mac/"  title="【VSCode】VSCode入门介绍及使用技巧">
+ <strong>下一篇：</strong><br/> 
+ <span>【VSCode】VSCode入门介绍及使用技巧
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Mon Aug 05 2019 20:53:03 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux系统配置"><span class="toc-number">1.</span> <span class="toc-text">Linux系统配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件打开数"><span class="toc-number">1.1.</span> <span class="toc-text">文件打开数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接配置"><span class="toc-number">1.2.</span> <span class="toc-text">TCP连接配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Time-wait"><span class="toc-number">1.2.1.</span> <span class="toc-text">Time_wait</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-tw-recycle"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">net.ipv4.tcp_tw_recycle</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-tw-reuse"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">net.ipv4.tcp_tw_reuse</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-fin-timeout"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">net.ipv4.tcp_fin_timeout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-keepalive-intvl"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">net.ipv4.tcp_keepalive_intvl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-keepalive-probes"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">net.ipv4.tcp_keepalive_probes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-ipv4-tcp-keepalive-time"><span class="toc-number">1.2.1.6.</span> <span class="toc-text">net.ipv4.tcp_keepalive_time</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-core-somaxconn"><span class="toc-number">1.2.1.7.</span> <span class="toc-text">net.core.somaxconn</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx配置"><span class="toc-number">2.</span> <span class="toc-text">Nginx配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#worker多线程"><span class="toc-number">2.1.</span> <span class="toc-text">worker多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主配置"><span class="toc-number">2.2.</span> <span class="toc-text">主配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负载节点信息"><span class="toc-number">2.3.</span> <span class="toc-text">负载节点信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监听端口信息"><span class="toc-number">2.4.</span> <span class="toc-text">监听端口信息</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-引用"><span class="toc-number">3.</span> <span class="toc-text">致谢&amp;引用</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

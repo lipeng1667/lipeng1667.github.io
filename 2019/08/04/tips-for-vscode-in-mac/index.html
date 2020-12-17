@@ -1,0 +1,659 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【VSCode】VSCode入门介绍及使用技巧 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="摩尔定律依旧在发威，15年的MBP现在已经开始出现卡顿的情况了，尤其是外接了4K显示器后。之前笔者一直是用的Atom来完成代码和文档的编辑工作，后来确实发现Atom会相对卡一些，不知道是安装了太多插件还是什么原因，anyway，现在转到了最近比较火的VSCode上，试用了一段时间感觉挺好的，有一些更特有的配置，然后原先的个人定制化的需求也都可以满足，于是就切换到这里。所以，这篇文章也是对VSCod">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【VSCode】VSCode入门介绍及使用技巧">
+<meta property="og:url" content="http://lipeng1667.github.io/2019/08/04/tips-for-vscode-in-mac/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="摩尔定律依旧在发威，15年的MBP现在已经开始出现卡顿的情况了，尤其是外接了4K显示器后。之前笔者一直是用的Atom来完成代码和文档的编辑工作，后来确实发现Atom会相对卡一些，不知道是安装了太多插件还是什么原因，anyway，现在转到了最近比较火的VSCode上，试用了一段时间感觉挺好的，有一些更特有的配置，然后原先的个人定制化的需求也都可以满足，于是就切换到这里。所以，这篇文章也是对VSCod">
+<meta property="article:published_time" content="2019-08-04T01:25:02.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.424Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="VSCode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/08/04/tips-for-vscode-in-mac/" title="【VSCode】VSCode入门介绍及使用技巧" itemprop="url">【VSCode】VSCode入门介绍及使用技巧</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2019-08-04T01:25:02.000Z" itemprop="datePublished"> Published 2019-08-04</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#整体布局介绍"><span class="toc-number">1.</span> <span class="toc-text">整体布局介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件列表"><span class="toc-number">1.1.</span> <span class="toc-text">文件列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找和替换"><span class="toc-number">1.2.</span> <span class="toc-text">查找和替换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本控制"><span class="toc-number">1.3.</span> <span class="toc-text">版本控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#commit和push"><span class="toc-number">1.3.1.</span> <span class="toc-text">commit和push</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#插件"><span class="toc-number">2.</span> <span class="toc-text">插件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#额外使用Tips"><span class="toc-number">3.</span> <span class="toc-text">额外使用Tips</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#git-history"><span class="toc-number">3.1.</span> <span class="toc-text">git history</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#样式Theme"><span class="toc-number">3.2.</span> <span class="toc-text">样式Theme</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显示空格和TAB"><span class="toc-number">3.3.</span> <span class="toc-text">显示空格和TAB</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>摩尔定律依旧在发威，15年的MBP现在已经开始出现卡顿的情况了，尤其是外接了4K显示器后。之前笔者一直是用的Atom来完成代码和文档的编辑工作，后来确实发现Atom会相对卡一些，不知道是安装了太多插件还是什么原因，anyway，现在转到了最近比较火的VSCode上，试用了一段时间感觉挺好的，有一些更特有的配置，然后原先的个人定制化的需求也都可以满足，于是就切换到这里。所以，这篇文章也是对VSCode的一些简要的介绍，以及一些配置项的设定。</p>
+<a id="more"></a>
+<p>先来一张我的最终成品图</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/01.png" width=800><br></p>
+
+<h1 id="整体布局介绍"><a href="#整体布局介绍" class="headerlink" title="整体布局介绍"></a>整体布局介绍</h1><p>刚上手的时候，感觉有点眼花缭乱的，但是熟悉起来以后，其实就几个板块，还是参考上图的示例，分为左中右三部分。<br>左边的区域相当于是操作Tab栏，从上到下依次是：</p>
+<ul>
+<li>文件列表</li>
+<li>查找和替换</li>
+<li>版本控制</li>
+<li>调试，错误和警告信息</li>
+<li>插件</li>
+</ul>
+<p>接下来就分部分介绍下每一项的内容。</p>
+<h2 id="文件列表"><a href="#文件列表" class="headerlink" title="文件列表"></a>文件列表</h2><p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/02.png" width=800><br></p>
+
+<p>打开文件列表的pannel之后，其实又有3个小的显示窗口，分别显示当前打开的编辑器窗口(open editors)、当前目录下的文件列以及当前文件的一个大纲(outline)，注意这几个窗口是可以折叠起来的。所以对我来说，有效的也就是当前目录中的文件列，其他两个窗口我都折叠了起来。</p>
+<h2 id="查找和替换"><a href="#查找和替换" class="headerlink" title="查找和替换"></a>查找和替换</h2><p>快捷键Cmd+F(Mac)和Ctrl+F(Win)其实就可以打开查找的小窗，但是那样只是在当前的文件中查看，所以再按下Shift时，就会自动打开这个查找和替换的操作栏了，在这里的查找和替换操作就是当前项目的全局查找了。</p>
+<h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><p>目前基本主流的都用Git来实现版本控制了吧。所以这里可以很方便的得执行git的一些操作。因为VSCode已经内嵌进去了Git作为版本控制的工具，所以当你打开的工程已经是一个Git工程时，一些增删改的操作，都会直观地显示在文件目录中，如下图所示：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/03.png" width=400><br></p>
+
+<ul>
+<li>绿色的表示新增的文件(U)</li>
+<li>黄色的表示有修改的文件(M)，而且有修改的文件目录都会层级地有圆点标识出来。</li>
+</ul>
+<h3 id="commit和push"><a href="#commit和push" class="headerlink" title="commit和push"></a>commit和push</h3><p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/04.png" width=400><br></p>
+
+<p>点开版本控制的操作板后，可以看到发生改变的文件，点击图中的 <strong>+</strong> 号，就可以批量全部stage</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/05.png" width=400><br></p>
+
+<p>这里不得不说VSCode做的稍微一点欠缺，你需要仔细看，才发现两个文件由<code>CHANGED</code>变成了<code>STAGED CHANGES</code>。 然后在输入框中输入message信息，直接用快捷键cmd+enter就完成了commit。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/06.png" width=800><br></p>
+
+<p>push操作需要点击屏幕左下角的同步按钮，VSCode会帮你完成pull&amp;push的操作。</p>
+<p>熟悉Git操作的同学，一般很快就可以上手，这里就不过多解释了。</p>
+<h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><p>和Atom一样，VSCode仅仅是作为我的一个文本编辑工具，我并没有把它当做一个IDE来使用，所以我这里直接跳到插件一栏。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/07.png" width=800><br></p>
+
+<p>和文件的pannel类似，这里的几个子窗口, ENABLED、DISABLED、RECOMMENED也是可以折叠和打开的。笔者是把<code>GitLens</code>这个VSCODE默认安装并启用的插件禁用的了。这个插件的效果其实蛮酷炫的，它可以实时显示你的每行代码提交的历史，最近的修改人，修改message等信息。但是对我个人而言，所有的editor都是我自己，而且因为有了很多多余的信息，整个窗口会允许左右滑动，而的我代码明明是在屏幕宽度以内的，这点令强迫症的我非常不爽。 所以就禁用掉了。</p>
+<p>这里说下我常用的一些插件吧：</p>
+<ul>
+<li>Atom Keymap ：因为习惯了Atom的快捷键操作，所以VSCODE提供的这个Atom 的keymap就被我直接copy过来了。当然，在Atom的插件里，也有VSCODE的keymap，方便程序猿转换编辑器的使用？</li>
+<li>Beautify ：也是老牌的插件了，可以美化很多代码</li>
+<li>changeEncode： 自动变换编码，当编码是gbk时，自动就修改了编码</li>
+<li>file-icons：文件图标，颜控必备</li>
+<li>Git Project Manager：方便快速打开git文件。这是我最常用的功能了，而且随着你使用度的增加，这个功能会越来越顺手，可以很方便的在各个项目之间切换</li>
+</ul>
+<p>还有一些插件大家看个人习惯安装吧，它们是：<br>Auto Import, C/C++, C++ intellisense, Color Highlight, File Utils, Git History, Highlight Matching Tag, HTML CSS Support, Import Cost, indent-rainbow(就是上图里面不同层级的代码前面的不同颜色)，JS-CSS-HTML Formatter, Marddown Preview Enhanced。</p>
+<h1 id="额外使用Tips"><a href="#额外使用Tips" class="headerlink" title="额外使用Tips"></a>额外使用Tips</h1><h2 id="git-history"><a href="#git-history" class="headerlink" title="git history"></a>git history</h2><p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/08.png" width=800><br></p><br>屏幕右上角可以点开git的提交历史<br><br>## 分栏<br>这个功能我觉得还是非常实用的，又可以多个窗口查看不同代码，还可以例如markdown的预览。而且，分栏不但可以分两栏，还可以多分好几栏<br><br><p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/09.png" width=800><br></p>
+
+<h2 id="样式Theme"><a href="#样式Theme" class="headerlink" title="样式Theme"></a>样式Theme</h2><p>我个人的样式用的是白色主题的Solarized Light, 但是我司的90后们基本上全用的黑色主题，只能说，年龄大了，看黑色主题时间长了有点眼花</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/10.png" width=800><br></p>
+
+<h2 id="显示空格和TAB"><a href="#显示空格和TAB" class="headerlink" title="显示空格和TAB"></a>显示空格和TAB</h2><p>个人习惯了，需要把空格和tab显示出来，上面的图里面对空个就是<code>·</code>来显示，tab就是一个向右的箭头，这样就可以方便地看出来文本中的所有内容，因为有的时候可能从别人拷来的文件，tab是4个空格等。</p>
+<p>配置如下：打开配置项，搜索<code>render</code>，然后分别勾选如下：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20190804/11.png" width=800><br></p>
+
+<p>注意空格那里的配置，选择<code>boundary</code>表示只显示开头或结果的空格，如果是字母中间的空格，就隐去不显示，当然你也可以选择<code>all</code>显示所有的空格，看个人习惯。</p>
+<hr>
+<p>基本就这些吧，如果有新的使用tips，我会及时补充的。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/VSCode/">VSCode</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2019/08/04/tips-for-vscode-in-mac/" data-title="【VSCode】VSCode入门介绍及使用技巧 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/08/05/high-concurrent-system-configration-with-nginx-and-rhel/" title="【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Nginx】Nginx高并发业务场景下的Linux系统配置及Nginx配置</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/07/18/install-vim-in-docker-container/"  title="【Docker】在容器中安装使用Vim及Vim常用技巧">
+ <strong>下一篇：</strong><br/> 
+ <span>【Docker】在容器中安装使用Vim及Vim常用技巧
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Sun Aug 04 2019 09:25:02 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#整体布局介绍"><span class="toc-number">1.</span> <span class="toc-text">整体布局介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件列表"><span class="toc-number">1.1.</span> <span class="toc-text">文件列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找和替换"><span class="toc-number">1.2.</span> <span class="toc-text">查找和替换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本控制"><span class="toc-number">1.3.</span> <span class="toc-text">版本控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#commit和push"><span class="toc-number">1.3.1.</span> <span class="toc-text">commit和push</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#插件"><span class="toc-number">2.</span> <span class="toc-text">插件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#额外使用Tips"><span class="toc-number">3.</span> <span class="toc-text">额外使用Tips</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#git-history"><span class="toc-number">3.1.</span> <span class="toc-text">git history</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#样式Theme"><span class="toc-number">3.2.</span> <span class="toc-text">样式Theme</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显示空格和TAB"><span class="toc-number">3.3.</span> <span class="toc-text">显示空格和TAB</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

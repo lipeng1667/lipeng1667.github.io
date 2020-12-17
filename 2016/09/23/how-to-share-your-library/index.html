@@ -1,0 +1,755 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【开源】一步一步教你在bintray上分享自己的开源库 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="之前在Github上引入别人的开源库，有一种非常简单的方法，如果你是用Gradle打包，那么直接在你的工程build.gradle中添加入下面的内容就可以实现了: 123dependencies &amp;#123;    compile &#39;com.microwu.ptrwebviewlibray:ptrwebview:1.0.0&#39;&amp;#125; 那其实这样格式的开源库都是上传到了bintray上面，然后在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【开源】一步一步教你在bintray上分享自己的开源库">
+<meta property="og:url" content="http://lipeng1667.github.io/2016/09/23/how-to-share-your-library/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="之前在Github上引入别人的开源库，有一种非常简单的方法，如果你是用Gradle打包，那么直接在你的工程build.gradle中添加入下面的内容就可以实现了: 123dependencies &amp;#123;    compile &#39;com.microwu.ptrwebviewlibray:ptrwebview:1.0.0&#39;&amp;#125; 那其实这样格式的开源库都是上传到了bintray上面，然后在">
+<meta property="article:published_time" content="2016-09-23T07:42:26.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.210Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="开源">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/09/23/how-to-share-your-library/" title="【开源】一步一步教你在bintray上分享自己的开源库" itemprop="url">【开源】一步一步教你在bintray上分享自己的开源库</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-09-23T07:42:26.000Z" itemprop="datePublished"> Published 2016-09-23</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新建并调试自己的库"><span class="toc-number">2.</span> <span class="toc-text">新建并调试自己的库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改你的文件结构"><span class="toc-number">2.1.</span> <span class="toc-text">修改你的文件结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建Library"><span class="toc-number">2.2.</span> <span class="toc-text">新建Library</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地调试"><span class="toc-number">2.3.</span> <span class="toc-text">本地调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传到Github"><span class="toc-number">2.4.</span> <span class="toc-text">上传到Github</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备上传到bintray"><span class="toc-number">3.</span> <span class="toc-text">准备上传到bintray</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册并新建自己的仓库"><span class="toc-number">3.1.</span> <span class="toc-text">注册并新建自己的仓库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在AndroidStudio中上传库文件"><span class="toc-number">4.</span> <span class="toc-text">在AndroidStudio中上传库文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改build-gradle文件"><span class="toc-number">4.1.</span> <span class="toc-text">修改build.gradle文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整个工程全局的build-gradle文件"><span class="toc-number">4.1.1.</span> <span class="toc-text">整个工程全局的build.gradle文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你新建的Module中的build-gradle文件"><span class="toc-number">4.1.2.</span> <span class="toc-text">你新建的Module中的build.gradle文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加两个插件"><span class="toc-number">4.1.2.1.</span> <span class="toc-text">添加两个插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group和版本号"><span class="toc-number">4.1.2.2.</span> <span class="toc-text">group和版本号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译类库"><span class="toc-number">4.1.2.3.</span> <span class="toc-text">编译类库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加bintray中的package信息"><span class="toc-number">4.1.2.4.</span> <span class="toc-text">添加bintray中的package信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改local-properties文件"><span class="toc-number">4.2.</span> <span class="toc-text">修改local.properties文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在终端中进行上传"><span class="toc-number">4.3.</span> <span class="toc-text">在终端中进行上传</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何update"><span class="toc-number">5.</span> <span class="toc-text">如何update</span></a></li></ol>
+		
+		</div>
+		
+		<p>之前在Github上引入别人的开源库，有一种非常简单的方法，如果你是用Gradle打包，那么直接在你的工程build.gradle中添加入下面的内容就可以实现了:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    compile <span class="string">'com.microwu.ptrwebviewlibray:ptrwebview:1.0.0'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那其实这样格式的开源库都是上传到了<a href="https://bintray.com/" target="_blank" rel="noopener">bintray</a>上面，然后在分享给大家的。正好最近想着把自己写的一个<a href="http://lipeng1667.github.io/2016/09/12/android-webview-pull-to-refresh/">下拉刷新WebView</a>给开源了，于是就研究了下如何共享。</p>
+<a id="more"></a>
+<p>这篇博文就详细记录下从建立开源库到最终分享到bintray网站上的全过程。<br>首先感谢<a href="http://blog.csdn.net/hejjunlin/article/details/52452220" target="_blank" rel="noopener">这篇博文：手把手图文并茂教你发布Android开源库</a>，绝大多数步骤都是按照这篇文章来的，不过我自己完善了一下步骤，同时有几个地方需要特别注意下，一起来看吧。</p>
+<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><p>下面是我的开发环境，和原博文中的部分版本不一样，可能有部分命令也需要适当的修改，具体我们在后面会看到。</p>
+<ul>
+<li>AndroidStudio 2.2</li>
+<li>compileSdkVersion 23</li>
+<li>buildToolsVersion “23.0.3”</li>
+<li>gradle 2.14</li>
+</ul>
+<h1 id="新建并调试自己的库"><a href="#新建并调试自己的库" class="headerlink" title="新建并调试自己的库"></a>新建并调试自己的库</h1><p>这里先澄清一个误解：你的开源库<strong>不需要</strong>上传Github也可以分享到bintray网站上进而让大家使用。</p>
+<p>只不过把你的项目上传到Github之后，你的库才叫“开源”对不对；其次你可以把自己的Demo也一并上传，同时可以在页面上进行一些说明，相当于Github的页面就成为你的开源库的主页面，大家可以通过这个页面了解你的开源库如何使用，版本说明，最新更新等等。<br>例如我刚刚开源的库托管在Github上的页面为<a href="https://github.com/lipeng1667/PullToRefreshWebView" target="_blank" rel="noopener">https://github.com/lipeng1667/PullToRefreshWebView</a></p>
+<p>好了，那知道这个大前提了，我们的第一步就是先在本地建好并调试自己准备开源的库。我这里仅列出来关键的几个步骤，如果对如何新建library还不熟悉的同学，可以参见<a href="http://icodeyou.com/2015/12/23/2015-12-23-AndroidLibraryJitPack/" target="_blank" rel="noopener">这篇博文：写自己的开源库，发布到 JitPack.io</a>的前半部分，后半部分如果想发布到JitPack可以参考。我们要发布到bintray，而不是JitPack.io。</p>
+<h2 id="修改你的文件结构"><a href="#修改你的文件结构" class="headerlink" title="修改你的文件结构"></a>修改你的文件结构</h2><p>我们新建一个工程默认的module名称是<code>app</code>，我们可以在这个工程下引入其他库来完成自己的功能，那其实这个module可以作为我们的实例工程。我们可以看到很多Github上的开源库都有一个文件夹，命名为<code>Sample</code>或者<code>Demo</code>的字样，其实就是这个module。那我们也修改一下，让你的工程上传到Github上以后，更容易被大家看懂。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160923/000.png" width=800><br></p>
+
+<p>图中是我已经修改过的名称，红框中的文件夹应该是<code>app</code>，如果你没有修改的话。我们右键它，然后选择<code>Refact -&gt; Rename</code><br>在弹出的对话框中选择<code>Rename module</code>。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160923/001.png" width=250><br></p>
+
+<p>接下来就可以把它改成诸如<code>Sample</code>或者<code>Demo</code>了，从图中可以看出，我是改成了<code>SimpleDemo</code>。</p>
+<h2 id="新建Library"><a href="#新建Library" class="headerlink" title="新建Library"></a>新建Library</h2><p>接下来我们就开始创建我们的目标： 开源库。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160923/002.png" width=800><br></p>
+
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160923/003.png" width=800><br></p>
+
+<p>当你点击next之后，你的目录中就会多出来一个文件夹，以你刚建好的<code>Module name</code>命名。接下来，就在你的module中完成自己想要的功能吧。</p>
+<h2 id="本地调试"><a href="#本地调试" class="headerlink" title="本地调试"></a>本地调试</h2><p>当你的module开发中，如何进行本地的调试呢？很简单，只需要在你的主工程的<code>build.gradle</code>中添加进入下面的代码：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile project[<span class="string">':你刚建立好的module名称'</span>]</span><br></pre></td></tr></table></figure>
+<p>以我的代码为例：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160923/004.png" width=800><br></p>
+
+<p>接着就可以在你的工程中import你自己的库名称了，接下来在本地把自己的开源库调试完整吧~</p>
+<h2 id="上传到Github"><a href="#上传到Github" class="headerlink" title="上传到Github"></a>上传到Github</h2><p>虽然开篇的时候我说了其实Github并不是我们建立开源库的必要条件，但是做为全球最大的开源库平台，把自己的项目委托在Github上方便更多的人使用，同时，我们后面的步骤也要用到Github上的项目地址，所以这里最好能把项目上传到Github上。<br>关于如何上传Github网上有很多文章，这里就不做过多的叙述了。</p>
+<h1 id="准备上传到bintray"><a href="#准备上传到bintray" class="headerlink" title="准备上传到bintray"></a>准备上传到bintray</h1><p>当你认为你的开源库已经调试完成并托管到Github，就可以进入正式开源库的阶段了，也就是今天我们这篇博文的主题。</p>
+<h2 id="注册并新建自己的仓库"><a href="#注册并新建自己的仓库" class="headerlink" title="注册并新建自己的仓库"></a>注册并新建自己的仓库</h2><p>第一步当然就是去<a href="https://bintray.com" target="_blank" rel="noopener">bintray官网(https://bintray.com)</a>上注册账号了。</p>
+<ul>
+<li>在主页上点击<code>Get Started For Free</code>，然后点击<code>Sign up</code>进入注册流程</li>
+</ul>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/1.png" width=800><br></p>
+
+<ul>
+<li>记好自己的用户名(不是第2行中的full name)，这个用户名在后面还会被用到</li>
+</ul>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/2.png" width=800><br></p>
+
+<ul>
+<li>因为是全新的账号，所以我们要开始创建Repository，就是Git中的仓库的概念。点击左上角的<code>Add</code>按钮</li>
+</ul>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/3.png" width=800><br></p>
+
+<ul>
+<li><p>填写仓库的相关信息</p>
+<p>  还记得在开头的时候提到过，别人的开源库的地址一般是<code>xxx:xxx:1.0.x</code>这样的格式么？其中用<code>:</code>把开源库的地址分成了3部分，第一部分是仓库的名称，也就是我们这一步要完成的工作；第2部分是package的名称，我们会在下一步看到；最后一部分是版本号。<br>  我们来看第1步：</p>
+<ul>
+<li>name字段就是仓库的名称，就是显示在你的开源库地址的第1部分</li>
+<li>type字段我们一般选取Maven</li>
+<li>Default License字段一般也选用的Apache的开源协议。当然你也可以填入你自己的License</li>
+<li>Description字段是可选的，就是对你的仓库的一个描述</li>
+</ul>
+</li>
+</ul>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/4.png" width=800><br></p>
+
+<p>完成之后点击<code>Create</code>,我们的仓库就建好了。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/5.png" width=800><br></p>
+
+<p>然后我们点击右下角的<code>Add New Package</code>按钮</p>
+<ul>
+<li><p>新建Package</p>
+<p>  标<code>*</code>号的是必填的项目：</p>
+<ul>
+<li>Name是package的名称</li>
+<li>Licenses是默认和我们的repository保持一致</li>
+<li>Version control建议填入我们在github上的页面URL</li>
+</ul>
+</li>
+</ul>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/6.png" width=800><br></p>
+
+<p>完成之后，点击<code>Create Package</code>按钮,在下面的界面就可以看到我们成功建立好的package。可以在顶部看到包含repository和package的名称，在下面的Details中可以看到我们上一步填写进去的内容。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/7.png" width=800><br></p>
+
+<h1 id="在AndroidStudio中上传库文件"><a href="#在AndroidStudio中上传库文件" class="headerlink" title="在AndroidStudio中上传库文件"></a>在AndroidStudio中上传库文件</h1><p>准备工作已经完成，下面就进入到上传你的库的实际过程了。</p>
+<h2 id="修改build-gradle文件"><a href="#修改build-gradle文件" class="headerlink" title="修改build.gradle文件"></a>修改build.gradle文件</h2><p><font color=red size=5><strong>注意:</strong></font><br>这里一共需要修改两个地方的Build.gradle文件</p>
+<h3 id="整个工程全局的build-gradle文件"><a href="#整个工程全局的build-gradle文件" class="headerlink" title="整个工程全局的build.gradle文件"></a>整个工程全局的build.gradle文件</h3><p>在<code>dependencies</code>中添加进下面的两条内容</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">classpath <span class="string">'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'</span></span><br><span class="line">classpath <span class="string">'com.github.dcendents:android-maven-gradle-plugin:1.4.1'</span></span><br></pre></td></tr></table></figure>
+<p>最终的文件类似这样：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/8.png" width=800><br></p>
+
+<h3 id="你新建的Module中的build-gradle文件"><a href="#你新建的Module中的build-gradle文件" class="headerlink" title="你新建的Module中的build.gradle文件"></a>你新建的Module中的build.gradle文件</h3><p>Module中需要添加的内容比较多：</p>
+<h4 id="添加两个插件"><a href="#添加两个插件" class="headerlink" title="添加两个插件"></a>添加两个插件</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">'com.jfrog.bintray'</span></span><br><span class="line">apply <span class="string">plugin:</span> <span class="string">'com.github.dcendents.android-maven'</span></span><br></pre></td></tr></table></figure>
+<h4 id="group和版本号"><a href="#group和版本号" class="headerlink" title="group和版本号"></a>group和版本号</h4><p>这里需要把我们的bintray账号中新建的group(也就是repository)以及当前要上传的库的版本号写进去：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">group = <span class="string">'com.microwu.ptrwebviewlibray'</span></span><br><span class="line">version = <span class="string">'1.0.0'</span></span><br></pre></td></tr></table></figure>
+<p>这里以我首次上传下拉刷新webview时的group和version号做为示例。</p>
+<h4 id="编译类库"><a href="#编译类库" class="headerlink" title="编译类库"></a>编译类库</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">task generateSourcesJar(<span class="string">type:</span> Jar) &#123;</span><br><span class="line">    from android.sourceSets.main.java.srcDirs</span><br><span class="line">    classifier <span class="string">'sources'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task generateJavadocs(<span class="string">type:</span> Javadoc) &#123;</span><br><span class="line">    source = android.sourceSets.main.java.srcDirs</span><br><span class="line">    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task generateJavadocsJar(<span class="string">type:</span> Jar, <span class="string">dependsOn:</span> generateJavadocs) &#123;</span><br><span class="line">    from generateJavadocs.destinationDir</span><br><span class="line">    classifier <span class="string">'javadoc'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将上面的代码直接拷贝进去，关于这些代码的意义参见原<a href="http://blog.csdn.net/hejjunlin/article/details/52452220" target="_blank" rel="noopener">博文</a>。</p>
+<p>同时还需要添加<code>artifacts</code>：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">archives generateJavaDocsJar</span><br><span class="line">archives generateSourcesJar</span><br></pre></td></tr></table></figure>
+<h4 id="添加bintray中的package信息"><a href="#添加bintray中的package信息" class="headerlink" title="添加bintray中的package信息"></a>添加bintray中的package信息</h4><p>接下来就需要把我们在bintray中申请的package相关信息填写进来</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Properties properties = <span class="keyword">new</span> Properties()</span><br><span class="line">properties.load(project.rootProject.file(<span class="string">'local.properties'</span>).newDataInputStream())</span><br><span class="line"></span><br><span class="line">bintray &#123;</span><br><span class="line">    user = properties.getProperty(<span class="string">"bintray.user"</span>)</span><br><span class="line">    key = properties.getProperty(<span class="string">"bintray.apikey"</span>)</span><br><span class="line"></span><br><span class="line">    pkg &#123;</span><br><span class="line">        repo = <span class="string">'你申请的repository名称'</span></span><br><span class="line">        name = <span class="string">'将会显示在页面上的package名称'</span></span><br><span class="line"></span><br><span class="line">        version &#123;</span><br><span class="line">            name = <span class="string">'1.0.0-release'</span></span><br><span class="line">            desc = <span class="string">"package简介"</span></span><br><span class="line">            vcsTag = <span class="string">'1.0.0'</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        licenses = [<span class="string">'Apache-2.0'</span>]</span><br><span class="line">        vcsUrl = <span class="string">'你的项目github地址url + .git'</span></span><br><span class="line">        websiteUrl = <span class="string">'你的项目github地址'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    configurations = [<span class="string">'archives'</span>]</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里，所有的Buidle文件都修改完成了，最终的成品大家可以参考下我的buidle文件，其中红框标出的是需要我们新添加进去的内容，黄色框标出的是要按照你们自己的内容替换的。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/9.png" width=800><br></p>
+
+<h2 id="修改local-properties文件"><a href="#修改local-properties文件" class="headerlink" title="修改local.properties文件"></a>修改local.properties文件</h2><p>我们注意到在向buidle.gradle文件中添加package信息时，有两行代码：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user = properties.getProperty(<span class="string">"bintray.user"</span>)</span><br><span class="line">key = properties.getProperty(<span class="string">"bintray.apikey"</span>)</span><br></pre></td></tr></table></figure>
+<p>其中是获取bintray的user和apikey，那这两个是存储在proerties文件中的，所以我们需要填写这两个信息<br>那user就是我们注册bintray时填写的用户名，还记得我之前在注册时提醒大家要留意的么，就是那个用户名（不是full name）；apikey从哪里取呢？？看下面的步骤：</p>
+<ul>
+<li><p>在右上角点击你的名称，然后下拉菜单中选择<code>Manage Orgnizations</code></p>
+  <p align=center><br>      <img src = "http://www.microwu.com/MichaelLee/20160926/10.png" width=700><br>  </p>
+</li>
+<li><p>接下来选择左侧最下面一栏中的<code>apikey</code></p>
+  <p align=center><br>      <img src = "http://www.microwu.com/MichaelLee/20160926/11.png" width=600><br>  </p>
+
+<p>  然后填入自己的密码，就可以提取出来了。</p>
+</li>
+</ul>
+<p>最后，<code>local.properties</code>文件所在的位置和全局的Build.gradle在同样的级别，最终的示例如下：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/12.png" width=500><br></p>
+
+<h2 id="在终端中进行上传"><a href="#在终端中进行上传" class="headerlink" title="在终端中进行上传"></a>在终端中进行上传</h2><p>这里你既可以在系统自带的Terminal中上传，也可以用AndroidStudio自带的终端进行上传，其实AndroidStudio中的Terminal就是你系统中的Terminal，只不过自动帮你CD到了项目所在的根目录下面而已。<br>所以，如果你使用系统自带的Terminal，最好先CD到项目所在的目录下面。</p>
+<p>首先执行下面的命令：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\gradlew install</span><br></pre></td></tr></table></figure>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/13.png" width=800><br></p>
+
+<p>这里为什么是<code>.\gradlew</code>如果你仔细看项目的根目录下面，其实是有一个可执行的gradlew文件的，我们其实就是使用的这个文件，而<code>.\</code>就表示使用的是当前的目录。</p>
+<p>执行成功之后，会看到这样的提示：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/14.png" width=800><br></p>
+
+<p>而且可以看到在我们的module文件夹中，多出来了这么多的文件，这些文件就是要上传到bintray网站上的内容。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/15.png" width=500><br></p>
+
+
+<p>接下来执行下面的命令：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew bintrayUpload</span><br></pre></td></tr></table></figure>
+<p>注意如果你看到和我一样的类似的错误提示，那一定是你之前修改build.gradle文件中的某些内容没有填写正确：</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/16.png" width=800><br></p>
+
+<p>图里面的错误就是根据文件中配置的内容，没有发现名为<em>maven</em>的repo，所以repo要写成自己创建的名称。</p>
+<p>如果你最终上传成功了，到bintray网站上自己的repo中查看下，就能看到已经有一个新的package了，里面的内容和我们在AndroidStudio中配置的内容是完全一致的。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/17.png" width=800><br></p>
+
+<p>点击右下角的<code>Add to jCenter</code>图标，就上传到jCenter中进行审核。</p>
+<p align=center><br>    <img src = "http://www.microwu.com/MichaelLee/20160926/18.png" width=800><br></p>
+
+<p><font color=red>注意：</font></p>
+<ol>
+<li>勾选上<code>Host my snapshot ...</code>选项，然后在弹出的框中填入自己的唯一的标识</li>
+<li>点击Send之后，界面顶端会弹出一个颜色很浅的提示，表示你已经上传成功了。但是这个提示框时间很短，而且颜色也很浅，所以我第一次都没有发现已经传成功了。</li>
+</ol>
+<p>最后就和上传APP Store中需要等待审核一样，不过这个审核时间比较快，一般12个小时之内就能收到答复，会向你注册bintray时的邮箱中发送审核通过或失败的邮件。</p>
+<p>到这里，一个完成的从0到1的分享自己的开源库的过程就完成了。</p>
+<h1 id="如何update"><a href="#如何update" class="headerlink" title="如何update"></a>如何update</h1><p>下面的步骤我还没有尝试，不过原理上讲应该是没有问题的。<br>就是我们最开始上传的都是1.0.0版本的开源库，如果你的库进行了升级，到了1.0.1版本，怎么做呢？</p>
+<p>就是在本地的build.gradle文件中修改一下版本号名称，然后进行同样的 <code>gradlew install</code>、 <code>gradlew bintrayUpload</code>，然后在Bintray页面上重新上传到jCenter中就ok了！</p>
+<p>有任何问题，欢迎大家留言讨论~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开源/">开源</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2016/09/23/how-to-share-your-library/" data-title="【开源】一步一步教你在bintray上分享自己的开源库 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/11/24/take-place-of-disqus-with-duoshuo/" title="【Blog】设置Hexo使用多说代替Disqus">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Blog】设置Hexo使用多说代替Disqus</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/09/12/android-webview-pull-to-refresh/"  title="【Android】WebView下拉刷新功能源码解析">
+ <strong>下一篇：</strong><br/> 
+ <span>【Android】WebView下拉刷新功能源码解析
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Fri Sep 23 2016 15:42:26 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新建并调试自己的库"><span class="toc-number">2.</span> <span class="toc-text">新建并调试自己的库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改你的文件结构"><span class="toc-number">2.1.</span> <span class="toc-text">修改你的文件结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建Library"><span class="toc-number">2.2.</span> <span class="toc-text">新建Library</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地调试"><span class="toc-number">2.3.</span> <span class="toc-text">本地调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传到Github"><span class="toc-number">2.4.</span> <span class="toc-text">上传到Github</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备上传到bintray"><span class="toc-number">3.</span> <span class="toc-text">准备上传到bintray</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册并新建自己的仓库"><span class="toc-number">3.1.</span> <span class="toc-text">注册并新建自己的仓库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在AndroidStudio中上传库文件"><span class="toc-number">4.</span> <span class="toc-text">在AndroidStudio中上传库文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改build-gradle文件"><span class="toc-number">4.1.</span> <span class="toc-text">修改build.gradle文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整个工程全局的build-gradle文件"><span class="toc-number">4.1.1.</span> <span class="toc-text">整个工程全局的build.gradle文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你新建的Module中的build-gradle文件"><span class="toc-number">4.1.2.</span> <span class="toc-text">你新建的Module中的build.gradle文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加两个插件"><span class="toc-number">4.1.2.1.</span> <span class="toc-text">添加两个插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group和版本号"><span class="toc-number">4.1.2.2.</span> <span class="toc-text">group和版本号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译类库"><span class="toc-number">4.1.2.3.</span> <span class="toc-text">编译类库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加bintray中的package信息"><span class="toc-number">4.1.2.4.</span> <span class="toc-text">添加bintray中的package信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改local-properties文件"><span class="toc-number">4.2.</span> <span class="toc-text">修改local.properties文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在终端中进行上传"><span class="toc-number">4.3.</span> <span class="toc-text">在终端中进行上传</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何update"><span class="toc-number">5.</span> <span class="toc-text">如何update</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,702 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>远程连接MySQL以及PHPStorm远程开发你的php项目 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="在上一篇博文中介绍了如何在完整地搭建LAMP环境。其中提到了新建一个可以在任意IP地址远程连接MySQL的用户，今天这篇博文就详细介绍下如何在你的电脑上远程连接mysql，并且介绍如何用phpstorm来远程开发你的php项目。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="远程连接MySQL以及PHPStorm远程开发你的php项目">
+<meta property="og:url" content="http://lipeng1667.github.io/2016/08/05/connect_remote_mysql_and_config_phpstorm_for_your_php_project/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="在上一篇博文中介绍了如何在完整地搭建LAMP环境。其中提到了新建一个可以在任意IP地址远程连接MySQL的用户，今天这篇博文就详细介绍下如何在你的电脑上远程连接mysql，并且介绍如何用phpstorm来远程开发你的php项目。">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/11.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/12.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/13.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/14.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/15.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/16.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/17.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/18.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/19.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/20.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/21.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/22.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/23.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/24.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160805/25.png">
+<meta property="article:published_time" content="2016-08-05T02:04:00.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.190Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20160805/11.png">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/05/connect_remote_mysql_and_config_phpstorm_for_your_php_project/" title="远程连接MySQL以及PHPStorm远程开发你的php项目" itemprop="url">远程连接MySQL以及PHPStorm远程开发你的php项目</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-05T02:04:00.000Z" itemprop="datePublished"> Published 2016-08-05</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#远程连接mysql"><span class="toc-number">1.</span> <span class="toc-text">远程连接mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载mysql"><span class="toc-number">1.1.</span> <span class="toc-text">下载mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置mysql的别名"><span class="toc-number">1.2.</span> <span class="toc-text">设置mysql的别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#远程连接mysql-1"><span class="toc-number">1.3.</span> <span class="toc-text">远程连接mysql</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#搭建PhpStorm开发环境"><span class="toc-number">2.</span> <span class="toc-text">搭建PhpStorm开发环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#连接mysql数据库"><span class="toc-number">2.1.</span> <span class="toc-text">连接mysql数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建database"><span class="toc-number">2.1.1.</span> <span class="toc-text">新建database</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加MySQL"><span class="toc-number">2.1.2.</span> <span class="toc-text">添加MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#保存连接"><span class="toc-number">2.1.3.</span> <span class="toc-text">保存连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#成功接入"><span class="toc-number">2.1.4.</span> <span class="toc-text">成功接入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#远程开发PHP"><span class="toc-number">2.2.</span> <span class="toc-text">远程开发PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建工程"><span class="toc-number">2.2.1.</span> <span class="toc-text">创建工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加远程的服务器"><span class="toc-number">2.2.2.</span> <span class="toc-text">添加远程的服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在php文件中连接数据"><span class="toc-number">2.2.3.</span> <span class="toc-text">在php文件中连接数据</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<p>在<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>中介绍了如何在完整地搭建LAMP环境。其中提到了新建一个可以在任意IP地址远程连接MySQL的用户，今天这篇博文就详细介绍下如何在你的电脑上远程连接mysql，并且介绍如何用phpstorm来远程开发你的php项目。</p>
+<a id="more"></a>
+<p>我的开发环境是MAC，所以我这篇博文里面的相关方法都是在macOS环境下的，不过如果你习惯在win上面用命令行的话，我相信问题不大。</p>
+<h1 id="远程连接mysql"><a href="#远程连接mysql" class="headerlink" title="远程连接mysql"></a>远程连接mysql</h1><p>前提是你已经新建好了一个可以在任意IP地址连接数据库的用户，如果不清楚如何创建，请参考我的<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>中关于MySQL的部分。</p>
+<h2 id="下载mysql"><a href="#下载mysql" class="headerlink" title="下载mysql"></a>下载mysql</h2><p>MacOS系统本身是不带mysql的，所以我们需要去官网上下载一下。<br><img src="http://www.microwu.com/MichaelLee/20160805/11.png" alt=""><br>我下载的是<a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">MySQL Community Server</a>, 其实这个不是普通的安装包，就是一个压缩包，因为我们要在命令行下远程连接mysql，所以，这个包就足够了~<br>解压缩之后，记下你保存的位置，我们要用到<code>bin</code>文件夹中的<code>mysql</code>。</p>
+<h2 id="设置mysql的别名"><a href="#设置mysql的别名" class="headerlink" title="设置mysql的别名"></a>设置mysql的别名</h2><p>我因为之前装了<code>zsh</code>,所以直接在<code>~/.zhsrc</code>中进行相关的别名设置就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias mysql&#x3D;&#39;&#x2F;yourpath&#x2F;mysql-5.7.14-osx10.11-x86_64&#x2F;mysql-5.7.14-osx10.11-x86_64&#x2F;bin&#x2F;mysql&#39;</span><br></pre></td></tr></table></figure>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/12.png" alt=""></p>
+<p>注：</p>
+<ul>
+<li>如果不设置别名的话，每次需要使用完整的路径才能在命令行中使用mysql</li>
+<li>如果对我的主题感兴趣，可以参见我的<a href="http://lipeng1667.github.io/2016/04/01/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E4%BD%BF%E7%94%A8Mac/">这篇博文</a></li>
+<li>如果你没有安装zsh，可以直接修改<code>~/.bash_profile</code>文件，如果没有这个文件的话，直接新建一个好了</li>
+<li>如果你是在<code>.zshrc</code> 中添加了别名，记得最后要 <code>source ~/.zshrc</code>一下；如果是在 <code>bash_profile</code>中，则<code>source ~/.bash_profile</code></li>
+</ul>
+<h2 id="远程连接mysql-1"><a href="#远程连接mysql-1" class="headerlink" title="远程连接mysql"></a>远程连接mysql</h2><p>直接在命令行中键入下面的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u yourname -h xxx.xxx.xxx.xxx -p</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li><code>-u</code> 后面接的是我们新建好的用户名称，记得一定要设置可以在任意ip地址访问呦（或者指定ip地址也可以，但是一定要设置就好了）；</li>
+<li><code>-h</code> 后面接的是我们的mysql远程地址</li>
+</ul>
+<p>输入密码就可以远程访问我们的mysql了<br><img src="http://www.microwu.com/MichaelLee/20160805/13.png" alt=""></p>
+<p>这里有一个特别有意思的地方，我们可以看到在命令行中远程接入数据库，是要我们输入密码的，但是后面我们通过php连接的时候，却会发现很奇怪的现象，这个现象的原因在我的<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>中有详细描述，我们还是直接来看一下好了，不过不要急，我们先来搭建好phpstorm的环境。</p>
+<h1 id="搭建PhpStorm开发环境"><a href="#搭建PhpStorm开发环境" class="headerlink" title="搭建PhpStorm开发环境"></a>搭建PhpStorm开发环境</h1><p><a href="http://www.jetbrains.com/phpstorm/" target="_blank" rel="noopener">PhpStorm</a>也是JetBrains旗下非常好用的一款软件，当然也是要收费的，不过Mac用户可以通过这个<a href="http://xclient.info/s/php-storm.html" target="_blank" rel="noopener">网站</a>上下载PhpStorm，你懂的~</p>
+<h2 id="连接mysql数据库"><a href="#连接mysql数据库" class="headerlink" title="连接mysql数据库"></a>连接mysql数据库</h2><p>其实原理和我们之前在命令行中远程连接一样，如果你习惯看图形界面，那么你可以直接在PhpStorm上面进行数据库的一些操作。</p>
+<h3 id="新建database"><a href="#新建database" class="headerlink" title="新建database"></a>新建database</h3><p>在顶部菜单栏中选择 <code>View -&gt; Tool Windows --&gt; Database</code></p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/14.png" alt=""></p>
+<h3 id="添加MySQL"><a href="#添加MySQL" class="headerlink" title="添加MySQL"></a>添加MySQL</h3><p>选择左上角的 <strong>+</strong> 号，然后在弹出的列表中依次选择 <code>Data Source --&gt; MySQL</code></p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/15.png" alt=""></p>
+<p>接着填写相关的信息：</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/16.png" alt=""></p>
+<ul>
+<li><code>Host</code>：就是我们的远程主机的IP地址。这里说一下，一般商用的系统，服务器和数据库是分离的，这样可以保证数据的安全，不至于服务器被攻破以后数据库也一并暴露（或者反过来），但是我们的小系统没有必要分离，所以主机和数据库放在一起。</li>
+<li><code>Database</code>： 就是我们选择的某一个数据库，因为可能你新建的用户只允许访问某一个特殊的数据库，这里也可以留空就表示所有的库都可以访问</li>
+<li><code>User</code>： 我们新建的用户名</li>
+<li><code>Password</code>： 密码</li>
+</ul>
+<p>注意看最下方，如果你们是第一次通过PhpStorm建立远程连接，应该会提示 <code>miss driver files</code>，我们直接点击下载就好了，下载成功后，就会显示和我的界面一样的<code>no ojbects</code>了.</p>
+<p>我们可以点击中间的<code>test</code>进行测试连接，正常的话，会提示<code>connect success</code>的对话框</p>
+<h3 id="保存连接"><a href="#保存连接" class="headerlink" title="保存连接"></a>保存连接</h3><p>点击OK以后，会弹出来让我们输入密码，这个密码是PhpStorm要用到的存储在本地密码，在日后要使用某个数据库时，可能会需要我们再次输入。</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/17.png" alt=""></p>
+<h3 id="成功接入"><a href="#成功接入" class="headerlink" title="成功接入"></a>成功接入</h3><p>贴一张我成功连接后的图片：</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/18.png" alt=""></p>
+<ul>
+<li>中间的窗口可以供我们进行数据库语句的编写，写完之后直接<code>Cmd + Enter</code>会提示我们执行相关的语句；</li>
+<li>右侧的窗口显示我们建立好连接的数据库的列表，包括每张表的详细列属性等等；</li>
+<li>底部的窗口是显示我们执行完后的表的可视化窗口，途中我执行了一条create和select语句之后的表的内容。</li>
+</ul>
+<p>在这个窗口执行相关数据的操作语句，就显得比较直观了~</p>
+<h2 id="远程开发PHP"><a href="#远程开发PHP" class="headerlink" title="远程开发PHP"></a>远程开发PHP</h2><p>如果<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>中大家按照步骤建立了完整的LAMP环境，也在<code>/var/www/html</code>中测试了我们放进去的第一个php文件，那么我们就看如何利用phpstorm进行远程开发吧，也就是我们可以在我们自己本机的电脑上进行线下的开发，等到测试没有问题了之后，直接部署到线上。</p>
+<h3 id="创建工程"><a href="#创建工程" class="headerlink" title="创建工程"></a>创建工程</h3><p>点击顶部菜单栏中的 <code>File --&gt; New Project from Existing Files...</code></p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/19.png" alt=""></p>
+<p>在弹出的对话框中选择 <code>Web server is on remote host, files are accessible via FTP/SFTP/FTPS</code></p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/20.png" alt=""></p>
+<p>然后给我们的工程命名和选择路径，在 <code>Deployment options</code>下选择 <code>Custom</code>， 点击 <code>next</code></p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/21.png" alt=""></p>
+<p>因为我们选择了custom，所以这里我们可以进行一些部署时的选项。为了图方便，我们可以选择每次保存文件的时候就自动上传，当然这样对测试系统是没有问题的，但是对于正式部署的系统要谨慎，一定要线下测试完成之后，再选择上传到remote端。</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/22.png" alt=""></p>
+<h3 id="添加远程的服务器"><a href="#添加远程的服务器" class="headerlink" title="添加远程的服务器"></a>添加远程的服务器</h3><p>然后我们选择 <code>Add new remote server</code>，点击 <code>next</code></p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/23.png" alt=""></p>
+<p>给自己的远程服务命名，然后 <code>type</code> 中选择 <code>SFTP</code>， 并填入相关的参数，</p>
+<ul>
+<li><code>SFTP host</code>: 填入我们的主机的ip地址</li>
+<li><code>Port</code>: 端口号就用默认的22</li>
+<li><code>Root path:</code> 指的是页面文件的根目录，apache为我们新建的在<code>/var/www/html</code></li>
+<li><code>User name</code>、 <code>Password</code> 大家都知道填什么对不对。</li>
+</ul>
+<p>完成之后可以 <code>Test SFTP connection...</code></p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/24.png" alt=""></p>
+<p>在下个页面中，选中 <code>Project Root</code>并且点击next</p>
+<p><img src="http://www.microwu.com/MichaelLee/20160805/25.png" alt=""></p>
+<p>基本上整个环境就部署好了，我们可以试着新建一些php文件，然后编辑之后，点击Cmd+S，就会自动把文件上传到远端了，然后我们在相应的页面上就能看到我们刚部署上去的php文件了。</p>
+<h3 id="在php文件中连接数据"><a href="#在php文件中连接数据" class="headerlink" title="在php文件中连接数据"></a>在php文件中连接数据</h3><p>之前留了个悬念给大家，就是我们在php文件中连接我们的数据库，因为php文件和mysql数据库是在一个主机上的，所以相当于在localhost上面登录，而如果你之前添加的那个可以在任意ip地址登录的那个用户，在localhost上没有被赋予权限（因为我们近添加了<code>%</code>而没有添加<code>localhost</code>）详情参见<a href="http://lipeng1667.github.io/2016/08/04/Build_LAMP_Environment_Step-by-step">上一篇博文</a>，就会登录失败。</p>
+<p>所以在你的php文件中，密码<strong>必须</strong>是null，才能登录成功。 当然如果你新建的其他用户只能在<code>localhost</code>通过密码登录，就真的需要输入秘密了。</p>
+<p>来看下我的php登录mysql的源码吧：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$server_name = <span class="string">"localhost"</span>;</span><br><span class="line">$db_name = <span class="string">"yourdatabasename"</span>;</span><br><span class="line">$user_name = <span class="string">"yourname"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// create connection</span></span><br><span class="line">$conn = <span class="keyword">new</span> mysqli($server_name,$user_name,<span class="keyword">null</span>,$db_name);</span><br><span class="line"></span><br><span class="line"><span class="comment">// check connection</span></span><br><span class="line"><span class="keyword">if</span> ($conn-&gt;connect_error) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Connect Fail!!"</span> . $conn-&gt;connect_error;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Connected successfully"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意看，<code>mysqli()</code>方法中，密码那个参数是null，因为我把这个用户赋予了在任意ip地址登录的权限，而如果他在localhost登录，会被当做匿名用户登录，所以，这里需不要密码。感兴趣的同学可以试一下！</p>
+<hr>
+<p>好了，到这里，搭建phpstorm的过程就完成了，再次奉上参考文章，以示感谢：</p>
+<ul>
+<li><a href="http://jingyan.baidu.com/article/0a52e3f4cee074bf62ed7208.html" target="_blank" rel="noopener">phpstorm连接mysql数据库</a></li>
+<li><a href="http://www.cnblogs.com/shaoyikai/p/4381642.html" target="_blank" rel="noopener">如何用phpstorm编辑远程项目</a></li>
+<li><a href="https://www.jetbrains.com/help/phpstorm/2016.1/configuring-remote-php-interpreters.html" target="_blank" rel="noopener">Configuring Remote PHP Interpreters</a></li>
+<li><a href="http://stackoverflow.com/questions/5131931/connecting-to-mysql-from-the-command-line" target="_blank" rel="noopener">connecting to MySQL from the command line</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MySQL/">MySQL</a><a href="/tags/PHP/">PHP</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2016/08/05/connect_remote_mysql_and_config_phpstorm_for_your_php_project/" data-title="远程连接MySQL以及PHPStorm远程开发你的php项目 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/08/06/memory-optimisation-for-webview-in-android/" title="【Android】 WebView内存泄漏优化之路">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Android】 WebView内存泄漏优化之路</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/08/04/Build_LAMP_Environment_Step-by-step/"  title="【LAMP】搭建LAMP系统及相关配置">
+ <strong>下一篇：</strong><br/> 
+ <span>【LAMP】搭建LAMP系统及相关配置
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Fri Aug 05 2016 10:04:00 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#远程连接mysql"><span class="toc-number">1.</span> <span class="toc-text">远程连接mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载mysql"><span class="toc-number">1.1.</span> <span class="toc-text">下载mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置mysql的别名"><span class="toc-number">1.2.</span> <span class="toc-text">设置mysql的别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#远程连接mysql-1"><span class="toc-number">1.3.</span> <span class="toc-text">远程连接mysql</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#搭建PhpStorm开发环境"><span class="toc-number">2.</span> <span class="toc-text">搭建PhpStorm开发环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#连接mysql数据库"><span class="toc-number">2.1.</span> <span class="toc-text">连接mysql数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建database"><span class="toc-number">2.1.1.</span> <span class="toc-text">新建database</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加MySQL"><span class="toc-number">2.1.2.</span> <span class="toc-text">添加MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#保存连接"><span class="toc-number">2.1.3.</span> <span class="toc-text">保存连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#成功接入"><span class="toc-number">2.1.4.</span> <span class="toc-text">成功接入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#远程开发PHP"><span class="toc-number">2.2.</span> <span class="toc-text">远程开发PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建工程"><span class="toc-number">2.2.1.</span> <span class="toc-text">创建工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加远程的服务器"><span class="toc-number">2.2.2.</span> <span class="toc-text">添加远程的服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在php文件中连接数据"><span class="toc-number">2.2.3.</span> <span class="toc-text">在php文件中连接数据</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

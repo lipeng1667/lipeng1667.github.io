@@ -1,0 +1,665 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Android】一步一步教你从Eclipse移植项目到AndroidStudio | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="本篇Blog是从我在CSDN的个人博客中移植过来的，因为实在是受不了CSDN上blog的编辑和上传的速度了。正文如下：搞了差不多一整天，终于成功把原来在Eclipse的项目移植到了Android Studio上面。其实网上关于如何做移植已经有不少文章了，而且Android Develop的官网也有介绍，但是差不多网上的版本都已经过时，因为Android Studio和Gradle的版本更新实在是太">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Android】一步一步教你从Eclipse移植项目到AndroidStudio">
+<meta property="og:url" content="http://lipeng1667.github.io/2016/02/05/%E3%80%90Android%E3%80%91%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E6%95%99%E4%BD%A0%E4%BB%8EEclipse%E7%A7%BB%E6%A4%8D%E9%A1%B9%E7%9B%AE%E5%88%B0AndroidStudio/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="本篇Blog是从我在CSDN的个人博客中移植过来的，因为实在是受不了CSDN上blog的编辑和上传的速度了。正文如下：搞了差不多一整天，终于成功把原来在Eclipse的项目移植到了Android Studio上面。其实网上关于如何做移植已经有不少文章了，而且Android Develop的官网也有介绍，但是差不多网上的版本都已经过时，因为Android Studio和Gradle的版本更新实在是太">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/1.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/2.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/3.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/4.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/5.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/6.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/7.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/8.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/9.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/10.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/11.png">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/12.jpg">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/13.jpg">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/14.jpg">
+<meta property="og:image" content="http://www.microwu.com/MichaelLee/20160206/15.png">
+<meta property="article:published_time" content="2016-02-05T02:42:14.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.292Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="AndroidStudio">
+<meta property="article:tag" content="Eclipse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.microwu.com/MichaelLee/20160206/1.png">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/05/【Android】一步一步教你从Eclipse移植项目到AndroidStudio/" title="【Android】一步一步教你从Eclipse移植项目到AndroidStudio" itemprop="url">【Android】一步一步教你从Eclipse移植项目到AndroidStudio</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-05T02:42:14.000Z" itemprop="datePublished"> Published 2016-02-05</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-从Eclipse导出工程"><span class="toc-number">1.</span> <span class="toc-text">1. 从Eclipse导出工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-修改Gradle配置文件"><span class="toc-number">2.</span> <span class="toc-text">2. 修改Gradle配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-导入Android-Studio"><span class="toc-number">3.</span> <span class="toc-text">3. 导入Android Studio</span></a></li></ol>
+		
+		</div>
+		
+		<p>本篇Blog是从我在CSDN的个人博客中移植过来的，因为实在是受不了CSDN上blog的编辑和上传的速度了。正文如下：<br>搞了差不多一整天，终于成功把原来在Eclipse的项目移植到了Android Studio上面。其实网上关于如何做移植已经有不少文章了，而且Android Develop的官网也有介绍，但是差不多网上的版本都已经过时，因为<strong>Android Studio</strong>和<strong>Gradle</strong>的版本更新实在是太快了。。。（仿佛隐隐约约看到了从Swift1开始使用到Swift2之后的语法变化导致项目大面积语法修改的悲剧。。。）<br><a id="more"></a></p>
+<p>好了，言归正传，详细记录一下整个过程。首先说一下大前提：</p>
+<ul>
+<li>我的Eclipse版本是<strong>Mars.1</strong>，不过这个Eclipse版本应该不是问题，反正导出的Gradle的几个文件还是要手动修改的。</li>
+<li>我的Android Studio的版本是<strong>1.4</strong>，目前已经有1.5了，我就装了差不多有1周，就出了1.5，还没来得及更新，这个问题也不大。建议大家先自己把Studio的环境搭好，然后自己写一个Hello World调试一下，因为后面有些东西如果你事先调试好了，可能会节省一些工作量。</li>
+<li>在导出项目前最好<strong>备份</strong>一下你的工程（就像我在之前的Blog中说过的，在进行新的尝试之前，备份一下原始的资料永远不会多余）。我的项目就是导出以后因为多了一些Gradle的文件，所以还用Eclipse编译的时候会出一些errors。如果你的也出了一些类似于<code>“In gradle projects always user http://schemas.android.com/apk/res-auto for.....”</code>的错误，不要慌张，你能看到你的工程里面有个绿色图标的Gradle，把那个删除，然后重启Eclipse，应该就ok了。</li>
+</ul>
+<p>下面进入正式步骤：</p>
+<h2 id="1-从Eclipse导出工程"><a href="#1-从Eclipse导出工程" class="headerlink" title="1. 从Eclipse导出工程"></a>1. 从Eclipse导出工程</h2><ol>
+<li><p>File –&gt; Export<br><img src="http://www.microwu.com/MichaelLee/20160206/1.png" alt=""></p>
+</li>
+<li><p>选择Generate Gradle build files，点击Next<br><img src="http://www.microwu.com/MichaelLee/20160206/2.png" alt=""></p>
+</li>
+<li><p>这个是告诉我们一些关于导入Studio的Tips，可以直接Next<br><img src="http://www.microwu.com/MichaelLee/20160206/3.png" alt=""></p>
+</li>
+<li><p>选中你的工程<br>这里说一下，我的主项目是 zj_tzqu，然后SlidingMenuLib是一个资源项目，也就是说，在project.properties文件中是这样引入的：<code>android.library.reference.1=../SlidingMenuLib</code><br><img src="http://www.microwu.com/MichaelLee/20160206/4.png" alt=""></p>
+</li>
+<li><p>勾选 <strong>Force overriding of existing files</strong><br>如果不选中，就有可能会出现上面的提示。当然，这是因为我之前尝试了好多次，所以已经在文件中有相应的Gradle的文件了，保险起见，直接覆盖掉原来的文件。<br><img src="http://www.microwu.com/MichaelLee/20160206/5.png" alt=""></p>
+</li>
+<li><p>点击Finish，然后就导出了。<br>第一步就算完成了，其实第一步基本上没有把你的原程序做一些语法的修改，只是多了一些Gradle的配置的文件，我把他们都截了出来，就是这几个：<br><img src="http://www.microwu.com/MichaelLee/20160206/6.png" alt=""></p>
+</li>
+</ol>
+<h2 id="2-修改Gradle配置文件"><a href="#2-修改Gradle配置文件" class="headerlink" title="2. 修改Gradle配置文件"></a>2. 修改Gradle配置文件</h2><p>主要修改的就是上图中的两个红框标出来的。</p>
+<ol>
+<li><p>gradle –&gt; wrapper –&gt; gradle-wrapper.properties<br>可以看到我通过Eclipse导出来的版本号是1.12，那截止到2015年11月26日，最新的gradle版本是2.9、 1.12是14年12月份的版本，可见Google对Studio的厚爱，就像Apple 对Swift一样。。。<br>我就把这里改成了<strong>gradle-2.9-all.zip</strong>，当然你也可以改成官网上提供的任一一个版本（官网在此：<a href="https://services.gradle.org/distributions" target="_blank" rel="noopener">https://services.gradle.org/distributions</a>）<br><img src="http://www.microwu.com/MichaelLee/20160206/7.png" alt=""></p>
+</li>
+<li><p>build.gradle<br><img src="http://www.microwu.com/MichaelLee/20160206/8.png" alt=""><br>注意图中的红框内容是我改过的了。为什么改成1.3.0 因为我看了一眼我的Studio的hello world的工程的build.gradle文件，发现里面的gradle是1.3.0，所以就改成了一样的。我没有试验如果改成比如2.9.0这样的行不行。但是既然hello world可以正常运行，那就表示这样的配置是ok的。这也是为什么在开头的时候我建议大家先搭好Studio的环境，然后跑一下hello world证实你的环境是OK的。<br>别看第2步很简单，但是其实这是很关键的一步，这里也要感谢下这篇<a href="http://blog.csdn.net/bruce_6/article/details/42495705" target="_blank" rel="noopener">博主</a>的文章，我也是在他的基础上自己摸索出来的~~</p>
+</li>
+</ol>
+<h2 id="3-导入Android-Studio"><a href="#3-导入Android-Studio" class="headerlink" title="3. 导入Android Studio"></a>3. 导入Android Studio</h2><p>把我们之前5个和Gradle相关的文件(夹)，带上工程的两个文件夹（1.4步骤中选中的两个文件夹）一起拷贝出来，到一个新的文件夹下面。为什么要这样？1是Studio在导入的时候提示我们不要直接导入Eclipse workspace的工程；2是我的Studio是装在Mac上的，Eclipse是在Windows上面的。</p>
+<ol>
+<li><p>我们选择Import project(Eclipse ADT, Gradle, etc.)<br>我之前在网上查的都是说要选择 Import Non-Android Studio project, 但是估计是Studio的版本不同，Studio 1.4 根本就没有这一项，但是看了一眼前几项也不是，然后注意这里面有Gradle关键字，所以就试一试吧。<br><img src="http://www.microwu.com/MichaelLee/20160206/9.png" alt=""></p>
+</li>
+<li><p>选择build.grade 或者settings.gradle都可以，看到界面上面的提示了吧，我选择的是build.grade，就是我们上面改动过的文件。<br><img src="http://www.microwu.com/MichaelLee/20160206/10.png" alt=""></p>
+</li>
+<li><p>手动下载grade-2.9-all.zip<br>其实如果你的Studio环境没问题，就是会开始正常用gradle编译项目了，但是如果你第一次使用，那你一定会出现我的问题，就是Gradle sync的时候出错。原因当时就是我们亲爱的GFW了，即便是我翻墙通过Studio下载grande，速度也是慢的1B啊，所以这里我们可以自己下载gradle版本然后再放到相应的路径下面：<br><img src="http://www.microwu.com/MichaelLee/20160206/11.png" alt=""><br>基本上网上都引用了这样一段话，为什么不推荐我们自己下载，因为其实Studio是在路径下面多了一个25位的标识码<br><img src="http://www.microwu.com/MichaelLee/20160206/12.jpg" alt=""><br>在gradle-2.9-all的下面，其实是有一个文件夹的，这个文件夹会根据不同用户生成不同的，你们的肯定不会是我这个。<br>所以，最好的办法是先让Studio自动生成这个文件夹，也就是我们做完第2步之后，其实Studio已经在试图download我们设定的gradle版本，如果你去文件夹里面看，会发现有一个<strong>.zip.lck</strong>  和另外一个<strong>.zip.park</strong>的文件。但是一个是0k，一个是下载了一半的文件，如果没有翻墙，这个过程非常非常慢。<br>所以，我们看到这个路径已经建好了以后，就可以直接去官网上下载对应的版本了。注意，<font color=red>如果是Mac上，Safiri会自动把zip包解压缩了</font>，如果你重新压缩Safiri下载的文件成zip放到路径下面，会出这样的提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error:Gradle distribution &#39;https:&#x2F;&#x2F;services.gradle.org&#x2F;distributions&#x2F;gradle-2.9-all.zip&#39; contains too many directories.</span><br><span class="line">Expected to find exactly 1 directory.</span><br></pre></td></tr></table></figure>
+<p>所以，要不把safiri的自动解压功能关闭了，要不就换个浏览器下载，总之不要动下载下来的那个gradle-2.9-all.zip的包。<br>然后把这个包放到25位唯一码的文件夹下面。<br>重新试一下sync gradle，你就会发现，gradle开始build我们的工程了。之后就很顺利了，很快工程就建立好了。</p>
+</li>
+</ol>
+<p>到此，整个工程的导入就算全部完成了。</p>
+<p>再附送两个小Tips：</p>
+<ol>
+<li><p>有的同学可能习惯了Eclipse的样式布局，初次接触Studio会发现work space区域很不习惯。<br><img src="http://www.microwu.com/MichaelLee/20160206/13.jpg" alt=""><br>这是系统默认的布局，那我们可以通过切换到Project模式来看，这样就和Eclipse的布局非常像了。<br><img src="http://www.microwu.com/MichaelLee/20160206/14.jpg" alt=""></p>
+</li>
+<li><p>如果你发现移植过来的代码中的注释内容全部都乱掉了，而且在Gradle初次编译的时候，你发现有很多错误提示： “编码 UTF8的不可映射字符”，但是我们的程序没有问题，是可以运行的，就是注释部分看不了。<br>很简单，在右下角<br><img src="http://www.microwu.com/MichaelLee/20160206/15.png" alt=""><br>点击<strong>UTF-8</strong> 选择<strong>GB2312</strong>就ok了。<br>注意，可能是这部分的代码是你从第三方拿过来直接凑上去的，很容易出现编码上的问题，只需要改变这个文件的编码格式就可以了。不要动全局的设置。</p>
+</li>
+</ol>
+<p>好了，好好享受Android Studio带给大家极致版的Coding 体验吧~~~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AndroidStudio/">AndroidStudio</a><a href="/tags/Eclipse/">Eclipse</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2016/02/05/%E3%80%90Android%E3%80%91%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E6%95%99%E4%BD%A0%E4%BB%8EEclipse%E7%A7%BB%E6%A4%8D%E9%A1%B9%E7%9B%AE%E5%88%B0AndroidStudio/" data-title="【Android】一步一步教你从Eclipse移植项目到AndroidStudio | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/02/05/【Python】字符串的换行-引入其他py文件/" title="【Python学习之路1】字符串的换行/引入其他py文件">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Python学习之路1】字符串的换行/引入其他py文件</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/02/03/【AndroidStudio】分类整理Layouts中的布局文件/"  title="【AndroidStudio】分类整理Layouts中的布局文件">
+ <strong>下一篇：</strong><br/> 
+ <span>【AndroidStudio】分类整理Layouts中的布局文件
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Fri Feb 05 2016 10:42:14 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-从Eclipse导出工程"><span class="toc-number">1.</span> <span class="toc-text">1. 从Eclipse导出工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-修改Gradle配置文件"><span class="toc-number">2.</span> <span class="toc-text">2. 修改Gradle配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-导入Android-Studio"><span class="toc-number">3.</span> <span class="toc-text">3. 导入Android Studio</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

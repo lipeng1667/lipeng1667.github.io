@@ -1,0 +1,666 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Linux】SSH免密登录 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="随着虚拟机以及远程主机数量的增加，每次登陆时都需要输入密码也是一件挺麻烦的事，尤其是有的远程主机需要1-2层跳板机才能登录上去，实在是有些繁琐。还好我们有免密登录，这样可以省去我们很多麻烦。这篇博文就介绍下如何才能使用SSH的免密登录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】SSH免密登录">
+<meta property="og:url" content="http://lipeng1667.github.io/2017/03/22/ssh-login-without-pass/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="随着虚拟机以及远程主机数量的增加，每次登陆时都需要输入密码也是一件挺麻烦的事，尤其是有的远程主机需要1-2层跳板机才能登录上去，实在是有些繁琐。还好我们有免密登录，这样可以省去我们很多麻烦。这篇博文就介绍下如何才能使用SSH的免密登录。">
+<meta property="article:published_time" content="2017-03-22T07:41:32.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.271Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="SSH">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/22/ssh-login-without-pass/" title="【Linux】SSH免密登录" itemprop="url">【Linux】SSH免密登录</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-22T07:41:32.000Z" itemprop="datePublished"> Published 2017-03-22</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备环境"><span class="toc-number">2.</span> <span class="toc-text">准备环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#建立公钥和私钥（A）"><span class="toc-number">2.1.</span> <span class="toc-text">建立公钥和私钥（A）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置主机B别名（A）"><span class="toc-number">2.2.</span> <span class="toc-text">设置主机B别名（A）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置SSH服务（B）"><span class="toc-number">2.3.</span> <span class="toc-text">设置SSH服务（B）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#上传公钥"><span class="toc-number">3.</span> <span class="toc-text">上传公钥</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#命令行上传"><span class="toc-number">3.1.</span> <span class="toc-text">命令行上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接拷贝"><span class="toc-number">3.2.</span> <span class="toc-text">直接拷贝</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">4.</span> <span class="toc-text">致谢&amp;参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>随着虚拟机以及远程主机数量的增加，每次登陆时都需要输入密码也是一件挺麻烦的事，尤其是有的远程主机需要1-2层跳板机才能登录上去，实在是有些繁琐。还好我们有免密登录，这样可以省去我们很多麻烦。这篇博文就介绍下如何才能使用SSH的免密登录。</p>
+<a id="more"></a>
+<p>我们首先假设自己的机器为A (ip:<code>192.168.1.100</code>)，而今天我们要尝试免密登录的服务器为B (ip:<code>192.168.1.101</code>)。<br>正常的从A通过SSH登录到B的过程是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh root@192.168.1.101</span><br></pre></td></tr></table></figure>
+<p>然后就需要输入主机B的密码，就可以登录了。</p>
+<p>那么今天这篇文章就是教大家如何不需要输入密码就可以登录上去，甚至最后可以简写成这样的方式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh host_B</span><br></pre></td></tr></table></figure>
+<p>不用密码，一步SSH到主机B上！是不是很爽？？下面就开始一步一步搞定它吧~~</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>所谓”免密登录”，原理很简单，就是用户将自己的公钥储存在远程主机上。登录的时候，远程主机会向用户发送一段随机字符串，用户用自己的私钥加密后，再发回来。远程主机用事先储存的公钥进行解密，如果成功，就证明用户是可信的，直接允许登录shell，不再要求密码。</p>
+<h1 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h1><p>使用过SSH（包括git）的同学们都知道，在主机上都会有一个<code>.ssh</code>的隐藏文件夹，里面分别存放着下面这几个重要的文件：</p>
+<ul>
+<li>本机的公钥和私钥</li>
+<li><code>config</code> ssh配置文件</li>
+<li><code>knows_hosts</code> 主机信息文件</li>
+<li><code>authorized_keys</code> 公钥认证文件，里面填写自动通过认证的公钥</li>
+</ul>
+<p>我们就先来依次做好准备吧。</p>
+<font color=red><br>注：<br>小标题后面括号中的A和B分别表示当前步骤要在A还是B上操作。<br></font>
+
+
+<h2 id="建立公钥和私钥（A）"><a href="#建立公钥和私钥（A）" class="headerlink" title="建立公钥和私钥（A）"></a>建立公钥和私钥（A）</h2><p>首先我们要做的是在本机上建立自己的公钥和私钥了，没有公钥，我们是无法做到免密登录了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen</span><br></pre></td></tr></table></figure>
+<p>运行上面的命令以后，系统会出现一系列提示，可以一路回车。其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，这里可以设置一个。<br>运行结束以后，在<code>$HOME/.ssh/</code>目录下，会新生成两个文件：<code>id_rsa.pub</code>和<code>id_rsa</code>。前者是你的公钥，后者是你的私钥。</p>
+<p>我们当然也可以把这两个文件改成自己的名字（例如<code>michael.pub</code>和<code>michael</code>），不过要记得公钥后面加上<code>.pub</code>区分一下。</p>
+<h2 id="设置主机B别名（A）"><a href="#设置主机B别名（A）" class="headerlink" title="设置主机B别名（A）"></a>设置主机B别名（A）</h2><p>为了能使用<code>ssh host_B</code>这样的命令来代替<code>ssh root@192.168.1.101</code>，我们需要修改下<code>config</code>配置文件。 执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/.ssh/config</span><br></pre></td></tr></table></figure></p>
+<p>然后添加下面的内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Host host_B</span><br><span class="line">HostName "192.168.1.101"</span><br><span class="line">User "root"</span><br><span class="line">IdentityFile "~/.ssh/michael"</span><br><span class="line">port 22</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>Host 字段就是我们要设置的主机别名</li>
+<li>HostName 是主机的ip地址</li>
+<li>User 表示我们使用哪个用户进行登录</li>
+<li>IdentityFile 就是我们的私钥</li>
+<li>port 一般ssh默认的是<code>22</code>端口，如果您的主机设置了特殊的端口，请自行修改</li>
+</ul>
+<h2 id="设置SSH服务（B）"><a href="#设置SSH服务（B）" class="headerlink" title="设置SSH服务（B）"></a>设置SSH服务（B）</h2><p>首先当然是要确保主机B上的ssh服务是开启状态的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /etc/rc.d/init.d/sshd start</span><br></pre></td></tr></table></figure>
+<p>如果<code>.ssh</code>文件夹中没有<code>authorized_keys</code>文件，我们就自己新建一个好了。这一步也可以省略，不过保险期间，我们还是自己来吧：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<p>直接<code>wq</code>进行保存并退出，创建一个空的文件。</p>
+<p>接下来检查一下ssh的配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<p>看看这个文件里面下面几行前面”#”注释是否取掉：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">AuthorizedKeysFile .ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<p>如果修改了配置文件，记得重启一下ssh服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /etc/rc.d/init.d/sshd restart</span><br></pre></td></tr></table></figure>
+<p>最后一定要确保<code>ssh</code>文件的权限，对于其他组用户不能太高：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ chmod 700 .ssh  </span><br><span class="line">$ chmod 600 authorized_keys</span><br></pre></td></tr></table></figure>
+<h1 id="上传公钥"><a href="#上传公钥" class="headerlink" title="上传公钥"></a>上传公钥</h1><p>这里有2个方法上传我们的公钥，命令行上传和手动粘贴公钥信息</p>
+<h2 id="命令行上传"><a href="#命令行上传" class="headerlink" title="命令行上传"></a>命令行上传</h2><p>在我们的主机A上，执行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-copy-id -i ~/.ssh/michael.pub host_B</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li><code>-i</code>后跟上公钥的绝对地址</li>
+<li>后面再跟上主机名称，因为我们之前配置过了，所以用host_B来代替，你也可以输入 <a href="mailto:`root@192.168.1.101">`root@192.168.1.101</a>`</li>
+</ul>
+<p>这里因为我们还没有完成免密认证，所以需要输入主机B的登录密码，上传成功之后，整个过程就配置好了！！</p>
+<h2 id="直接拷贝"><a href="#直接拷贝" class="headerlink" title="直接拷贝"></a>直接拷贝</h2><p>我们首先登录到主机B上，然后手动将自己的公钥内容，粘贴到<code>authorized_keys</code>文件后面。<br>不过因为容易出现格式错误，所以我们<strong>强烈推荐</strong>使用命令行方式进行上传。</p>
+<p>上传成功后，我们就可以在命令行中直接输入下面的命令，看看是不是就不用再输入密码，直接登录上去了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh host_B</span><br></pre></td></tr></table></figure>
+<p>有没有很爽？！</p>
+<h1 id="致谢-amp-参考"><a href="#致谢-amp-参考" class="headerlink" title="致谢&amp;参考"></a>致谢&amp;参考</h1><ul>
+<li><a href="http://snv.iteye.com/blog/1988273" target="_blank" rel="noopener">linux免密钥SSH登陆配置</a></li>
+<li><a href="http://os.51cto.com/art/201510/494375.htm" target="_blank" rel="noopener">如何实现Linux主机远程登录ssh免密码</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">SSH原理与运用（一）：远程登录</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/SSH/">SSH</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2017/03/22/ssh-login-without-pass/" data-title="【Linux】SSH免密登录 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/06/29/apache-virtualhost-multi-port/" title="【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Apache】单台服务器上用Apache的VirtualHost搭建多个Web站点</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/03/20/oracle-silence-install-in-rhel/"  title="【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程">
+ <strong>下一篇：</strong><br/> 
+ <span>【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Wed Mar 22 2017 15:41:32 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备环境"><span class="toc-number">2.</span> <span class="toc-text">准备环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#建立公钥和私钥（A）"><span class="toc-number">2.1.</span> <span class="toc-text">建立公钥和私钥（A）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置主机B别名（A）"><span class="toc-number">2.2.</span> <span class="toc-text">设置主机B别名（A）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置SSH服务（B）"><span class="toc-number">2.3.</span> <span class="toc-text">设置SSH服务（B）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#上传公钥"><span class="toc-number">3.</span> <span class="toc-text">上传公钥</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#命令行上传"><span class="toc-number">3.1.</span> <span class="toc-text">命令行上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接拷贝"><span class="toc-number">3.2.</span> <span class="toc-text">直接拷贝</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">4.</span> <span class="toc-text">致谢&amp;参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

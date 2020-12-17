@@ -1,0 +1,760 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程 | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="之前我们给大家介绍了专门用于开发的超精简RedHat系统的安装过程。今天这个教程，可以看做是在那篇文章之上的一个进阶版，就是如何在命令行中静默安装oracle数据库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程">
+<meta property="og:url" content="http://lipeng1667.github.io/2017/03/20/oracle-silence-install-in-rhel/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="之前我们给大家介绍了专门用于开发的超精简RedHat系统的安装过程。今天这个教程，可以看做是在那篇文章之上的一个进阶版，就是如何在命令行中静默安装oracle数据库。">
+<meta property="article:published_time" content="2017-03-20T06:40:00.000Z">
+<meta property="article:modified_time" content="2019-11-30T16:06:34.514Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Oracle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/20/oracle-silence-install-in-rhel/" title="【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程" itemprop="url">【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-20T06:40:00.000Z" itemprop="datePublished"> Published 2017-03-20</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装包"><span class="toc-number">2.</span> <span class="toc-text">安装包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用户创建和目录配置"><span class="toc-number">3.</span> <span class="toc-text">用户创建和目录配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#用户组创建"><span class="toc-number">3.1.</span> <span class="toc-text">用户组创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户创建和密码设定"><span class="toc-number">3.2.</span> <span class="toc-text">用户创建和密码设定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建oracle的根目录"><span class="toc-number">3.3.</span> <span class="toc-text">新建oracle的根目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hosts配置"><span class="toc-number">3.4.</span> <span class="toc-text">hosts配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置环境变量"><span class="toc-number">3.5.</span> <span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖检测"><span class="toc-number">3.6.</span> <span class="toc-text">依赖检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#yum安装依赖"><span class="toc-number">3.6.1.</span> <span class="toc-text">yum安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#挂载光盘"><span class="toc-number">3.6.2.</span> <span class="toc-text">挂载光盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置yum源为本地iso文件"><span class="toc-number">3.6.3.</span> <span class="toc-text">设置yum源为本地iso文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静默安装oracle"><span class="toc-number">4.</span> <span class="toc-text">静默安装oracle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解压安装包"><span class="toc-number">4.1.</span> <span class="toc-text">解压安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改安装时响应文件"><span class="toc-number">4.2.</span> <span class="toc-text">修改安装时响应文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#清理安装环境"><span class="toc-number">4.3.</span> <span class="toc-text">清理安装环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静默安装"><span class="toc-number">4.4.</span> <span class="toc-text">静默安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行脚本"><span class="toc-number">4.5.</span> <span class="toc-text">执行脚本</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静默配置监听"><span class="toc-number">5.</span> <span class="toc-text">静默配置监听</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静默建库"><span class="toc-number">6.</span> <span class="toc-text">静默建库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启用数据库"><span class="toc-number">7.</span> <span class="toc-text">启用数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置监听-修改监听端口"><span class="toc-number">8.</span> <span class="toc-text">配置监听(修改监听端口)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#正确的监听程序配置好是什么样子的"><span class="toc-number">8.0.1.</span> <span class="toc-text">正确的监听程序配置好是什么样子的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-listener-ora-文件"><span class="toc-number">8.0.2.</span> <span class="toc-text">修改 listener.ora 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改tnsnames-ora-文件"><span class="toc-number">8.0.3.</span> <span class="toc-text">修改tnsnames.ora 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-oracle-中的参数"><span class="toc-number">8.0.4.</span> <span class="toc-text">修改 oracle 中的参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他"><span class="toc-number">9.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#启动和添置数据库的脚本"><span class="toc-number">9.1.</span> <span class="toc-text">启动和添置数据库的脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建表和新建用户语句"><span class="toc-number">9.2.</span> <span class="toc-text">建表和新建用户语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#取消用户密码180天有效期"><span class="toc-number">9.3.</span> <span class="toc-text">取消用户密码180天有效期</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>之前我们给大家介绍了专门<a href="http://lipeng1667.github.io/2016/12/29/redhat6-5-installation-mac-parallels/">用于开发的超精简RedHat系统的安装过程</a>。今天这个教程，可以看做是在那篇文章之上的一个进阶版，就是如何在命令行中静默安装oracle数据库。</p>
+<a id="more"></a>
+<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><ul>
+<li>RedHat6.7</li>
+<li>Oracle 11g</li>
+</ul>
+<h1 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a>安装包</h1><p>确保你的系统中已经成功下载有了oracle11g的zip包，如果你的linux系统已经安装成功了，那么你可能还需要rhel的iso镜像文件，因为在oralce的安装过程中，我们需要一些依赖。当然，如果你是按照我之前的<a href="http://lipeng1667.github.io/2016/12/29/redhat6-5-installation-mac-parallels/">那篇博文</a>进行安装的，就没什么问题了。</p>
+<p>oracle 11g ：</p>
+<ul>
+<li>Oracle.11gR2.Linux.x64_CD1.zip</li>
+<li>Oracle.11gR2.Linux.x64_CD2.zip</li>
+</ul>
+<p>另外有一些依赖需要用 yum 加载linux iso 安装光盘的方式来安装，所以最好需要 linux 的安装文件</p>
+<ul>
+<li>rhel-server-6.7-x86_64-dvd.iso</li>
+</ul>
+<h1 id="用户创建和目录配置"><a href="#用户创建和目录配置" class="headerlink" title="用户创建和目录配置"></a>用户创建和目录配置</h1><p>这里我们是按照oracle官方给的文档，创建几个相关的用户和用户组。</p>
+<h2 id="用户组创建"><a href="#用户组创建" class="headerlink" title="用户组创建"></a>用户组创建</h2><p>用root用户登录之后，首先创建下面几个用户组：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">groupadd dba</span><br><span class="line">groupadd oinstall</span><br><span class="line">groupadd asmadmin</span><br><span class="line">groupadd asmdba</span><br></pre></td></tr></table></figure>
+<h2 id="用户创建和密码设定"><a href="#用户创建和密码设定" class="headerlink" title="用户创建和密码设定"></a>用户创建和密码设定</h2><p>接着来创建几个用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -g oinstall -G dba,asmdba oracle</span><br><span class="line">passwd oracle</span><br></pre></td></tr></table></figure>
+<p>输入密码后，给oracle用户设定了密码。</p>
+<h2 id="新建oracle的根目录"><a href="#新建oracle的根目录" class="headerlink" title="新建oracle的根目录"></a>新建oracle的根目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /oracle/orahome</span><br><span class="line">chown -R oracle:oinstall /oracle</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面相当于把oracle 装在根目录下(/oracle)，每个人的硬盘空间和规划不一样，请自行设置</p>
+</blockquote>
+<h2 id="hosts配置"><a href="#hosts配置" class="headerlink" title="hosts配置"></a>hosts配置</h2><p>编辑<code>/etc/hosts</code>文件，加入正确的主机名。修改之后的hosts文件里面，有类似于下面的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">127.0.0.1 oracle</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>同时修改<code>/etc/sysconfig/network</code>文件，配置网络中的主机名。修改之后的文件类似：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NETWORKING&#x3D;YES</span><br><span class="line">HOSTNAME&#x3D;oracle</span><br></pre></td></tr></table></figure>
+<h2 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h2><p>修改<code>/etc/profile</code>文件设置环境变量，这样所有用户都能生效。 在文件结尾添加下面内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">export ORACLE_BASE&#x3D;&#x2F;oracle</span><br><span class="line">export ORACLE_HOME&#x3D;$ORACLE_BASE&#x2F;orahome</span><br><span class="line">export ORACLE_SID&#x3D;YOUR SID&#39;s NAME</span><br><span class="line">export ORACLE_OWNER&#x3D;oracle</span><br><span class="line">export ORACLE_TERM&#x3D;vt100</span><br><span class="line">export PATH&#x3D;$PATH:$ORACLE_HOME&#x2F;bin:$ORACLE_HOME&#x2F;Apache&#x2F;Apache&#x2F;bin</span><br><span class="line">export LD_LIBRARY_PATH&#x3D;$ORACLE_HOME&#x2F;lib:&#x2F;lib:&#x2F;usr&#x2F;lib:&#x2F;usr&#x2F;local&#x2F;lib</span><br><span class="line">export CLASSPATH&#x3D;$ORACLE_HOME&#x2F;JRE:$ORACLE_HOME&#x2F;jlib:$ORACLE_HOME&#x2F;rdbms&#x2F;jlib:$ORACLE_HOME&#x2F;network&#x2F;jlib:$CLASSPATH</span><br><span class="line">export ORA_NLS33&#x3D;$ORACLE_HOME&#x2F;nls&#x2F;admin&#x2F;data</span><br><span class="line">export NLS_LANG&#x3D;AMERICAN_AMERICA.ZHS16GBK</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注： ORACLE_SID处填写你自己打算安装的数据库名字</p>
+</blockquote>
+<h2 id="依赖检测"><a href="#依赖检测" class="headerlink" title="依赖检测"></a>依赖检测</h2><p>因为oracle11g的安装需要依赖很多其他程序，所以在安装之前我们先检测下安装环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -q binutils compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel expat gcc gcc-c++ glibc glibc-common glibc-devel glibc-headers libaio libaio-devel libgcc libstdc++ libstdc++-devel make sysstat unixODBC unixODBC-devel | grep <span class="string">"not installed"</span></span><br></pre></td></tr></table></figure>
+<p>上面的命令会显示出诸如下面的结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">package libaio-devel is not installed</span><br><span class="line">package unixODBC is not installed</span><br><span class="line">package unixODBC-devel is not installed</span><br></pre></td></tr></table></figure>
+<p>也就是告诉我们哪些是还没有安装的程序，我们要做的就是去安装这些依赖。</p>
+<h3 id="yum安装依赖"><a href="#yum安装依赖" class="headerlink" title="yum安装依赖"></a>yum安装依赖</h3><p>一般来说，这些依赖都可以通过linux的iso文件中进行安装。这里就大致介绍下如果通过iso文件进行安装吧。<br>其实原理是把<code>yum</code>源设置成iso文件，然后通过yum来进行安装</p>
+<h3 id="挂载光盘"><a href="#挂载光盘" class="headerlink" title="挂载光盘"></a>挂载光盘</h3><p>假设 iso 文件的路径为<code>/app/software/rhel-server-6.7-x86_64-dvd.iso</code><br>执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o loop /app/software/rhel-server-6.7-x86_64-dvd.iso /mnt/cdrom</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果<code>/mnt</code>目录下没有 cdrom 文件夹，则先创建一个目录。</p>
+</blockquote>
+<p>挂载成功之后 可以<code>df -h</code>看到 iso 文件成功挂载到指定的目录下。<br>取消挂载的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount /mnt/cdrom</span><br></pre></td></tr></table></figure>
+<h3 id="设置yum源为本地iso文件"><a href="#设置yum源为本地iso文件" class="headerlink" title="设置yum源为本地iso文件"></a>设置yum源为本地iso文件</h3><p>修改<code>/etc/yum.repos.d/rhel-source.repo</code>设置yum源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[rhel-source]</span><br><span class="line">name&#x3D;Local Source</span><br><span class="line">baseurl&#x3D;file:&#x2F;&#x2F;&#x2F;mnt&#x2F;cdrom</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgcheck&#x3D;0</span><br><span class="line">gpgkey&#x3D;file:&#x2F;&#x2F;&#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-redhat-beta,file:&#x2F;&#x2F;&#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-redhat-release</span><br></pre></td></tr></table></figure>
+<p>保存之后在命令行执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list all</span><br></pre></td></tr></table></figure>
+<p>这样就可以用<code>yum install xxx</code>来安装之前提示未安装的那些依赖程序了</p>
+<h1 id="静默安装oracle"><a href="#静默安装oracle" class="headerlink" title="静默安装oracle"></a>静默安装oracle</h1><p>接下来就是正式进行oracle的安装了</p>
+<h2 id="解压安装包"><a href="#解压安装包" class="headerlink" title="解压安装包"></a>解压安装包</h2><p>之后的所有操作均是在oracle用户下进行，所以我们首先要切换到oracle用户下，并解压安装包(安装包移动到/home/oracle 目录下)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">su - oracle</span><br><span class="line"><span class="built_in">cd</span></span><br><span class="line"></span><br><span class="line">unzip Oracle.11gR2.Linux.x64_CD1.zip</span><br><span class="line">unzip Oracle.11gR2.Linux.x64_CD2.zip</span><br></pre></td></tr></table></figure>
+<p>解压完成之后，我们会发现在当前目录有一个<code>database</code>的文件夹，在<code>database/response/</code>目录下，会看到有3个默认的安装配置文件：</p>
+<ul>
+<li>db_install.rsp     用于安装oracle时的配置</li>
+<li>dbca.rsp            用于静默建库</li>
+<li>netca.rsp            用于静默配置监听</li>
+</ul>
+<p>这3个配置响应文件我们今天都会需要用到。</p>
+<h2 id="修改安装时响应文件"><a href="#修改安装时响应文件" class="headerlink" title="修改安装时响应文件"></a>修改安装时响应文件</h2><p>首先是修改安装响应文件，执行<code>vim database/response/db_install.rsp</code>，然后修改下面的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">oracle.install.option&#x3D;INSTALL_DB_SWONLY                  &#x2F;&#x2F;29 行 安装类型</span><br><span class="line">ORACLE_HOSTNAME&#x3D;oracle				                     &#x2F;&#x2F;37 行 主机名称，看注释，前后保持一致</span><br><span class="line">UNIX_GROUP_NAME&#x3D;oinstall			                     &#x2F;&#x2F;42 行 安装组</span><br><span class="line">INVENTORY_LOCATION&#x3D;&#x2F;oracle&#x2F;oraInventory &#x2F;&#x2F;47 行 INVENTORY目录， 注意每个人的 oracle 目录可能不一样</span><br><span class="line">SELECTED_LANGUAGES&#x3D;en,zh_CN			&#x2F;&#x2F;78 行 选择语言</span><br><span class="line">ORACLE_HOME&#x3D;&#x2F;oracle&#x2F;orahome			&#x2F;&#x2F;83 行 oracle_home，oracle_base+orahome</span><br><span class="line">ORACLE_BASE&#x3D;&#x2F;oracle				&#x2F;&#x2F;88 行 oracle_base 就是你的 oracle 目录</span><br><span class="line">oracle.install.db.InstallEdition&#x3D;EE	&#x2F;&#x2F;99 行 oracle版本</span><br><span class="line">oracle.install.db.isCustomInstall&#x3D;true	&#x2F;&#x2F;108行 自定义安装</span><br><span class="line">oracle.install.db.DBA_GROUP&#x3D;dba		&#x2F;&#x2F;142行 dba用户组</span><br><span class="line">oracle.install.db.OPER_GROUP&#x3D;oinstall	&#x2F;&#x2F;147行 oper用户组</span><br><span class="line">oracle.install.db.config.starterdb.type&#x3D;GENERAL_PURPOSE &#x2F;&#x2F;160行 数据库类型</span><br><span class="line">oracle.install.db.config.starterdb.globalDBName&#x3D;YOUR DB NAME &#x2F;&#x2F;165行 globalDBName 保持一致</span><br><span class="line">oracle.install.db.config.starterdb.SID&#x3D;YOUR SID NAME &#x2F;&#x2F;170行 SID 保持一致</span><br><span class="line">oracle.install.db.config.starterdb.password.ALL&#x3D;YOURPASS &#x2F;&#x2F;233行 设定所有数据库用户使用同一个密码，后面会用到</span><br><span class="line">DECLINE_SECURITY_UPDATES&#x3D;true			&#x2F;&#x2F;385行 设置安全更新</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>37 行 主机名称， 165行 globalDBName 和 170行 SID 按照自己的设定修改</li>
+<li>233行 设定所有数据库用户使用同一个密码， 这个密码在后面还要被用到</li>
+</ul>
+<h2 id="清理安装环境"><a href="#清理安装环境" class="headerlink" title="清理安装环境"></a>清理安装环境</h2><p>如果在安装过程中出现了错误，需要我们重新进行安装，请执行下面的命令清理一下环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /etc/oratab</span><br><span class="line">rm -rf /etc/oraInst.loc</span><br><span class="line">rm -rf /oracle/oraInventory</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>再次强调，每个人的 oracle 目录可能和我的设置不一样，请执行命令前自行修改相关路径名称</p>
+</blockquote>
+<h2 id="静默安装"><a href="#静默安装" class="headerlink" title="静默安装"></a>静默安装</h2><p>静默安装的意思就是不在命令行中弹出各种安装进程。安装的速度和你的服务器配置相关，几分钟到十几分钟不同。<br>执行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> database</span><br><span class="line"></span><br><span class="line">./runInstaller -silent -ignorePrereq -force -responseFile /home/oracle/database/response/db_install.rsp</span><br></pre></td></tr></table></figure>
+<ul>
+<li>silent 表示以静默方式安装,不会有任何提示</li>
+<li>ignorePrereq 忽略检测中错误</li>
+<li>force 允许安装到一个非空目录</li>
+<li>noconfig 表示不运行配置助手netca</li>
+<li>responseFile 表示使用哪个响应文件,必需使用绝对路径</li>
+</ul>
+<h2 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h2><p>安装顺利的话，会看到下面的提示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">/oracle/oraInventory/orainstRoot.sh</span><br><span class="line">/oracle/orahome/root.sh</span><br><span class="line">To execute the configuration scripts:</span><br><span class="line">         1. Open a terminal window</span><br><span class="line">         2. Log <span class="keyword">in</span> as <span class="string">"root"</span></span><br><span class="line">         3. Run the scripts</span><br><span class="line">         4. Return to this window and hit <span class="string">"Enter"</span> key to <span class="built_in">continue</span></span><br><span class="line"></span><br><span class="line">Successfully Setup Software.</span><br></pre></td></tr></table></figure>
+<p>我们就按照提示，新开一个终端窗口，然后切换到root用户，执行下面两个shell脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;oracle&#x2F;oraInventory&#x2F;orainstRoot.sh</span><br><span class="line">&#x2F;oracle&#x2F;orahome&#x2F;root.sh</span><br></pre></td></tr></table></figure>
+<p>整个oracle就算安装成功了！！</p>
+<h1 id="静默配置监听"><a href="#静默配置监听" class="headerlink" title="静默配置监听"></a>静默配置监听</h1><p>还记得解压出来的3个resp文件么，我们只用到了一个，接下来就是配置监听和建库了。</p>
+<p>监听不需要太多额外的配置，可以看我这个配置好的<a href="http://www.microwu.com/MichaelLee/20170320/netca.rsp" target="_blank" rel="noopener">监听响应文件</a></p>
+<p>我们需要重新切回<code>oracle</code>用户:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su -c oracle</span><br></pre></td></tr></table></figure>
+<p>接下来在命令行中依次执行,</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">netca /silent /responsefile /home/oracle/database/response/netca.rsp</span><br><span class="line">ll <span class="variable">$ORACLE_HOME</span>/network/admin/*.ora</span><br><span class="line">lsnrctl status</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>这里各个参数用用<code>/</code>来表示，而不是安装oracle时的<code>-</code>号了。</li>
+<li>监听配置好之后，如果有问题，先不要着急，稍后我们统一来介绍如果正确配置监听</li>
+</ul>
+</blockquote>
+<h1 id="静默建库"><a href="#静默建库" class="headerlink" title="静默建库"></a>静默建库</h1><p>最后一个resp文件，用来静默建库，修改建库响应文件<code>vim database/response/dbca.rsp</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[CREATEDATABASE]</span><br><span class="line">GDBNAME &#x3D; &quot;YOURNAME&quot;</span><br><span class="line">SID &#x3D; &quot;YOURSID&quot;</span><br><span class="line">TEMPLATENAME &#x3D; &quot;General_Purpose.dbc&quot;</span><br><span class="line">CHARACTERSET &#x3D; &quot;ZHS16GBK&quot;</span><br></pre></td></tr></table></figure>
+<p>接下来在命令行中输入下面的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbca -silent -responseFile &#x2F;home&#x2F;oracle&#x2F;database&#x2F;response&#x2F;dbca.rsp</span><br></pre></td></tr></table></figure>
+<p>注：</p>
+<ul>
+<li>这里各个参数用用<code>-</code>来表示，而不是上一步时的<code>/</code>号了（尴尬 - -!， 估计这几个程序不是同一个人写的。。。）</li>
+<li>建库过程中会要求输入多次密码，这个密码就是我们之前安装oracle时，在<code>db_install.rsp</code>中<code>233行 设定所有数据库用户使用同一个密码</code>中设定的密码了。</li>
+</ul>
+<h1 id="启用数据库"><a href="#启用数据库" class="headerlink" title="启用数据库"></a>启用数据库</h1><ol>
+<li><p>执行下面的命令：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsnrctl start</span><br><span class="line">dbstart <span class="variable">$ORACLE_HOME</span></span><br></pre></td></tr></table></figure></li>
+<li><p>修改 <code>/etc/oratab</code>，最后的N改成 <code>Y</code></p>
+</li>
+<li><p>设置自动启动：root用户修改 <code>/etc/rc.d/rc.local</code>，最后加入</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - oracle -c &quot;lsnrctl start&quot;</span><br><span class="line">su - oracle -c &quot;dbstart $ORACLE_HOME&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="配置监听-修改监听端口"><a href="#配置监听-修改监听端口" class="headerlink" title="配置监听(修改监听端口)"></a>配置监听(修改监听端口)</h1><p>如果上面的步骤你都执行的很顺利，那么是真的要恭喜你。但是90%的同学，在监听程序上会消耗很长时间，这里我们来统一总结一下如何正确配置监听。<br>如果我们用的是默认的监听文件，那么 oracle 的监听程序会建立在1521端口上，如果你想要修改到其他端口，或者你的监听程序不正确，这一章节我们统一来看如何处理。</p>
+<h3 id="正确的监听程序配置好是什么样子的"><a href="#正确的监听程序配置好是什么样子的" class="headerlink" title="正确的监听程序配置好是什么样子的"></a>正确的监听程序配置好是什么样子的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@linux2 oradata]# lsnrctl status</span><br><span class="line"></span><br><span class="line">LSNRCTL for Linux: Version 11.2.0.1.0 - Production on 17-NOV-2018 16:23:20</span><br><span class="line"></span><br><span class="line">Copyright (c) 1991, 2009, Oracle.  All rights reserved.</span><br><span class="line"></span><br><span class="line">Connecting to (DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;TCP)(HOST&#x3D;linux2)(PORT&#x3D;1521)))</span><br><span class="line">STATUS of the LISTENER</span><br><span class="line">------------------------</span><br><span class="line">Alias                     LISTENER</span><br><span class="line">Version                   TNSLSNR for Linux: Version 11.2.0.1.0 - Production</span><br><span class="line">Start Date                17-NOV-2018 15:05:51</span><br><span class="line">Uptime                    0 days 1 hr. 17 min. 29 sec</span><br><span class="line">Trace Level               off</span><br><span class="line">Security                  ON: Local OS Authentication</span><br><span class="line">SNMP                      OFF</span><br><span class="line">Listener Parameter File   &#x2F;app&#x2F;oracle&#x2F;orahome&#x2F;network&#x2F;admin&#x2F;listener.ora</span><br><span class="line">Listener Log File         &#x2F;app&#x2F;oracle&#x2F;diag&#x2F;tnslsnr&#x2F;linux2&#x2F;listener&#x2F;alert&#x2F;log.xml</span><br><span class="line">Listening Endpoints Summary...</span><br><span class="line">  (DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;tcp)(HOST&#x3D;linux2)(PORT&#x3D;1521)))</span><br><span class="line">Services Summary...</span><br><span class="line">Service &quot;linux2XDB.us.oracle.com&quot; has 1 instance(s).</span><br><span class="line">  Instance &quot;linux2&quot;, status READY, has 1 handler(s) for this service...</span><br><span class="line">Service &quot;orcl11g.us.oracle.com&quot; has 1 instance(s).</span><br><span class="line">  Instance &quot;linux2&quot;, status READY, has 1 handler(s) for this service...</span><br><span class="line">The command completed successfully</span><br></pre></td></tr></table></figure>
+<p>上面的代码是正确的监听程序的样子，注意到在 Services Summary 部分，是能看到2个实例的，<br>而如果你的监听程序有问题，那么这里会显示：</p>
+<p><code>The listener supports no services</code></p>
+<p>接下来我们来看如何处理。</p>
+<h3 id="修改-listener-ora-文件"><a href="#修改-listener-ora-文件" class="headerlink" title="修改 listener.ora 文件"></a>修改 listener.ora 文件</h3><p>我们看到在上面的程序输出部分有一个<code>Listener Parameter File</code>，这个就是你的监听程序的配置文件，我们把它修改成下面的样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LISTENER &#x3D;</span><br><span class="line">  (DESCRIPTION_LIST &#x3D;</span><br><span class="line">    (DESCRIPTION &#x3D;</span><br><span class="line">      (ADDRESS &#x3D; (PROTOCOL &#x3D; TCP)(HOST &#x3D; linux2)(PORT &#x3D; 1521))</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">ADR_BASE_LISTENER &#x3D; &#x2F;app&#x2F;oracle</span><br></pre></td></tr></table></figure>
+<p>其实就是修改 LISTENER 部分，把 HOST 换成我们之前设置的 host 名称(如果你有困惑，就把所有的 host 设置成一样的)，PORT 就是我们的监听端口，如果你想换成其他的，就在这里替换掉。</p>
+<h3 id="修改tnsnames-ora-文件"><a href="#修改tnsnames-ora-文件" class="headerlink" title="修改tnsnames.ora 文件"></a>修改tnsnames.ora 文件</h3><p>在同一个目录中，修改’tnsnames.ora’文件，这样你才可以从本机正常登录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">linux2 &#x3D;</span><br><span class="line">  (DESCRIPTION &#x3D;</span><br><span class="line">    (ADDRESS &#x3D; (PROTOCOL &#x3D; TCP)(HOST &#x3D; linux2)(PORT &#x3D; 1521))</span><br><span class="line">    (CONNECT_DATA &#x3D;</span><br><span class="line">      (SERVER &#x3D; DEDICATED)</span><br><span class="line">      (SERVICE_NAME &#x3D; linux2)</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+<p>这里是一样的，注意 SERVICE_NAME字段和你之前安装是设置的保持一致。</p>
+<h3 id="修改-oracle-中的参数"><a href="#修改-oracle-中的参数" class="headerlink" title="修改 oracle 中的参数"></a>修改 oracle 中的参数</h3><p>接下来，我们需要到数据库中进行相关设置。<br>先切换到 oracle 用户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su oracle</span><br></pre></td></tr></table></figure></p>
+<p>然后输入下面的命令免密进入 oracle 数据库<code>sqlplus / as sysdba</code><br>然后输入<code>show parameter local_listener</code>查看 listener 的配置，下面的代码是我已经配置好的，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[oracle@linux2 oradata]$ sqlplus &#x2F; as sysdba</span><br><span class="line"></span><br><span class="line">SQL*Plus: Release 11.2.0.1.0 Production on Sat Nov 17 16:34:10 2018</span><br><span class="line"></span><br><span class="line">Copyright (c) 1982, 2009, Oracle.  All rights reserved.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Connected to:</span><br><span class="line">Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production</span><br><span class="line">With the Partitioning, Oracle Label Security, OLAP, Data Mining,</span><br><span class="line">Oracle Database Vault and Real Application Testing options</span><br><span class="line"></span><br><span class="line">SQL&gt;</span><br><span class="line">SQL&gt; show parameter local_listener;</span><br><span class="line"></span><br><span class="line">NAME				     TYPE	 VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">local_listener			     string	 (address &#x3D; (protocol &#x3D; tcp)(ho</span><br><span class="line">						 st &#x3D; linux2)(port &#x3D; 1521))</span><br></pre></td></tr></table></figure>
+<p>我们接着执行下面的命令<br><code>alter system set local_listener=&quot;(address = (protocol = tcp)(host = linux2)(port = 1521))&quot;</code><br>来配置监听，其实这里的配置和我们第1步设置的 listener.ora中的基本是一样的。</p>
+<p>配置好了之后，我们可以再检查一下listener，看看是不是得到和我之前一样的效果了？<br>如果没有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lsnrctl reload</span><br><span class="line">#或者</span><br><span class="line">lsnrctl stop</span><br><span class="line">lsnrctl start</span><br></pre></td></tr></table></figure>
+<p>如果还是不行，请自行 google。。。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>这里附上一些备用的东西</p>
+<h2 id="启动和添置数据库的脚本"><a href="#启动和添置数据库的脚本" class="headerlink" title="启动和添置数据库的脚本"></a>启动和添置数据库的脚本</h2><ul>
+<li>手动启动shell <code>vim start_oracle.sh</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">lsnrctl start</span><br><span class="line">dbstart <span class="variable">$ORACLE_HOME</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>手动停止shell <code>vim stop_oracle.sh</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">lsnrctl stop</span><br><span class="line">sqlplus / as sysdba @stop.sql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>停止sql脚本 <code>vim stop.sql</code></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shutdown immediate</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<h2 id="建表和新建用户语句"><a href="#建表和新建用户语句" class="headerlink" title="建表和新建用户语句"></a>建表和新建用户语句</h2><p>用sys或者sysdba用户登录oracle数据库，然后执行下面的命令来新建表空间和用户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">tablespace</span> <span class="keyword">data</span> <span class="keyword">datafile</span> <span class="string">'/oracle/oradata/sms/data01.dbf'</span> <span class="keyword">size</span> <span class="number">32000</span>m</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">tablespace</span> <span class="keyword">data</span> <span class="keyword">add</span> <span class="keyword">datafile</span> <span class="string">'/oracle/oradata/sms/data02.dbf'</span> <span class="keyword">size</span> <span class="number">32000</span>m</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="keyword">test</span> <span class="keyword">identified</span> <span class="keyword">by</span> test1234 <span class="keyword">default</span> <span class="keyword">tablespace</span> <span class="keyword">data</span> <span class="keyword">temporary</span> <span class="keyword">tablespace</span> temp</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">resource</span>,<span class="keyword">connect</span>,<span class="keyword">create</span> <span class="keyword">session</span> <span class="keyword">to</span> <span class="keyword">test</span></span><br></pre></td></tr></table></figure>
+<p>解释：</p>
+<ul>
+<li><code>/oracle/oradata/</code> 是表空间的存储地址</li>
+<li>create user命令 我们新建了一个用户 test，密码是 test1234</li>
+</ul>
+<h2 id="取消用户密码180天有效期"><a href="#取消用户密码180天有效期" class="headerlink" title="取消用户密码180天有效期"></a>取消用户密码180天有效期</h2><p>oracle11g之后的版本，默认的每个用户的密码有效期是 180天。  180天后，原先的密码就失效了。所以，偷懒的方法我们就把这个策略关闭就好了。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> profile <span class="keyword">default</span> <span class="keyword">limit</span> PASSWORD_LIFE_TIME <span class="keyword">unlimited</span>;</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Database/">数据库</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Oracle/">Oracle</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2017/03/20/oracle-silence-install-in-rhel/" data-title="【Oracle】在RedHat上静默安装Oracle 11g及初始化配置全过程 | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/03/22/ssh-login-without-pass/" title="【Linux】SSH免密登录">
+  <strong>上一篇：</strong><br/>
+  <span>
+  【Linux】SSH免密登录</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/03/02/yum-install-php56-on-rhel6/"  title="【PHP】在RedHat6上通过yum安装php5.6">
+ <strong>下一篇：</strong><br/> 
+ <span>【PHP】在RedHat6上通过yum安装php5.6
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+  <script src="https://billts.site/js/gitment.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Mon Mar 20 2017 14:40:00 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装包"><span class="toc-number">2.</span> <span class="toc-text">安装包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用户创建和目录配置"><span class="toc-number">3.</span> <span class="toc-text">用户创建和目录配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#用户组创建"><span class="toc-number">3.1.</span> <span class="toc-text">用户组创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户创建和密码设定"><span class="toc-number">3.2.</span> <span class="toc-text">用户创建和密码设定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建oracle的根目录"><span class="toc-number">3.3.</span> <span class="toc-text">新建oracle的根目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hosts配置"><span class="toc-number">3.4.</span> <span class="toc-text">hosts配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置环境变量"><span class="toc-number">3.5.</span> <span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖检测"><span class="toc-number">3.6.</span> <span class="toc-text">依赖检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#yum安装依赖"><span class="toc-number">3.6.1.</span> <span class="toc-text">yum安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#挂载光盘"><span class="toc-number">3.6.2.</span> <span class="toc-text">挂载光盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置yum源为本地iso文件"><span class="toc-number">3.6.3.</span> <span class="toc-text">设置yum源为本地iso文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静默安装oracle"><span class="toc-number">4.</span> <span class="toc-text">静默安装oracle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解压安装包"><span class="toc-number">4.1.</span> <span class="toc-text">解压安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改安装时响应文件"><span class="toc-number">4.2.</span> <span class="toc-text">修改安装时响应文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#清理安装环境"><span class="toc-number">4.3.</span> <span class="toc-text">清理安装环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静默安装"><span class="toc-number">4.4.</span> <span class="toc-text">静默安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行脚本"><span class="toc-number">4.5.</span> <span class="toc-text">执行脚本</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静默配置监听"><span class="toc-number">5.</span> <span class="toc-text">静默配置监听</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静默建库"><span class="toc-number">6.</span> <span class="toc-text">静默建库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启用数据库"><span class="toc-number">7.</span> <span class="toc-text">启用数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置监听-修改监听端口"><span class="toc-number">8.</span> <span class="toc-text">配置监听(修改监听端口)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#正确的监听程序配置好是什么样子的"><span class="toc-number">8.0.1.</span> <span class="toc-text">正确的监听程序配置好是什么样子的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-listener-ora-文件"><span class="toc-number">8.0.2.</span> <span class="toc-text">修改 listener.ora 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改tnsnames-ora-文件"><span class="toc-number">8.0.3.</span> <span class="toc-text">修改tnsnames.ora 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-oracle-中的参数"><span class="toc-number">8.0.4.</span> <span class="toc-text">修改 oracle 中的参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他"><span class="toc-number">9.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#启动和添置数据库的脚本"><span class="toc-number">9.1.</span> <span class="toc-text">启动和添置数据库的脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建表和新建用户语句"><span class="toc-number">9.2.</span> <span class="toc-text">建表和新建用户语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#取消用户密码180天有效期"><span class="toc-number">9.3.</span> <span class="toc-text">取消用户密码180天有效期</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/331578923" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/peng.li.5011516" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		<a href="https://www.douban.com/people/58389742" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
