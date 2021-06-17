@@ -1,0 +1,637 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Docker】通过Docker-compose安装/备份/恢复Gitlab | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="git代码托管无疑是广大程序员们的福音，线上产品除了强大的Github，允许免费自建线上私有库的bitbucket，可以在本地搭建自有git服务的，首推gitlab了，这里就不打广告了，直接进入正题，这篇blog就详细介绍一下搭建gitlab服务，以及备份和恢复时遇到的一些问题以及解决的办法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Docker】通过Docker-compose安装&#x2F;备份&#x2F;恢复Gitlab">
+<meta property="og:url" content="http://lipeng1667.github.io/2021/06/17/install-and-restore-gitlab-with-docker-compose/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="git代码托管无疑是广大程序员们的福音，线上产品除了强大的Github，允许免费自建线上私有库的bitbucket，可以在本地搭建自有git服务的，首推gitlab了，这里就不打广告了，直接进入正题，这篇blog就详细介绍一下搭建gitlab服务，以及备份和恢复时遇到的一些问题以及解决的办法。">
+<meta property="article:published_time" content="2021-06-17T03:11:21.000Z">
+<meta property="article:modified_time" content="2021-06-17T04:33:57.556Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="gitlab">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/06/17/install-and-restore-gitlab-with-docker-compose/" title="【Docker】通过Docker-compose安装/备份/恢复Gitlab" itemprop="url">【Docker】通过Docker-compose安装/备份/恢复Gitlab</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2021-06-17T03:11:21.000Z" itemprop="datePublished"> Published 2021-06-17</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统环境"><span class="toc-number">1.</span> <span class="toc-text">系统环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-compose"><span class="toc-number">2.</span> <span class="toc-text">Docker compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">配置文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gitlab安装"><span class="toc-number">3.</span> <span class="toc-text">Gitlab安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gitlab恢复备份"><span class="toc-number">4.</span> <span class="toc-text">Gitlab恢复备份</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#上传备份文件"><span class="toc-number">4.1.</span> <span class="toc-text">上传备份文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#恢复备份"><span class="toc-number">4.2.</span> <span class="toc-text">恢复备份</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">5.</span> <span class="toc-text">致谢&amp;参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>git代码托管无疑是广大程序员们的福音，线上产品除了强大的Github，允许免费自建线上私有库的bitbucket，可以在本地搭建自有git服务的，首推gitlab了，这里就不打广告了，直接进入正题，这篇blog就详细介绍一下搭建gitlab服务，以及备份和恢复时遇到的一些问题以及解决的办法。</p>
+<a id="more"></a>
+<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><p>按照惯例，还是列一下我们用到的系统环境和软件版本信息：  </p>
+<ul>
+<li>RHEL/CentOS 7</li>
+<li>Dokcer &amp; Docker compose</li>
+</ul>
+<p>一个完善的gitlab本地环境包括3个必备的组建，首先是gitlab本身，然后是数据库postgresql还有redis，如果我们依次去搭建这些环境，过程会很痛苦(在github上发现sameersbn的docker-gitlab之前，我尝试着按照gitlab的官方指南手动搭建，有点累。。。)，所以借助docker-compose基本上就是一键搭建了。</p>
+<h2 id="Docker-compose"><a href="#Docker-compose" class="headerlink" title="Docker compose"></a>Docker compose</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Docker compose是啥就不多科普了，自行google去，compose的安装详见官网<a href="https://docs.docker.com/compose/install/" target="_blank" rel="noopener">install compose</a>，提醒几点：</p>
+<ol>
+<li>如果是在Mac环境下，docker自带了compose，无需另行安装</li>
+<li>如果是linux环境下，首先确保以下依赖包安装好了<code>py-pip, python3-dev, libffi-dev, openssl-dev, gcc, libc-dev, rust, cargo and make</code></li>
+<li>gitlab本身还是挺吃CPU和内存的，笔者的顶配MBP19，跑gitlab还有点点反应慢，而且安装和恢复备份时，更是耗时许久，所以有条件的话，还是在服务器上安装处理吧</li>
+</ol>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>我们假设你计划将gitlab安装到<code>/app/gitlab</code>目录下，那么整个目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;app&#x2F;gitlab                 -- 根目录</span><br><span class="line">├── data                    -- 存放数据文件目录</span><br><span class="line">    ├──gitlab               -- gitlab数据文件</span><br><span class="line">    ├──redis                -- redis数据文件</span><br><span class="line">    ├──postgresql           -- postgresql数据文件</span><br><span class="line">├── docker-compose.yml      -- compose的配置文件</span><br></pre></td></tr></table></figure>
+<p>实例的配置文件可以到<a href="https://github.com/sameersbn/docker-gitlab/blob/master/docker-compose.yml" target="_blank" rel="noopener">docker-compose.yml实例</a>这里查看，我们直接把我修改好的关键配置参数贴出来</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="comment"># 这里可以选择最新版本</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">sameersbn/redis:4.0.9</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">--loglevel</span> <span class="string">warning</span> <span class="string">--protected-mode</span> <span class="literal">no</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">    <span class="comment"># 冒号前的是我们的本地路径 Z表示允许容器之间共享访问</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/app/gitlab/data/redis:/var/lib/redis:Z</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">postgresql:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="comment"># 同理版本号可换</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">sameersbn/postgresql:10</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/app/gitlab/data/postgresql:/var/lib/postgresql:Z</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_USER=your</span> <span class="string">user's</span> <span class="string">account</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_PASS=account</span> <span class="string">password</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_NAME=database</span> <span class="string">name</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_EXTENSION=pg_trgm</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">gitlab:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="comment"># 注意这里的版本号，如果是新迁移的gitlab，需要和你备份中的gitlab大版本保持一致</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">sameersbn/gitlab:11.10.4</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">redis</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">postgresql</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="comment"># 端口映射</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">"10080:80"</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">"10022:22"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">    <span class="comment"># 同理冒号前的为本地目录</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/app/gitlab/data/gitlab:/home/git/data:Z</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DEBUG=false</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_ADAPTER=postgresql</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_HOST=postgresql</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_PORT=5432</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_USER=your</span> <span class="string">user's</span> <span class="string">account</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_PASS=account</span> <span class="string">password</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">DB_NAME=database</span> <span class="string">name</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="string">REDIS_HOST=redis</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">REDIS_PORT=6379</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_TIMEZONE=Beijing</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_HTTPS=false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SSL_SELF_SIGNED=false</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_HOST=your</span> <span class="string">host's</span> <span class="string">ip</span> <span class="string">address</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_PORT=10080</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_SSH_PORT=10022</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_RELATIVE_URL_ROOT=</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alphanumeric-string</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alphanumeric-string</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_ROOT_PASSWORD=root</span> <span class="string">user's</span> <span class="string">passwrod</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_ROOT_EMAIL=root</span> <span class="string">user's</span> <span class="string">email</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_NOTIFY_ON_BROKEN_BUILDS=true</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_NOTIFY_PUSHER=false</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_EMAIL=email</span> <span class="string">address</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_EMAIL_REPLY_TO=email</span> <span class="string">address</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_INCOMING_EMAIL_ADDRESS=email</span> <span class="string">address</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 自动备份</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_BACKUP_SCHEDULE=daily</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GITLAB_BACKUP_TIME=01:00</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 邮件服务信息</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_ENABLED=true</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_DOMAIN=smtp.mxhichina.com</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_HOST=smtp.mxhichina.com</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_PORT=465</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_USER=</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_PASS=</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_STARTTLS=true</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_TLS=true</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">SMTP_AUTHENTICATION=login</span></span><br></pre></td></tr></table></figure>
+<p>重要的信息我都在注释中完善了，完整的配置文件可以去github上拉取。</p>
+<h2 id="Gitlab安装"><a href="#Gitlab安装" class="headerlink" title="Gitlab安装"></a>Gitlab安装</h2><p>配置好了docker compose之后，gitlab的安装就异常简单了，首先cd到我们的yml文件所在目录下，本文示例为<code>/app/gitlab</code>，然后直接执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<p>Tips:</p>
+<ol>
+<li>如果遇到<code>ERROR: Failed to Setup IP tables: Unable to enable SKIP DNAT rule:  (iptables failed: iptables --wait -t nat -I DOCKER -i br-4f95b57fe060 -j RETURN: iptables: No chain/target/match by that name</code>错误，需要重启docker，<code>systemctl restart docker</code>之后就好了</li>
+<li>-d命令(detach mode)只显示容器的创建信息，如果不带-d的话，命令行会一直输出容器内的一些运行日志</li>
+<li>初次安装可能要耗费5分钟左右，取决于你的服务器配置以及网络带宽。</li>
+</ol>
+<p>待安装完成后，就可以访问<code>localhost:10080</code>地址来进行本地gitlab的操作了，当然如果碰到502等情况，那是因为虽然容器运行了，但是内部的某些服务还没有完全起来，耐心一点，刷新页面试一试就好。</p>
+<h2 id="Gitlab恢复备份"><a href="#Gitlab恢复备份" class="headerlink" title="Gitlab恢复备份"></a>Gitlab恢复备份</h2><p>当所有容器都运行之后，我们会在<code>/app/gitlab/data/gitlab</code>目录下发现一系列目录，其中<code>backups</code>目录就是存放gitlab的备份文件地址，每天自动生成的备份会存放在这个目录下。如果你想恢复一份其他地方来的gitlab仓库，只需要把对应的tar备份文件放到该目录下，然后执行恢复备份的相关命令就好了。<br>这里我们就详细记录下如何恢复一个已有的gitlab仓库。</p>
+<blockquote>
+<p>注：当恢复一个已有的gitlab仓库文件时，需要保持gitlab的版本号一致</p>
+</blockquote>
+<h3 id="上传备份文件"><a href="#上传备份文件" class="headerlink" title="上传备份文件"></a>上传备份文件</h3><p>将你手头的备份文件上传至<code>/app/gitlab/data/gitlab/backups</code>目录下，同时修改该文件的权限和目录权限保持一致，否则后续操作会提示文件权限问题。</p>
+<h3 id="恢复备份"><a href="#恢复备份" class="headerlink" title="恢复备份"></a>恢复备份</h3><p>正常情况下，直接执行以下命令即可完成文件的恢复：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose run --rm gitlab app:rake gitlab:backup:restore BACKUP=***</span><br></pre></td></tr></table></figure>
+<p>我们假设目录下存放的备份文件是<code>1529921023_2018_06_25_11.0.0_gitlab_backup.tar</code>,则命令行中输入的名字只需要<code>1529921023_2018_06_25_11.0.0</code>即可。<br>在gitlab版本11.10.4，就是笔者的这个版本，利用compose自动恢复备份的命令有bug，会提示<code>GRPC::Unavailable: 14:Connect Failed</code>，所以参见<a href="https://github.com/sameersbn/docker-gitlab/issues/1655" target="_blank" rel="noopener">restoring backup leads to error</a>这个方法可以手动恢复备份。</p>
+<ol>
+<li>Starting the gitlab container</li>
+<li>Enter the gitlab’s bash shell</li>
+<li>Execute /sbin/entrypoint.sh app:rake gitlab:backup:restore to restore a backup</li>
+<li>When restore finish, just restart gitlab container, and all is done.</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it gitlab_gitlab_1 bash</span><br><span class="line">/sbin/entrypoint.sh app:rake gitlab:backup:restore</span><br></pre></td></tr></table></figure>
+<p>命令执行过程中，会列出来存放于backups目录下的所有备份文件，这个时候，需要在命令行中输入完整的文件名称，例如本文中的<code>1529921023_2018_06_25_11.0.0_gitlab_backup.tar</code>,备份就会继续执行下去了。</p>
+<p>接下来就是漫长的等待恢复过程了，恢复成功后，gitlab相关的所有信息，包括snappets也都会一并恢复。</p>
+<h2 id="致谢-amp-参考"><a href="#致谢-amp-参考" class="headerlink" title="致谢&amp;参考"></a>致谢&amp;参考</h2><ul>
+<li><a href="https://github.com/sameersbn/docker-gitlab" target="_blank" rel="noopener">sameersbn/docker-gitlab</a></li>
+<li><a href="https://docs.docker.com/compose/install/" target="_blank" rel="noopener">install compose</a></li>
+<li><a href="https://github.com/sameersbn/docker-gitlab/blob/master/docker-compose.yml" target="_blank" rel="noopener">docker-compose.yml实例</a></li>
+<li><a href="https://curder.gitbooks.io/blog/content/tools/docker/installing-gitlab-services-using-docker-compose.html" target="_blank" rel="noopener">使用Docker Compose方式安装Gitlab服务</a></li>
+<li><a href="https://www.jianshu.com/p/2217cfed29d7" target="_blank" rel="noopener">Docker Compose 配置文件详解</a></li>
+<li><a href="https://github.com/sameersbn/docker-gitlab/issues/1655" target="_blank" rel="noopener">restoring backup leads to error</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/gitlab/">gitlab</a><a href="/tags/docker/">docker</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2021/06/17/install-and-restore-gitlab-with-docker-compose/" data-title="【Docker】通过Docker-compose安装/备份/恢复Gitlab | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/12/17/VPS-V2ray-VLess-TLS/"  title="【VPS】V2ray(VLess)+域名+TLS高阶搭建全过程">
+ <strong>下一篇：</strong><br/> 
+ <span>【VPS】V2ray(VLess)+域名+TLS高阶搭建全过程
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Thu Jun 17 2021 11:11:21 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统环境"><span class="toc-number">1.</span> <span class="toc-text">系统环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-compose"><span class="toc-number">2.</span> <span class="toc-text">Docker compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">配置文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gitlab安装"><span class="toc-number">3.</span> <span class="toc-text">Gitlab安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gitlab恢复备份"><span class="toc-number">4.</span> <span class="toc-text">Gitlab恢复备份</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#上传备份文件"><span class="toc-number">4.1.</span> <span class="toc-text">上传备份文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#恢复备份"><span class="toc-number">4.2.</span> <span class="toc-text">恢复备份</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">5.</span> <span class="toc-text">致谢&amp;参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlab/" title="gitlab">gitlab<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/vpn/" title="vpn">vpn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
