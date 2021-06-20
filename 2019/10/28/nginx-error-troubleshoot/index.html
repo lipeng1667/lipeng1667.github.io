@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://www.microwu.com/MichaelLee/20191103/6.png">
 <meta property="og:image" content="http://www.microwu.com/MichaelLee/20191103/7.png">
 <meta property="article:published_time" content="2019-10-28T09:57:16.000Z">
-<meta property="article:modified_time" content="2019-11-30T16:06:34.146Z">
+<meta property="article:modified_time" content="2021-06-20T11:05:01.110Z">
 <meta property="article:author" content="Michael Lee">
 <meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
@@ -127,7 +127,7 @@
 <p>从字面上看，就是没有可用的负载节点。没有负载节点？ 其实无非就是下面两个原因</p>
 <ol>
 <li>负载节点down掉了</li>
-<li>nginx任务负载节点不可用</li>
+<li>nginx评估认为负载节点不可用</li>
 </ol>
 <p>负载节点有没有down掉可以很容易验证，而且我们的负载节点已经验证过是完全可靠的，只不过业务峰值的请求量超过了单线程处理时的最大能力，所以才在前面搭建了nginx作为负载均衡节点。</p>
 <p>那就剩下为什么nginx会认为负载节点不可用。期间有人提到，会不会是tcp连接队列太小了，导致nginx任务负载节点连接出了问题。</p>
@@ -306,7 +306,7 @@
 		  
 		
 		  
-			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>18</sup></a></li>
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>19</sup></a></li>
 		  
 		
 		  
@@ -371,6 +371,10 @@
 			
 		
 			
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/gitlab/" title="gitlab">gitlab<sup>2</sup></a></li>
 			
 		
@@ -404,10 +408,6 @@
 		
 			
 				<li><a href="/tags/Closure/" title="Closure">Closure<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
 			
 		
 		</ul>
