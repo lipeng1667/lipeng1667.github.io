@@ -1,0 +1,658 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN：">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Redis】用Docker-Compose搭建Redis Sentinel | KaKa&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Michael Lee">
+    
+
+    
+    <meta name="description" content="在上一篇Blog，【Redis】用Docker-Compose搭建Redis主从复制中，我们介绍了redis主从的配置，接下来这篇文章，我们在主从的基础上，再加上哨兵(Sentinel)机制，来进一步确保redis的高可用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Redis】用Docker-Compose搭建Redis Sentinel">
+<meta property="og:url" content="http://lipeng1667.github.io/2021/06/21/set-up-redis-with-replication-and-sentinel-using-docker-compose/index.html">
+<meta property="og:site_name" content="KaKa&#39;s blog">
+<meta property="og:description" content="在上一篇Blog，【Redis】用Docker-Compose搭建Redis主从复制中，我们介绍了redis主从的配置，接下来这篇文章，我们在主从的基础上，再加上哨兵(Sentinel)机制，来进一步确保redis的高可用。">
+<meta property="article:published_time" content="2021-06-21T11:37:59.000Z">
+<meta property="article:modified_time" content="2021-06-21T12:41:13.335Z">
+<meta property="article:author" content="Michael Lee">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="docker-compose">
+<meta property="article:tag" content="redis">
+<meta property="article:tag" content="sentinel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Leepeng1667">
+
+    
+    <link rel="alternative" href="/atom.xml" title="KaKa&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo_.png" alt="KaKa&#39;s blog" title="KaKa&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="KaKa&#39;s blog">KaKa&#39;s blog</a></h1>
+				<h2 class="blog-motto">It is more important to know where you are going than to get there quickly. Do not mistake activity for achievement.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:lipeng1667.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/06/21/set-up-redis-with-replication-and-sentinel-using-docker-compose/" title="【Redis】用Docker-Compose搭建Redis Sentinel" itemprop="url">【Redis】用Docker-Compose搭建Redis Sentinel</a>
+  </h1>
+  <p class="article-author">BY
+       
+		<a href="/about" title="Michael Lee" target="_blank" itemprop="author">Michael Lee</a>
+		
+  <p class="article-time">
+    <time datetime="2021-06-21T11:37:59.000Z" itemprop="datePublished"> Published 2021-06-21</time>
+  </p>
+  
+  <p class="page-count">
+    阅读数:<span id="busuanzi_value_page_pv"></span>
+  </p>
+
+</header>
+
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统环境"><span class="toc-number">1.</span> <span class="toc-text">系统环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-compose配置文件"><span class="toc-number">2.</span> <span class="toc-text">docker-compose配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis-master节点配置"><span class="toc-number">3.</span> <span class="toc-text">redis-master节点配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis-slave节点配置"><span class="toc-number">4.</span> <span class="toc-text">redis-slave节点配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sentinel节点配置"><span class="toc-number">5.</span> <span class="toc-text">sentinel节点配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动-停止redis主从-哨兵"><span class="toc-number">6.</span> <span class="toc-text">启动&#x2F;停止redis主从+哨兵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">7.</span> <span class="toc-text">致谢&amp;参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>在上一篇Blog，<a href="http://lipeng1667.github.io/2021/06/20/install-redis-with-docker-compose-and-configurate-as-raplication/">【Redis】用Docker-Compose搭建Redis主从复制</a>中，我们介绍了redis主从的配置，接下来这篇文章，我们在主从的基础上，再加上哨兵(Sentinel)机制，来进一步确保redis的高可用。</p>
+<a id="more"></a>
+<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><p>按照惯例，还是列一下我们用到的系统环境和软件版本信息：  </p>
+<ul>
+<li>RHEL/CentOS 7</li>
+<li>Dokcer &amp; Docker compose</li>
+<li>Redis</li>
+</ul>
+<p>假设我们要搭建1主2从3哨兵的架构，可以假设服务器的目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;app&#x2F;redis-sentinel             -- 根目录</span><br><span class="line">├── redis                       -- redis节点目录</span><br><span class="line">    ├──conf                     -- redis各节点配置文件目录</span><br><span class="line">        ├──redis-master.conf    -- master节点配置</span><br><span class="line">        ├──redis-slave1.conf    -- slave1节点配置</span><br><span class="line">        ├──redis-slave2.conf    -- slave2节点配置</span><br><span class="line">    ├──data                     -- redis数据目录</span><br><span class="line">├── sentinel                    -- sentinel目录</span><br><span class="line">    ├──conf                     -- sentinel各节点配置文件目录</span><br><span class="line">        ├──sentinel1.conf       -- sentinel1节点配置</span><br><span class="line">        ├──sentinel2.conf       -- sentinel2节点配置</span><br><span class="line">        ├──sentinel3.conf       -- sentinel3节点配置</span><br><span class="line">    ├──data                     -- sentinel数据目录</span><br><span class="line">├── docker-compose.yml          -- compose配置文件</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>几点说明：</p>
+<ol>
+<li>sentinel本质上也是一个redis的节点，只不过它只负责监听和配置管理实际节点的主从关系，不实际负责业务数据</li>
+<li>sentinel本质是配置而不是代理，也就是说，客户端连接时，来sentinel上询问主节点的实际ip和端口，而不是直接连接到了sentinel本身</li>
+<li>sentinel的data目录中实际只存放log日志</li>
+</ol>
+</blockquote>
+<h2 id="docker-compose配置文件"><a href="#docker-compose配置文件" class="headerlink" title="docker-compose配置文件"></a>docker-compose配置文件</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="comment"># redis-masater</span></span><br><span class="line">  <span class="attr">redis-server-master:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">redis-server-m</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">6379</span><span class="string">:6379</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">"Asia/Shanghai"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="comment"># configuration and data folder</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./redis/conf/redis-master.conf:/usr/local/etc/redis/redis.conf</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./redis/data/master/:/data:Z</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">["redis-server",</span> <span class="string">"/usr/local/etc/redis/redis.conf"</span><span class="string">]</span></span><br><span class="line">  <span class="comment"># redis slave 1</span></span><br><span class="line">  <span class="attr">redis-server-slave-1:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">redis-server-s1</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">6380</span><span class="string">:6379</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-server-m</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">"Asia/Shanghai"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./redis/conf/redis-slave1.conf:/usr/local/etc/redis/redis.conf</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./redis/data/slave1/:/data:Z</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">["redis-server",</span> <span class="string">"/usr/local/etc/redis/redis.conf"</span><span class="string">]</span></span><br><span class="line">  <span class="comment"># redis slave 2</span></span><br><span class="line">  <span class="attr">redis-server-slave-2:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">redis-server-s2</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">6381</span><span class="string">:6379</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-server-m</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">"Asia/Shanghai"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./redis/conf/redis-slave2.conf:/usr/local/etc/redis/redis.conf</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./redis/data/slave2/:/data:Z</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">["redis-server",</span> <span class="string">"/usr/local/etc/redis/redis.conf"</span><span class="string">]</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># sentinel 1</span></span><br><span class="line">  <span class="attr">redis-sentinel-1:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">redis-sentinel-1</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">"Asia/Shanghai"</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">26379</span><span class="string">:26379</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-server-m</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./sentinel/conf/sentinel1.conf:/usr/local/etc/redis/sentinel.conf</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./sentinel/data/:/data:Z</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">redis-sentinel</span> <span class="string">/usr/local/etc/redis/sentinel.conf</span></span><br><span class="line">  <span class="comment"># sentinel 2</span></span><br><span class="line">  <span class="attr">redis-sentinel-2:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">redis-sentinel-2</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">"Asia/Shanghai"</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">26380</span><span class="string">:26379</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-server-m</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./sentinel/conf/sentinel2.conf:/usr/local/etc/redis/sentinel.conf</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./sentinel/data/:/data:Z</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">redis-sentinel</span> <span class="string">/usr/local/etc/redis/sentinel.conf</span></span><br><span class="line">  <span class="comment"># sentinel 3</span></span><br><span class="line">  <span class="attr">redis-sentinel-3:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">redis-sentinel-3</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">"Asia/Shanghai"</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">26381</span><span class="string">:26379</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-server-m</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./sentinel/conf/sentinel3.conf:/usr/local/etc/redis/sentinel.conf</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./sentinel/data/:/data:Z</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">redis-sentinel</span> <span class="string">/usr/local/etc/redis/sentinel.conf</span></span><br></pre></td></tr></table></figure>
+<p>从compose的配置中可以看到，1主2从3个sentinel节点，一共6个节点，</p>
+<ul>
+<li>本地的6379-6381作为3个redis server的端口地址，26379-26381作为3个 redis sentinel的端口地址</li>
+<li>因为sentinel本质上还是一个redis节点，所以docker image镜像文件和redis server是用的同样的image</li>
+<li>command中 redis-sentinel就表示当前节点以sentinel方式运行</li>
+</ul>
+<h2 id="redis-master节点配置"><a href="#redis-master节点配置" class="headerlink" title="redis-master节点配置"></a>redis-master节点配置</h2><p>redis节点的配置相对于上一个章节中的配置，只是多了主从复制部分的配置；如果没有sentinel，那么master节点是不需要做主从配置方面的修改的，只是从节点需要声明主节点的一些信息，但是有了sentinel，就不一样了：sentinel就表示主从节点的关系是可以发生变化的，所以我们的master就不一定一直是master节点了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">################################# REPLICATION #################################</span><br><span class="line"># If the master is password protected (using the &quot;requirepass&quot; configuration</span><br><span class="line"># directive below) it is possible to tell the replica to authenticate before</span><br><span class="line"># starting the replication synchronization process, otherwise the master will</span><br><span class="line"># refuse the replica request.</span><br><span class="line">#</span><br><span class="line"># masterauth &lt;master-password&gt;</span><br><span class="line">#</span><br><span class="line"># However this is not enough if you are using Redis ACLs (for Redis version</span><br><span class="line"># 6 or greater), and the default user is not capable of running the PSYNC</span><br><span class="line"># command and&#x2F;or other commands needed for replication. In this case it&#39;s</span><br><span class="line"># better to configure a special user to use with replication, and specify the</span><br><span class="line"># masteruser configuration as such:</span><br><span class="line">#</span><br><span class="line"># masteruser &lt;username&gt;</span><br><span class="line">#</span><br><span class="line"># When masteruser is specified, the replica will authenticate against its</span><br><span class="line"># master using the new AUTH form: AUTH &lt;username&gt; &lt;password&gt;.</span><br><span class="line"></span><br><span class="line"># With sentinel, each redis node&#39;s status would be master or slave</span><br><span class="line">masterauth 123456</span><br><span class="line"></span><br><span class="line"># A Redis master is able to list the address and port of the attached</span><br><span class="line"># replicas in different ways. For example the &quot;INFO replication&quot; section</span><br><span class="line"># offers this information, which is used, among other tools, by</span><br><span class="line"># Redis Sentinel in order to discover replica instances.</span><br><span class="line"># Another place where this info is available is in the output of the</span><br><span class="line"># &quot;ROLE&quot; command of a master.</span><br><span class="line">#</span><br><span class="line"># The listed IP address and port normally reported by a replica is</span><br><span class="line"># obtained in the following way:</span><br><span class="line">#</span><br><span class="line">#   IP: The address is auto detected by checking the peer address</span><br><span class="line">#   of the socket used by the replica to connect with the master.</span><br><span class="line">#</span><br><span class="line">#   Port: The port is communicated by the replica during the replication</span><br><span class="line">#   handshake, and is normally the port that the replica is using to</span><br><span class="line">#   listen for connections.</span><br><span class="line">#</span><br><span class="line"># However when port forwarding or Network Address Translation (NAT) is</span><br><span class="line"># used, the replica may actually be reachable via different IP and port</span><br><span class="line"># pairs. The following two options can be used by a replica in order to</span><br><span class="line"># report to its master a specific set of IP and port, so that both INFO</span><br><span class="line"># and ROLE will report those values.</span><br><span class="line">#</span><br><span class="line"># There is no need to use both the options if you need to override just</span><br><span class="line"># the port or the IP address.</span><br><span class="line">#</span><br><span class="line">replica-announce-ip 10.0.0.143</span><br><span class="line">replica-announce-port 6379</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>masterauth<br>因为master节点可能会变成slave节点，所以就需要申明master的auth密码了</p>
+</li>
+<li><p>replica-announce-ip<br>同理，需要告知其他节点当前节点的ip和端口，当然，实例中的<code>10.0.0.143</code>是本人实验环境的ip地址，实际以个人不同环境为准</p>
+</li>
+</ul>
+<h2 id="redis-slave节点配置"><a href="#redis-slave节点配置" class="headerlink" title="redis-slave节点配置"></a>redis-slave节点配置</h2><p>从节点的配置和上一章节<a href="http://lipeng1667.github.io/2021/06/20/install-redis-with-docker-compose-and-configurate-as-raplication/">【Redis】用Docker-Compose搭建Redis主从复制</a>的从节点配置保持一致不变就好了。</p>
+<h2 id="sentinel节点配置"><a href="#sentinel节点配置" class="headerlink" title="sentinel节点配置"></a>sentinel节点配置</h2><p>因为一共有3个sentinel，我们就以其中一个为例，其他两个类似就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br></pre></td><td class="code"><pre><span class="line"># Example sentinel.conf</span><br><span class="line"></span><br><span class="line"># *** IMPORTANT ***</span><br><span class="line">#</span><br><span class="line"># By default Sentinel will not be reachable from interfaces different than</span><br><span class="line"># localhost, either use the &#39;bind&#39; directive to bind to a list of network</span><br><span class="line"># interfaces, or disable protected mode with &quot;protected-mode no&quot; by</span><br><span class="line"># adding it to this configuration file.</span><br><span class="line">#</span><br><span class="line"># Before doing that MAKE SURE the instance is protected from the outside</span><br><span class="line"># world via firewalling or other means.</span><br><span class="line">#</span><br><span class="line"># For example you may use one of the following:</span><br><span class="line">#</span><br><span class="line"># bind 127.0.0.1 192.168.1.1</span><br><span class="line">#</span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line"># port &lt;sentinel-port&gt;</span><br><span class="line"># The port that this sentinel instance will run on</span><br><span class="line">port 26379</span><br><span class="line"></span><br><span class="line"># By default Redis Sentinel does not run as a daemon. Use &#39;yes&#39; if you need it.</span><br><span class="line"># Note that Redis will write a pid file in &#x2F;var&#x2F;run&#x2F;redis-sentinel.pid when</span><br><span class="line"># daemonized.</span><br><span class="line">daemonize no</span><br><span class="line"></span><br><span class="line"># When running daemonized, Redis Sentinel writes a pid file in</span><br><span class="line"># &#x2F;var&#x2F;run&#x2F;redis-sentinel.pid by default. You can specify a custom pid file</span><br><span class="line"># location here.</span><br><span class="line">pidfile &#x2F;var&#x2F;run&#x2F;redis-sentinel.pid</span><br><span class="line"></span><br><span class="line"># Specify the log file name. Also the empty string can be used to force</span><br><span class="line"># Sentinel to log on the standard output. Note that if you use standard</span><br><span class="line"># output for logging but daemonize, logs will be sent to &#x2F;dev&#x2F;null</span><br><span class="line">logfile &#x2F;data&#x2F;sentinel-1.log</span><br><span class="line"></span><br><span class="line"># sentinel announce-ip &lt;ip&gt;</span><br><span class="line"># sentinel announce-port &lt;port&gt;</span><br><span class="line">#</span><br><span class="line"># The above two configuration directives are useful in environments where,</span><br><span class="line"># because of NAT, Sentinel is reachable from outside via a non-local address.</span><br><span class="line">#</span><br><span class="line"># When announce-ip is provided, the Sentinel will claim the specified IP address</span><br><span class="line"># in HELLO messages used to gossip its presence, instead of auto-detecting the</span><br><span class="line"># local address as it usually does.</span><br><span class="line">#</span><br><span class="line"># Similarly when announce-port is provided and is valid and non-zero, Sentinel</span><br><span class="line"># will announce the specified TCP port.</span><br><span class="line">#</span><br><span class="line"># The two options don&#39;t need to be used together, if only announce-ip is</span><br><span class="line"># provided, the Sentinel will announce the specified IP and the server port</span><br><span class="line"># as specified by the &quot;port&quot; option. If only announce-port is provided, the</span><br><span class="line"># Sentinel will announce the auto-detected local IP and the specified port.</span><br><span class="line">#</span><br><span class="line"># Example:</span><br><span class="line">#</span><br><span class="line"># sentinel announce-ip 1.2.3.4</span><br><span class="line">sentinel announce-ip 10.0.0.134</span><br><span class="line">sentinel announce-port 26379</span><br><span class="line"></span><br><span class="line"># dir &lt;working-directory&gt;</span><br><span class="line"># Every long running process should have a well-defined working directory.</span><br><span class="line"># For Redis Sentinel to chdir to &#x2F;tmp at startup is the simplest thing</span><br><span class="line"># for the process to don&#39;t interfere with administrative tasks such as</span><br><span class="line"># unmounting filesystems.</span><br><span class="line">dir &#x2F;tmp</span><br><span class="line"></span><br><span class="line"># sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt;</span><br><span class="line">#</span><br><span class="line"># Tells Sentinel to monitor this master, and to consider it in O_DOWN</span><br><span class="line"># (Objectively Down) state only if at least &lt;quorum&gt; sentinels agree.</span><br><span class="line">#</span><br><span class="line"># Note that whatever is the ODOWN quorum, a Sentinel will require to</span><br><span class="line"># be elected by the majority of the known Sentinels in order to</span><br><span class="line"># start a failover, so no failover can be performed in minority.</span><br><span class="line">#</span><br><span class="line"># Replicas are auto-discovered, so you don&#39;t need to specify replicas in</span><br><span class="line"># any way. Sentinel itself will rewrite this configuration file adding</span><br><span class="line"># the replicas using additional configuration options.</span><br><span class="line"># Also note that the configuration file is rewritten when a</span><br><span class="line"># replica is promoted to master.</span><br><span class="line">#</span><br><span class="line"># Note: master name should not include special characters or spaces.</span><br><span class="line"># The valid charset is A-z 0-9 and the three characters &quot;.-_&quot;.</span><br><span class="line">sentinel monitor mymaster 10.0.0.134 6379 2</span><br><span class="line"></span><br><span class="line"># sentinel auth-pass &lt;master-name&gt; &lt;password&gt;</span><br><span class="line">#</span><br><span class="line"># Set the password to use to authenticate with the master and replicas.</span><br><span class="line"># Useful if there is a password set in the Redis instances to monitor.</span><br><span class="line">#</span><br><span class="line"># Note that the master password is also used for replicas, so it is not</span><br><span class="line"># possible to set a different password in masters and replicas instances</span><br><span class="line"># if you want to be able to monitor these instances with Sentinel.</span><br><span class="line">#</span><br><span class="line"># However you can have Redis instances without the authentication enabled</span><br><span class="line"># mixed with Redis instances requiring the authentication (as long as the</span><br><span class="line"># password set is the same for all the instances requiring the password) as</span><br><span class="line"># the AUTH command will have no effect in Redis instances with authentication</span><br><span class="line"># switched off.</span><br><span class="line">#</span><br><span class="line"># Example:</span><br><span class="line">#</span><br><span class="line"># sentinel auth-pass mymaster MySUPER--secret-0123passw0rd</span><br><span class="line">sentinel auth-pass mymaster 123456</span><br><span class="line"></span><br><span class="line"># sentinel auth-user &lt;master-name&gt; &lt;username&gt;</span><br><span class="line">#</span><br><span class="line"># This is useful in order to authenticate to instances having ACL capabilities,</span><br><span class="line"># that is, running Redis 6.0 or greater. When just auth-pass is provided the</span><br><span class="line"># Sentinel instance will authenticate to Redis using the old &quot;AUTH &lt;pass&gt;&quot;</span><br><span class="line"># method. When also an username is provided, it will use &quot;AUTH &lt;user&gt; &lt;pass&gt;&quot;.</span><br><span class="line"># In the Redis servers side, the ACL to provide just minimal access to</span><br><span class="line"># Sentinel instances, should be configured along the following lines:</span><br><span class="line">#</span><br><span class="line">#     user sentinel-user &gt;somepassword +client +subscribe +publish \</span><br><span class="line">#                        +ping +info +multi +slaveof +config +client +exec on</span><br><span class="line"></span><br><span class="line"># sentinel down-after-milliseconds &lt;master-name&gt; &lt;milliseconds&gt;</span><br><span class="line">#</span><br><span class="line"># Number of milliseconds the master (or any attached replica or sentinel) should</span><br><span class="line"># be unreachable (as in, not acceptable reply to PING, continuously, for the</span><br><span class="line"># specified period) in order to consider it in S_DOWN state (Subjectively</span><br><span class="line"># Down).</span><br><span class="line">#</span><br><span class="line"># Default is 30 seconds.</span><br><span class="line">sentinel down-after-milliseconds mymaster 30000</span><br><span class="line"></span><br><span class="line"># IMPORTANT NOTE: starting with Redis 6.2 ACL capability is supported for</span><br><span class="line"># Sentinel mode, please refer to the Redis website https:&#x2F;&#x2F;redis.io&#x2F;topics&#x2F;acl</span><br><span class="line"># for more details.</span><br><span class="line"></span><br><span class="line"># Sentinel&#39;s ACL users are defined in the following format:</span><br><span class="line">#</span><br><span class="line">#   user &lt;username&gt; ... acl rules ...</span><br><span class="line">#</span><br><span class="line"># For example:</span><br><span class="line">#</span><br><span class="line">#   user worker +@admin +@connection ~* on &gt;ffa9203c493aa99</span><br><span class="line">#</span><br><span class="line"># For more information about ACL configuration please refer to the Redis</span><br><span class="line"># website at https:&#x2F;&#x2F;redis.io&#x2F;topics&#x2F;acl and redis server configuration </span><br><span class="line"># template redis.conf.</span><br><span class="line"></span><br><span class="line"># ACL LOG</span><br><span class="line">#</span><br><span class="line"># The ACL Log tracks failed commands and authentication events associated</span><br><span class="line"># with ACLs. The ACL Log is useful to troubleshoot failed commands blocked </span><br><span class="line"># by ACLs. The ACL Log is stored in memory. You can reclaim memory with </span><br><span class="line"># ACL LOG RESET. Define the maximum entry length of the ACL Log below.</span><br><span class="line">acllog-max-len 128</span><br><span class="line"></span><br><span class="line"># Using an external ACL file</span><br><span class="line">#</span><br><span class="line"># Instead of configuring users here in this file, it is possible to use</span><br><span class="line"># a stand-alone file just listing users. The two methods cannot be mixed:</span><br><span class="line"># if you configure users here and at the same time you activate the external</span><br><span class="line"># ACL file, the server will refuse to start.</span><br><span class="line">#</span><br><span class="line"># The format of the external ACL user file is exactly the same as the</span><br><span class="line"># format that is used inside redis.conf to describe users.</span><br><span class="line">#</span><br><span class="line"># aclfile &#x2F;etc&#x2F;redis&#x2F;sentinel-users.acl</span><br><span class="line"></span><br><span class="line"># requirepass &lt;password&gt;</span><br><span class="line">#</span><br><span class="line"># You can configure Sentinel itself to require a password, however when doing</span><br><span class="line"># so Sentinel will try to authenticate with the same password to all the</span><br><span class="line"># other Sentinels. So you need to configure all your Sentinels in a given</span><br><span class="line"># group with the same &quot;requirepass&quot; password. Check the following documentation</span><br><span class="line"># for more info: https:&#x2F;&#x2F;redis.io&#x2F;topics&#x2F;sentinel</span><br><span class="line">#</span><br><span class="line"># IMPORTANT NOTE: starting with Redis 6.2 &quot;requirepass&quot; is a compatibility</span><br><span class="line"># layer on top of the ACL system. The option effect will be just setting</span><br><span class="line"># the password for the default user. Clients will still authenticate using</span><br><span class="line"># AUTH &lt;password&gt; as usually, or more explicitly with AUTH default &lt;password&gt;</span><br><span class="line"># if they follow the new protocol: both will work.</span><br><span class="line">#</span><br><span class="line"># New config files are advised to use separate authentication control for</span><br><span class="line"># incoming connections (via ACL), and for outgoing connections (via</span><br><span class="line"># sentinel-user and sentinel-pass) </span><br><span class="line">#</span><br><span class="line"># The requirepass is not compatable with aclfile option and the ACL LOAD</span><br><span class="line"># command, these will cause requirepass to be ignored.</span><br><span class="line"></span><br><span class="line"># sentinel sentinel-user &lt;username&gt;</span><br><span class="line">#</span><br><span class="line"># You can configure Sentinel to authenticate with other Sentinels with specific</span><br><span class="line"># user name. </span><br><span class="line"></span><br><span class="line"># sentinel sentinel-pass &lt;password&gt;</span><br><span class="line">#</span><br><span class="line"># The password for Sentinel to authenticate with other Sentinels. If sentinel-user</span><br><span class="line"># is not configured, Sentinel will use &#39;default&#39; user with sentinel-pass to authenticate.</span><br><span class="line"></span><br><span class="line"># sentinel parallel-syncs &lt;master-name&gt; &lt;numreplicas&gt;</span><br><span class="line">#</span><br><span class="line"># How many replicas we can reconfigure to point to the new replica simultaneously</span><br><span class="line"># during the failover. Use a low number if you use the replicas to serve query</span><br><span class="line"># to avoid that all the replicas will be unreachable at about the same</span><br><span class="line"># time while performing the synchronization with the master.</span><br><span class="line">sentinel parallel-syncs mymaster 1</span><br><span class="line"></span><br><span class="line"># sentinel failover-timeout &lt;master-name&gt; &lt;milliseconds&gt;</span><br><span class="line">#</span><br><span class="line"># Specifies the failover timeout in milliseconds. It is used in many ways:</span><br><span class="line">#</span><br><span class="line"># - The time needed to re-start a failover after a previous failover was</span><br><span class="line">#   already tried against the same master by a given Sentinel, is two</span><br><span class="line">#   times the failover timeout.</span><br><span class="line">#</span><br><span class="line"># - The time needed for a replica replicating to a wrong master according</span><br><span class="line">#   to a Sentinel current configuration, to be forced to replicate</span><br><span class="line">#   with the right master, is exactly the failover timeout (counting since</span><br><span class="line">#   the moment a Sentinel detected the misconfiguration).</span><br><span class="line">#</span><br><span class="line"># - The time needed to cancel a failover that is already in progress but</span><br><span class="line">#   did not produced any configuration change (SLAVEOF NO ONE yet not</span><br><span class="line">#   acknowledged by the promoted replica).</span><br><span class="line">#</span><br><span class="line"># - The maximum time a failover in progress waits for all the replicas to be</span><br><span class="line">#   reconfigured as replicas of the new master. However even after this time</span><br><span class="line">#   the replicas will be reconfigured by the Sentinels anyway, but not with</span><br><span class="line">#   the exact parallel-syncs progression as specified.</span><br><span class="line">#</span><br><span class="line"># Default is 3 minutes.</span><br><span class="line">sentinel failover-timeout mymaster 180000</span><br><span class="line"></span><br><span class="line"># SCRIPTS EXECUTION</span><br><span class="line">#</span><br><span class="line"># sentinel notification-script and sentinel reconfig-script are used in order</span><br><span class="line"># to configure scripts that are called to notify the system administrator</span><br><span class="line"># or to reconfigure clients after a failover. The scripts are executed</span><br><span class="line"># with the following rules for error handling:</span><br><span class="line">#</span><br><span class="line"># If script exits with &quot;1&quot; the execution is retried later (up to a maximum</span><br><span class="line"># number of times currently set to 10).</span><br><span class="line">#</span><br><span class="line"># If script exits with &quot;2&quot; (or an higher value) the script execution is</span><br><span class="line"># not retried.</span><br><span class="line">#</span><br><span class="line"># If script terminates because it receives a signal the behavior is the same</span><br><span class="line"># as exit code 1.</span><br><span class="line">#</span><br><span class="line"># A script has a maximum running time of 60 seconds. After this limit is</span><br><span class="line"># reached the script is terminated with a SIGKILL and the execution retried.</span><br><span class="line"></span><br><span class="line"># NOTIFICATION SCRIPT</span><br><span class="line">#</span><br><span class="line"># sentinel notification-script &lt;master-name&gt; &lt;script-path&gt;</span><br><span class="line"># </span><br><span class="line"># Call the specified notification script for any sentinel event that is</span><br><span class="line"># generated in the WARNING level (for instance -sdown, -odown, and so forth).</span><br><span class="line"># This script should notify the system administrator via email, SMS, or any</span><br><span class="line"># other messaging system, that there is something wrong with the monitored</span><br><span class="line"># Redis systems.</span><br><span class="line">#</span><br><span class="line"># The script is called with just two arguments: the first is the event type</span><br><span class="line"># and the second the event description.</span><br><span class="line">#</span><br><span class="line"># The script must exist and be executable in order for sentinel to start if</span><br><span class="line"># this option is provided.</span><br><span class="line">#</span><br><span class="line"># Example:</span><br><span class="line">#</span><br><span class="line"># sentinel notification-script mymaster &#x2F;var&#x2F;redis&#x2F;notify.sh</span><br><span class="line"></span><br><span class="line"># CLIENTS RECONFIGURATION SCRIPT</span><br><span class="line">#</span><br><span class="line"># sentinel client-reconfig-script &lt;master-name&gt; &lt;script-path&gt;</span><br><span class="line">#</span><br><span class="line"># When the master changed because of a failover a script can be called in</span><br><span class="line"># order to perform application-specific tasks to notify the clients that the</span><br><span class="line"># configuration has changed and the master is at a different address.</span><br><span class="line"># </span><br><span class="line"># The following arguments are passed to the script:</span><br><span class="line">#</span><br><span class="line"># &lt;master-name&gt; &lt;role&gt; &lt;state&gt; &lt;from-ip&gt; &lt;from-port&gt; &lt;to-ip&gt; &lt;to-port&gt;</span><br><span class="line">#</span><br><span class="line"># &lt;state&gt; is currently always &quot;failover&quot;</span><br><span class="line"># &lt;role&gt; is either &quot;leader&quot; or &quot;observer&quot;</span><br><span class="line"># </span><br><span class="line"># The arguments from-ip, from-port, to-ip, to-port are used to communicate</span><br><span class="line"># the old address of the master and the new address of the elected replica</span><br><span class="line"># (now a master).</span><br><span class="line">#</span><br><span class="line"># This script should be resistant to multiple invocations.</span><br><span class="line">#</span><br><span class="line"># Example:</span><br><span class="line">#</span><br><span class="line"># sentinel client-reconfig-script mymaster &#x2F;var&#x2F;redis&#x2F;reconfig.sh</span><br><span class="line"></span><br><span class="line"># SECURITY</span><br><span class="line">#</span><br><span class="line"># By default SENTINEL SET will not be able to change the notification-script</span><br><span class="line"># and client-reconfig-script at runtime. This avoids a trivial security issue</span><br><span class="line"># where clients can set the script to anything and trigger a failover in order</span><br><span class="line"># to get the program executed.</span><br><span class="line">sentinel deny-scripts-reconfig yes</span><br><span class="line"></span><br><span class="line"># REDIS COMMANDS RENAMING</span><br><span class="line">#</span><br><span class="line"># Sometimes the Redis server has certain commands, that are needed for Sentinel</span><br><span class="line"># to work correctly, renamed to unguessable strings. This is often the case</span><br><span class="line"># of CONFIG and SLAVEOF in the context of providers that provide Redis as</span><br><span class="line"># a service, and don&#39;t want the customers to reconfigure the instances outside</span><br><span class="line"># of the administration console.</span><br><span class="line">#</span><br><span class="line"># In such case it is possible to tell Sentinel to use different command names</span><br><span class="line"># instead of the normal ones. For example if the master &quot;mymaster&quot;, and the</span><br><span class="line"># associated replicas, have &quot;CONFIG&quot; all renamed to &quot;GUESSME&quot;, I could use:</span><br><span class="line">#</span><br><span class="line"># SENTINEL rename-command mymaster CONFIG GUESSME</span><br><span class="line">#</span><br><span class="line"># After such configuration is set, every time Sentinel would use CONFIG it will</span><br><span class="line"># use GUESSME instead. Note that there is no actual need to respect the command</span><br><span class="line"># case, so writing &quot;config guessme&quot; is the same in the example above.</span><br><span class="line">#</span><br><span class="line"># SENTINEL SET can also be used in order to perform this configuration at runtime.</span><br><span class="line">#</span><br><span class="line"># In order to set a command back to its original name (undo the renaming), it</span><br><span class="line"># is possible to just rename a command to itself:</span><br><span class="line">#</span><br><span class="line"># SENTINEL rename-command mymaster CONFIG CONFIG</span><br><span class="line"></span><br><span class="line"># HOSTNAMES SUPPORT</span><br><span class="line">#</span><br><span class="line"># Normally Sentinel uses only IP addresses and requires SENTINEL MONITOR</span><br><span class="line"># to specify an IP address. Also, it requires the Redis replica-announce-ip</span><br><span class="line"># keyword to specify only IP addresses.</span><br><span class="line">#</span><br><span class="line"># You may enable hostnames support by enabling resolve-hostnames. Note</span><br><span class="line"># that you must make sure your DNS is configured properly and that DNS</span><br><span class="line"># resolution does not introduce very long delays.</span><br><span class="line">#</span><br><span class="line">SENTINEL resolve-hostnames no</span><br><span class="line"></span><br><span class="line"># When resolve-hostnames is enabled, Sentinel still uses IP addresses</span><br><span class="line"># when exposing instances to users, configuration files, etc. If you want</span><br><span class="line"># to retain the hostnames when announced, enable announce-hostnames below.</span><br><span class="line">#</span><br><span class="line">SENTINEL announce-hostnames no</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>protected-mode no<br>同redis server的含义一样，当需要其他节点访问时，就需要设置成no</p>
+</li>
+<li><p>daemonize no<br>同理，因为我们是用docker启动的，所以这里也不需要额外的守护进程</p>
+</li>
+<li><p>logfile /data/sentinel-1.log<br>logfile指定了日志文件的存放位置，这里和上一章节介绍的内容一样，因为我们在compose.yml配置文件中已经指定了data目录的挂载目录，所以在配置文件中，就直接写容器内部的路径就好，而不是设置成宿主机的实际路径</p>
+</li>
+<li><p>sentinel announce-ip<br>和redis server的声明ip、端口含义一样，这里声明不同sentinel的ip和端口</p>
+</li>
+<li><p>sentinel monitor mymaster 10.0.0.134 6379 2<br>监听的server ip和端口，别名设置为mymaster，最后的数字2表示，当至少有2个sentinel同意时，才能把master节点置为O_DOWN(Objectively down，客观下线)</p>
+</li>
+<li><p>sentinel auth-pass mymaster 123456<br>master节点登录密码</p>
+</li>
+<li><p>sentinel down-after-milliseconds mymaster 30000<br>在多少微秒连接超时后，认为master节点S_DOWN(Subjectively down，主观下线)</p>
+</li>
+<li><p>sentinel deny-scripts-reconfig yes<br>禁止客户端随意改变reconfig的脚本，防止出现安全问题</p>
+</li>
+</ul>
+<p>关于主观下线和客观下线：  </p>
+<ul>
+<li>主观下线：在心跳检测的定时任务中，如果其他节点超过一定时间没有回复，哨兵节点就会将其进行主观下线。顾名思义，主观下线的意思是一个哨兵节点“主观地”判断下线；与主观下线相对应的是客观下线</li>
+<li>客观下线：哨兵节点在对主节点进行主观下线后，会通过sentinel is-master-down-by-addr命令询问其他哨兵节点该主节点的状态；如果判断主节点下线的哨兵数量达到一定数值，则对该主节点进行客观下线</li>
+</ul>
+<h2 id="启动-停止redis主从-哨兵"><a href="#启动-停止redis主从-哨兵" class="headerlink" title="启动/停止redis主从+哨兵"></a>启动/停止redis主从+哨兵</h2><p>配置好了后，我们只需要回到redis所在的目录，然后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<p>想要停止redis，只需要下面一条简单的命令即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose stop</span><br></pre></td></tr></table></figure>
+<p>至此，简洁快速的redis主从+哨兵配置就搭建好了。</p>
+<h2 id="致谢-amp-参考"><a href="#致谢-amp-参考" class="headerlink" title="致谢&amp;参考"></a>致谢&amp;参考</h2><ul>
+<li><a href="https://www.jianshu.com/p/eb74ea16b9e9" target="_blank" rel="noopener">docker-compose搭建redis-sentinel</a></li>
+<li><a href="https://www.codenong.com/cs106478941/" target="_blank" rel="noopener">Docker-compose搭建redis一主双从三哨兵</a></li>
+<li><a href="https://www.cnblogs.com/xishuai/p/redis-sentinel.html" target="_blank" rel="noopener">Redis Sentinel 高可用服务架构搭建</a></li>
+<li><a href="https://www.cnblogs.com/kismetv/p/9609938.html" target="_blank" rel="noopener">深入学习Redis（4）：哨兵</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a><a href="/tags/redis/">redis</a><a href="/tags/sentinel/">sentinel</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://lipeng1667.github.io/2021/06/21/set-up-redis-with-replication-and-sentinel-using-docker-compose/" data-title="【Redis】用Docker-Compose搭建Redis Sentinel | KaKa&#39;s blog" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2021/06/20/install-redis-with-docker-compose-and-configurate-as-raplication/"  title="【Redis】用Docker-Compose搭建Redis主从复制">
+ <strong>下一篇：</strong><br/> 
+ <span>【Redis】用Docker-Compose搭建Redis主从复制
+</span>
+</a>
+</div>
+
+</nav>
+
+	<section id="comments" class="comment">
+  <div id="blog_comment"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+  var gitment = new Gitment({
+    id : 'Mon Jun 21 2021 19:37:59 GMT+0800',
+    owner: 'lipeng1667',
+    repo: 'gitment',
+    oauth: {
+      client_id: 'e6063b2ffad46d7387ab',
+      client_secret: '4880a79cf8a57d05cee4efbd1c08494f7dc17b1a',
+    },
+  })
+  gitment.render('blog_comment')
+  </script>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统环境"><span class="toc-number">1.</span> <span class="toc-text">系统环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-compose配置文件"><span class="toc-number">2.</span> <span class="toc-text">docker-compose配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis-master节点配置"><span class="toc-number">3.</span> <span class="toc-text">redis-master节点配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis-slave节点配置"><span class="toc-number">4.</span> <span class="toc-text">redis-slave节点配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sentinel节点配置"><span class="toc-number">5.</span> <span class="toc-text">sentinel节点配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动-停止redis主从-哨兵"><span class="toc-number">6.</span> <span class="toc-text">启动&#x2F;停止redis主从+哨兵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#致谢-amp-参考"><span class="toc-number">7.</span> <span class="toc-text">致谢&amp;参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/个人随想/" title="个人随想">个人随想<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Database/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/移动开发/" title="移动开发">移动开发<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP/" title="PHP">PHP<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WebView/" title="WebView">WebView<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache/" title="Apache">Apache<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Gerrit/" title="Gerrit">Gerrit<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlab/" title="gitlab">gitlab<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitbook/" title="gitbook">gitbook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Oracle/" title="Oracle">Oracle<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AndroidStudio/" title="AndroidStudio">AndroidStudio<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/v2ray/" title="v2ray">v2ray<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Michael Lee. Life is for sharing! <br/>
+			伪文青，伪球迷，却绝不做虚伪的人; 爱编程，爱皇马，好好学习天天向上!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/lipeng1667" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/3822574" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/Leepeng1667" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:lipeng1667@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+        <span class="busuanzi_container_site_pv">
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="Michael Lee">Michael Lee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'lipeng1667';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-73232459-1', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
